@@ -1,8 +1,8 @@
 Final:
 ---
-1. ?
-2. ?
-3. ?
+1. E-Sports Portal
+2. Kinder Finder
+3. Smart Parking
 
 Mike:
 ---
@@ -12,12 +12,12 @@ Mike:
 
 Tesh:
 ---
-1. Kinder Finder
-2. Smart Parking
-3. E-Sports Portal
+1. E-Sports Portal
+2. Kinder Finder
+3. Smart Parking
 
 Arthur:
 ---
-1. ?
-2. ?
-3. ?
+1. E-Sports Portal
+2. Kinder Finder
+3. Smart Parking
