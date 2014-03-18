@@ -1,23 +1,9 @@
-Final:
----
-1. E-Sports Portal
-2. Kinder Finder
-3. Smart Parking
+=== Group Members ===
+Michael Johnston (12053300)
+Po-Han Chiu (11063612)
+Uteshlen Nadesan (28163304)
 
-Mike:
----
-1. E-Sports Portal
-2. Kinder Finder
-3. Smart Parking
-
-Tesh:
----
-1. E-Sports Portal
-2. Kinder Finder
-3. Smart Parking
-
-Arthur:
----
+=== Project Preferences ===
 1. E-Sports Portal
 2. Kinder Finder
 3. Smart Parking
