@@ -1,16 +1,6 @@
-% !TEX TS-program = pdflatex
-% !TEX encoding = UTF-8 Unicode
-
-% This is a simple template for a LaTeX document using the "article" class.
-% See "book", "report", "letter" for other types of document.
-
 \documentclass[11pt,titlepage]{article} % use larger type; default would be 10pt
 
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
-
-%%% Examples of Article customizations
-% These packages are optional, depending whether you want the features they provide.
-% See the LaTeX Companion or other references for full information.
 
 %%% PAGE DIMENSIONS
 \usepackage{geometry} % to change the page dimensions
@@ -39,17 +29,7 @@
 %\lhead{}\chead{}\rhead{}
 %\lfoot{}\cfoot{\thepage}\rfoot{}
 
-%%% SECTION TITLE APPEARANCE
-%\usepackage{sectsty}
-%\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
-% (This matches ConTeXt defaults)
-
-%%% ToC (table of contents) APPEARANCE
-%\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
-%\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
-%\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
-%\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
-
+ 
 %%% END Article customizations
 
 %%% The "real" document content comes below...
@@ -84,90 +64,96 @@
 
 %4.1
 \section{Architecture requirements}
-In this section extract the architectural requirements from the software requirements including
-\\-scope of architectural responsibilities (e.g. persistence, reporting, process execution, . . . ),
-\\-quantified quality requirements,
-\\-integration and access channel requirements, and
-\\-any architectural constraints.
+% In this section extract the architectural requirements from the software requirements including
+% \\-scope of architectural responsibilities (e.g. persistence, reporting, process execution, . . . ),
+% \\-quantified quality requirements,
+% \\-integration and access channel requirements, and
+% \\-any architectural constraints.
+
 %4.1.1
 \subsection{Architectural scope}
-In this section discuss architectural responsibilities which need to be addressed by the software
-architecture. Typical examples include those of
-\\-providing a persistence infrastructure (e.g. database),
-\\-providing a reporting infrastructure,
-\\-providing an infrastructure for process execution
-%4.1.2
-\subsection{Quality requirements}
-This section should state the quality requirements in order of priority/importance. Examples of
-quality requirements are scalability, reliability, performance, security, audit-ability, integrability, . . . .
-Each quality requirement needs to be quantified. For example, scalability could be specified in
-terms of number of transactions per unit time or number of concurrent users.
-%4.1.3
-\subsection{Integration and access channel requirements}
-In this section you need to specify the different system which your system must integrate with and
-the integration channels and protocols which need to be used.
-You should also specify the different access channels through which the system functionality
-should be made available to humans and/or other systems.
+The project will consist of five main components of which one is still a proof of concept (POC).
+\begin{itemize}
+	\item{Web Administration}
+	\item{Mobile Application}
+	\item{Web API}
+	\item{Basic Reporting}
+	\item{Embedded Hardware and prototyping (POC)}
+	\end{itemize}
+
+%%%4.1.2
+%\subsection{Quality requirements}
+% This section should state the quality requirements in order of priority/importance. Examples of
+% quality requirements are scalability, reliability, performance, security, audit-ability, integrability, . . . .
+% Each quality requirement needs to be quantified. For example, scalability could be specified in
+% terms of number of transactions per unit time or number of concurrent users.
+
+%%%4.1.3
+%\subsection{Integration and access channel requirements}
+% In this section you need to specify the different system which your system must integrate with and
+% the integration channels and protocols which need to be used.
+% You should also specify the different access channels through which the system functionality
+% should be made available to humans and/or other systems.
+
 %4.1.4
 \subsection{Architectural constraints}
-In this section discuss the architectural constraints (if any) which your client has placed on the
-software architecture of the system you are developing. Examples of architectural constraints include
-\\-that the system architecture must be based on some or other reference architecture (e.g. SOA,
-Java-EE, . . . ).
-\\-particular technologies (e.g. programming languages, frameworks, protocols, . . . ) you should
-be using, and
-\\-operating systems and/or devices across which the system must be deployable.
+The only constraint for this project is the tools used to build the database for the system, those are the tools the client prefers and specified in the requirements specification.
 
-%4.2
-\section{Architectural patterns or styles}
-In this section discuss any architectural patterns or styles you have chosen to use together with the
-rationale for using them.
-For example, you might have decided to use layering in order to have lower level layers reusable
-across different higher level layers (e.g. have a services layer usable by a web front-end and a
-mobile-device client).
-Discuss the elements of the architectural pattern (e.g. the different layers) and how these elements are connected (e.g. the integration channels between the layers).
+%%%4.2
+%\section{Architectural patterns or styles}
+% In this section discuss any architectural patterns or styles you have chosen to use together with the
+% rationale for using them.
+% For example, you might have decided to use layering in order to have lower level layers reusable
+% across different higher level layers (e.g. have a services layer usable by a web front-end and a
+% mobile-device client).
+% Discuss the elements of the architectural pattern (e.g. the different layers) and how these elements are connected (e.g. the integration channels between the layers).
+%%%MVC
 
-%4.3
-\section{Architectural tactics or strategies}
-In this section discuss any architectural tactics or strategies you are using to concretely address any
-of the quality requirements.
-For example, you could be using thread pooling and/or caching to achieve a higher level of
-scalability or performance.
-Discuss how the strategy is realized within your software architecture.
+%%%4.3
+%\section{Architectural tactics or strategies}
+% In this section discuss any architectural tactics or strategies you are using to concretely address any
+% of the quality requirements.
+% For example, you could be using thread pooling and/or caching to achieve a higher level of
+% scalability or performance.
+% Discuss how the strategy is realized within your software architecture.
 
-%4.4
-\section{Use of reference architectures and frameworks}
-In this section discuss any reference architectures and/or frameworks you might be incorporating
-within your software architecture. For example, you could be using an object-relational mapper or
-a particular adapter or even an application server or an enterprise services bus.
-Discuss the reasons for choosing such frameworks for your software architecture.
+%%%4.4
+%\section{Use of reference architectures and frameworks}
+% In this section discuss any reference architectures and/or frameworks you might be incorporating
+% within your software architecture. For example, you could be using an object-relational mapper or
+% a particular adapter or even an application server or an enterprise services bus.
+% Discuss the reasons for choosing such frameworks for your software architecture.
 
 %4.5
 \section{Access and integration channels}
-Discuss in this section
-\\-the different access channels enabling human and system users to use your system (e.g. a web
-and mobile front-end and a web-services access channel), and
-\\-the integration channels through which your system will integrate with external systems (e.g.
-via a message queue or the database).
-Discuss any protocols and/or technologies you are using for those access and integration channels.
+End product users will access the system through a Mobile application and the administrators of the system will access the system through a Web API with more privileges and higher level of access of the system compared to the average user. Due to the nature of the project and technologies that will be used, integration is fairly due to the fact that the programming languages for most components are all compatible.
 
 %4.6
 \section{Technologies}
-This section can be used to specify programming languages, operating systems and other technologies which you are using for your system.
+The technologies that will be used  for this project are the following:
+\begin{itemize}
+	\item{Microsoft Visio Studio}
+	\item{ASP .Net MVC 5}
+	\item{HTML 5}
+	\item{JavaScript}
+	\item{JQuery}
+	\item{ASP .Net WebApi}
+	\item{C\#}
+	\item{Microsoft SQL Server 2012}
+	\item{Xamarin}
+	\end{itemize}
+The above mentioned technologies are the technologies that are to be used for this project, but may still be subject to change at a later stage of the software development due to the unforeseen situations. 
+	
 
 \newpage
 \appendix
 \section{Glossary} \label{App:AppendixA}
 % the \\ insures the section title is centered below the phrase: AppendixA
+\begin{tabular}{rl}
+	\textbf{Acronym} & \textbf{Definition} \\[0.5cm]
+	ASP .NET MVC & A Project type in Visual Studio implementing MVC pattern \\
+	MVC & Model View Controller \\
+	POC & Proof of Concept
+\end{tabular}
 
-Text of Appendix A is Here
-
-
-\newpage
-\begin{thebibliography}{10}
-
-\bibitem{FirstReference}
-
-\end{thebibliography}
-%\printglossary
 \end{document}
