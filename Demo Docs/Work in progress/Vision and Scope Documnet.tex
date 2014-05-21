@@ -1,5 +1,6 @@
-% !TEX TS-program = pdflatex
-% !TEX encoding = UTF-8 Unicode
+%%%
+%%  Percentage signs are comments.
+%%
 
 % This is a simple template for a LaTeX document using the "article" class.
 % See "book", "report", "letter" for other types of document.
@@ -7,10 +8,6 @@
 \documentclass[11pt,titlepage]{article} % use larger type; default would be 10pt
 
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
-
-%%% Examples of Article customizations
-% These packages are optional, depending whether you want the features they provide.
-% See the LaTeX Companion or other references for full information.
 
 %%% PAGE DIMENSIONS
 \usepackage{geometry} % to change the page dimensions
@@ -61,7 +58,7 @@
 		\normalfont \normalsize \textsc{Client Name: DVT} \\
 		\normalfont \normalsize \textsc{Project Name: KinderFinder} \\ [25pt]
 		\horrule{0.5pt} \\[0.4cm]
-		\huge This is the title of the template report \\
+		\huge Vision and Scope Document \\
 		\horrule{2pt} \\[0.5cm]
 }
 \author{\begin{tabular}{rl}
@@ -72,9 +69,10 @@
 \end{tabular}
 	\\ \\ \texttt{https://github.com/MrBean355/KinderFinder.git}
 	\\ \\ \texttt{Version: 0.0}}
-\date{23 May 2014}  
+\date{23 May 2014} 
+
 % Activate to display a given date or no date (if empty),
-         % otherwise the current date is printed -------
+% otherwise the current date is printed -------
 
 %%% Begin document
 \begin{document}
@@ -82,31 +80,26 @@
 \tableofcontents
 \newpage
 
-\section{First section}
-\paragraph*{Text comes here or below.}
-Your text goes here.
+The document is developed at the beginning of the project, but can be modified and extended as the vision and scope for the project evolve.
+A description of the vision of the project. This typically includes the main purpose of the
+project and what the client aims to achieve with the project ( i.e. the business or user needs the project aims to address).
+The document often discusses what the alternatives are, e.g. how the functionality is done
+without the system and/or what the deficiencies of alternative products are.
 
-\subsection{A subsection}
-More text.
+%2.1
+\section{Scope and Limitations/Exclusions}
+The document should specify the major features, high level scope and limitations of the proposed software product.
+\\ Use a high-level use case diagram with
+\\ -abstract use cases for services/responsibility domains of the system,
+\\ -concrete use cases (the leaf use cases in the specialization hierarchy) as the required concrete use cases/user services,
+\\ -optionally some include and extend relationships to show the core functional requirements, and
+\\ -actors showing the external systems which are not part of the scope of the system, but which the system integrates with.
+\\ List the exclusions/limitations, discussing any functionality which could erroneously be assumed within scope but which has been explicitly excluded from the scope of the system.
 
 \newpage
 \appendix
-\section{\\Title of Appendix A} \label{App:AppendixA}
+\section{Glossary} \label{App:AppendixA}
 % the \\ insures the section title is centered below the phrase: AppendixA
 
-Text of Appendix A is Here
-
-\newpage
-\section{\\Title of Appendix B} \label{App:AppendixB}
-% the \\ insures the section title is centered below the phrase: Appendix B
-
-Text of Appendix B is Here
-
-\newpage
-\begin{thebibliography}{10}
-
-\bibitem{FirstReference}
-
-\end{thebibliography}
-%\printglossary
+Text of Glossary is Here
 \end{document}
