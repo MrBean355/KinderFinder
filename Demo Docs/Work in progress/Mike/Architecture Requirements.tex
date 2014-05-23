@@ -1,6 +1,8 @@
 \documentclass[11pt,titlepage]{article}
 
 \usepackage{geometry}
+\usepackage{float}
+\usepackage{graphicx}
 \geometry{a4paper}
 \geometry{margin=2cm}
 \geometry{portrait}
@@ -32,7 +34,7 @@
 \section{Access Channel Requirements}
 The system's services are to be accessed through the following channels:
 \begin{itemize}
-\item \textbf{Web Portal}. Accessed through web browser. This is where the system administration is done, as well as report viewing.
+\item \textbf{Web Portal}. Accessed through a web browser. This is where the system administration is done, as well as report viewing.
 \item \textbf{Mobile App}. Accessed on Android devices. The parents who are monitoring their children will view their location on the app.
 \end{itemize}
 
@@ -47,11 +49,27 @@ There are numerous quality requirements that are quantifiable:
 \item \textbf{Auditability.} The system will have a reporting module that must report statistics such as which zones are most popular and whether any devices are damaged.
 \item \textbf{Integrability.} The system must be easily integrable with different hardware, not locked to one model.
 \item \textbf{Cost.} The major cost of the system will be attributed to the hardware, such as RFID wristbands and receivers. The hardware must be affordable but decent quality, so that it can be relied upon without costing fortunes.
-\item \textbf{Usability.} \textit{TODO!}
+\item \textbf{Usability.} This could be measured by means of a survey, to find out how user-friendly the users find the system.
 \end{itemize}
 
 \section{Integration Requirements}
+The system does not need to integrate with any external systems. However, since we are focusing on the software side, the hardware can be integrated with the software in the future (possibly by us if we have the time). For this, the hardware (RFID transmitters and receivers) must be integrated into the system, replacing any dummy "hardware" in place.
 
 \section{Architecture Constraints}
-
+The technologies that must be used are as follows:
+\begin{itemize}
+\item Microsoft SQL Server 2012 Express
+\item Xamarin (Android app)
+\item Microsoft Visual Studio 2013
+\item ASP.NET MVC 5 \& WebAPI
+\item C\#, HTML 5, JavaScript
+\item Entity Framework (ORM)
+\end{itemize}
+The architecture as provided by the client is as follows:
+\begin{figure}[H]
+\begin{center}
+\includegraphics[scale=0.8]{Architecture.jpg}
+\caption{System architecture.}
+\end{center}
+\end{figure}
 \end{document}
