@@ -50,13 +50,16 @@ services it provides. This includes requirements like performance, scalability, 
 usability, and testability requirements.
 
 \subsection{Integration and access channel requirements}
-%%% TODO!
+There are no external systems that must be integrated with. However, it needs to integrate with the various hardware devices (such as RFID transmitters and receivers).\\
+The system will be access in two ways; the mobile app, which is used by the parents that are monitoring their children and through a web portal, which is how administrators will access the system for maintenance.
 
 \subsection{Architectural constraints}
 The only constraint for this project is the tools used to build the database for the system, those are the tools the client prefers and specified in the requirements specification.
 
 \section{Architectural patterns or styles}
-%%% TODO!
+The main programming language to be used is C\#, since we are required to use the .NET Framework.\\
+The client browsers and app will be using HTTP messages to communicate with the web API.\\
+The client requested that we make use of the Entity Framework, which is an ORM (object-relational mapper), as it will greatly improve maintainability.
 
 \section{Architectural tactics or strategies}
 %%% TODO!
