@@ -20,7 +20,7 @@
 %   read geometry.pdf for detailed page layout information
 
 \usepackage{graphicx} % support the \includegraphics command and options
-
+\usepackage{float}
 \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
 
 %%% PACKAGES
@@ -177,17 +177,30 @@ Physical hardware devices used in this project includes:
 
 
 \subsection{Use case/Services contracts}
+	\subsubsection{Use Case Login}
+\begin{figure}[H]
+\centering
+\includegraphics[scale = 0.8]{UseCaseLogin.png}
+\caption{Use Case Diagram - Login}
+\end{figure}
+\begin{itemize}
+\item Pre-Conditions - There are no pre-conditions for this use case besides having the application on the user's mobile.
+\item Post-Conditions - After the user has logged on and added the required RFID tag to their profile, the profile should remain active and requesting updates from the WEB API.
+\end{itemize}
+	
 
-	\subsubsection{Pre-Conditions}
-
-	\subsubsection{Post-Conditions}
-
-	\subsubsection{Request and Results Data Structures}
-
-\subsection{Process specifications}
+%\subsection{Process specifications}
 
 \subsection{Domain Objects}
 
+\subsubsection{Data Base}
+A data base diagram in the form of an ERD has been drafted and shown below. Because we do not know what extra might be needed during development, we will keep evolving the data base to meet our required functionality. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{ERDKinderFinderDatabase.jpg} 
+\caption{ERD Data Base}
+\end{figure}
 
 
 \newpage
