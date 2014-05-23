@@ -63,9 +63,11 @@ The client requested that we make use of the Entity Framework, which is an ORM (
 
 \section{Architectural tactics or strategies}
 %%% TODO!
+As for Architectural tactics and strategies, we will are proposing to use a multi threaded approach in order to achieve scalability. Caching will be done on the maps that need to be downloaded to the mobile application, this will allow users to keep the maps of areas they feel they will frequently visit. 
 
 \section{Use of reference architectures and frameworks}
 %%% TODO!
+We will be using an object relational mapper in the form of the Entity Framework. This will be used to map to the SQL database making accessing database values easier through objects in the code. Reasons for choosing the Entity Framework is that in the type of database access we are dealing with, this object relational mapper provides reuse-ability so that if changes need to be made these changes are easier to implement in the future. 
 
 \section{Access and integration channels}
 End product users will access the system through a Mobile application and the administrators of the system will access the system through a Web API with more privileges and higher level of access of the system compared to the average user. Due to the nature of the project and technologies that will be used, integration is fairly due to the fact that the programming languages for most components are all compatible.
