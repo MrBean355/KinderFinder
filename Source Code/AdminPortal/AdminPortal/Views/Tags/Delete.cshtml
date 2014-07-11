@@ -1,0 +1,48 @@
+﻿@model AdminPortal.Models.Tag
+
+@{
+    ViewBag.Title = "Remove Tag";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <hr />
+    <h3>Are you sure you want to remove this tag?</h3>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Label)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Label)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentPatron)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patron.FirstName)
+            @Html.Raw(" ")
+            @Html.DisplayFor(model => model.Patron.Surname)
+        </dd>
+
+        <dt></dt>
+        <dd>
+            @using (Html.BeginForm()) {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" />
+                </div>
+            }
+        </dd>
+    </dl>
+
+
+</div>
+<p style="color:red">
+    <b>Warning: This tag is linked to a patron!</b><br />
+    Deleting it will cause it to become un-linked from the patron. They will be unable to monitor its location as a result.
+</p>@Html.ActionLink("Cancel", "Index")

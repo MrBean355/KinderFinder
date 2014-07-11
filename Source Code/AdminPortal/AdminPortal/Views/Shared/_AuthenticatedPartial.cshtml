@@ -1,0 +1,4 @@
+﻿@* If the user is not logged in, redirect to log in page. *@
+@if (!User.Identity.IsAuthenticated) {
+    Response.Redirect("~/Account/Login?ReturnUrl=" + Request.Url.AbsolutePath);
+}

@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<div class="jumbotron">
+    <h1>KinderFinder Administration</h1>
+    <p class="lead">
+        Welcome to the KinderFinder administration portal!<br />
+        Here, you can manage various aspects of the system, including registered customers and the tags linked to the system.<br />
+    </p>
+    @if (User.Identity.IsAuthenticated) {
+        <p>
+            Click one of the buttons below to get started.<br />
+            <a href="Patrons" class="btn btn-primary btn-lg">Patrons</a>
+            <a href="Tags" class="btn btn-primary btn-lg">Tags</a>
+            <a href="#" class="btn btn-primary btn-lg">Admins</a>
+        </p>
+    }
+    else {
+        <p>
+            Please log in to continue.<br />
+            <a href="Account/Login" class="btn btn-primary btn-lg">Log In</a>
+        </p>
+    }
+</div>
+
+<div class="row">
+    <hr />
+    <h2>About KinderFinder</h2>
+    <p>
+        KinderFinder is a system that allows parents to keep track of their children whilst in a designated area. Such an area may be
+        a restaurant, for example.<br />
+        The children will wear wristbands that transmit their whereabouts, through radio-frequency, to the system. The parents can then
+        view their children's location live, on their smartphones.
+    </p>
+</div>
