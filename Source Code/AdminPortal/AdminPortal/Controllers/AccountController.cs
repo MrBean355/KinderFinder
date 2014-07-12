@@ -7,11 +7,11 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace AdminPortal.Controllers {
-	[Authorize]
+	[Authorize] // Must be logged in to access any of these pages.
 	public class AccountController : Controller {
 		private ApplicationUserManager _userManager;
 
-		public AccountController() {  }
+		public AccountController() { }
 
 		public AccountController(ApplicationUserManager userManager) {
 			UserManager = userManager;
