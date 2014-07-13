@@ -54,12 +54,13 @@
         </dd>
 
     </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            @Html.ActionLink("Cancel", "Index")
-        </div>
-    }
 </div>
+
+@if (Model.Tags.Count > 0) {
+    <p style="color:red">
+        <b>Warning: This patron is linked to one or more tags!</b><br />
+        Deleting the patron will cause it to become un-linked from all tags. They will also be unable to log in to the app.
+    </p>
+}
+
+@Html.ActionLink("Cancel", "Index")

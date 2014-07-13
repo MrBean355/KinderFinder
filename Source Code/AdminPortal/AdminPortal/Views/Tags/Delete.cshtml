@@ -43,8 +43,11 @@
 
 </div>
 
-@if (Model.)
-<p style="color:red">
-    <b>Warning: This tag is linked to a patron!</b><br />
-    Deleting it will cause it to become un-linked from the patron. They will be unable to monitor its location as a result.
-</p>@Html.ActionLink("Cancel", "Index")
+@if (Model.CurrentPatron != null) {
+    <p style="color:red">
+        <b>Warning: This tag is linked to a patron!</b><br />
+        Deleting it will cause it to become un-linked from the patron. They will be unable to monitor its location as a result.
+    </p>
+}
+
+@Html.ActionLink("Cancel", "Index")
