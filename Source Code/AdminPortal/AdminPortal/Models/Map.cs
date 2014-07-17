@@ -7,19 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AdminPortal.Models {
-	using System;
-	using System.ComponentModel.DataAnnotations;
-
-	public partial class Tag {
-		public int ID { get; set; }
-
-		[Display(Name = "Linked Patron")]
-		public Nullable<int> CurrentPatron { get; set; }
-
-		[Required(ErrorMessage = "{0} is required; it cannot be empty.")]
-		public string Label { get; set; }
-
-		public virtual Patron Patron { get; set; }
-	}
+namespace AdminPortal.Models
+{
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class Map
+    {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public byte[] Data { get; set; }
+    }
 }

@@ -177,7 +177,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Web API\LoginController.cs" />
+    <Compile Include="Controllers\Web API\RegisterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MapsController.cs" />
     <Compile Include="Controllers\PatronsController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -199,6 +202,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>KinderFinderModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Map.cs">
+      <DependentUpon>KinderFinderModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Patron.cs">
       <DependentUpon>KinderFinderModel.tt</DependentUpon>
@@ -275,6 +281,11 @@
     <Content Include="Views\Tags\Delete.cshtml" />
     <Content Include="Views\Tags\Edit.cshtml" />
     <Content Include="Views\Tags\Index.cshtml" />
+    <Content Include="Views\Maps\Create.cshtml" />
+    <Content Include="Views\Maps\Delete.cshtml" />
+    <Content Include="Views\Maps\Details.cshtml" />
+    <Content Include="Views\Maps\Edit.cshtml" />
+    <Content Include="Views\Maps\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

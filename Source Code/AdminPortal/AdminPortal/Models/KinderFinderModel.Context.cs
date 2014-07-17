@@ -27,5 +27,6 @@ namespace AdminPortal.Models
     
         public virtual DbSet<Patron> Patrons { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<Map> Maps { get; set; }
     }
 }
