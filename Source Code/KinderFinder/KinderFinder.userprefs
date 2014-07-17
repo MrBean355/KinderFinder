@@ -1,0 +1,27 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.192.168.1.6:5555" />
+  <MonoDevelop.Ide.Workbench>
+    <Files>
+      <File FileName="KinderFinder_Droid\MainActivity.cs" Line="21" Column="4" />
+      <File FileName="KinderFinder_Droid\RegisterActivity.cs" Line="55" Column="5" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="KinderFinder_Droid" expanded="True">
+            <Node name="Resources" expanded="True">
+              <Node name="layout" expanded="True">
+                <Node name="Main.axml" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.KinderFinder__Droid MonoForAntroid.PreferredDevice="Samsung Galaxy S" AndroidDeviceId-Debug="192.168.1.6:5555" />
+</Properties>
