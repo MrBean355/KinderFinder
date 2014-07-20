@@ -183,6 +183,7 @@
     <Compile Include="Controllers\MapsController.cs" />
     <Compile Include="Controllers\PatronsController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
+    <Compile Include="Controllers\Web API\TagListController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
