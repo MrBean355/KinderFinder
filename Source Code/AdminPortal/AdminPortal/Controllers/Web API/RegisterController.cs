@@ -10,6 +10,12 @@ namespace AdminPortal.Controllers {
 	public class RegisterController : ApiController {
 		private KinderFinderEntities db = new KinderFinderEntities();
 
+		/**
+		 * Attempts to register a new account for a user.
+		 * @param patron New user to register.
+		 * @returns OK if successful; Conflict if email already exists;
+		 * InternalServerError otherwise.
+		 */
 		[HttpPost]
 		public HttpResponseMessage Register(Patron patron) {
 			var query = from item in db.Patrons
@@ -34,6 +40,7 @@ namespace AdminPortal.Controllers {
 				return Request.CreateResponse(HttpStatusCode.InternalServerError, "Unknown server error.");
 			}
 
+			/* Nothing went wrong; success! */
 			return Request.CreateResponse(HttpStatusCode.OK);
 		}
 	}

@@ -1,22 +1,14 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Net;
-
-using System.Text;
-using System.Text.RegularExpressions;
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using System.Threading;
+
+using Android.App;
+using Android.OS;
+using Android.Widget;
 
 namespace KinderFinder_Droid {
 
-	[Activity(Label = "Register")]			
+	[Activity(Label = "Register", Icon = "@drawable/icon")]
 	public class RegisterActivity : Activity {
 
 		protected override void OnCreate(Bundle bundle) {
@@ -34,14 +26,14 @@ namespace KinderFinder_Droid {
 			string pass2 = FindViewById<EditText>(Resource.Id.Register_PasswordConfirm).Text;
 
 			/* Validate provided details. */
-			if (firstName.Length < 3 || firstName.Length > 50)
-				Toast.MakeText(this, "First name must be between 3 and 50 characters long", ToastLength.Long).Show();
-			else if (surname.Length < 3 || surname.Length > 50)
-				Toast.MakeText(this, "Surname must be between 3 and 50 characters long", ToastLength.Long).Show();
+			if (firstName.Length < Globals.NAME_MIN_LENGTH || firstName.Length > Globals.NAME_MAX_LENGTH)
+				Toast.MakeText(this, string.Format("First name must be between {0} and {1} characters long", Globals.NAME_MIN_LENGTH, Globals.NAME_MAX_LENGTH), ToastLength.Long).Show();
+			else if (surname.Length < Globals.NAME_MIN_LENGTH || surname.Length > Globals.NAME_MAX_LENGTH)
+				Toast.MakeText(this, string.Format("Surname must be between {0} and {1} characters long", Globals.NAME_MIN_LENGTH, Globals.NAME_MAX_LENGTH), ToastLength.Long).Show();
 			else if (!Utility.IsValidEmailAddress(email))
 				Toast.MakeText(this, "Please enter a valid email address", ToastLength.Long).Show();
-			else if (pass1.Length < 6 || pass1.Length > 50)
-				Toast.MakeText(this, "Password must be between 6 and 50 characters long", ToastLength.Long).Show();
+			else if (pass1.Length < Globals.PASSWORD_MIN_LENGTH || pass1.Length > Globals.PASSWORD_MAX_LENGTH)
+				Toast.MakeText(this, string.Format("Password must be between {0} and {1} characters long", Globals.PASSWORD_MIN_LENGTH, Globals.PASSWORD_MAX_LENGTH), ToastLength.Long).Show();
 			else if (!pass1.Equals(pass2))
 				Toast.MakeText(this, "Passwords do not match", ToastLength.Long).Show();
 			/* All details are valid. */

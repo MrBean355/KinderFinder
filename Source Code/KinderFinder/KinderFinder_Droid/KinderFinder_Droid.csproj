@@ -57,6 +57,7 @@
     <Compile Include="RegisterActivity.cs" />
     <Compile Include="Utility.cs" />
     <Compile Include="TagListActivity.cs" />
+    <Compile Include="Globals.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />

@@ -16,12 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Register_FirstName"
-        android:hint="First name" />
+        android:hint="First name"
+        android:inputType="textCapWords" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Register_Surname"
-        android:hint="Surname" />
+        android:hint="Surname"
+        android:inputType="textCapWords" />
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

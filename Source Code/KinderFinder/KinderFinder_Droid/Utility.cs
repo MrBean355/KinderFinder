@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using Android.Widget;
 
 namespace KinderFinder_Droid {
 
@@ -90,12 +91,17 @@ namespace KinderFinder_Droid {
 			/* Status code other than the 200s was returned. */
 			catch (WebException ex) {
 				var response = (HttpWebResponse)ex.Response;
+
+				if (response == null)
+					Environment.Exit(-1);
+
 				result.StatusCode = response.StatusCode;
 			}
 			/* Something else broke. */
 			catch (Exception ex) {
 				result.StatusCode = HttpStatusCode.ServiceUnavailable;
 				Console.WriteLine("EXCEPTION while communication with server:\n" + ex);
+				Toast.MakeText(null, "Unable to contact server", ToastLength.Long);
 			}
 
 			return result;
