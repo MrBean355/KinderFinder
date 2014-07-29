@@ -1,14 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.SelectDevice" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="KinderFinder_Droid\TagListActivity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="KinderFinder_Droid\MainActivity.cs">
     <Files>
-      <File FileName="KinderFinder_Droid\TagListActivity.cs" Line="4" Column="19" />
+      <File FileName="KinderFinder_Droid\MainActivity.cs" Line="22" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <RunToCursorBreakpoint file="E:\Users\Mike\Documents\University\COS 301 - Software Engineering\Main Project\Source Code\KinderFinder\KinderFinder_Droid\MainActivity.cs" line="4" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.KinderFinder__Droid MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" AndroidDeviceId-Debug="192.168.1.6:5555" />

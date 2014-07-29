@@ -19,6 +19,7 @@ namespace KinderFinder_Droid {
 
 			FindViewById<Button>(Resource.Id.Main_Login).Click += LogUserIn;
 			FindViewById<Button>(Resource.Id.Main_Register).Click += RegisterUser;
+
 		}
 
 		/**
