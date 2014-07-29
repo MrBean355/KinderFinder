@@ -64,5 +64,6 @@
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\layout\Register.axml" />
+    <AndroidResource Include="Resources\layout\View_RFID_Tags.axml" />
   </ItemGroup>
 </Project>

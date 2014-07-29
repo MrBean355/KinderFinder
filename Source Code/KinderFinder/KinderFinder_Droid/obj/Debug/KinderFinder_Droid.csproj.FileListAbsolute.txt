@@ -12,3 +12,4 @@ D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\obj\Debug\res
 D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\obj\Debug\res\layout\register.xml
 D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\obj\Debug\R.cs.flag
 D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\obj\Debug\uploadflags.txt
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\obj\Debug\res\layout\view_rfid_tags.xml
