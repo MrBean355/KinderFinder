@@ -19,11 +19,11 @@
 \geometry{portrait} % set up the page for landscape
 %   read geometry.pdf for detailed page layout information
 
+%%% PACKAGES
 \usepackage{graphicx} % support the \includegraphics command and options
+\usepackage{grffile} % using PDFLaTeX & package graphicx, this package will allow spaces in file names of figures.
 \usepackage{float}
 \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
-
-%%% PACKAGES
 %\usepackage{booktabs} % for much better looking tables
 %\usepackage{array} % for better arrays (eg matrices) in maths
 %\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
@@ -61,7 +61,7 @@
 		\normalfont \normalsize \textsc{Client Name: DVT} \\
 		\normalfont \normalsize \textsc{Project Name: KinderFinder} \\ [25pt]
 		\horrule{0.5pt} \\[0.4cm]
-		\huge This is the title of the template report \\
+		\huge Functional Requirements and Application Design \\
 		\horrule{2pt} \\[0.5cm]
 }
 \author{\begin{tabular}{rl}
@@ -71,8 +71,8 @@
 	Po-Han Chiu & 11063612
 \end{tabular}
 	\\ \\ \texttt{https://github.com/MrBean355/KinderFinder.git}
-	\\ \\ \texttt{Version: 0.1}}
-\date{23 May 2014}  
+	\\ \\ \texttt{Version: 0.2}}
+\date{29 July 2014}  
 % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed -------
 
@@ -114,17 +114,6 @@ wristbands.
 map for the set-up. 
 \item Enable the user to link the wristband to their  mobile application
 \end{itemize}
-
-	\subsubsection{Web API}
-	The  system  must  have  a  central  web  based  API  that  concerns  itself  with  gathering 
-information and supplying information from the system. This API will be used by:
-\begin{itemize}
-\item Mobile Application
-\item Web Administration
-\item A Service, if needed, that can push information to devices
-\end{itemize}
-Therefore this API must be loosely coupled from any implementation using it ,  as it needs to 
-be re-used for multiple implementations, and possible future applications / implementations.
 
 	\subsubsection{Basic Reporting}
 	\begin{itemize}
@@ -180,7 +169,7 @@ Physical hardware devices used in this project includes:
 	\subsubsection{Use Case Login}
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.8]{UseCaseLogin.png}
+\includegraphics[scale = 0.8]{Use Case Login.png}
 \caption{Use Case Diagram - Login}
 \end{figure}
 \begin{itemize}
@@ -192,7 +181,7 @@ Physical hardware devices used in this project includes:
 	\subsubsection{Use Case Login / Locate Child}
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.8]{UseCase1.jpg}
+\includegraphics[scale = 0.8]{Use Case End User.jpg}
 \caption{Use Case Diagram - Login / Locate Child}
 \end{figure}
 \begin{itemize}
@@ -203,7 +192,7 @@ Physical hardware devices used in this project includes:
 		\subsubsection{Use Case Map / Link / Zones / Reporting}
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.8]{UseCase2.jpg}
+\includegraphics[scale = 0.8]{Use Case Admin.jpg}
 \caption{Use Case Diagram - Map / Link / Zones / Reporting}
 \end{figure}
 \begin{itemize}
@@ -211,31 +200,7 @@ Physical hardware devices used in this project includes:
 \item Post-Conditions - Wristbands should be unlinked after a time period, or after log out. Reports should be generated on all data, therefore data should be saved and logged. 
 \end{itemize}
 
-%\subsection{Process specifications}
 \newpage
-\subsection{Domain Objects}
-
-\subsubsection{Data Base}
-A data base diagram in the form of an ERD has been drafted and shown below. Because we do not know what extra might be needed during development, we will keep evolving the data base to meet our required functionality. 
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=1]{ERDKinderFinderDatabase.jpg} 
-\caption{ERD Data Base}
-\end{figure}
-
-
-\newpage
-
-
-
-
-
-
-
-
-
-
 
 
 
