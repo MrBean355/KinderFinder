@@ -1,0 +1,14 @@
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\bin\Debug\KinderFinder_Droid.dll
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\bin\Debug\KinderFinder_Droid.pdb
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\bin\Debug\KinderFinder_Droid.dll.mdb
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\bin\Debug\KinderFinder_Droid.KinderFinder_Droid.apk
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\bin\Debug\KinderFinder_Droid.KinderFinder_Droid-Signed.apk
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\obj\Debug\KinderFinder_Droid.dll
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\obj\Debug\KinderFinder_Droid.pdb
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\obj\Debug\android\bin\KinderFinder_Droid.KinderFinder_Droid.apk
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\obj\Debug\res\layout\main.xml
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\obj\Debug\res\values\strings.xml
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\obj\Debug\res\drawable\icon.png
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\obj\Debug\res\layout\register.xml
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\obj\Debug\R.cs.flag
+D:\GitHub\KinderFinder\Source Code\KinderFinder\KinderFinder_Droid\obj\Debug\uploadflags.txt

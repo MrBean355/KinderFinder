@@ -1,0 +1,3 @@
+KinderFinder_Droid.MainActivity;kinderfinder_droid.MainActivity
+KinderFinder_Droid.RegisterActivity;kinderfinder_droid.RegisterActivity
+KinderFinder_Droid.TagListActivity;kinderfinder_droid.TagListActivity
