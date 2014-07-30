@@ -13,5 +13,3 @@
 \contentsline {subsubsection}{\numberline {1.4.1}Use Case Login}{4}
 \contentsline {subsubsection}{\numberline {1.4.2}Use Case Login / Locate Child}{5}
 \contentsline {subsubsection}{\numberline {1.4.3}Use Case Map / Link / Zones / Reporting}{5}
-\contentsline {subsection}{\numberline {1.5}Domain Objects}{6}
-\contentsline {subsubsection}{\numberline {1.5.1}Data Base}{6}

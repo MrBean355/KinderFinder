@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.7.29)  30 JUL 2014 08:43
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.7.29)  30 JUL 2014 08:46
 entering extended mode
-**Functional*requirements*and*application*design*document.tex
+**Functional*Requirements*and*Application*Design.tex
 
-("D:\GitHub\KinderFinder\Documentation\Demo Docs\Clean Me Up Tesh\Functional re
-quirements and application design document.tex"
+("D:\GitHub\KinderFinder\Documentation\Demo Docs\Work in Progress Report 2\Sour
+ce\Functional Requirements and Application Design.tex"
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
@@ -326,8 +326,8 @@ Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 \verbatim@line=\toks21
 \verbatim@in@stream=\read1
 )
-("D:\GitHub\KinderFinder\Documentation\Demo Docs\Clean Me Up Tesh\Functional re
-quirements and application design document.aux")
+("D:\GitHub\KinderFinder\Documentation\Demo Docs\Work in Progress Report 2\Sour
+ce\Functional Requirements and Application Design.aux")
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 80.
 LaTeX Font Info:    ... okay on input line 80.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 80.
@@ -398,8 +398,8 @@ LaTeX Font Info:    External font `cmex10' loaded for size
  [1
 
 {C:/Users/Teshlen/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-("D:\GitHub\KinderFinder\Documentation\Demo Docs\Clean Me Up Tesh\Functional re
-quirements and application design document.toc"
+("D:\GitHub\KinderFinder\Documentation\Demo Docs\Work in Progress Report 2\Sour
+ce\Functional Requirements and Application Design.toc"
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <10.95> on input line 2.
 )
@@ -424,46 +424,38 @@ File: UseCase1.jpg Graphic file (type jpg)
  <use UseCase1.jpg>
 Package pdftex.def Info: UseCase1.jpg used on input line 195.
 (pdftex.def)             Requested size: 445.06335pt x 233.07106pt.
- [4 <D:/GitHub/KinderFinder/Documentation/Demo Docs/Clean Me Up Tesh/UseCaseLog
-in.png>]
-<UseCase2.jpg, id=27, 556.32843pt x 314.67563pt>
+ [4 <D:/GitHub/KinderFinder/Documentation/Demo Docs/Work in Progress Report 2/S
+ource/UseCaseLogin.png>] <UseCase2.jpg, id=27, 556.32843pt x 314.67563pt>
 File: UseCase2.jpg Graphic file (type jpg)
- <use UseCase2.jpg>
+
+<use UseCase2.jpg>
 Package pdftex.def Info: UseCase2.jpg used on input line 206.
 (pdftex.def)             Requested size: 445.06335pt x 251.74083pt.
- [5 <D:/GitHub/KinderFinder/Documentation/Demo Docs/Clean Me Up Tesh/UseCase1.j
-pg> <D:/GitHub/KinderFinder/Documentation/Demo Docs/Clean Me Up Tesh/UseCase2.j
-pg>]
-<ERDKinderFinderDatabase.jpg, id=31, 403.5075pt x 240.14719pt>
-File: ERDKinderFinderDatabase.jpg Graphic file (type jpg)
-
-<use ERDKinderFinderDatabase.jpg>
-Package pdftex.def Info: ERDKinderFinderDatabase.jpg used on input line 223.
-(pdftex.def)             Requested size: 403.50652pt x 240.14658pt.
- [6 <D:/GitHub/KinderFinder/Documentation/Demo Docs/Clean Me Up Tesh/ERDKinderF
-inderDatabase.jpg>]
-("D:\GitHub\KinderFinder\Documentation\Demo Docs\Clean Me Up Tesh\Functional re
-quirements and application design document.aux") ) 
+ [5 <D:/GitHub/KinderFinder/Documentation/Demo Docs/Work in Progress Report 2/S
+ource/UseCase1.jpg> <D:/GitHub/KinderFinder/Documentation/Demo Docs/Work in Pro
+gress Report 2/Source/UseCase2.jpg>] [6]
+("D:\GitHub\KinderFinder\Documentation\Demo Docs\Work in Progress Report 2\Sour
+ce\Functional Requirements and Application Design.aux") ) 
 Here is how much of TeX's memory you used:
- 1978 strings out of 493921
- 27407 string characters out of 3144870
- 87092 words of memory out of 3000000
- 5258 multiletter control sequences out of 15000+200000
+ 1973 strings out of 493921
+ 27289 string characters out of 3144870
+ 87098 words of memory out of 3000000
+ 5254 multiletter control sequences out of 15000+200000
  9580 words of font info for 34 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 27i,12n,29p,463b,283s stack positions out of 5000i,500n,10000p,200000b,50000s
-<d:/Program Files/MiKTeX 2.9/
-fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/Program Files/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmbx12.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/publ
-ic/amsfonts/cm/cmcsc10.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsf
-onts/cm/cmr10.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
-mr12.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-<d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/Prog
-ram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on "Functional requirements and application design document.pdf"
- (7 pages, 246697 bytes).
+ 27i,12n,29p,454b,283s stack positions out of 5000i,500n,10000p,200000b,50000s
+<d:/Program Files/MiKT
+eX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/Program Files/MiKTeX 2.9/f
+onts/type1/public/amsfonts/cm/cmbx12.pfb><d:/Program Files/MiKTeX 2.9/fonts/typ
+e1/public/amsfonts/cm/cmcsc10.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmr10.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfon
+ts/cm/cmr12.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr
+17.pfb><d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
+d:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
+Output written on "Functional Requirements and Application Design.pdf" (7 pages
+, 227860 bytes).
 PDF statistics:
- 62 PDF objects out of 1000 (max. 8388607)
+ 61 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
 
