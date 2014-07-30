@@ -37,11 +37,48 @@
 \subsection{Architectural scope}
 The project will consist of five main components of which one is still a proof of concept (POC).
 \begin{itemize}
-	\item{Web Administration}
-	\item{Mobile Application}
-	\item{Web API}
-	\item{Basic Reporting}
-	\item{Embedded Hardware and prototyping (POC)}
+	\item{Web Administration} \\
+	The Web administration must
+	\begin{itemize}
+	\item  Be used to allow installers of the system to setup restaurants and their layouts (using maps). 
+	\item  Enable restaurants to link  wristbands to  a Patron’s mobile application, or assigned electronic tracking device (device not in scope). 
+	\item  Enable restaurants to clear and unlink wristbands from devices and patrons’ mobile apps. 
+	\item  Allow access to basic reporting will also be done through the Web Administration.
+	\end{itemize}
+	
+	
+	\item{Mobile Application}\\
+	The mobile application needs to be developed for either Android or IOS. Ideally both, but for the scope of this project only one platform needs to be supported, unless the project team feels they would want to use some cross platform technology like for eg. Xamarin. This can be discussed with DVT. The mobile application will be one of the methods used by restaurant patrons to access tracking information on their children while having their dining experience. 
+	
+	\item{Web API} \\
+The  system  must  have  a  central  web  based  API  that  concerns  itself  with  gathering information and supplying information from the system. This API will be used by:
+\begin{itemize}
+\item Mobile Application
+\item Web Administration
+\item A Service, if needed, that can push information to devices
+\end{itemize}
+
+Therefore this API must be loosely coupled from any implementation using it ,  as it needs to 
+be re-used for multiple implementations, and possible future applications/implementations.
+	\item{Basic Reporting}\\
+		Basic reporting must be available through the web administration:
+	\begin{itemize}
+ \item  Facility usage (zonebased) by children. This will enable a restaurant to see statistics 
+ on which areas are most popular for children. 
+ \item  Usage statistic of mobile app users that could possibly enable restaurant chains to 
+ implement a loyalty program. 
+ \item  Health reports, reports that will indicate the health of the hardware being used. 
+	\end{itemize}
+	\item{Embedded Hardware and prototyping (POC)}\\
+	Physical hardware devices used in this project includes
+	\begin{itemize}
+		 \item Receiver/Reader prototype
+		 \begin{itemize}
+		 \item These are devices that are placed  at predetermined  locations within the designated area where tracking will occur in order to pick up wristbands and  their relative signal strengths. These devices will use wireless communication 
+ will to communicate this information to an access point with internet access. 
+		 \end{itemize}
+		 
+		\end{itemize}
 	\end{itemize}
 
 \subsection{Quality requirements}
@@ -93,6 +130,8 @@ The technologies that will be used  for this project are the following
 	\item{Xamarin}
 	\end{itemize}
 The above mentioned technologies are the technologies that are to be used for this project, but may still be subject to change at a later stage of the software development due to the unforeseen situations. 
+
+%	\subsubsection{Web API}
 
 
 \section{Constraints}

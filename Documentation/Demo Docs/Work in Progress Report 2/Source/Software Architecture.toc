@@ -1,11 +1,11 @@
 \contentsline {section}{\numberline {1}Architecture requirements}{2}
 \contentsline {subsection}{\numberline {1.1}Architectural scope}{2}
-\contentsline {subsection}{\numberline {1.2}Quality requirements}{2}
-\contentsline {subsection}{\numberline {1.3}Integration and access channel requirements}{2}
-\contentsline {subsection}{\numberline {1.4}Architectural constraints}{2}
-\contentsline {section}{\numberline {2}Architectural patterns or styles}{2}
-\contentsline {section}{\numberline {3}Architectural tactics or strategies}{2}
+\contentsline {subsection}{\numberline {1.2}Quality requirements}{3}
+\contentsline {subsection}{\numberline {1.3}Integration and access channel requirements}{3}
+\contentsline {subsection}{\numberline {1.4}Architectural constraints}{3}
+\contentsline {section}{\numberline {2}Architectural patterns or styles}{3}
+\contentsline {section}{\numberline {3}Architectural tactics or strategies}{3}
 \contentsline {section}{\numberline {4}Use of reference architectures and frameworks}{3}
-\contentsline {section}{\numberline {5}Access and integration channels}{3}
-\contentsline {section}{\numberline {6}Technologies}{3}
-\contentsline {section}{\numberline {7}Constraints}{3}
+\contentsline {section}{\numberline {5}Access and integration channels}{4}
+\contentsline {section}{\numberline {6}Technologies}{4}
+\contentsline {section}{\numberline {7}Constraints}{4}
