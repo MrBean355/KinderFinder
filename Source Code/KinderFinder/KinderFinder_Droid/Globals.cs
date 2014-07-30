@@ -11,6 +11,8 @@ namespace KinderFinder_Droid {
 		/// Key for username storage in the preferences file.
 		/// </summary>
 		public const string KEY_USERNAME = "username";
+		public const string KEY_PASSWORD_HASH = "passwordhash";
+		public const string KEY_REMEMBER_ME = "rememberme";
 
 		/// <summary>
 		/// Minimum length that names can be.

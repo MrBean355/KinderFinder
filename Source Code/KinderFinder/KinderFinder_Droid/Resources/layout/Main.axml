@@ -25,6 +25,11 @@
         android:hint="Password"
         android:password="true"
         android:inputType="textPassword" />
+    <CheckBox
+        android:text="Remember me"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Main_Remember" />
     <Button
         android:text="Log In"
         android:layout_width="match_parent"
@@ -35,9 +40,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Main_Register" />
-    <Button
-        android:text="View RFID Tags"
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/button1" />
+        android:id="@+id/Main_ProgressBar"
+        android:indeterminate="true"
+        android:indeterminateOnly="true"
+        android:max="100"
+        android:progress="10"
+        android:secondaryProgress="5" />
 </LinearLayout>
