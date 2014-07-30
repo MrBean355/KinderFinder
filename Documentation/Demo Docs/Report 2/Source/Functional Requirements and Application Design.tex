@@ -71,8 +71,8 @@
 	Po-Han Chiu & 11063612
 \end{tabular}
 	\\ \\ \texttt{https://github.com/MrBean355/KinderFinder.git}
-	\\ \\ \texttt{Version: 0.1}}
-\date{23 May 2014}  
+	\\ \\ \texttt{Version: 0.2}}
+\date{30 July 2014}  
 % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed -------
 
@@ -175,87 +175,57 @@ Physical hardware devices used in this project includes:
 \item Embedded Hardware and Prototyping - This is the RFID wrist bands and RFID readers. Mock data will be used for testing and implementation, after which, our team will focus on the hardware prototyping and testing.
 \end{itemize}
 
+\subsection{Services Contracts}
+\subsubsection{App User}
 
-\subsection{Use case/Services contracts}
-	\subsubsection{Use Case Login}
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.8]{UseCaseLogin.png}
-\caption{Use Case Diagram - Login}
+\includegraphics[scale=1]{AppUser.jpg}
+\caption{Use case of Android app user (first level granularity).}
 \end{figure}
-\begin{itemize}
-\item Pre-Conditions - There are no pre-conditions for this use case besides having the application on the user's mobile.
-\item Post-Conditions - After the user has logged on and added the required RFID tag to their profile, the profile should remain active and requesting updates from the WEB API.
-\end{itemize}
-	
 
-	\subsubsection{Use Case Login / Locate Child}
+\begin{itemize}
+\item Pre-Conditions - \textbf{Register}: The email address must not already be in use. \textbf{Log In}: Valid details must be provided. \textbf{View Tags}: The user must be logged in. \textbf{Track Tags}: The user must be logged in and have linked tags. \textbf{Link/Unlink Tags}: The user must be logged in. There must be available tags when linking. The tag must be linked when unlinking.
+\item Post-Conditions - \textbf{Register}: The account must be added to the database and the user must use it to log in. \textbf{Log In}: The user has access to all the app's functionality. \textbf{View Tags}: A list of linked tags must be displayed. \textbf{Track Tags}: The locations of linked tags must be overlayed onto the restaurant's map. \textbf{Link/Unlink Tags}: The tag must appear in the linked tags (after linking) and can be tracked. The tag must be removed from the list (after unlinking) and can't be used for tracking.
+\end{itemize}
+
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.8]{UseCase1.jpg}
-\caption{Use Case Diagram - Login / Locate Child}
+\includegraphics[scale=1]{AppUserLvl2.jpg}
+\caption{Use case of Android app user (second level granularity).}
 \end{figure}
-\begin{itemize}
-\item Pre-Conditions - User needs to have their log in details already on the system
-\item Post-Conditions - Session timer should start to automatically log out a user after a specified amount of time. User should stay authenticated during this time. 
-\end{itemize}
-	
-		\subsubsection{Use Case Map / Link / Zones / Reporting}
+
+\subsubsection{System Administrator}
+
 \begin{figure}[H]
 \centering
-\includegraphics[scale = 0.8]{UseCase2.jpg}
-\caption{Use Case Diagram - Map / Link / Zones / Reporting}
+\includegraphics[scale=1]{Admin.jpg}
+\caption{Use case of Android app user (first level granularity).}
 \end{figure}
+
 \begin{itemize}
-\item Pre-Conditions - Map of the venue needs to be downloaded to the device. Wristband should not be linked to another user. Zones should be defined. Logs should be stored for reporting to work.
-\item Post-Conditions - Wristbands should be unlinked after a time period, or after log out. Reports should be generated on all data, therefore data should be saved and logged. 
+\item Pre-Conditions - \textbf{Log In}: Valid details must be provided. \textbf{Add/Remove Map}: The user must be logged in. A map must exist when attempting to remove the map. \textbf{Add/Remove Zone}: The user must be logged in. A zone must exist when trying to remove one. \textbf{Add/Remove Tag}: The user must be logged in. The tag name must be given a name (when adding) and must exist (when removing). \textbf{Link/Unlink Tag}: The user must be logged in and a valid tag selected. The target app user must be valid. When linking, the tag cannot be already linked. \textbf{Remove App User}: The user must be logged in and the app user must be valid. \textbf{Reporting}: The user must be logged in.
+\item Post-Conditions - \textbf{Log In}: The user must gain access to all admin features. \textbf{Add/Remove Map}: The new map must be pushed to Android devices. \textbf{Add/Remove Zone}: The tracking zone must become available when adding, and unavailable when removing.. \textbf{Add/Remove Tag}: The tag must be available for linking when adding, and must be unlinked when removing. \textbf{Link/Unlink Tag}: The app user must be able to track the tag when linking, and no longer able to track it when unlinking. \textbf{Remove App User}: The app user must be logged out (if logged in) and no longer log in. \textbf{Reporting}: The desired report must be generated and displayed.
 \end{itemize}
 
-%\subsection{Process specifications}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{AdminLvl2.jpg}
+\caption{Use case of Android app user (second level granularity).}
+\end{figure}
 
-%\subsection{Domain Objects}
-%
-%\subsubsection{Data Base}
-%A data base diagram in the form of an ERD has been drafted and shown below. Because we do not know what extra might be needed during development, we will keep evolving the data base to meet our required functionality. 
-%
-%\begin{figure}[H]
-%\centering
-%\includegraphics[scale=1]{ERDKinderFinderDatabase.jpg} 
-%\caption{ERD Data Base}
-%\end{figure}
+\subsection{Activity Diagrams}
 
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{AndroidActivity.png}
+\caption{Activity diagram for the Android app.}
+\end{figure}
 
-\newpage
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.7]{WebAppActivity.png}
+\caption{Activity diagram for the web application (administration portal).}
+\end{figure}
 
-
-
-
-
-
-
-
-
-
-
-
-
-%\appendix
-%\section{\\Title of Appendix A} \label{App:AppendixA}
-% the \\ insures the section title is centered below the phrase: AppendixA
-
-%Text of Appendix A is Here
-
-%\newpage
-%\section{\\Title of Appendix B} \label{App:AppendixB}
-% the \\ insures the section title is centered below the phrase: Appendix B
-
-%Text of Appendix B is Here
-
-%\newpage
-%\begin{thebibliography}{10}
-
-%\bibitem{First Reference}
-
-%\end{thebibliography}
-%\printglossary
 \end{document}
