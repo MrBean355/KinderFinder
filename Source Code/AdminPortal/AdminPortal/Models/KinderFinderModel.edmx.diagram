@@ -4,11 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ea7595ecce154719a42b4209461bc144" Name="Diagram1">
+      <Diagram DiagramId="3f8dd260ac5341ee8847c590151e0e8a" Name="Diagram1">
+        <EntityTypeShape EntityType="KinderFinderModel.Map" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="KinderFinderModel.Patron" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="KinderFinderModel.Tag" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="KinderFinderModel.Tag" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
         <AssociationConnector Association="KinderFinderModel.FK__Tag__CurrentPatr__1273C1CD" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="KinderFinderModel.Map" Width="1.5" PointX="1.125" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

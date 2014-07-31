@@ -4,14 +4,15 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="KinderFinderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="KinderFinderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Map">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Data" Type="image" Nullable="false" />
+          <Property Name="Data" Type="image" />
+          <Property Name="Active" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Patron">
           <Key>
@@ -52,10 +53,20 @@
             <End Role="Tag" EntitySet="Tag" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KinderFinderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Map">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Data" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+        </EntityType>
         <EntityType Name="Patron">
           <Key>
             <PropertyRef Name="ID" />
@@ -73,8 +84,8 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CurrentPatron" Type="Int32" />
-          <NavigationProperty Name="Patron" Relationship="Self.FK__Tag__CurrentPatr__1273C1CD" FromRole="Tag" ToRole="Patron" />
           <Property Name="Label" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Patron" Relationship="Self.FK__Tag__CurrentPatr__1273C1CD" FromRole="Tag" ToRole="Patron" />
         </EntityType>
         <Association Name="FK__Tag__CurrentPatr__1273C1CD">
           <End Role="Patron" Type="Self.Patron" Multiplicity="0..1" />
@@ -89,28 +100,30 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="KinderFinderEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Maps" EntityType="Self.Map" />
           <EntitySet Name="Patrons" EntityType="Self.Patron" />
           <EntitySet Name="Tags" EntityType="Self.Tag" />
           <AssociationSet Name="FK__Tag__CurrentPatr__1273C1CD" Association="Self.FK__Tag__CurrentPatr__1273C1CD">
             <End Role="Patron" EntitySet="Patrons" />
             <End Role="Tag" EntitySet="Tags" />
           </AssociationSet>
-          <EntitySet Name="Maps" EntityType="KinderFinderModel.Map" />
         </EntityContainer>
-        <EntityType Name="Map">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Data" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="KinderFinderModelStoreContainer" CdmEntityContainer="KinderFinderEntities">
+          <EntitySetMapping Name="Maps">
+            <EntityTypeMapping TypeName="KinderFinderModel.Map">
+              <MappingFragment StoreEntitySet="Map">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Patrons">
             <EntityTypeMapping TypeName="KinderFinderModel.Patron">
               <MappingFragment StoreEntitySet="Patron">
@@ -125,18 +138,9 @@
           <EntitySetMapping Name="Tags">
             <EntityTypeMapping TypeName="KinderFinderModel.Tag">
               <MappingFragment StoreEntitySet="Tag">
-                <ScalarProperty Name="Label" ColumnName="Label" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CurrentPatron" ColumnName="CurrentPatron" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Maps">
-            <EntityTypeMapping TypeName="KinderFinderModel.Map">
-              <MappingFragment StoreEntitySet="Map">
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Label" ColumnName="Label" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

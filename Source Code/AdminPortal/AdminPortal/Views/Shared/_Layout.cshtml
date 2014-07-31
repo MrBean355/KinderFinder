@@ -7,6 +7,8 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/Utility.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -23,6 +25,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Patrons", "Index", "Patrons")</li>
                     <li>@Html.ActionLink("Tags", "Index", "Tags")</li>
+                    <li>@Html.ActionLink("Maps", "Index", "Maps")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")

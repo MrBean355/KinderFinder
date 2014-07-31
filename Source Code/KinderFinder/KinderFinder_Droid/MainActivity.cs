@@ -36,7 +36,7 @@ namespace KinderFinder_Droid {
 			progressBar = FindViewById<ProgressBar>(Resource.Id.Main_ProgressBar);
 
 			loginButton.Click += LogInPressed;
-			registerButton.Click += (sender, e) => StartActivity(new Intent(this, typeof(RegisterActivity)));
+			registerButton.Click += (sender, e) => StartActivity(new Intent(this, typeof(TagListActivity)));
 
 			string email = pref.GetString(Globals.KEY_USERNAME, "");
 			string passwordHash = pref.GetString(Globals.KEY_PASSWORD_HASH, "");

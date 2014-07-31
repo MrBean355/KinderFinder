@@ -19,11 +19,24 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Data)
+            @Html.Raw("Image")
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Data)
+            @if (Model.Data != null) { 
+                <img src="@Url.Action("GetImage", "Maps", new { id = Model.ID })" alt="Map image" />
+            }
+            else { 
+                @Html.Raw("(none)");
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
         </dd>
 
     </dl>

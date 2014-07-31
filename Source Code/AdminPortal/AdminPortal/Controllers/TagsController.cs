@@ -55,8 +55,11 @@ namespace AdminPortal.Controllers {
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "ID,CurrentPatron,Label")] Tag tag) {
+		public ActionResult Edit([Bind(Include = "ID,CurrentPatron,Label")] Tag tag, string isLinked) {
 			if (ModelState.IsValid) {
+				if (!isLinked.Equals("true", System.StringComparison.CurrentCultureIgnoreCase))
+					tag.CurrentPatron = null;
+
 				db.Entry(tag).State = EntityState.Modified;
 				db.SaveChanges();
 				return RedirectToAction("Index");

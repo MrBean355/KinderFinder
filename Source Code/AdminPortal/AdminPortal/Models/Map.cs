@@ -17,5 +17,6 @@ namespace AdminPortal.Models
         public int ID { get; set; }
         public string Name { get; set; }
         public byte[] Data { get; set; }
+        public bool Active { get; set; }
     }
 }

@@ -8,6 +8,7 @@
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
+    int enabled = Model.CurrentPatron == null ? 0 : 1;
 
     <div class="form-horizontal">
         <hr />
@@ -21,6 +22,24 @@
                 @Html.ValidationMessageFor(model => model.Label, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="form-group">
+            @Html.Label("Linked Patron", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (enabled == 0) {
+                    @Html.DropDownList("CurrentPatron", null, htmlAttributes: new { @id = "patronList", @class = "form-control", @disabled = 1 })
+                    @Html.Raw("Tag is linked: ")<input id="linkedBox" name="linkedBox" type="checkbox">
+                }
+                else {
+                    @Html.DropDownList("CurrentPatron", null, htmlAttributes: new { @id = "patronList", @class = "form-control", @enabled = 1 })
+                    @Html.Raw("Tag is linked: ")<input id="linkedBox" name="linkedBox" checked="checked" type="checkbox">
+                }
+
+                @Html.ValidationMessageFor(model => model.CurrentPatron, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <input id="isLinked" name="isLinked" type="hidden" value="true">
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

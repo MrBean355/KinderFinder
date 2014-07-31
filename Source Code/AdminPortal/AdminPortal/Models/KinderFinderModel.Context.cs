@@ -25,8 +25,8 @@ namespace AdminPortal.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Map> Maps { get; set; }
         public virtual DbSet<Patron> Patrons { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
-        public virtual DbSet<Map> Maps { get; set; }
     }
 }

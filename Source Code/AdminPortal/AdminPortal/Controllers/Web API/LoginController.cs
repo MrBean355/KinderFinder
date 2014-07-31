@@ -17,6 +17,8 @@ namespace AdminPortal.Controllers.Web_API {
 		 */
 		[HttpPost]
 		public HttpResponseMessage Login(LoginDetails details) {
+			Console.WriteLine("--> Welcome!");
+
 			/* Find all users with matching email (should only be 1). */
 			var query = from item in db.Patrons
 						where item.EmailAddress.Equals(details.EmailAddress, StringComparison.CurrentCultureIgnoreCase)
@@ -27,7 +29,7 @@ namespace AdminPortal.Controllers.Web_API {
 				if (password.Equals(details.PasswordHash))
 					return Request.CreateResponse(HttpStatusCode.OK);
 			}
-
+			Console.WriteLine(details.EmailAddress + "\n" + details.PasswordHash);
 			/* Invalid login details:
 			 * - Email is wrong or doesn't exist.
 			 * - Password is wrong.

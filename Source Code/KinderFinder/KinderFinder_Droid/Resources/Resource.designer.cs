@@ -100,7 +100,13 @@ namespace KinderFinder_Droid
 			public const int Register_Surname = 2131034120;
 			
 			// aapt resource value: 0x7f05000e
-			public const int checkedTextView1 = 2131034126;
+			public const int TagList_Link = 2131034126;
+			
+			// aapt resource value: 0x7f05000f
+			public const int TagList_List = 2131034127;
+			
+			// aapt resource value: 0x7f050010
+			public const int checkedTextView1 = 2131034128;
 			
 			// aapt resource value: 0x7f050000
 			public const int textView1 = 2131034112;
@@ -125,7 +131,10 @@ namespace KinderFinder_Droid
 			public const int Register = 2130903041;
 			
 			// aapt resource value: 0x7f030002
-			public const int View_RFID_Tags = 2130903042;
+			public const int TagList = 2130903042;
+			
+			// aapt resource value: 0x7f030003
+			public const int View_RFID_Tags = 2130903043;
 			
 			static Layout()
 			{

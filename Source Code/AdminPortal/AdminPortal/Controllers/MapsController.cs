@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AdminPortal.Models;
+using System.IO;
 
 namespace AdminPortal.Controllers {
 	public class MapsController : Controller {
@@ -15,6 +16,33 @@ namespace AdminPortal.Controllers {
 		// GET: Maps
 		public ActionResult Index() {
 			return View(db.Maps.ToList());
+		}
+
+		public FileContentResult GetImage(int? id) {
+			if (id == null)
+				return null;
+
+			Map map = db.Maps.Find(id);
+
+			if (map == null || map.Data == null)
+				return null;
+
+			return new FileContentResult(map.Data, "image/jpeg");
+		}
+
+		public ActionResult DeleteImage(int? id) {
+			if (id == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			Map map = db.Maps.Find(id);
+
+			if (map == null)
+				return HttpNotFound();
+
+			map.Data = null;
+			db.SaveChanges();
+
+			return RedirectToAction("Edit", new { id = id });
 		}
 
 		// GET: Maps/Details/5
@@ -39,8 +67,24 @@ namespace AdminPortal.Controllers {
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "ID,Name,Data")] Map map) {
+		public ActionResult Create([Bind(Include = "ID,Name,Data,Active")] Map map, HttpPostedFileBase file) {
 			if (ModelState.IsValid) {
+				if (file != null) {
+					MemoryStream target = new MemoryStream();
+					file.InputStream.CopyTo(target);
+					map.Data = target.ToArray();
+				}
+
+				/* Make any active map not active. */
+				if (map.Active) {
+					var maps = from item in db.Maps
+							   where item.Active
+							   select item;
+
+					foreach (var m in maps)
+						m.Active = false;
+				}
+
 				db.Maps.Add(map);
 				db.SaveChanges();
 				return RedirectToAction("Index");
@@ -66,8 +110,24 @@ namespace AdminPortal.Controllers {
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "ID,Name,Data")] Map map) {
+		public ActionResult Edit([Bind(Include = "ID,Name,Data,Active")] Map map, HttpPostedFileBase file) {
 			if (ModelState.IsValid) {
+				if (file != null) {
+					MemoryStream target = new MemoryStream();
+					file.InputStream.CopyTo(target);
+					map.Data = target.ToArray();
+				}
+
+				/* Make any active map not active. */
+				if (map.Active) {
+					var maps = from item in db.Maps
+							   where item.Active
+							   select item;
+
+					foreach (var m in maps)
+						m.Active = false;
+				}
+
 				db.Entry(map).State = EntityState.Modified;
 				db.SaveChanges();
 				return RedirectToAction("Index");

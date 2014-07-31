@@ -1,4 +1,5 @@
 ﻿using AdminPortal.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,19 +16,22 @@ namespace AdminPortal.Controllers.Web_API {
 		 * @returns List of associated tags.
 		 */
 		[HttpPost]
-		public IEnumerable<string> GetTags(RequestDetails details) {
-			List<string> result = new List<string>();
+		public IEnumerable<Tag> GetTags(RequestDetails details) {
+			var r = new List<Tag>(db.Tags);
 
-			/* Find patron's ID. */
+			Console.WriteLine(JsonConvert.SerializeObject(r));
+			return null;
+
+			/* Find patron's ID. *
 			var ids = from pat in db.Patrons
 					  where pat.EmailAddress.Equals(details.EmailAddress, StringComparison.CurrentCultureIgnoreCase)
 					  select pat.ID;
 
-			/* If user actually exists. */
+			/* If user actually exists. *
 			if (ids.Count() > 0) {
 				var id = ids.First();
 
-				/* Find all linked tags and add to list. */
+				/* Find all linked tags and add to list. *
 				var query = from tag in db.Tags
 							where tag.CurrentPatron == id
 							select tag.Label;
@@ -36,7 +40,7 @@ namespace AdminPortal.Controllers.Web_API {
 					result.Add(label);
 			}
 
-			return result;
+			return result;*/
 		}
 
 		public struct RequestDetails {

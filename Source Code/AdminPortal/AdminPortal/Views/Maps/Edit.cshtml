@@ -1,18 +1,16 @@
 ﻿@model AdminPortal.Models.Map
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit Existing Map";
 }
 
-<h2>Edit</h2>
+<h2>@ViewBag.Title</h2>
 
-
-@using (Html.BeginForm())
-{
+@using (Html.BeginForm("Edit", "Maps", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
     @Html.AntiForgeryToken()
-    
+    bool hasImage = Model.Data != null;
+
     <div class="form-horizontal">
-        <h4>Map</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
@@ -26,10 +24,34 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Data, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("Existing Image", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Data, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Data, "", new { @class = "text-danger" })
+                @if (hasImage) {
+                    @Html.ActionLink("Delete Image", "DeleteImage", new { id = Model.ID }, htmlAttributes: new { @class = "btn btn-default" })
+                }
+                else {
+                    @Html.Raw("(none)")
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("New Image", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="file" name="file" id="file" title="Upload" />
+                @if (hasImage) {
+                    @Html.Raw("<i>If no new image is chosen, the current image will be kept.</i>")
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Active, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Active)
+                    @Html.ValidationMessageFor(model => model.Active, "", new { @class = "text-danger" })
+                </div>
             </div>
         </div>
 

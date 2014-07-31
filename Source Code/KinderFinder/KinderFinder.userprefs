@@ -1,19 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.006ef195" />
-  <MonoDevelop.Ide.Workbench>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="KinderFinder_Droid" expanded="True">
-            <Node name="Resources" expanded="True">
-              <Node name="layout" expanded="True">
-                <Node name="Main.axml" selected="True" />
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
+  <MonoDevelop.Ide.Workbench ActiveDocument="KinderFinder_Droid\Utility.cs">
+    <Files>
+      <File FileName="KinderFinder_Droid\TagListActivity.cs" Line="27" Column="21" />
+      <File FileName="KinderFinder_Droid\Utility.cs" Line="35" Column="24" />
+    </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

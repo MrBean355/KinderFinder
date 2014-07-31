@@ -1,38 +1,52 @@
 ﻿@model IEnumerable<AdminPortal.Models.Map>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "List of Maps";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
-        <th></th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
+        <th>
+            @Html.Raw("Image Uploaded")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Active)
+        </th>
         <th></th>
     </tr>
-    @{ int row = 1; }
+
     @foreach (var item in Model) {
         <tr>
-            <td>
-                @row
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @if (item.Data != null) {
+                    @Html.Raw("Yes")
+                }
+                else {
+                    @Html.Raw("No")
+                }
+
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Active)
+            </td>
+            <td>
                 @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.ID })
             </td>
         </tr>
-        row++;
     }
 
 </table>

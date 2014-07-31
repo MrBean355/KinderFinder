@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+
 using Android.Widget;
 
 namespace KinderFinder_Droid {
@@ -24,6 +25,20 @@ namespace KinderFinder_Droid {
 		public static List<string> ParseJSON(string json) {
 			var result = new List<string>();
 
+			Console.WriteLine("--> Parse " + json);
+
+			// Array of objects.
+			if (json[0] == '[') {
+				json = json.Remove(json.Length - 1, 1);
+				json = json.Remove(0, 1);
+
+				string[] a = json.s
+			}
+			// Single object.
+			else {
+
+			}
+
 			/* Remove '[' and ']' from string. */
 			json = json.Remove(json.Length - 1, 1);
 			json = json.Remove(0, 1);
@@ -41,6 +56,7 @@ namespace KinderFinder_Droid {
 
 				result.Add(temp);
 			}
+			//}
 
 			return result;
 		}
@@ -73,11 +89,13 @@ namespace KinderFinder_Droid {
 				req.ContentType = "application/json";
 				req.Method = "POST";
 
-				/* Write the message's body. */
-				using (var writer = new StreamWriter(req.GetRequestStream())) {
-					writer.Write(json);
-					writer.Flush();
-					writer.Close();
+				if (!json.Equals("")) {
+					/* Write the message's body. */
+					using (var writer = new StreamWriter(req.GetRequestStream())) {
+						writer.Write(json);
+						writer.Flush();
+						writer.Close();
+					}
 				}
 
 				var response = (HttpWebResponse)req.GetResponse();
