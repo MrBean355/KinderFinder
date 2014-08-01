@@ -9,6 +9,8 @@ namespace AdminPortal.Controllers.Web_API {
     public class UnlinkTagController : ApiController {
         private IKinderFinderContext db = new KinderFinderEntities();
 
+		public UnlinkTagController() { }
+
 		public UnlinkTagController(IKinderFinderContext context) {
 			db = context;
 		}
@@ -47,6 +49,8 @@ namespace AdminPortal.Controllers.Web_API {
     public class LinkTagController : ApiController {
         private IKinderFinderContext db = new KinderFinderEntities();
 
+		public LinkTagController() { }
+
 		public LinkTagController(IKinderFinderContext context) {
 			db = context;
 		}
@@ -82,6 +86,8 @@ namespace AdminPortal.Controllers.Web_API {
     public class FreeTagListController : ApiController {
         private IKinderFinderContext db = new KinderFinderEntities();
 
+		public FreeTagListController() { }
+
 		public FreeTagListController(IKinderFinderContext context) {
 			db = context;
 		}
@@ -101,6 +107,8 @@ namespace AdminPortal.Controllers.Web_API {
 
     public class TagListController : ApiController {
         private IKinderFinderContext db = new KinderFinderEntities();
+
+		public TagListController() { }
 
 		public TagListController(IKinderFinderContext context) {
 			db = context;

@@ -9,6 +9,8 @@ namespace AdminPortal.Controllers {
 
 	public class RegisterController : ApiController {
 		private IKinderFinderContext db = new KinderFinderEntities();
+		
+		public RegisterController() { }
 
 		public RegisterController(IKinderFinderContext context) {
 			db = context;
