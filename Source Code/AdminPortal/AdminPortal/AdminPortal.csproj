@@ -178,7 +178,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\MapsController.cs" />
+    <Compile Include="Controllers\Web API\FreeTagListController.cs" />
     <Compile Include="Controllers\Web API\LoginController.cs" />
+    <Compile Include="Controllers\Web API\MapController.cs" />
     <Compile Include="Controllers\Web API\RegisterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PatronsController.cs" />

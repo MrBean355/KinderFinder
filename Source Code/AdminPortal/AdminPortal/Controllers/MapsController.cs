@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using AdminPortal.Models;
 using System.IO;
+using System.Drawing;
 
 namespace AdminPortal.Controllers {
 	public class MapsController : Controller {
