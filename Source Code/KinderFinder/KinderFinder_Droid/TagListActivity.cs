@@ -34,7 +34,7 @@ namespace KinderFinder_Droid {
 			linkButton.Click += (sender, e) => StartActivity(new Intent(this, typeof(LinkTagActivity)));
 			tagListView.ItemClick += ListItemClicked;
 
-			LoadItems();
+			//LoadItems();
 		}
 
 		/**
