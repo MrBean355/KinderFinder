@@ -8,7 +8,13 @@ using System.Web.Http;
 namespace AdminPortal.Controllers.Web_API {
 
 	public class LoginController : ApiController {
-		private KinderFinderEntities db = new KinderFinderEntities();
+		private IKinderFinderContext db = new KinderFinderEntities();
+
+		public LoginController() { }
+
+		public LoginController(IKinderFinderContext context) {
+			db = context;
+		}
 
 		/**
 		 * Attempts to log a user in.
@@ -16,7 +22,7 @@ namespace AdminPortal.Controllers.Web_API {
 		 * @returns OK if successful; BadRequest otherwise.
 		 */
 		[HttpPost]
-		public HttpResponseMessage Login(LoginDetails details) {
+		public IHttpActionResult Login(LoginDetails details) {
 			/* Find all users with matching email (should only be 1). */
 			var query = from item in db.Patrons
 						where item.EmailAddress.Equals(details.EmailAddress, StringComparison.CurrentCultureIgnoreCase)
@@ -25,14 +31,14 @@ namespace AdminPortal.Controllers.Web_API {
 			/* Check whether passwords match. */
 			foreach (string password in query) {
 				if (password.Equals(details.PasswordHash))
-					return Request.CreateResponse(HttpStatusCode.OK);
+					return Ok();
 			}
 			
 			/* Invalid login details:
 			 * - Email is wrong or doesn't exist.
 			 * - Password is wrong.
 			 */
-			return Request.CreateResponse(HttpStatusCode.BadRequest);
+			return BadRequest();
 		}
 
 		public struct LoginDetails {

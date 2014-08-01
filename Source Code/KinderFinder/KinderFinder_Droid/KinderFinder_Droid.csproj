@@ -50,6 +50,7 @@
     <Reference Include="Mono.Android" />
     <Reference Include="System.Net" />
     <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Windows" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -59,13 +60,16 @@
     <Compile Include="Utility.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="TagListActivity.cs" />
+    <Compile Include="LinkTagActivity.cs" />
+    <Compile Include="Resources\TrackTagsActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
     <AndroidResource Include="Resources\drawable\Icon.png" />
     <AndroidResource Include="Resources\layout\Register.axml" />
-    <AndroidResource Include="Resources\layout\View_RFID_Tags.axml" />
     <AndroidResource Include="Resources\layout\TagList.axml" />
+    <AndroidResource Include="Resources\layout\LinkTag.axml" />
+    <AndroidResource Include="Resources\layout\TrackTags.axml" />
   </ItemGroup>
 </Project>

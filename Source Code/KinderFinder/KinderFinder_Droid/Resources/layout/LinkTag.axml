@@ -3,22 +3,12 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <Button
-        android:text="Track Tags"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/TagList_Track" />
-    <Button
-        android:text="Link New Tag"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/TagList_Link" />
     <TextView
-        android:text="No linked tags!"
+        android:text="No available tags!"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/TagList_Warning"
+        android:id="@+id/LinkTag_Warning"
         android:textColor="#ff969696"
         android:paddingTop="10dp"
         android:paddingLeft="10dp" />
@@ -27,5 +17,5 @@
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/TagList_List" />
+        android:id="@+id/LinkTag_List" />
 </LinearLayout>

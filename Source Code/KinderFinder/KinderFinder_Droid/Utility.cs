@@ -16,6 +16,7 @@ namespace KinderFinder_Droid {
 	public struct ServerResponse {
 		public HttpStatusCode StatusCode;
 		public string Body;
+		public byte[] Bytes;
 	}
 
 	public static class Utility {
@@ -27,21 +28,16 @@ namespace KinderFinder_Droid {
 
 			Console.WriteLine("--> Parse " + json);
 
-			// Array of objects.
-			if (json[0] == '[') {
-				json = json.Remove(json.Length - 1, 1);
-				json = json.Remove(0, 1);
-
-				string[] a = json.s
-			}
-			// Single object.
-			else {
-
-			}
+			char first = json[0];
 
 			/* Remove '[' and ']' from string. */
-			json = json.Remove(json.Length - 1, 1);
-			json = json.Remove(0, 1);
+			if (first == '[') {
+				json = json.Remove(json.Length - 1, 1);
+				json = json.Remove(0, 1);
+			}
+
+			if (json.Equals(""))
+				return result;
 
 			string[] a = json.Split(',');
 
@@ -89,22 +85,36 @@ namespace KinderFinder_Droid {
 				req.ContentType = "application/json";
 				req.Method = "POST";
 
-				if (!json.Equals("")) {
-					/* Write the message's body. */
-					using (var writer = new StreamWriter(req.GetRequestStream())) {
-						writer.Write(json);
-						writer.Flush();
-						writer.Close();
-					}
+				if (json == null)
+					json = "";
+
+				/* Write the message's body. */
+				using (var writer = new StreamWriter(req.GetRequestStream())) {
+					writer.Write(json);
+					writer.Flush();
+					writer.Close();
 				}
 
 				var response = (HttpWebResponse)req.GetResponse();
+				//Stream input = response.GetResponseStream();
 
+				/*if (response.ContentType == "image/jpg") {
+					byte[] buffer = new byte[16 * 1024];
+					using (MemoryStream ms = new MemoryStream()) {
+						int read;
+						while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+							ms.Write(buffer, 0, read);
+
+						result.Bytes = buffer;
+					}
+				}
+				else {*/
 				/* Read the response message's body. */
 				using (var reader = new StreamReader(response.GetResponseStream())) {
 					result.Body = reader.ReadToEnd();
 					reader.Close();
 				}
+				//}
 			}
 			/* Status code other than the 200s was returned. */
 			catch (WebException ex) {
@@ -143,6 +153,15 @@ namespace KinderFinder_Droid {
 			byte[] hash = algorithm.ComputeHash(saltedHashBytes);
 			// return the has as a base 64 encoded string
 			return Convert.ToBase64String(hash);
+		}
+
+		/**
+		 * Source: http://stackoverflow.com/questions/472906/converting-a-string-to-byte-array
+		 */
+		public static byte[] StringToBytes(string input) {
+			byte[] bytes = new byte[input.Length * sizeof(char)];
+			Buffer.BlockCopy(input.ToCharArray(), 0, bytes, 0, bytes.Length);
+			return bytes;
 		}
 	}
 }

@@ -1,10 +1,23 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.006ef195" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="KinderFinder_Droid\Utility.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="KinderFinder_Droid\Resources\TrackTagsActivity.cs">
     <Files>
-      <File FileName="KinderFinder_Droid\TagListActivity.cs" Line="27" Column="21" />
-      <File FileName="KinderFinder_Droid\Utility.cs" Line="35" Column="24" />
+      <File FileName="KinderFinder_Droid\TagListActivity.cs" Line="33" Column="71" />
+      <File FileName="KinderFinder_Droid\Resources\TrackTagsActivity.cs" Line="28" Column="75" />
+      <File FileName="KinderFinder_Droid\Utility.cs" Line="108" Column="29" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="KinderFinder_Droid" expanded="True">
+            <Node name="Resources" expanded="True">
+              <Node name="layout" expanded="True" />
+              <Node name="TrackTagsActivity.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

@@ -8,7 +8,11 @@ using System.Web.Http;
 namespace AdminPortal.Controllers {
 
 	public class RegisterController : ApiController {
-		private KinderFinderEntities db = new KinderFinderEntities();
+		private IKinderFinderContext db = new KinderFinderEntities();
+
+		public RegisterController(IKinderFinderContext context) {
+			db = context;
+		}
 
 		/**
 		 * Attempts to register a new account for a user.
@@ -17,7 +21,7 @@ namespace AdminPortal.Controllers {
 		 * InternalServerError otherwise.
 		 */
 		[HttpPost]
-		public HttpResponseMessage Register(Patron patron) {
+		public IHttpActionResult Register(Patron patron) {
 			var query = from item in db.Patrons
 						where item.EmailAddress.Equals(patron.EmailAddress, System.StringComparison.CurrentCultureIgnoreCase)
 						select item;
@@ -26,22 +30,22 @@ namespace AdminPortal.Controllers {
 			int count = query.Count(me => me.EmailAddress == patron.EmailAddress);
 
 			if (count > 0)
-				return Request.CreateResponse(HttpStatusCode.Conflict);
+				return Conflict();
 
 			/* Attempt to insert patron into database. */
 			try {
 				if (!ModelState.IsValid)
-					return Request.CreateResponse(HttpStatusCode.InternalServerError, "Invalid model state.");
+					return InternalServerError();
 
 				db.Patrons.Add(patron);
 				db.SaveChanges();
 			}
 			catch (Exception ex) {
-				return Request.CreateResponse(HttpStatusCode.InternalServerError, "Unknown server error.");
+				return InternalServerError();
 			}
 
 			/* Nothing went wrong; success! */
-			return Request.CreateResponse(HttpStatusCode.OK);
+			return Ok();
 		}
 	}
 }

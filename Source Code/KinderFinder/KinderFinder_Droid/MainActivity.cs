@@ -36,7 +36,7 @@ namespace KinderFinder_Droid {
 			progressBar = FindViewById<ProgressBar>(Resource.Id.Main_ProgressBar);
 
 			loginButton.Click += LogInPressed;
-			registerButton.Click += (sender, e) => StartActivity(new Intent(this, typeof(TagListActivity)));
+			registerButton.Click += (sender, e) => StartActivity(new Intent(this, typeof(RegisterActivity)));
 
 			string email = pref.GetString(Globals.KEY_USERNAME, "");
 			string passwordHash = pref.GetString(Globals.KEY_PASSWORD_HASH, "");
@@ -91,6 +91,7 @@ namespace KinderFinder_Droid {
 						break;
 				/* Some kind of server error happened. */
 					default:
+						Console.WriteLine("Error: " + reply.StatusCode.ToString());
 						message = "Server error. Please try again later";
 						break;
 				}

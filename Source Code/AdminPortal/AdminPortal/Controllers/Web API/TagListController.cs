@@ -2,23 +2,25 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace AdminPortal.Controllers.Web_API {
 
     public class UnlinkTagController : ApiController {
-        private KinderFinderEntities db = new KinderFinderEntities();
+        private IKinderFinderContext db = new KinderFinderEntities();
+
+		public UnlinkTagController(IKinderFinderContext context) {
+			db = context;
+		}
 
         [HttpPost]
-        public HttpResponseMessage UnlinkTag(RequestDetails details) {
+        public IHttpActionResult UnlinkTag(RequestDetails details) {
             var patrons = from item in db.Patrons
                           where item.EmailAddress.Equals(details.EmailAddress, StringComparison.CurrentCultureIgnoreCase)
                           select item;
 
-            if (patrons == null)
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+			if (patrons.Count() == 0)
+				return BadRequest();
 
             var patron = patrons.First();
 
@@ -26,14 +28,14 @@ namespace AdminPortal.Controllers.Web_API {
                        where item.Label.Equals(details.TagLabel, StringComparison.CurrentCultureIgnoreCase) && item.CurrentPatron == patron.ID
                        select item;
 
-            if (tags == null)
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+			if (tags.Count() == 0)
+				return BadRequest();
 
             var tag = tags.First();
             tag.CurrentPatron = null;
             db.SaveChanges();
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+			return Ok();
         }
 
         public struct RequestDetails {
@@ -43,10 +45,14 @@ namespace AdminPortal.Controllers.Web_API {
     }
 
     public class LinkTagController : ApiController {
-        private KinderFinderEntities db = new KinderFinderEntities();
+        private IKinderFinderContext db = new KinderFinderEntities();
+
+		public LinkTagController(IKinderFinderContext context) {
+			db = context;
+		}
 
         [HttpPost]
-        public HttpResponseMessage LinkTag(RequestDetails details) {
+        public IHttpActionResult LinkTag(RequestDetails details) {
             var tags = from item in db.Tags
                        where item.Label.Equals(details.TagLabel, StringComparison.CurrentCultureIgnoreCase) && item.CurrentPatron == null
                        select item;
@@ -55,8 +61,8 @@ namespace AdminPortal.Controllers.Web_API {
                           where item.EmailAddress.Equals(details.EmailAddress, StringComparison.CurrentCultureIgnoreCase)
                           select item;
 
-            if (tags == null || patrons == null)
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
+			if (tags.Count() == 0 || patrons.Count() == 0)
+				return BadRequest();
 
             var tag = tags.First();
             var patron = patrons.First();
@@ -64,7 +70,7 @@ namespace AdminPortal.Controllers.Web_API {
             tag.CurrentPatron = patron.ID;
             db.SaveChanges();
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+			return Ok();
         }
 
         public struct RequestDetails {
@@ -74,7 +80,11 @@ namespace AdminPortal.Controllers.Web_API {
     }
 
     public class FreeTagListController : ApiController {
-        private KinderFinderEntities db = new KinderFinderEntities();
+        private IKinderFinderContext db = new KinderFinderEntities();
+
+		public FreeTagListController(IKinderFinderContext context) {
+			db = context;
+		}
 
         /**
          * Returns a list of all unused tags.
@@ -90,7 +100,11 @@ namespace AdminPortal.Controllers.Web_API {
     }
 
     public class TagListController : ApiController {
-        private KinderFinderEntities db = new KinderFinderEntities();
+        private IKinderFinderContext db = new KinderFinderEntities();
+
+		public TagListController(IKinderFinderContext context) {
+			db = context;
+		}
 
         /**
          * Returns a list of all tags associated with a user.
