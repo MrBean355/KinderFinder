@@ -1,6 +1,14 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.MonoForAndroid_API_10" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="TaskyAndroid\Screens\HomeScreen.cs">
+    <Files>
+      <File FileName="Tasky.Core\Task.cs" Line="1" Column="1" />
+      <File FileName="Tasky.Core\TaskDatabaseADO.cs" Line="1" Column="1" />
+      <File FileName="Tasky.Core\TaskManager.cs" Line="16" Column="41" />
+      <File FileName="Tasky.Core\TaskRepositoryADO.cs" Line="44" Column="51" />
+      <File FileName="TaskyAndroid\Screens\HomeScreen.cs" Line="30" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
