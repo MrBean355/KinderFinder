@@ -8,20 +8,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/TagList_Track" />
-    <Button
-        android:text="Link New Tag"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/TagList_Link" />
     <TextView
-        android:text="No linked tags!"
+        android:text="No linked tags! Contact the system administrator to link a tag."
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/TagList_Warning"
         android:textColor="#ff969696"
         android:paddingTop="10dp"
-        android:paddingLeft="10dp" />
+        android:paddingLeft="10dp"
+        android:layout_marginBottom="0.0dp"
+        android:singleLine="false"
+        android:capitalize="none" />
     <ListView
         android:minWidth="25px"
         android:minHeight="25px"

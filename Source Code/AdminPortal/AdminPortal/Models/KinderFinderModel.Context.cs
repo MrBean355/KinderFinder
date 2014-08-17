@@ -7,25 +7,29 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AdminPortal.Models {
-	using System;
-	using System.Data.Entity;
-	using System.Data.Entity.Infrastructure;
+namespace AdminPortal.Models
+{
+    using System;
+    using System.Data.Entity;
+    using System.Data.Entity.Infrastructure;
+    
+    public partial class KinderFinderEntities : DbContext, IKinderFinderContext
+    {
+        public KinderFinderEntities()
+            : base("name=KinderFinderEntities")
+        {
+        }
+    
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            throw new UnintentionalCodeFirstException();
+        }
+    
+        public virtual DbSet<Map> Maps { get; set; }
+        public virtual DbSet<Patron> Patrons { get; set; }
+        public virtual DbSet<Tag> Tags { get; set; }
 
-	public partial class KinderFinderEntities : DbContext, IKinderFinderContext {
-		public KinderFinderEntities()
-			: base("name=KinderFinderEntities") {
-		}
-
-		protected override void OnModelCreating(DbModelBuilder modelBuilder) {
-			throw new UnintentionalCodeFirstException();
-		}
-
-		public virtual DbSet<Map> Maps { get; set; }
-		public virtual DbSet<Patron> Patrons { get; set; }
-		public virtual DbSet<Tag> Tags { get; set; }
-
-		public void MarkAsModified(Tag item) {
+		public void MarkAsModified(Map item) {
 			Entry(item).State = EntityState.Modified;
 		}
 
@@ -33,8 +37,8 @@ namespace AdminPortal.Models {
 			Entry(item).State = EntityState.Modified;
 		}
 
-		public void MarkAsModified(Map item) {
+		public void MarkAsModified(Tag item) {
 			Entry(item).State = EntityState.Modified;
 		}
-	}
+    }
 }

@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using AdminPortal.Models;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using AdminPortal.Models;
-using System.IO;
-using System.Drawing;
 
 namespace AdminPortal.Controllers {
+	[Authorize]
 	public class MapsController : Controller {
 		private KinderFinderEntities db = new KinderFinderEntities();
 

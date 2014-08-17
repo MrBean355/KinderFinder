@@ -13,7 +13,6 @@ namespace KinderFinder_Droid {
 		ISharedPreferences pref;
 		ISharedPreferencesEditor editor;
 		Button trackButton;
-		Button linkButton;
 		TextView warning;
 		ListView tagListView;
 		List<string> tags;
@@ -26,15 +25,11 @@ namespace KinderFinder_Droid {
 			editor = pref.Edit();
 
 			trackButton = FindViewById<Button>(Resource.Id.TagList_Track);
-			linkButton = FindViewById<Button>(Resource.Id.TagList_Link);
 			warning = FindViewById<TextView>(Resource.Id.TagList_Warning);
 			tagListView = FindViewById<ListView>(Resource.Id.TagList_List);
 
 			trackButton.Click += (sender, e) => StartActivity(new Intent(this, typeof(TrackTagsActivity)));
-			linkButton.Click += (sender, e) => StartActivity(new Intent(this, typeof(LinkTagActivity)));
 			tagListView.ItemClick += ListItemClicked;
-
-			//LoadItems();
 		}
 
 		/**
@@ -44,44 +39,6 @@ namespace KinderFinder_Droid {
 			base.OnResume();
 
 			LoadItems();
-		}
-
-		/// <summary>
-		/// Displays an alert dialog for the user to confirm whether they want to unlink a tag.
-		/// </summary>
-		/// <param name="tag">Tag label to unlink.</param>
-		void UnlinkTag(string tag) {
-			var alert = new AlertDialog.Builder(this);
-
-			alert.SetTitle("Unlink Tag");
-			alert.SetMessage("Are you sure you want to unlink this tag? You will no longer be able to track it.");
-
-			/* When Yes is clicked, attempt to unlink by contacting server. */
-			alert.SetPositiveButton("Yes", (s, e) => {
-				string data = "{" +
-				              "\"EmailAddress\":\"" + pref.GetString(Globals.KEY_USERNAME, "") + "\"," +
-				              "\"TagLabel\":\"" + tag + "\"" +
-				              "}";
-
-				var response = Utility.SendData("api/unlinktag", data);
-
-				if (response.StatusCode == System.Net.HttpStatusCode.OK) {
-					editor.Remove(tag);
-					editor.Commit();
-					LoadItems(); // reload list.
-					Toast.MakeText(this, "Success", ToastLength.Long).Show();
-				}
-				else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
-					Toast.MakeText(this, "Bad request. Please try again", ToastLength.Long).Show();
-				else
-					Toast.MakeText(this, "Server error. Please try again later", ToastLength.Long).Show();
-			});
-
-			/* When Cancel is clicked, do nothing special. */
-			alert.SetNegativeButton("Cancel", (s, e) => {
-			});
-
-			alert.Show();
 		}
 
 		/// <summary>
@@ -95,6 +52,8 @@ namespace KinderFinder_Droid {
 			string tag = tags[args.Position];
 
 			input.InputType = Android.Text.InputTypes.TextFlagCapWords;
+			input.Text = pref.GetString(tag, ""); // load existing child.
+			input.SetSelection(input.Text.Length); // move cursor to end.
 
 			alert.SetTitle("Assign Tag");
 			alert.SetMessage("Enter the name of the child to assign this tag to:");
@@ -113,9 +72,6 @@ namespace KinderFinder_Droid {
 					Toast.MakeText(this, "Success", ToastLength.Long).Show();
 				}
 			});
-
-			/* When Unlink is clicked, display new alert. */
-			alert.SetNeutralButton("Unlink", (s, e) => UnlinkTag(tag));
 
 			/* When Cancel is clicked, do nothing special. */
 			alert.SetNegativeButton("Cancel", (s, e) => {

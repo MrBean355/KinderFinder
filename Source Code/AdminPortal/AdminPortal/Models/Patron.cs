@@ -7,24 +7,33 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AdminPortal.Models
-{
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Patron
-    {
-        public Patron()
-        {
-            this.Tags = new HashSet<Tag>();
-        }
-    
-        public int ID { get; set; }
-        public string FirstName { get; set; }
-        public string Surname { get; set; }
-        public string PasswordHash { get; set; }
-        public string EmailAddress { get; set; }
-    
-        public virtual ICollection<Tag> Tags { get; set; }
-    }
+namespace AdminPortal.Models {
+	using System.Collections.Generic;
+	using System.ComponentModel.DataAnnotations;
+
+	public partial class Patron {
+		public Patron() {
+			this.Tags = new HashSet<Tag>();
+		}
+
+		public int ID { get; set; }
+
+		[Display(Name = "First Name")]
+		[StringLength(50, MinimumLength = 3, ErrorMessage = "{0} must be between {2} and {1} characters long.")]
+		public string FirstName { get; set; }
+
+		[Display(Name = "Surname")]
+		[StringLength(50, MinimumLength = 3, ErrorMessage = "{0} must be between {2} and {1} characters long.")]
+		public string Surname { get; set; }
+
+		[Display(Name = "Password")]
+		[StringLength(50, MinimumLength = 6, ErrorMessage = "{0} must be between {2} and {1} characters long.")]
+		public string PasswordHash { get; set; }
+
+		[Display(Name = "Email Address")]
+		[DataType(DataType.EmailAddress)]
+		public string EmailAddress { get; set; }
+
+		public virtual ICollection<Tag> Tags { get; set; }
+	}
 }

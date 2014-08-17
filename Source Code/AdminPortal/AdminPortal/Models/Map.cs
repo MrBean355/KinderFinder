@@ -7,16 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AdminPortal.Models
-{
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Map
-    {
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public byte[] Data { get; set; }
-        public bool Active { get; set; }
-    }
+namespace AdminPortal.Models {
+	using System.ComponentModel.DataAnnotations;
+
+	public partial class Map {
+		public int ID { get; set; }
+
+		[Display(Name = "Name")]
+		[StringLength(50, MinimumLength = 3, ErrorMessage = "{0} must be between {2} and {1} characters long.")]
+		public string Name { get; set; }
+
+		[Display(Name = "Data")]
+		public byte[] Data { get; set; }
+
+		[Display(Name = "Is Active")]
+		public bool Active { get; set; }
+	}
 }

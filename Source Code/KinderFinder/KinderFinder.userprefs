@@ -1,9 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.SelectDevice" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="KinderFinder_Droid\Utility.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="KinderFinder_Droid\LinkTagActivity.cs">
     <Files>
-      <File FileName="KinderFinder_Droid\Utility.cs" Line="34" Column="14" />
-      <File FileName="KinderFinder_DroidTests\TestUtility.cs" Line="1" Column="1" />
+      <File FileName="KinderFinder_Droid\TagListActivity.cs" Line="1" Column="1" />
+      <File FileName="KinderFinder_Droid\LinkTagActivity.cs" Line="40" Column="20" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

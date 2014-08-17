@@ -7,17 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AdminPortal.Models
-{
-    using System;
-    using System.Collections.Generic;
-    
-    public partial class Tag
-    {
-        public int ID { get; set; }
-        public Nullable<int> CurrentPatron { get; set; }
-        public string Label { get; set; }
-    
-        public virtual Patron Patron { get; set; }
-    }
+namespace AdminPortal.Models {
+	using System;
+	using System.ComponentModel.DataAnnotations;
+
+	public partial class Tag {
+		public int ID { get; set; }
+
+		[Display(Name = "Linked Patron")]
+		public Nullable<int> CurrentPatron { get; set; }
+
+		[Display(Name = "Custom Label")]
+		[StringLength(50, MinimumLength = 1, ErrorMessage = "{0} must be between {2} and {1} characters long.")]
+		public string Label { get; set; }
+
+		public virtual Patron Patron { get; set; }
+	}
 }
