@@ -62,7 +62,7 @@ namespace KinderFinder_Droid {
 		 * @returns True if valid; false otherwise.
 		 */
 		public static bool IsValidEmailAddress(string email) {
-			Regex regex = new Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$");
+			var regex = new Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$");
 			return regex.IsMatch(email);
 		}
 
@@ -75,7 +75,7 @@ namespace KinderFinder_Droid {
 		 * @returns Response from the server.
 		 */
 		public static ServerResponse SendData(string url, string json) {
-			ServerResponse result = new ServerResponse();
+			var result = new ServerResponse();
 			result.StatusCode = HttpStatusCode.OK;
 
 			try {
@@ -94,25 +94,26 @@ namespace KinderFinder_Droid {
 				}
 
 				var response = (HttpWebResponse)req.GetResponse();
-				//Stream input = response.GetResponseStream();
+				Stream input = response.GetResponseStream();
 
-				/*if (response.ContentType == "image/jpg") {
-					byte[] buffer = new byte[16 * 1024];
-					using (MemoryStream ms = new MemoryStream()) {
-						int read;
-						while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
-							ms.Write(buffer, 0, read);
+				/* If the response is an image, convert it to a byte[]. */
+				if (response.ContentType == "image/jpg") {
+					result.Bytes = new byte[input.Length];
+					int index = 0;
+					int read;
 
-						result.Bytes = buffer;
+					/* Read until we get to the end. */
+					while ((read = input.ReadByte()) != -1)
+						result.Bytes[index++] = (byte)read;
+				}
+				/* Otherwise store it as a string. */
+				else {
+					/* Read the response message's body. */
+					using (var reader = new StreamReader(response.GetResponseStream())) {
+						result.Body = reader.ReadToEnd();
+						reader.Close();
 					}
 				}
-				else {*/
-				/* Read the response message's body. */
-				using (var reader = new StreamReader(response.GetResponseStream())) {
-					result.Body = reader.ReadToEnd();
-					reader.Close();
-				}
-				//}
 			}
 			/* Status code other than the 200s was returned. */
 			catch (WebException ex) {

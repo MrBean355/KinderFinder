@@ -1,5 +1,5 @@
 ﻿using AdminPortal.Models;
-using System.Drawing;
+
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -12,26 +12,35 @@ namespace AdminPortal.Controllers.Web_API {
 
         [HttpPost]
         public HttpResponseMessage GetCurrentMap() {
-            var maps = from item in db.Maps
+            var mapData = (from item in db.Maps
                        where item.Active
-                       select item.Data;
+                       select item.Data).FirstOrDefault();
 
-            if (maps == null)
+            if (mapData == null)
                 return new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
 
-            byte[] data = maps.First();
+			var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 
-            MemoryStream m = new MemoryStream(data);
-            Image img = Image.FromStream(m);
-            img.Save(@"C:\test.jpg");
-
-            MemoryStream ms = new MemoryStream(data);
-            var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-
-            response.Content = new StreamContent(ms);
+			response.Content = new StreamContent(new MemoryStream(mapData));
             response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpg");
 
             return response;
         }
     }
+
+	public class MapSizeController : ApiController {
+		private KinderFinderEntities db = new KinderFinderEntities();
+
+		[HttpPost]
+		public IHttpActionResult GetCurrentMapSize() {
+			var mapData = (from item in db.Maps
+						   where item.Active
+						   select item.Data).FirstOrDefault();
+
+			if (mapData == null)
+				return BadRequest();
+
+			return Ok(mapData.Length);
+		}
+	}
 }

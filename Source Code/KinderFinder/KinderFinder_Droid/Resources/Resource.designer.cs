@@ -108,8 +108,14 @@ namespace KinderFinder_Droid
 			// aapt resource value: 0x7f05000f
 			public const int TagList_Warning = 2131034127;
 			
+			// aapt resource value: 0x7f050012
+			public const int Track_DownloadingText = 2131034130;
+			
+			// aapt resource value: 0x7f050013
+			public const int Track_Map = 2131034131;
+			
 			// aapt resource value: 0x7f050011
-			public const int Track_Map = 2131034129;
+			public const int Track_ProgressBar = 2131034129;
 			
 			// aapt resource value: 0x7f050000
 			public const int textView1 = 2131034112;
