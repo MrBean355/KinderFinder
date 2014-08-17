@@ -1,3 +1,0 @@
-TaskyAndroid.Screens.HomeScreen;taskyandroid.screens.HomeScreen
-TaskyAndroid.Adapters.TaskListAdapter;taskyandroid.adapters.TaskListAdapter
-TaskyAndroid.Screens.TaskDetailsScreen;taskyandroid.screens.TaskDetailsScreen

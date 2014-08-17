@@ -1,2 +1,0 @@
-D:\GitHub\KinderFinder\Source Code\Uteshlen - prototype\TaskyAndroid\bin\Debug\TaskyAndroid.dll
-D:\GitHub\KinderFinder\Source Code\Uteshlen - prototype\Tasky.Core\bin\Debug\Tasky.Core.Anroid.dll
