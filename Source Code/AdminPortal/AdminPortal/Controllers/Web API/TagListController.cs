@@ -8,13 +8,7 @@ using System.Web.Http;
 namespace AdminPortal.Controllers.Web_API {
 
     public class TagListController : ApiController {
-        private IKinderFinderContext db = new KinderFinderEntities();
-
-		public TagListController() { }
-
-		public TagListController(IKinderFinderContext context) {
-			db = context;
-		}
+		private KinderFinderEntities db = new KinderFinderEntities();
 
         /**
          * Returns a list of all tags associated with a user.
@@ -26,22 +20,17 @@ namespace AdminPortal.Controllers.Web_API {
             var result = new List<string>();
 
             /* Find patron's ID. */
-            var ids = from pat in db.Patrons
-                      where pat.EmailAddress.Equals(details.EmailAddress, StringComparison.CurrentCultureIgnoreCase)
-                      select pat.ID;
+			var user = (from item in db.AppUsers
+						where item.EmailAddress.Equals(details.EmailAddress, StringComparison.CurrentCultureIgnoreCase)
+						select item).First();
 
-            /* If user actually exists. */
-            if (ids.Count() > 0) {
-                var id = ids.First();
+            /* Find all linked tags and add to list. */
+            var query = from tag in db.Tags
+                        where tag.CurrentUser == user.ID && tag.Restaurant == user.CurrentRestaurant
+                        select tag.Label;
 
-                /* Find all linked tags and add to list. */
-                var query = from tag in db.Tags
-                            where tag.CurrentPatron == id
-                            select tag.Label;
-
-                foreach (var label in query)
-                    result.Add(label);
-            }
+            foreach (var label in query)
+                result.Add(label);
 
             return result;
         }

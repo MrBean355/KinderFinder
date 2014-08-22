@@ -4,11 +4,15 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3f8dd260ac5341ee8847c590151e0e8a" Name="Diagram1">
-        <EntityTypeShape EntityType="KinderFinderModel.Map" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="KinderFinderModel.Patron" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="KinderFinderModel.Tag" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <AssociationConnector Association="KinderFinderModel.FK__Tag__CurrentPatr__1273C1CD" ManuallyRouted="false" />
+      <Diagram DiagramId="b22abf29df7b4fd1a121cc5c048bba4c" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.AspNetUser" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Restaurant" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK__Restauran__Admin__72C60C4A" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.AppUser" Width="1.5" PointX="5.25" PointY="1.375" />
+        <AssociationConnector Association="Model.FK__AppUser__Current__02FC7413" />
+        <EntityTypeShape EntityType="Model.Tag" Width="1.5" PointX="7.5" PointY="1.625" />
+        <AssociationConnector Association="Model.FK__Tag__CurrentUser__17036CC0" />
+        <AssociationConnector Association="Model.FK__Tag__Restaurant__160F4887" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

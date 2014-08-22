@@ -1,0 +1,41 @@
+﻿@model AdminPortal.Models.Tag
+
+@{
+    ViewBag.Title = "View Tag Details";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <!-- LABEL -->
+        <dt>
+            @Html.DisplayNameFor(model => model.Label)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Label)
+        </dd>
+
+        <!-- OWNING RESTAURANT -->
+        <dt>
+            @Html.DisplayNameFor(model => model.Restaurant)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Restaurant1.Name)
+        </dd>
+
+        <!-- CURRENT USER -->
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUser.FirstName)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

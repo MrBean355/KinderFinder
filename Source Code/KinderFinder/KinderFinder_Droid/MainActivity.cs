@@ -81,8 +81,8 @@ namespace KinderFinder_Droid {
 						editor.PutString(Globals.KEY_PASSWORD_HASH, passwordHash);
 						editor.PutBoolean(Globals.KEY_REMEMBER_ME, rememberMeBox.Checked);
 						editor.Commit();
-
-						StartActivity(new Intent(this, typeof(TagListActivity)));
+						;
+						StartActivity(new Intent(this, typeof(RestaurantListActivity)));
 						Finish();
 						break;
 				/* Invalid details provided. */

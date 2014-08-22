@@ -14,13 +14,19 @@ namespace AdminPortal.Models {
 	public partial class Tag {
 		public int ID { get; set; }
 
-		[Display(Name = "Linked Patron")]
-		public Nullable<int> CurrentPatron { get; set; }
-
 		[Display(Name = "Custom Label")]
-		[StringLength(50, MinimumLength = 1, ErrorMessage = "{0} must be between {2} and {1} characters long.")]
 		public string Label { get; set; }
 
-		public virtual Patron Patron { get; set; }
+		[Display(Name = "Owning Restaurant")]
+		public Nullable<int> Restaurant { get; set; }
+
+		[Display(Name = "Current App User")]
+		public Nullable<int> CurrentUser { get; set; }
+
+		[Display(Name = "Current App User")]
+		public virtual AppUser AppUser { get; set; }
+
+		[Display(Name = "Owning Restaurant")]
+		public virtual Restaurant Restaurant1 { get; set; }
 	}
 }

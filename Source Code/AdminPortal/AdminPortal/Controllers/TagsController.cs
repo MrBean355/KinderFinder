@@ -1,82 +1,174 @@
 ﻿using AdminPortal.Models;
+
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 
 namespace AdminPortal.Controllers {
-	[Authorize] // Must be logged in to access any of these pages.
+
+	[Authorize]
 	public class TagsController : Controller {
 		private KinderFinderEntities db = new KinderFinderEntities();
 
+		/// <summary>
+		/// Determines whether the tag with specified ID is accessible by the
+		/// currently logged in user.
+		/// </summary>
+		/// <param name="id">ID of the tag.</param>
+		/// <returns>True if accessible; false otherwise.</returns>
+		private bool IsTagAccessible(int? id) {
+			if (id != null && !User.IsInRole("GlobalAdmins")) {
+				var query = (from user in db.AspNetUsers
+							join rest in db.Restaurants on user.Id equals rest.Admin
+							join tag in db.Tags on rest.ID equals tag.Restaurant
+							where user.UserName.Equals(User.Identity.Name) && tag.ID == id
+							select tag).FirstOrDefault();
+
+				return query != null;
+			}
+
+			return true;
+		}
+
 		// GET: Tags
 		public ActionResult Index() {
-			var tags = db.Tags.Include(t => t.Patron);
-			return View(tags.ToList());
+			if (User.IsInRole("GlobalAdmins"))
+				return View(db.Tags.ToList());
+
+			var result = new List<Tag>();
+
+			// Fetches all tags that belong to the current admin.
+			// Basically gets all tags owned by restaurants that the user is an admin of.
+			var query = from user in db.AspNetUsers
+						join rest in db.Restaurants on user.Id equals rest.Admin
+						join tag in db.Tags on rest.ID equals tag.Restaurant
+						where user.UserName.Equals(User.Identity.Name)
+						select tag;
+
+			if (query != null)
+				result.AddRange(query);
+
+			return View(result);
+		}
+
+		// GET: Tags/Details/5
+		public ActionResult Details(int? id) {
+			if (id == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			if (!IsTagAccessible(id))
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+
+			Tag tag = db.Tags.Find(id);
+
+			if (tag == null)
+				return HttpNotFound();
+
+			return View(tag);
 		}
 
 		// GET: Tags/Create
 		public ActionResult Create() {
-			ViewBag.CurrentPatron = new SelectList(db.Patrons, "ID", "FirstName");
+			ViewBag.CurrentUser = new SelectList(db.AppUsers, "ID", "FirstName");
+
+			if (User.IsInRole("GlobalAdmins"))
+				ViewBag.Restaurant = new SelectList(db.Restaurants, "ID", "Name");
+			else {
+				// If the user is not a global admin, they can only assign tags
+				// to restaurants that they are "admin-ing".
+				var list = new List<Restaurant>();
+
+				var query = from user in db.AspNetUsers
+							join rest in db.Restaurants on user.Id equals rest.Admin
+							where user.UserName.Equals(User.Identity.Name)
+							select rest;
+
+				if (query != null)
+					list.AddRange(query);
+
+				ViewBag.Restaurant = new SelectList(list, "ID", "Name");
+			}
+
 			return View();
 		}
 
 		// POST: Tags/Create
-		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "ID,CurrentPatron,Label")] Tag tag) {
+		public ActionResult Create([Bind(Include = "ID,Label,Restaurant,CurrentUser")] Tag tag) {
 			if (ModelState.IsValid) {
 				db.Tags.Add(tag);
 				db.SaveChanges();
 				return RedirectToAction("Index");
 			}
 
-			ViewBag.CurrentPatron = new SelectList(db.Patrons, "ID", "FirstName", tag.CurrentPatron);
 			return View(tag);
 		}
 
 		// GET: Tags/Edit/5
 		public ActionResult Edit(int? id) {
-			if (id == null) {
+			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
+
+			if (!IsTagAccessible(id))
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+
 			Tag tag = db.Tags.Find(id);
-			if (tag == null) {
+
+			if (tag == null)
 				return HttpNotFound();
+
+			ViewBag.CurrentUser = new SelectList(db.AppUsers, "ID", "FirstName", tag.CurrentUser);
+
+			if (User.IsInRole("GlobalAdmins"))
+				ViewBag.Restaurant = new SelectList(db.Restaurants, "ID", "Name");
+			else {
+				// If the user is not a global admin, they can only assign tags
+				// to restaurants that they are "admin-ing".
+				var list = new List<Restaurant>();
+
+				var query = from user in db.AspNetUsers
+							join rest in db.Restaurants on user.Id equals rest.Admin
+							where user.UserName.Equals(User.Identity.Name)
+							select rest;
+
+				if (query != null)
+					list.AddRange(query);
+
+				ViewBag.Restaurant = new SelectList(list, "ID", "Name");
 			}
-			ViewBag.CurrentPatron = new SelectList(db.Patrons, "ID", "FirstName", tag.CurrentPatron);
+
 			return View(tag);
 		}
 
 		// POST: Tags/Edit/5
-		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "ID,CurrentPatron,Label")] Tag tag, string isLinked) {
+		public ActionResult Edit([Bind(Include = "ID,Label,Restaurant,CurrentUser")] Tag tag) {
 			if (ModelState.IsValid) {
-				if (!isLinked.Equals("true", System.StringComparison.CurrentCultureIgnoreCase))
-					tag.CurrentPatron = null;
-
 				db.Entry(tag).State = EntityState.Modified;
 				db.SaveChanges();
 				return RedirectToAction("Index");
 			}
-			ViewBag.CurrentPatron = new SelectList(db.Patrons, "ID", "FirstName", tag.CurrentPatron);
+
 			return View(tag);
 		}
 
 		// GET: Tags/Delete/5
 		public ActionResult Delete(int? id) {
-			if (id == null) {
+			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
+
+			if (!IsTagAccessible(id))
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+
 			Tag tag = db.Tags.Find(id);
-			if (tag == null) {
+
+			if (tag == null)
 				return HttpNotFound();
-			}
+
 			return View(tag);
 		}
 
@@ -87,6 +179,7 @@ namespace AdminPortal.Controllers {
 			Tag tag = db.Tags.Find(id);
 			db.Tags.Remove(tag);
 			db.SaveChanges();
+
 			return RedirectToAction("Index");
 		}
 

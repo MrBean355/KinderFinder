@@ -1,0 +1,69 @@
+﻿@model AdminPortal.Models.AppUser
+
+@{
+    ViewBag.Title = "Delete App User";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>Are you sure you want to delete this app user?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <!-- FIRST NAME -->
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <!-- SURNAME -->
+        <dt>
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <!-- EMAIL ADDRESS -->
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmailAddress)
+        </dd>
+
+        <!-- PHONE NUMBER -->
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <!-- CURRENT RESTAURANT -->
+        <dt>
+            @Html.DisplayNameFor(model => model.Restaurant.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Restaurant.Name)
+        </dd>
+
+        <!-- DELETE BUTTON -->
+        <dt></dt>
+        <dd>
+            @using (Html.BeginForm()) {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" />
+                </div>
+            }
+        </dd>
+    </dl>
+
+    <div class="form-actions no-color">
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>

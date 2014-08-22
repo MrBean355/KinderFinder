@@ -1,21 +1,14 @@
 ﻿using AdminPortal.Models;
+
 using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace AdminPortal.Controllers.Web_API {
 
 	public class LoginController : ApiController {
-		private IKinderFinderContext db = new KinderFinderEntities();
-
-		public LoginController() { }
-
-		public LoginController(IKinderFinderContext context) {
-			db = context;
-		}
-
+		private KinderFinderEntities db = new KinderFinderEntities();
+		
 		/**
 		 * Attempts to log a user in.
 		 * @param details User's entered details.
@@ -24,7 +17,7 @@ namespace AdminPortal.Controllers.Web_API {
 		[HttpPost]
 		public IHttpActionResult Login(LoginDetails details) {
 			/* Find all users with matching email (should only be 1). */
-			var query = from item in db.Patrons
+			var query = from item in db.AppUsers
 						where item.EmailAddress.Equals(details.EmailAddress, StringComparison.CurrentCultureIgnoreCase)
 						select item.PasswordHash;
 

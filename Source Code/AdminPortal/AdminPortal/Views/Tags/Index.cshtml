@@ -11,44 +11,35 @@
 </p>
 <table class="table">
     <tr>
-        <th></th>
         <th>
             @Html.DisplayNameFor(model => model.Label)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CurrentPatron)
+            @Html.DisplayNameFor(model => model.Restaurant)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CurrentUser)
         </th>
         <th></th>
     </tr>
 
-    @{ int row = 1; }
-
     @foreach (var item in Model) {
         <tr>
-            <td>
-                @row
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Label)
             </td>
             <td>
-                @* If no-one is linked to the tag, display "-None-" instead of patron's name. *@
-                @if (item.Patron == null) {
-                    @Html.Raw("-None-");
-                }
-                else {
-                    @Html.DisplayFor(modelItem => item.Patron.FirstName)
-                    @Html.Raw(" ")
-                    @Html.DisplayFor(modelItem => item.Patron.Surname)
-                }
+                @Html.DisplayFor(modelItem => item.Restaurant1.Name)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.AppUser.FirstName)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
                 @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.ID })
             </td>
         </tr>
-
-        row++;
     }
 
 </table>

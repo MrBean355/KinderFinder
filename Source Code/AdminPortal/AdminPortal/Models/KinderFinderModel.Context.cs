@@ -13,7 +13,7 @@ namespace AdminPortal.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class KinderFinderEntities : DbContext, IKinderFinderContext
+    public partial class KinderFinderEntities : DbContext
     {
         public KinderFinderEntities()
             : base("name=KinderFinderEntities")
@@ -25,20 +25,9 @@ namespace AdminPortal.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Map> Maps { get; set; }
-        public virtual DbSet<Patron> Patrons { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+        public virtual DbSet<Restaurant> Restaurants { get; set; }
+        public virtual DbSet<AppUser> AppUsers { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
-
-		public void MarkAsModified(Map item) {
-			Entry(item).State = EntityState.Modified;
-		}
-
-		public void MarkAsModified(Patron item) {
-			Entry(item).State = EntityState.Modified;
-		}
-
-		public void MarkAsModified(Tag item) {
-			Entry(item).State = EntityState.Modified;
-		}
     }
 }

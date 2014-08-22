@@ -1,0 +1,78 @@
+﻿@model AdminPortal.Models.Restaurant
+
+@{
+    ViewBag.Title = "Edit Restaurant";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Edit", "Restaurants", null, FormMethod.Post, new { enctype = "multipart/form-data" })) {
+    @Html.AntiForgeryToken()
+    bool hasImage = Model.Map != null;
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.Map)
+
+        <!-- NAME -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- EXISTING MAP -->
+        <div class="form-group">
+            @Html.Label("Existing Image", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (hasImage) {
+                    <img src="@Url.Action("GetMap", "Restaurants", new { id = Model.ID })" alt="Map image" /><br />
+                    @Html.ActionLink("Delete Image", "DeleteImage", new { id = Model.ID }, htmlAttributes: new { @class = "btn btn-default" })
+                }
+                else {
+                    @Html.Raw("(none)")
+                }
+            </div>
+        </div>
+
+        <!-- NEW MAP -->
+        <div class="form-group">
+            @Html.Label("New Image", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <br />
+                <input type="file" name="file" id="file" title="Upload" /><br />
+                @if (hasImage) {
+                    @Html.Raw("<p><b>Note:</b> <i>If no new image is chosen, the current image will be kept.</i></p>")
+                }
+            </div>
+        </div>
+
+        <!-- ADMINISTRATOR -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.Admin, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Admin", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Admin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Delete", "Delete", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

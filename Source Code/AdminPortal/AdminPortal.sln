@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPortal", "AdminPortal\AdminPortal.csproj", "{80C12018-C56A-4547-96DC-172DC1868371}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPortalTests", "AdminPortalTests\AdminPortalTests.csproj", "{3CBD3A93-2C78-46BA-8089-E9496DF51BC4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminPortal", "AdminPortal\AdminPortal.csproj", "{4B113E24-E297-489E-A5FA-1F2FD366460D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{80C12018-C56A-4547-96DC-172DC1868371}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80C12018-C56A-4547-96DC-172DC1868371}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80C12018-C56A-4547-96DC-172DC1868371}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80C12018-C56A-4547-96DC-172DC1868371}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3CBD3A93-2C78-46BA-8089-E9496DF51BC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CBD3A93-2C78-46BA-8089-E9496DF51BC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3CBD3A93-2C78-46BA-8089-E9496DF51BC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3CBD3A93-2C78-46BA-8089-E9496DF51BC4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B113E24-E297-489E-A5FA-1F2FD366460D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B113E24-E297-489E-A5FA-1F2FD366460D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B113E24-E297-489E-A5FA-1F2FD366460D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B113E24-E297-489E-A5FA-1F2FD366460D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,60 @@
+﻿@model AdminPortal.Models.AspNetUser
+
+@{
+    ViewBag.Title = "Delete Admin";
+}
+
+<h2>Delete</h2>
+<h3>Are you sure you want to delete this administrator?</h3>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <!-- USER NAME -->
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <!-- EMAIL ADDRESS -->
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <!-- PHONE NUMBER -->
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <!-- NUMBER OF RESTAURANTS -->
+        <dt>
+            @Html.Raw("Restaurants")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Restaurants.Count)
+        </dd>
+
+        <!-- DELETE BUTTON -->
+        <dt></dt>
+        <dd>
+            @using (Html.BeginForm()) {
+                @Html.AntiForgeryToken()
+
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" />
+                </div>
+            }
+        </dd>
+    </dl>
+    <div class="form-actions no-color">
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>

@@ -13,7 +13,7 @@ namespace KinderFinder_Droid {
 		public const string KEY_USERNAME = "username";
 		public const string KEY_PASSWORD_HASH = "passwordhash";
 		public const string KEY_REMEMBER_ME = "rememberme";
-		public const string KEY_MAP_SIZE = "mapbyteslength";
+		//public const string KEY_MAP_SIZE = "mapbyteslength";
 
 		/// <summary>
 		/// Minimum length that names can be.

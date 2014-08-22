@@ -5,11 +5,10 @@ using Android.Widget;
 using Android.Graphics;
 
 using System.Threading;
-using Java.IO;
 
 namespace KinderFinder_Droid {
 
-	[Activity(Label = "TrackTagsActivity")]			
+	[Activity(Label = "Track Tags")]			
 	public class TrackTagsActivity : Activity {
 		ISharedPreferences pref;
 		ISharedPreferencesEditor editor;
@@ -31,35 +30,49 @@ namespace KinderFinder_Droid {
 			LoadImage();
 		}
 
+		Bitmap ResizeBitmap(Bitmap input) {
+			var screenWidth = Resources.DisplayMetrics.WidthPixels;
+			var screenHeight = Resources.DisplayMetrics.HeightPixels;
+			int newWidth, newHeight;
+			double ratio;
+
+			if (input.Width >= input.Height) {
+				ratio = (double)screenWidth / input.Width;
+				newWidth = screenWidth;
+				newHeight = (int)(ratio * input.Height);
+			}
+			else {
+				ratio = (double)screenHeight / input.Height;
+				newWidth = (int)(ratio * input.Width);
+				newHeight = screenHeight;
+			}
+
+			return Bitmap.CreateScaledBitmap(input, newWidth, newHeight, false);
+		}
+
 		void LoadImage() {
-			var first = Utility.SendData("api/mapsize", null);
-			string size = first.Body;
-			string curSize = pref.GetString(Globals.KEY_MAP_SIZE, "");
+			// Hide map image:
+			mapImage.Visibility = Android.Views.ViewStates.Gone;
 
-			if (size.Equals("")) {
-				Toast.MakeText(this, "Error retrieving map from server", ToastLength.Short).Show();
-				return;
-			}
+			// Send request:
+			ThreadPool.QueueUserWorkItem(state => {
+				string data = "{" +
+				              "\"EmailAddress\":\"" + pref.GetString(Globals.KEY_USERNAME, "") +
+				              "\"}";
 
-			/* My map and server's map differ in size; download new one. */
-			if (!curSize.Equals(size)) {
-				mapImage.Visibility = Android.Views.ViewStates.Gone;
+				var response = Utility.SendData("api/map", null);
+				var bitmap = BitmapFactory.DecodeByteArray(response.Bytes, 0, response.Bytes.Length);
+				var scaled = ResizeBitmap(bitmap);
 
-				ThreadPool.QueueUserWorkItem(state => {
-					var response = Utility.SendData("api/map", null);
-					var bitmap = BitmapFactory.DecodeByteArray(response.Bytes, 0, response.Bytes.Length);
-					// TODO: Save map onto device.
-					editor.PutString(Globals.KEY_MAP_SIZE, response.Bytes.Length + "");
-					editor.Commit();
-
-					RunOnUiThread(() => {
-						mapImage.SetImageBitmap(bitmap);
-						progressBar.Visibility = Android.Views.ViewStates.Gone;
-						downloadingText.Visibility = Android.Views.ViewStates.Gone;
-						mapImage.Visibility = Android.Views.ViewStates.Visible;
-					});
+				RunOnUiThread(() => {
+					mapImage.SetImageBitmap(scaled);
+					progressBar.Visibility = Android.Views.ViewStates.Gone;
+					downloadingText.Visibility = Android.Views.ViewStates.Gone;
+					mapImage.Visibility = Android.Views.ViewStates.Visible;
 				});
-			}
+			});
+
+			// TODO: Save image on device.
 		}
 	}
 }

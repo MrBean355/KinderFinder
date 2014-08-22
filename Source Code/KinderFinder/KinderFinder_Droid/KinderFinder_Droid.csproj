@@ -59,6 +59,7 @@
     <Compile Include="Globals.cs" />
     <Compile Include="TagListActivity.cs" />
     <Compile Include="TrackTagsActivity.cs" />
+    <Compile Include="RestaurantListActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -67,6 +68,7 @@
     <AndroidResource Include="Resources\layout\Register.axml" />
     <AndroidResource Include="Resources\layout\TagList.axml" />
     <AndroidResource Include="Resources\layout\TrackTags.axml" />
+    <AndroidResource Include="Resources\layout\RestaurantList.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />

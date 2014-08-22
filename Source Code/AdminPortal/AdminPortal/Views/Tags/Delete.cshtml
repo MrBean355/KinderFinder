@@ -1,33 +1,40 @@
 ﻿@model AdminPortal.Models.Tag
 
 @{
-    ViewBag.Title = "Remove Tag";
+    ViewBag.Title = "Delete Tag";
 }
 
 <h2>@ViewBag.Title</h2>
 
+<h3>Are you sure you want to delete this tag?</h3>
 <div>
     <hr />
-    <h3>Are you sure you want to remove this tag?</h3>
     <dl class="dl-horizontal">
+        <!-- LABEL -->
         <dt>
             @Html.DisplayNameFor(model => model.Label)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Label)
         </dd>
 
+        <!-- OWNING RESTAURANT -->
         <dt>
-            @Html.DisplayNameFor(model => model.CurrentPatron)
+            @Html.DisplayNameFor(model => model.Restaurant)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.Patron.FirstName)
-            @Html.Raw(" ")
-            @Html.DisplayFor(model => model.Patron.Surname)
+            @Html.DisplayFor(model => model.Restaurant1.Name)
         </dd>
 
+        <!-- CURRENT USER -->
+        <dt>
+            @Html.DisplayNameFor(model => model.CurrentUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUser.FirstName)
+        </dd>
+
+        <!-- DELETE BUTTON -->
         <dt></dt>
         <dd>
             @using (Html.BeginForm()) {
@@ -40,14 +47,7 @@
         </dd>
     </dl>
 
-
+    <div class="form-actions no-color">
+        @Html.ActionLink("Back to List", "Index")
+    </div>
 </div>
-
-@if (Model.CurrentPatron != null) {
-    <p style="color:red">
-        <b>Warning: This tag is linked to a patron!</b><br />
-        Deleting it will cause it to become un-linked from the patron. They will be unable to monitor its location as a result.
-    </p>
-}
-
-@Html.ActionLink("Cancel", "Index")

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 namespace AdminPortal.Models {
-	/*public class ExternalLoginConfirmationViewModel {
+	public class ExternalLoginConfirmationViewModel {
 		[Required]
 		[EmailAddress]
 		[Display(Name = "Email")]
@@ -11,7 +11,7 @@ namespace AdminPortal.Models {
 	public class ExternalLoginListViewModel {
 		public string Action { get; set; }
 		public string ReturnUrl { get; set; }
-	}*/
+	}
 
 	public class ManageUserViewModel {
 		[Required]
@@ -33,10 +33,8 @@ namespace AdminPortal.Models {
 
 	public class LoginViewModel {
 		[Required]
-		[StringLength(50, MinimumLength = 5, ErrorMessage = "{0} must be between {2} and {1} characters long.")]
-		[RegularExpression(@"^[a-zA-Z0-9-_]*$")]
-		/* Usernames may only contain letters, numbers, dashes and underscores. */
-		public string Username { get; set; }
+		[Display(Name = "User Name")]
+		public string UserName { get; set; }
 
 		[Required]
 		[DataType(DataType.Password)]
@@ -49,15 +47,18 @@ namespace AdminPortal.Models {
 
 	public class RegisterViewModel {
 		[Required]
-		[StringLength(50, MinimumLength = 5, ErrorMessage = "{0} must be between {2} and {1} characters long.")]
-		[RegularExpression(@"^[a-zA-Z0-9-_]*$")]
-		/* Usernames may only contain letters, numbers, dashes and underscores. */
-		public string Username { get; set; }
+		[Display(Name = "User Name")]
+		public string UserName { get; set; }
 
 		[Required]
 		[EmailAddress]
 		[Display(Name = "Email")]
 		public string Email { get; set; }
+
+		[Required]
+		[Phone]
+		[Display(Name = "Phone Number")]
+		public string PhoneNumber { get; set; }
 
 		[Required]
 		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -71,12 +72,8 @@ namespace AdminPortal.Models {
 		public string ConfirmPassword { get; set; }
 	}
 
-	/**
-	 * TODO: Implement password resetting.
-	 */
-
 	public class ResetPasswordViewModel {
-		/*[Required]
+		[Required]
 		[EmailAddress]
 		[Display(Name = "Email")]
 		public string Email { get; set; }
@@ -92,24 +89,13 @@ namespace AdminPortal.Models {
 		[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
 		public string ConfirmPassword { get; set; }
 
-		public string Code { get; set; }*/
+		public string Code { get; set; }
 	}
 
 	public class ForgotPasswordViewModel {
-		/*[Required]
-		[StringLength(50, MinimumLength = 5, ErrorMessage = "{0} must be between {2} and {1} characters long.")]
-		[RegularExpression(@"^[a-zA-Z0-9-_]*$")]
-		/* Usernames may only contain letters, numbers, dashes and underscores. *
-		[Required]
-		[StringLength(50, MinimumLength = 5, ErrorMessage = "{0} must be between {2} and {1} characters long.")]
-		[RegularExpression(@"^[a-zA-Z0-9-_]*$")]
-		/* Usernames may only contain letters, numbers, dashes and underscores. *
-		public string Username { get; set; }
-		public string Username { get; set; }
-
 		[Required]
 		[EmailAddress]
 		[Display(Name = "Email")]
-		public string Email { get; set; }*/
+		public string Email { get; set; }
 	}
 }

@@ -1,45 +1,45 @@
 ﻿@model AdminPortal.Models.Tag
 
 @{
-    ViewBag.Title = "Edit Tag Details";
+    ViewBag.Title = "Edit Tag";
 }
 
 <h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
-    int enabled = Model.CurrentPatron == null ? 0 : 1;
 
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.ID)
 
+        <!-- LABEL -->
         <div class="form-group">
-            @Html.LabelFor(model => model.Label, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Label, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Label, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Label, "", new { @class = "text-danger" })
             </div>
         </div>
 
+        <!-- OWNING RESTAURANT -->
         <div class="form-group">
-            @Html.Label("Linked Patron", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Restaurant, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @if (enabled == 0) {
-                    @Html.DropDownList("CurrentPatron", null, htmlAttributes: new { @id = "patronList", @class = "form-control", @disabled = 1 })
-                    @Html.Raw("Tag is linked: ")<input id="linkedBox" name="linkedBox" type="checkbox">
-                }
-                else {
-                    @Html.DropDownList("CurrentPatron", null, htmlAttributes: new { @id = "patronList", @class = "form-control", @enabled = 1 })
-                    @Html.Raw("Tag is linked: ")<input id="linkedBox" name="linkedBox" checked="checked" type="checkbox">
-                }
-
-                @Html.ValidationMessageFor(model => model.CurrentPatron, "", new { @class = "text-danger" })
+                @Html.DropDownList("Restaurant", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Restaurant, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <input id="isLinked" name="isLinked" type="hidden" value="true">
+        <!-- CURRENT USER -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.CurrentUser, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CurrentUser", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CurrentUser, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

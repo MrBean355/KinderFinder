@@ -1,0 +1,50 @@
+﻿@model AdminPortal.Models.AspNetUser
+
+@{
+    ViewBag.Title = "View Admin Details";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <!-- USER NAME -->
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <!-- EMAIL ADDRESS -->
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <!-- PHONE NUMBER -->
+        <dt>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+
+        <!-- NUMBER OF RESTAURANTS -->
+        <dt>
+            @Html.Raw("Restaurants")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Restaurants.Count)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

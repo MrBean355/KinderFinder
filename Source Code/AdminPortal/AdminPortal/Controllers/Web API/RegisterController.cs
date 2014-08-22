@@ -1,20 +1,13 @@
 ﻿using AdminPortal.Models;
+
 using System;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace AdminPortal.Controllers {
 
 	public class RegisterController : ApiController {
-		private IKinderFinderContext db = new KinderFinderEntities();
-		
-		public RegisterController() { }
-
-		public RegisterController(IKinderFinderContext context) {
-			db = context;
-		}
+		private KinderFinderEntities db = new KinderFinderEntities();
 
 		/**
 		 * Attempts to register a new account for a user.
@@ -23,13 +16,13 @@ namespace AdminPortal.Controllers {
 		 * InternalServerError otherwise.
 		 */
 		[HttpPost]
-		public IHttpActionResult Register(Patron patron) {
-			var query = from item in db.Patrons
-						where item.EmailAddress.Equals(patron.EmailAddress, System.StringComparison.CurrentCultureIgnoreCase)
+		public IHttpActionResult Register(AppUser user) {
+			var query = from item in db.AppUsers
+						where item.EmailAddress.Equals(user.EmailAddress, System.StringComparison.CurrentCultureIgnoreCase)
 						select item;
-
+			
 			/* Make sure email address is not already in use. */
-			int count = query.Count(me => me.EmailAddress == patron.EmailAddress);
+			int count = query.Count(me => me.EmailAddress == user.EmailAddress);
 
 			if (count > 0)
 				return Conflict();
@@ -39,7 +32,7 @@ namespace AdminPortal.Controllers {
 				if (!ModelState.IsValid)
 					return InternalServerError();
 
-				db.Patrons.Add(patron);
+				db.AppUsers.Add(user);
 				db.SaveChanges();
 			}
 			catch (Exception ex) {

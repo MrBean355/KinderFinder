@@ -1,0 +1,48 @@
+﻿@model AdminPortal.Models.Restaurant
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Restaurant</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <!-- NAME -->
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <!-- Map -->
+        <dt>
+            @Html.DisplayNameFor(model => model.Map)
+        </dt>
+        <dd>
+            @if (Model.Map != null) {
+                <img src="@Url.Action("GetMap", "Restaurants", new { id = Model.ID })" alt="Map image" />
+            }
+            else {
+                @Html.Raw("(none)");
+            }
+        </dd>
+
+        <!-- ADMINISTRATOR -->
+        <dt>
+            @Html.Raw("Administrator")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AspNetUser.UserName)
+            (<a href="mailto:@Model.AspNetUser.Email">@Model.AspNetUser.Email</a>)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

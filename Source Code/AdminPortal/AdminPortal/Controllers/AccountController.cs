@@ -1,4 +1,5 @@
 ﻿using AdminPortal.Models;
+
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -7,11 +8,13 @@ using System.Web;
 using System.Web.Mvc;
 
 namespace AdminPortal.Controllers {
-	[Authorize] // Must be logged in to access any of these pages.
+
+	[Authorize]
 	public class AccountController : Controller {
 		private ApplicationUserManager _userManager;
 
-		public AccountController() { }
+		public AccountController() {
+		}
 
 		public AccountController(ApplicationUserManager userManager) {
 			UserManager = userManager;
@@ -41,7 +44,8 @@ namespace AdminPortal.Controllers {
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> Login(LoginViewModel model, string returnUrl) {
 			if (ModelState.IsValid) {
-				var user = await UserManager.FindAsync(model.Username, model.Password);
+				var user = await UserManager.FindAsync(model.UserName, model.Password);
+
 				if (user != null) {
 					await SignInAsync(user, model.RememberMe);
 					return RedirectToLocal(returnUrl);
@@ -59,6 +63,9 @@ namespace AdminPortal.Controllers {
 		// GET: /Account/Register
 		[AllowAnonymous]
 		public ActionResult Register() {
+			if (!User.IsInRole("GlobalAdmins"))
+				return RedirectToAction("Index", "Home");
+
 			return View();
 		}
 
@@ -68,19 +75,23 @@ namespace AdminPortal.Controllers {
 		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> Register(RegisterViewModel model) {
+			if (!User.IsInRole("GlobalAdmins"))
+				return RedirectToAction("Index", "Home");
+
 			if (ModelState.IsValid) {
-				var user = new ApplicationUser() { UserName = model.Username, Email = model.Email };
+				var user = new ApplicationUser() {
+					UserName = model.UserName,
+					Email = model.Email,
+					PhoneNumber = model.PhoneNumber,
+
+					EmailConfirmed = true,
+					PhoneNumberConfirmed = true
+				};
+
 				IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
 				if (result.Succeeded) {
-					await SignInAsync(user, isPersistent: false);
-
-					// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-					// Send an email with this link
-					// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-					// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-					// await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-					return RedirectToAction("Index", "Home");
+					return RedirectToAction("Index", "Admins");
 				}
 				else {
 					AddErrors(result);
@@ -89,124 +100,6 @@ namespace AdminPortal.Controllers {
 
 			// If we got this far, something failed, redisplay form
 			return View(model);
-		}
-
-		//
-		// GET: /Account/ConfirmEmail
-		/*[AllowAnonymous]
-		public async Task<ActionResult> ConfirmEmail(string userId, string code) {
-			if (userId == null || code == null) {
-				return View("Error");
-			}
-
-			IdentityResult result = await UserManager.ConfirmEmailAsync(userId, code);
-			if (result.Succeeded) {
-				return View("ConfirmEmail");
-			}
-			else {
-				AddErrors(result);
-				return View();
-			}
-		}*/
-
-		//
-		// GET: /Account/ForgotPassword
-		/*[AllowAnonymous]
-		public ActionResult ForgotPassword() {
-			return View();
-		}
-
-		//
-		// POST: /Account/ForgotPassword
-		[HttpPost]
-		[AllowAnonymous]
-		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model) {
-			if (ModelState.IsValid) {
-				var user = await UserManager.FindByNameAsync(model.Username);
-				if (user == null) {
-					ModelState.AddModelError("", "The user either does not exist.");
-					return View();
-				}
-
-				// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-				// Send an email with this link
-				// string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-				// var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-				// await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-				// return RedirectToAction("ForgotPasswordConfirmation", "Account");
-			}
-
-			// If we got this far, something failed, redisplay form
-			return View(model);
-		}
-
-		//
-		// GET: /Account/ForgotPasswordConfirmation
-		[AllowAnonymous]
-		public ActionResult ForgotPasswordConfirmation() {
-			return View();
-		}*/
-
-		//
-		// GET: /Account/ResetPassword
-		/*[AllowAnonymous]
-		public ActionResult ResetPassword(string code) {
-			if (code == null) {
-				return View("Error");
-			}
-			return View();
-		}
-
-		//
-		// POST: /Account/ResetPassword
-		[HttpPost]
-		[AllowAnonymous]
-		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model) {
-			if (ModelState.IsValid) {
-				var user = await UserManager.FindByNameAsync(model.Email);
-				if (user == null) {
-					ModelState.AddModelError("", "No user found.");
-					return View();
-				}
-				IdentityResult result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-				if (result.Succeeded) {
-					return RedirectToAction("ResetPasswordConfirmation", "Account");
-				}
-				else {
-					AddErrors(result);
-					return View();
-				}
-			}
-
-			// If we got this far, something failed, redisplay form
-			return View(model);
-		}
-
-		//
-		// GET: /Account/ResetPasswordConfirmation
-		[AllowAnonymous]
-		public ActionResult ResetPasswordConfirmation() {
-			return View();
-		}*/
-
-		//
-		// POST: /Account/Disassociate
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> Disassociate(string loginProvider, string providerKey) {
-			ManageMessageId? message = null;
-			IdentityResult result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
-			if (result.Succeeded) {
-				var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-				await SignInAsync(user, isPersistent: false);
-				message = ManageMessageId.RemoveLoginSuccess;
-			}
-			else {
-				message = ManageMessageId.Error;
-			}
-			return RedirectToAction("Manage", new { Message = message });
 		}
 
 		//
@@ -267,101 +160,6 @@ namespace AdminPortal.Controllers {
 		}
 
 		//
-		// POST: /Account/ExternalLogin
-		/*[HttpPost]
-		[AllowAnonymous]
-		[ValidateAntiForgeryToken]
-		public ActionResult ExternalLogin(string provider, string returnUrl) {
-			// Request a redirect to the external login provider
-			return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
-		}
-
-		//
-		// GET: /Account/ExternalLoginCallback
-		[AllowAnonymous]
-		public async Task<ActionResult> ExternalLoginCallback(string returnUrl) {
-			var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
-			if (loginInfo == null) {
-				return RedirectToAction("Login");
-			}
-
-			// Sign in the user with this external login provider if the user already has a login
-			var user = await UserManager.FindAsync(loginInfo.Login);
-			if (user != null) {
-				await SignInAsync(user, isPersistent: false);
-				return RedirectToLocal(returnUrl);
-			}
-			else {
-				// If the user does not have an account, then prompt the user to create an account
-				ViewBag.ReturnUrl = returnUrl;
-				ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-				return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
-			}
-		}
-
-		//
-		// POST: /Account/LinkLogin
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult LinkLogin(string provider) {
-			// Request a redirect to the external login provider to link a login for the current user
-			return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Account"), User.Identity.GetUserId());
-		}
-
-		//
-		// GET: /Account/LinkLoginCallback
-		public async Task<ActionResult> LinkLoginCallback() {
-			var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
-			if (loginInfo == null) {
-				return RedirectToAction("Manage", new { Message = ManageMessageId.Error });
-			}
-			IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
-			if (result.Succeeded) {
-				return RedirectToAction("Manage");
-			}
-			return RedirectToAction("Manage", new { Message = ManageMessageId.Error });
-		}
-
-		//
-		// POST: /Account/ExternalLoginConfirmation
-		[HttpPost]
-		[AllowAnonymous]
-		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl) {
-			if (User.Identity.IsAuthenticated) {
-				return RedirectToAction("Manage");
-			}
-
-			if (ModelState.IsValid) {
-				// Get the information about the user from the external login provider
-				var info = await AuthenticationManager.GetExternalLoginInfoAsync();
-				if (info == null) {
-					return View("ExternalLoginFailure");
-				}
-				var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
-				IdentityResult result = await UserManager.CreateAsync(user);
-				if (result.Succeeded) {
-					result = await UserManager.AddLoginAsync(user.Id, info.Login);
-					if (result.Succeeded) {
-						await SignInAsync(user, isPersistent: false);
-
-						// For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-						// Send an email with this link
-						// string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-						// var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-						// SendEmail(user.Email, callbackUrl, "Confirm your account", "Please confirm your account by clicking this link");
-
-						return RedirectToLocal(returnUrl);
-					}
-				}
-				AddErrors(result);
-			}
-
-			ViewBag.ReturnUrl = returnUrl;
-			return View(model);
-		}*/
-
-		//
 		// POST: /Account/LogOff
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -369,20 +167,6 @@ namespace AdminPortal.Controllers {
 			AuthenticationManager.SignOut();
 			return RedirectToAction("Index", "Home");
 		}
-
-		//
-		// GET: /Account/ExternalLoginFailure
-		/*[AllowAnonymous]
-		public ActionResult ExternalLoginFailure() {
-			return View();
-		}*/
-
-		/*[ChildActionOnly]
-		public ActionResult RemoveAccountList() {
-			var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId());
-			ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
-			return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
-		}*/
 
 		protected override void Dispose(bool disposing) {
 			if (disposing && UserManager != null) {
@@ -394,7 +178,7 @@ namespace AdminPortal.Controllers {
 
 		#region Helpers
 		// Used for XSRF protection when adding external logins
-		//private const string XsrfKey = "XsrfId";
+		private const string XsrfKey = "XsrfId";
 
 		private IAuthenticationManager AuthenticationManager {
 			get {
@@ -441,7 +225,7 @@ namespace AdminPortal.Controllers {
 			}
 		}
 
-		/*private class ChallengeResult : HttpUnauthorizedResult {
+		private class ChallengeResult : HttpUnauthorizedResult {
 			public ChallengeResult(string provider, string redirectUri)
 				: this(provider, redirectUri, null) {
 			}
@@ -463,7 +247,7 @@ namespace AdminPortal.Controllers {
 				}
 				context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
 			}
-		}*/
+		}
 		#endregion
 	}
 }

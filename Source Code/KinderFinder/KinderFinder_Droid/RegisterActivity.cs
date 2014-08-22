@@ -16,6 +16,7 @@ namespace KinderFinder_Droid {
 		EditText firstNameBox,
 			surnameBox,
 			emailBox,
+			phoneBox,
 			passwordBox,
 			passwordConfirmBox;
 		Button registerButton;
@@ -31,6 +32,7 @@ namespace KinderFinder_Droid {
 			firstNameBox = FindViewById<EditText>(Resource.Id.Register_FirstName);
 			surnameBox = FindViewById<EditText>(Resource.Id.Register_Surname);
 			emailBox = FindViewById<EditText>(Resource.Id.Register_Email);
+			phoneBox = FindViewById<EditText>(Resource.Id.Register_Phone);
 			passwordBox = FindViewById<EditText>(Resource.Id.Register_Password);
 			passwordConfirmBox = FindViewById<EditText>(Resource.Id.Register_PasswordConfirm);
 			registerButton = FindViewById<Button>(Resource.Id.Register_Register);
@@ -48,11 +50,12 @@ namespace KinderFinder_Droid {
 		/// <param name="surname">User's surname</param>
 		/// <param name="email">User's email address.</param>
 		/// <param name="passwordHash">Hash of user's password.</param>
-		void Register(string firstName, string surname, string email, string passwordHash) {
+		void Register(string firstName, string surname, string email, string phone, string passwordHash) {
 			string data = "{" +
 			              "\"FirstName\":\"" + firstName + "\"," +
 			              "\"Surname\":\"" + surname + "\"," +
 			              "\"EmailAddress\":\"" + email + "\"," +
+			              "\"PhoneNumber\":\"" + phone + "\"," +
 			              "\"PasswordHash\":\"" + passwordHash + "\"" +
 			              "}";
 
@@ -102,6 +105,7 @@ namespace KinderFinder_Droid {
 			string firstName = firstNameBox.Text;
 			string surname = surnameBox.Text;
 			string email = emailBox.Text;
+			string phone = phoneBox.Text;
 			string pass1 = passwordBox.Text;
 			string pass2 = passwordConfirmBox.Text;
 
@@ -112,13 +116,15 @@ namespace KinderFinder_Droid {
 				Toast.MakeText(this, string.Format("Surname must be between {0} and {1} characters long", Globals.NAME_MIN_LENGTH, Globals.NAME_MAX_LENGTH), ToastLength.Long).Show();
 			else if (!Utility.IsValidEmailAddress(email))
 				Toast.MakeText(this, "Please enter a valid email address", ToastLength.Long).Show();
+			else if (phone.Equals(""))
+				Toast.MakeText(this, "Please enter a phone number", ToastLength.Long).Show();
 			else if (pass1.Length < Globals.PASSWORD_MIN_LENGTH || pass1.Length > Globals.PASSWORD_MAX_LENGTH)
 				Toast.MakeText(this, string.Format("Password must be between {0} and {1} characters long", Globals.PASSWORD_MIN_LENGTH, Globals.PASSWORD_MAX_LENGTH), ToastLength.Long).Show();
 			else if (!pass1.Equals(pass2))
 				Toast.MakeText(this, "Passwords do not match", ToastLength.Long).Show();
 			/* All details are valid; send register request. */
 			else
-				Register(firstName, surname, email, Utility.HashPassword(pass1));
+				Register(firstName, surname, email, phone, Utility.HashPassword(pass1));
 		}
 	}
 }

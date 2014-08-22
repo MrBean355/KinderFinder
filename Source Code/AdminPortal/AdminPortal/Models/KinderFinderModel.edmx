@@ -4,142 +4,307 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="KinderFinderModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Map">
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AppUser">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Data" Type="image" />
-          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CurrentRestaurant" Type="int" />
         </EntityType>
-        <EntityType Name="Patron">
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Restaurant">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FirstName" Type="varchar" MaxLength="50" />
-          <Property Name="Surname" Type="varchar" MaxLength="50" />
-          <Property Name="PasswordHash" Type="varchar" MaxLength="50" />
-          <Property Name="EmailAddress" Type="varchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Map" Type="image" />
+          <Property Name="Admin" Type="nvarchar" MaxLength="128" />
         </EntityType>
         <EntityType Name="Tag">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CurrentPatron" Type="int" />
-          <Property Name="Label" Type="varchar" MaxLength="50" />
+          <Property Name="Label" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Restaurant" Type="int" Nullable="false" />
+          <Property Name="CurrentUser" Type="int" />
         </EntityType>
-        <Association Name="FK__Tag__CurrentPatr__1273C1CD">
-          <End Role="Patron" Type="Self.Patron" Multiplicity="0..1" />
-          <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
+        <Association Name="FK__AppUser__Current__02FC7413">
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="0..1" />
+          <End Role="AppUser" Type="Self.AppUser" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Patron">
+            <Principal Role="Restaurant">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="Tag">
-              <PropertyRef Name="CurrentPatron" />
+            <Dependent Role="AppUser">
+              <PropertyRef Name="CurrentRestaurant" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="KinderFinderModelStoreContainer">
-          <EntitySet Name="Map" EntityType="Self.Map" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Patron" EntityType="Self.Patron" Schema="dbo" store:Type="Tables" />
+        <Association Name="FK__Restauran__Admin__72C60C4A">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Restaurant">
+              <PropertyRef Name="Admin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tag__CurrentUser__17036CC0">
+          <End Role="AppUser" Type="Self.AppUser" Multiplicity="0..1" />
+          <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tag">
+              <PropertyRef Name="CurrentUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tag__Restaurant__160F4887">
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+          <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tag">
+              <PropertyRef Name="Restaurant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="AppUser" EntityType="Self.AppUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Restaurant" EntityType="Self.Restaurant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tag" EntityType="Self.Tag" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Tag__CurrentPatr__1273C1CD" Association="Self.FK__Tag__CurrentPatr__1273C1CD">
-            <End Role="Patron" EntitySet="Patron" />
+          <AssociationSet Name="FK__AppUser__Current__02FC7413" Association="Self.FK__AppUser__Current__02FC7413">
+            <End Role="Restaurant" EntitySet="Restaurant" />
+            <End Role="AppUser" EntitySet="AppUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Restauran__Admin__72C60C4A" Association="Self.FK__Restauran__Admin__72C60C4A">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Restaurant" EntitySet="Restaurant" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tag__CurrentUser__17036CC0" Association="Self.FK__Tag__CurrentUser__17036CC0">
+            <End Role="AppUser" EntitySet="AppUser" />
+            <End Role="Tag" EntitySet="Tag" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tag__Restaurant__160F4887" Association="Self.FK__Tag__Restaurant__160F4887">
+            <End Role="Restaurant" EntitySet="Restaurant" />
             <End Role="Tag" EntitySet="Tag" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="KinderFinderModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Map">
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Restaurants" Relationship="Self.FK__Restauran__Admin__72C60C4A" FromRole="AspNetUsers" ToRole="Restaurant" />
+        </EntityType>
+        <EntityType Name="Restaurant">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Data" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Map" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Admin" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK__Restauran__Admin__72C60C4A" FromRole="Restaurant" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AppUsers" Relationship="Model.FK__AppUser__Current__02FC7413" FromRole="Restaurant" ToRole="AppUser" />
+          <NavigationProperty Name="Tags" Relationship="Model.FK__Tag__Restaurant__160F4887" FromRole="Restaurant" ToRole="Tag" />
         </EntityType>
-        <EntityType Name="Patron">
+        <Association Name="FK__Restauran__Admin__72C60C4A">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Restaurant">
+              <PropertyRef Name="Admin" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="KinderFinderEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="Restaurants" EntityType="Self.Restaurant" />
+          <AssociationSet Name="FK__Restauran__Admin__72C60C4A" Association="Self.FK__Restauran__Admin__72C60C4A">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Restaurant" EntitySet="Restaurants" />
+          </AssociationSet>
+          <EntitySet Name="AppUsers" EntityType="Model.AppUser" />
+          <AssociationSet Name="FK__AppUser__Current__02FC7413" Association="Model.FK__AppUser__Current__02FC7413">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="AppUser" EntitySet="AppUsers" />
+          </AssociationSet>
+          <EntitySet Name="Tags" EntityType="Model.Tag" />
+          <AssociationSet Name="FK__Tag__CurrentUser__17036CC0" Association="Model.FK__Tag__CurrentUser__17036CC0">
+            <End Role="AppUser" EntitySet="AppUsers" />
+            <End Role="Tag" EntitySet="Tags" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tag__Restaurant__160F4887" Association="Model.FK__Tag__Restaurant__160F4887">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="Tag" EntitySet="Tags" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AppUser">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Tags" Relationship="Self.FK__Tag__CurrentPatr__1273C1CD" FromRole="Patron" ToRole="Tag" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordHash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CurrentRestaurant" Type="Int32" />
+          <NavigationProperty Name="Restaurant" Relationship="Model.FK__AppUser__Current__02FC7413" FromRole="AppUser" ToRole="Restaurant" />
+          <NavigationProperty Name="Tags" Relationship="Model.FK__Tag__CurrentUser__17036CC0" FromRole="AppUser" ToRole="Tag" />
         </EntityType>
+        <Association Name="FK__AppUser__Current__02FC7413">
+          <End Type="Model.Restaurant" Role="Restaurant" Multiplicity="0..1" />
+          <End Type="Model.AppUser" Role="AppUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AppUser">
+              <PropertyRef Name="CurrentRestaurant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="Tag">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CurrentPatron" Type="Int32" />
-          <Property Name="Label" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Patron" Relationship="Self.FK__Tag__CurrentPatr__1273C1CD" FromRole="Tag" ToRole="Patron" />
+          <Property Name="Label" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Restaurant" Type="Int32" Nullable="false" />
+          <Property Name="CurrentUser" Type="Int32" />
+          <NavigationProperty Name="AppUser" Relationship="Model.FK__Tag__CurrentUser__17036CC0" FromRole="Tag" ToRole="AppUser" />
+          <NavigationProperty Name="Restaurant1" Relationship="Model.FK__Tag__Restaurant__160F4887" FromRole="Tag" ToRole="Restaurant" />
         </EntityType>
-        <Association Name="FK__Tag__CurrentPatr__1273C1CD">
-          <End Role="Patron" Type="Self.Patron" Multiplicity="0..1" />
-          <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
+        <Association Name="FK__Tag__CurrentUser__17036CC0">
+          <End Type="Model.AppUser" Role="AppUser" Multiplicity="0..1" />
+          <End Type="Model.Tag" Role="Tag" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Patron">
+            <Principal Role="AppUser">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="Tag">
-              <PropertyRef Name="CurrentPatron" />
+              <PropertyRef Name="CurrentUser" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="KinderFinderEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Maps" EntityType="Self.Map" />
-          <EntitySet Name="Patrons" EntityType="Self.Patron" />
-          <EntitySet Name="Tags" EntityType="Self.Tag" />
-          <AssociationSet Name="FK__Tag__CurrentPatr__1273C1CD" Association="Self.FK__Tag__CurrentPatr__1273C1CD">
-            <End Role="Patron" EntitySet="Patrons" />
-            <End Role="Tag" EntitySet="Tags" />
-          </AssociationSet>
-        </EntityContainer>
+        <Association Name="FK__Tag__Restaurant__160F4887">
+          <End Type="Model.Restaurant" Role="Restaurant" Multiplicity="1" />
+          <End Type="Model.Tag" Role="Tag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tag">
+              <PropertyRef Name="Restaurant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="KinderFinderModelStoreContainer" CdmEntityContainer="KinderFinderEntities">
-          <EntitySetMapping Name="Maps">
-            <EntityTypeMapping TypeName="KinderFinderModel.Map">
-              <MappingFragment StoreEntitySet="Map">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="Active" ColumnName="Active" />
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="KinderFinderEntities">
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="Model.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Patrons">
-            <EntityTypeMapping TypeName="KinderFinderModel.Patron">
-              <MappingFragment StoreEntitySet="Patron">
+          <EntitySetMapping Name="Restaurants">
+            <EntityTypeMapping TypeName="Model.Restaurant">
+              <MappingFragment StoreEntitySet="Restaurant">
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Map" ColumnName="Map" />
+                <ScalarProperty Name="Admin" ColumnName="Admin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AppUsers">
+            <EntityTypeMapping TypeName="Model.AppUser">
+              <MappingFragment StoreEntitySet="AppUser">
+                <ScalarProperty Name="CurrentRestaurant" ColumnName="CurrentRestaurant" />
                 <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
                 <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tags">
-            <EntityTypeMapping TypeName="KinderFinderModel.Tag">
+            <EntityTypeMapping TypeName="Model.Tag">
               <MappingFragment StoreEntitySet="Tag">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="CurrentPatron" ColumnName="CurrentPatron" />
+                <ScalarProperty Name="CurrentUser" ColumnName="CurrentUser" />
+                <ScalarProperty Name="Restaurant" ColumnName="Restaurant" />
                 <ScalarProperty Name="Label" ColumnName="Label" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
