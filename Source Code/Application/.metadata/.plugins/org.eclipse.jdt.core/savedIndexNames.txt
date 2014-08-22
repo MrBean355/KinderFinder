@@ -1,7 +1,0 @@
-INDEX VERSION 1.126+C:\Users\user\Documents\GitHub\KinderFinder\Application\.metadata\.plugins\org.eclipse.jdt.core
-707718488.index
-1284074322.index
-3843829062.index
-226285483.index
-2986746718.index
-3295606308.index

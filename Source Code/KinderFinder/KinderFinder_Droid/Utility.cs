@@ -20,7 +20,7 @@ namespace KinderFinder_Droid {
 	}
 
 	public static class Utility {
-		const string SERVER = "http://192.168.1.7:55555/";
+		const string SERVER = "http://192.168.0.106:55555/";
 		const string SALT_VALUE = "2e6e76485b61254b2e73694d50";
 
 		public static List<string> ParseJSON(string json) {
