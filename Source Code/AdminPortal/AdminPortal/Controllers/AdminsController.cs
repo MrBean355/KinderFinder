@@ -13,7 +13,7 @@ namespace AdminPortal.Controllers {
 		// GET: Admins
 		public ActionResult Index() {
 			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
 			return View(db.AspNetUsers.ToList());
 		}
@@ -21,7 +21,7 @@ namespace AdminPortal.Controllers {
 		// POST: Admins/Details/5
 		public ActionResult Details(string id) {
 			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
 			if (id.Equals(""))
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -37,7 +37,7 @@ namespace AdminPortal.Controllers {
 		// GET: Admins/Create
 		public ActionResult Create() {
 			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
 			return View();
 		}
@@ -45,16 +45,13 @@ namespace AdminPortal.Controllers {
 		// POST: Admins/Create
 		[HttpPost]
 		public ActionResult Create(AspNetUser user) {
-			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
-
 			return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 		}
 
 		// GET: Admins/Edit/5
 		public ActionResult Edit(string id) {
 			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
 			if (id.Equals(""))
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -69,10 +66,7 @@ namespace AdminPortal.Controllers {
 
 		// POST: Admins/Edit/5
 		[HttpPost]
-		public ActionResult Edit([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] AspNetUser user) {
-			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
-
+		public ActionResult Edit(AspNetUser user) {
 			if (ModelState.IsValid) {
 				db.Entry(user).State = System.Data.Entity.EntityState.Modified;
 				db.SaveChanges();
@@ -86,7 +80,7 @@ namespace AdminPortal.Controllers {
 		// GET: Admins/Delete/5
 		public ActionResult Delete(string id) {
 			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
 			if (id.Equals(""))
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -102,9 +96,6 @@ namespace AdminPortal.Controllers {
 		// POST: Admins/Delete/5
 		[HttpPost]
 		public ActionResult Delete(int id, FormCollection collection) {
-			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
-
 			try {
 				// TODO: Add delete logic here
 

@@ -8,7 +8,6 @@
     @Scripts.Render("~/bundles/modernizr")
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/Utility.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -23,12 +22,18 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Patrons", "Index", "Patrons")</li>
-                    <li>@Html.ActionLink("Tags", "Index", "Tags")</li>
-                    <li>@Html.ActionLink("Maps", "Index", "Maps")</li>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                    <li>@Html.ActionLink("Reports", "Index", "Reports")</li>}
+                    @* Only display these links to logged in users. *@
+                    @if (User.Identity.IsAuthenticated) {
+                        <li>@Html.ActionLink("App Users", "Index", "AppUsers")</li>
+                        <li>@Html.ActionLink("Tags", "Index", "Tags")</li>
+                        <li>@Html.ActionLink("Reports", "Index", "Reports")</li>
+                        
+                        @* Only display these links to global admins. *@
+                        if (User.IsInRole("GlobalAdmins")) {
+                            <li>@Html.ActionLink("Restaurants", "Index", "Restaurants")</li>
+                            <li>@Html.ActionLink("Admins", "Index", "Admins")</li>
+                        }
+                    }
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -38,9 +43,9 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        @*<footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>*@
+        <footer>
+            <p>&copy; @DateTime.Now.Year - DVT</p>
+        </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

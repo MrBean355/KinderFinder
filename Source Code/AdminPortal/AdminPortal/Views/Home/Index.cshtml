@@ -8,13 +8,19 @@
         Welcome to the KinderFinder administration portal!<br />
         Here, you can manage various aspects of the system, including registered customers and the tags linked to the system.<br />
     </p>
+    @* Only display these links to logged in users. *@
     @if (User.Identity.IsAuthenticated) {
         <p>
-            Click one of the buttons below to get started.<br />
+            Click one of the buttons to get started.<br />
             <a href="AppUsers" class="btn btn-primary btn-lg">App Users</a>
             <a href="Tags" class="btn btn-primary btn-lg">Tags</a>
-            <a href="Admins" class="btn btn-primary btn-lg">Admins</a>
-            <a href="Restaurants" class="btn btn-primary btn-lg">Restaurants</a>
+            <a href="Reports" class="btn btn-primary btn-lg">Reports</a>
+
+            @* Only display these links to global admins. *@
+            @if (User.IsInRole("GlobalAdmins")) {
+                <a href="Admins" class="btn btn-primary btn-lg">Admins</a>
+                <a href="Restaurants" class="btn btn-primary btn-lg">Restaurants</a>
+            }
         </p>
     }
     else {

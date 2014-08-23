@@ -174,6 +174,7 @@
     <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\AppUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\Web API\LoginController.cs" />
     <Compile Include="Controllers\Web API\MapController.cs" />
     <Compile Include="Controllers\Web API\RegisterController.cs" />
@@ -292,6 +293,8 @@
     <Content Include="Views\Tags\Details.cshtml" />
     <Content Include="Views\Tags\Edit.cshtml" />
     <Content Include="Views\Tags\Index.cshtml" />
+    <Content Include="Views\Index.cshtml" />
+    <Content Include="Views\Reports\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,33 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using AdminPortal.Models;
+
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using AdminPortal.Models;
 
-namespace AdminPortal.Controllers
-{
-    public class ReportsController : Controller
-    {
-        private KinderFinderEntities db = new KinderFinderEntities();
+namespace AdminPortal.Controllers {
+	
+	[Authorize] // This means that you have to be logged in to the site to be able to access
+				// any of the reports actions. Otherwise you can go to localhost/reports and
+				// still get access if you aren't logged in.
+	public class ReportsController : Controller {
+		private KinderFinderEntities db = new KinderFinderEntities();
 
-        // GET: Reports
-        public ActionResult Index()
-        {
-            var tags = db.Tags.Include(t => t.Patron);
-            return View(tags.ToList());
-        }
+		// GET: Reports
+		public ActionResult Index() {
+			return View(db.Tags.ToList());
+		}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-    }
+		protected override void Dispose(bool disposing) {
+			if (disposing) {
+				db.Dispose();
+			}
+			base.Dispose(disposing);
+		}
+	}
 }

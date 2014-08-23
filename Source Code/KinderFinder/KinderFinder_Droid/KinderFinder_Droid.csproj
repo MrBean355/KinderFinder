@@ -60,6 +60,7 @@
     <Compile Include="TagListActivity.cs" />
     <Compile Include="TrackTagsActivity.cs" />
     <Compile Include="RestaurantListActivity.cs" />
+    <Compile Include="Resources\views\TrackingView.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -72,5 +73,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
+    <Folder Include="Resources\views\" />
   </ItemGroup>
 </Project>

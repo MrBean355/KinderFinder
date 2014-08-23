@@ -23,6 +23,10 @@ namespace KinderFinder_Droid {
 
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
+
+			SetContentView(new TrackingView(this));
+			return;
+
 			SetContentView(Resource.Layout.Main);
 
 			pref = GetSharedPreferences(Globals.PREFERENCES_FILE, 0);

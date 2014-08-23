@@ -29,7 +29,7 @@ namespace AdminPortal.Controllers {
 		// GET: Restaurants
 		public ActionResult Index() {
 			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
 			return View(db.Restaurants.ToList());
 		}
@@ -37,7 +37,7 @@ namespace AdminPortal.Controllers {
 		// GET: Restaurants/Details/5
 		public ActionResult Details(int? id) {
 			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -52,7 +52,7 @@ namespace AdminPortal.Controllers {
 		// GET: Restaurants/Create
 		public ActionResult Create() {
 			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
 			ViewBag.Admin = new SelectList(db.AspNetUsers, "Id", "Email");
 
@@ -63,9 +63,6 @@ namespace AdminPortal.Controllers {
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create([Bind(Include = "ID,Name,Map,Admin")] Restaurant restaurant, HttpPostedFileBase file) {
-			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
-
 			if (ModelState.IsValid) {
 				if (file != null) {
 					MemoryStream target = new MemoryStream();
@@ -84,7 +81,7 @@ namespace AdminPortal.Controllers {
 		// GET: Restaurants/Edit/5
 		public ActionResult Edit(int? id) {
 			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -101,9 +98,6 @@ namespace AdminPortal.Controllers {
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit([Bind(Include = "ID,Name,Map,Admin")] Restaurant restaurant, HttpPostedFileBase file) {
-			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
-
 			if (ModelState.IsValid) {
 				if (file != null) {
 					MemoryStream target = new MemoryStream();
@@ -121,7 +115,7 @@ namespace AdminPortal.Controllers {
 		// GET: Restaurants/Delete/5
 		public ActionResult Delete(int? id) {
 			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
+				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
 
 			if (id == null) {
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -137,9 +131,6 @@ namespace AdminPortal.Controllers {
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteConfirmed(int? id) {
-			if (!User.IsInRole("GlobalAdmins"))
-				return RedirectToAction("Index", "Home");
-
 			Restaurant restaurant = db.Restaurants.Find(id);
 			db.Restaurants.Remove(restaurant);
 			db.SaveChanges();
