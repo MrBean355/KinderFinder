@@ -9,7 +9,8 @@
         android:src="@android:drawable/ic_menu_gallery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/Track_Map" />
+        android:id="@+id/Track_Map"
+        android:scaleType="fitStart" />
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="match_parent"

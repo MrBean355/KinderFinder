@@ -60,6 +60,9 @@ namespace KinderFinder_Droid {
 
 				switch (reply.StatusCode) {
 					case HttpStatusCode.OK:
+						editor.PutString(Globals.KEY_RESTAURANT_NAME, rest);
+						editor.Commit();
+
 						Toast.MakeText(this, "Success!", ToastLength.Short).Show();
 						StartActivity(new Intent(this, typeof(TagListActivity)));
 						Finish();

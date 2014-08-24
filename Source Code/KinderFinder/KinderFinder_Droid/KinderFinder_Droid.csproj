@@ -61,6 +61,9 @@
     <Compile Include="TrackTagsActivity.cs" />
     <Compile Include="RestaurantListActivity.cs" />
     <Compile Include="Resources\views\TrackingView.cs" />
+    <Compile Include="MapCache.cs" />
+    <Compile Include="SharpAESCrypt.cs" />
+    <Compile Include="JsonBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />

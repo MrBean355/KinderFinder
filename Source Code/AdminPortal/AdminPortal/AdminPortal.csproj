@@ -182,6 +182,7 @@
     <Compile Include="Controllers\Web API\RestaurantListController.cs" />
     <Compile Include="Controllers\Web API\TagListController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
+    <Compile Include="Controllers\Web API\TrackController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

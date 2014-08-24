@@ -5,13 +5,14 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
+using Android.Graphics;
 using Android.Widget;
 
 namespace KinderFinder_Droid {
 
 	/**
 	 * Represents a simple response from a server; containing a status code and message
-	 * body.
+	 * body. Also has a byte array, which can be used to store image data.
 	 */
 	public struct ServerResponse {
 		public HttpStatusCode StatusCode;
@@ -20,7 +21,7 @@ namespace KinderFinder_Droid {
 	}
 
 	public static class Utility {
-		const string SERVER = "http://192.168.0.106:55555/";
+		const string SERVER = "http://192.168.1.7:55555/";
 		const string SALT_VALUE = "2e6e76485b61254b2e73694d50";
 
 		public static List<string> ParseJSON(string json) {
@@ -152,6 +153,30 @@ namespace KinderFinder_Droid {
 			byte[] hash = algorithm.ComputeHash(saltedHashBytes);
 			// return the has as a base 64 encoded string
 			return Convert.ToBase64String(hash);
+		}
+
+		/// <summary>
+		/// Resizes a bitmap to a new width and height, retaining the image's scale.
+		/// </summary>
+		/// <returns>Resized bitmap.</returns>
+		/// <param name="input">Bitmap to resize.</param>
+		/// <param name="targWidth">Target width.</param>
+		/// <param name="targHeight">Target height.</param>
+		public static Bitmap ResizeBitmap(Bitmap input, int targWidth, int targHeight) {
+			double ratioW = (double)targWidth / input.Width;
+			double ratioH = (double)targHeight / input.Height;
+			int newWidth, newHeight;
+
+			if (ratioW <= ratioH) {
+				newWidth = (int)(input.Width * ratioW);
+				newHeight = (int)(input.Height * ratioW);
+			}
+			else {
+				newWidth = (int)(input.Width * ratioH);
+				newHeight = (int)(input.Height * ratioH);
+			}
+
+			return Bitmap.CreateScaledBitmap(input, newWidth, newHeight, false);
 		}
 	}
 }

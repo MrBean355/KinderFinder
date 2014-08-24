@@ -1,8 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.006ef195" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="KinderFinder_Droid\TrackTagsActivity.cs">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="KinderFinder_Droid\TrackTagsActivity.cs" Line="22" Column="4" />
+      <File FileName="KinderFinder_Droid\RestaurantListActivity.cs" Line="8" Column="18" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -11,7 +11,7 @@
             <Node name="Resources" expanded="True">
               <Node name="layout" expanded="True" />
             </Node>
-            <Node name="TrackTagsActivity.cs" selected="True" />
+            <Node name="RestaurantListActivity.cs" selected="True" />
           </Node>
         </State>
       </Pad>
