@@ -7,7 +7,7 @@ using Android.Content;
 using Android.OS;
 using Android.Widget;
 
-namespace KinderFinder_Droid {
+namespace KinderFinder {
 
 	[Activity(Label = "Register", Icon = "@drawable/icon")]
 	public class RegisterActivity : Activity {
@@ -26,7 +26,7 @@ namespace KinderFinder_Droid {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.Register);
 
-			pref = GetSharedPreferences(Globals.PREFERENCES_FILE, 0);
+			pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
 			editor = pref.Edit();
 
 			firstNameBox = FindViewById<EditText>(Resource.Id.Register_FirstName);
@@ -49,15 +49,15 @@ namespace KinderFinder_Droid {
 		/// <param name="firstName">User's first name.</param>
 		/// <param name="surname">User's surname</param>
 		/// <param name="email">User's email address.</param>
+		/// <param name="phone">User's phone number.</param>
 		/// <param name="passwordHash">Hash of user's password.</param>
 		void Register(string firstName, string surname, string email, string phone, string passwordHash) {
-			string data = "{" +
-			              "\"FirstName\":\"" + firstName + "\"," +
-			              "\"Surname\":\"" + surname + "\"," +
-			              "\"EmailAddress\":\"" + email + "\"," +
-			              "\"PhoneNumber\":\"" + phone + "\"," +
-			              "\"PasswordHash\":\"" + passwordHash + "\"" +
-			              "}";
+			var builder = new JsonBuilder();
+			builder.AddEntry("FirstName", firstName);
+			builder.AddEntry("Surname", surname);
+			builder.AddEntry("EmailAddress", email);
+			builder.AddEntry("PhoneNumber", phone);
+			builder.AddEntry("PasswordHash", passwordHash);
 
 			/* Disable button and show progress bar. */
 			registerButton.Enabled = false;
@@ -65,17 +65,18 @@ namespace KinderFinder_Droid {
 
 			/* Send request in a separate thread. */
 			ThreadPool.QueueUserWorkItem(state => {
-				ServerResponse reply = Utility.SendData("api/register", data);
-				string message = "";
+				var reply = AppTools.SendRequest("api/register", builder.ToString());
+				string message;
 
 				/* Check reply status code. */
 				switch (reply.StatusCode) {
 				/* Registration was successful. */
 					case HttpStatusCode.OK:
-						editor.Remove(Globals.KEY_REMEMBER_ME);
-						editor.Remove(Globals.KEY_PASSWORD_HASH);
-						editor.Commit();
 						message = "Registration successful!";
+						editor.PutString(Settings.Keys.USERNAME, email);
+						editor.Remove(Settings.Keys.REMEMBER_ME);
+						editor.Remove(Settings.Keys.PASSWORD_HASH);
+						editor.Commit();
 						Finish();
 						break;
 				/* Email address is already in use. */
@@ -84,7 +85,7 @@ namespace KinderFinder_Droid {
 						break;
 				/* Some kind of server error happened. */
 					default:
-						message = "Server error. Please try again later";
+						message = Settings.Errors.SERVER_ERROR;
 						break;
 				}
 
@@ -108,23 +109,25 @@ namespace KinderFinder_Droid {
 			string phone = phoneBox.Text;
 			string pass1 = passwordBox.Text;
 			string pass2 = passwordConfirmBox.Text;
+			string errorMsg = null;
 
-			/* Validate provided details. */
-			if (firstName.Length < Globals.NAME_MIN_LENGTH || firstName.Length > Globals.NAME_MAX_LENGTH)
-				Toast.MakeText(this, string.Format("First name must be between {0} and {1} characters long", Globals.NAME_MIN_LENGTH, Globals.NAME_MAX_LENGTH), ToastLength.Long).Show();
-			else if (surname.Length < Globals.NAME_MIN_LENGTH || surname.Length > Globals.NAME_MAX_LENGTH)
-				Toast.MakeText(this, string.Format("Surname must be between {0} and {1} characters long", Globals.NAME_MIN_LENGTH, Globals.NAME_MAX_LENGTH), ToastLength.Long).Show();
-			else if (!Utility.IsValidEmailAddress(email))
-				Toast.MakeText(this, "Please enter a valid email address", ToastLength.Long).Show();
-			else if (phone.Equals(""))
-				Toast.MakeText(this, "Please enter a phone number", ToastLength.Long).Show();
-			else if (pass1.Length < Globals.PASSWORD_MIN_LENGTH || pass1.Length > Globals.PASSWORD_MAX_LENGTH)
-				Toast.MakeText(this, string.Format("Password must be between {0} and {1} characters long", Globals.PASSWORD_MIN_LENGTH, Globals.PASSWORD_MAX_LENGTH), ToastLength.Long).Show();
-			else if (!pass1.Equals(pass2))
-				Toast.MakeText(this, "Passwords do not match", ToastLength.Long).Show();
-			/* All details are valid; send register request. */
+			if (!Validator.IsValidName(firstName))
+				errorMsg = string.Format("{0} must be a valid name between {1} and {2} characters", "First name", Settings.Lengths.NAME_MIN, Settings.Lengths.NAME_MAX);
+			else if (!Validator.IsValidName(surname))
+				errorMsg = string.Format("{0} must be a valid name between {1} and {2} characters", "Surname", Settings.Lengths.NAME_MIN, Settings.Lengths.NAME_MAX);
+			else if (!Validator.IsValidEmailAddress(email))
+				errorMsg = "Email address must be valid";
+			else if (phone == "")
+				errorMsg = "Please enter a phone number";
+			else if (!Validator.IsValidPassword(pass1))
+				errorMsg = string.Format("{0} must be between {1} and {2} characters", "Password", Settings.Lengths.PASSWORD_MIN, Settings.Lengths.PASSWORD_MAX);
+			else if (pass1 != pass2)
+				errorMsg = "Passwords do not match";
+
+			if (errorMsg == null)
+				Register(firstName, surname, email, phone, AppTools.HashPassword(pass1));
 			else
-				Register(firstName, surname, email, phone, Utility.HashPassword(pass1));
+				Toast.MakeText(this, errorMsg, ToastLength.Short).Show();
 		}
 	}
 }

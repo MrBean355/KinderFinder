@@ -11,13 +11,13 @@ namespace AdminPortal.Controllers.Web_API {
 		private KinderFinderEntities db = new KinderFinderEntities();
 
 		[HttpPost]
-		public IEnumerable<string> GetRestaurants() {
+		public IHttpActionResult GetRestaurants() {
 			var result = new List<string>();
 
 			foreach (var item in db.Restaurants)
 				result.Add(item.Name);
 
-			return result;
+			return Ok(result);
 		}
 	}
 
@@ -26,24 +26,21 @@ namespace AdminPortal.Controllers.Web_API {
 
 		[HttpPost]
 		public IHttpActionResult PickRestaurant(RequestDetails details) {
-			var result = new List<string>();
-
 			var user = (from item in db.AppUsers
 						where item.EmailAddress.Equals(details.EmailAddress, StringComparison.CurrentCultureIgnoreCase)
 						select item).FirstOrDefault();
 
-			var rest = (from item in db.Restaurants
+			var restaurant = (from item in db.Restaurants
 						where item.Name.Equals(details.Restaurant)
 						select item).FirstOrDefault();
 
-			if (user != null && rest != null) {
-				user.CurrentRestaurant = rest.ID;
-				db.SaveChanges();
+			if (user == null || restaurant == null)
+				return BadRequest();
 
-				return Ok();
-			}
+			user.CurrentRestaurant = restaurant.ID;
+			db.SaveChanges();
 
-			return BadRequest();
+			return Ok();
 		}
 
 		public struct RequestDetails {

@@ -3,27 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 
 using Android.Graphics;
 using Android.Widget;
 
-namespace KinderFinder_Droid {
+namespace KinderFinder {
 
-	/**
-	 * Represents a simple response from a server; containing a status code and message
-	 * body. Also has a byte array, which can be used to store image data.
-	 */
-	public struct ServerResponse {
-		public HttpStatusCode StatusCode;
-		public string Body;
-		public byte[] Bytes;
-	}
+	public static class AppTools {
 
-	public static class Utility {
-		const string SERVER = "http://192.168.1.7:55555/";
-		const string SALT_VALUE = "2e6e76485b61254b2e73694d50";
-
+		/// <summary>
+		/// Attempts to parse a JSON string into a list.
+		/// </summary>
+		/// <param name="json">Input string to parse./param>
+		/// <returns>List version of the input.</returns>
 		public static List<string> ParseJSON(string json) {
 			var result = new List<string>();
 
@@ -56,37 +48,25 @@ namespace KinderFinder_Droid {
 			return result;
 		}
 
-		/**
-		 * Determines whether a string is a valid email address or not.
-		 * 
-		 * @param email Email address to check.
-		 * @returns True if valid; false otherwise.
-		 */
-		public static bool IsValidEmailAddress(string email) {
-			var regex = new Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$");
-			return regex.IsMatch(email);
-		}
-
-		/**
-		 * Attempts to send data, in the form of a JSON string, to the server
-		 * using the POST method.
-		 * 
-		 * @param url URL after server's address (e.g. "api/login").
-		 * @param json Data to send, in the form of a JSON object.
-		 * @returns Response from the server.
-		 */
-		public static ServerResponse SendData(string url, string json) {
+		/// <summary>
+		/// Attempts to send data in the form of a JSON string to the server using the POST method.
+		/// </summary>
+		/// <param name="url">URL to send the request to.</param>
+		/// <param name="json">JSON string to send. Can be null.</param>
+		/// <returns>Response from the server.</returns>
+		public static ServerResponse SendRequest(string url, string json) {
 			var result = new ServerResponse();
 			result.StatusCode = HttpStatusCode.OK;
 
+			var req = WebRequest.Create(Settings.SERVER_ADDRESS + url) as HttpWebRequest;
+			req.ContentType = "application/json";
+			req.Method = "POST";
+			req.Timeout = Settings.REQUEST_TIMEOUT;
+
+			if (json == null)
+				json = "";
+
 			try {
-				var req = WebRequest.Create(SERVER + url) as HttpWebRequest;
-				req.ContentType = "application/json";
-				req.Method = "POST";
-
-				if (json == null)
-					json = "";
-
 				/* Write the message's body. */
 				using (var writer = new StreamWriter(req.GetRequestStream())) {
 					writer.Write(json);
@@ -95,16 +75,16 @@ namespace KinderFinder_Droid {
 				}
 
 				var response = (HttpWebResponse)req.GetResponse();
-				Stream input = response.GetResponseStream();
 
 				/* If the response is an image, convert it to a byte[]. */
 				if (response.ContentType == "image/jpg") {
-					result.Bytes = new byte[input.Length];
+					var responseStream = response.GetResponseStream();
+					result.Bytes = new byte[responseStream.Length];
 					int index = 0;
 					int read;
 
 					/* Read until we get to the end. */
-					while ((read = input.ReadByte()) != -1)
+					while ((read = responseStream.ReadByte()) != -1)
 						result.Bytes[index++] = (byte)read;
 				}
 				/* Otherwise store it as a string. */
@@ -120,12 +100,13 @@ namespace KinderFinder_Droid {
 			catch (WebException ex) {
 				var response = (HttpWebResponse)ex.Response;
 
+				/* The response will be null if the request timed out. */
 				if (response == null)
-					Environment.Exit(-1);
-
-				result.StatusCode = response.StatusCode;
+					result.StatusCode = HttpStatusCode.RequestTimeout;
+				else
+					result.StatusCode = response.StatusCode;
 			}
-			/* Something else broke. */
+			/* Another exception was thrown in this method. */
 			catch (Exception ex) {
 				result.StatusCode = HttpStatusCode.ServiceUnavailable;
 				Console.WriteLine("EXCEPTION while communication with server:\n" + ex);
@@ -135,16 +116,14 @@ namespace KinderFinder_Droid {
 			return result;
 		}
 
-		/**
-		 * Hashes a password.
-		 * Source: http://www.devtoolshed.com/c-generate-password-hash-salt
-		 * 
-		 * @param password Password to hash.
-		 * @returns Hashed password.
-		 */
+		/// <summary>
+		/// Hashes a password.
+		/// </summary>
+		/// <param name="password">Password to hash.</param>
+		/// <returns>Hash of the provided password.</returns>
 		public static string HashPassword(string password) {
 			// merge password and salt together
-			string sHashWithSalt = password + SALT_VALUE;
+			string sHashWithSalt = password + Settings.HASHING_SALT;
 			// convert this merged value to a byte array
 			byte[] saltedHashBytes = Encoding.UTF8.GetBytes(sHashWithSalt);
 			// use hash algorithm to compute the hash
@@ -178,6 +157,16 @@ namespace KinderFinder_Droid {
 
 			return Bitmap.CreateScaledBitmap(input, newWidth, newHeight, false);
 		}
+	}
+
+	/// <summary>
+	/// Represents a response from the server. Contains a status code, message body and an array of bytes (which can be
+	/// used to store an image.
+	/// </summary>
+	public struct ServerResponse {
+		public HttpStatusCode StatusCode;
+		public string Body;
+		public byte[] Bytes;
 	}
 }
 

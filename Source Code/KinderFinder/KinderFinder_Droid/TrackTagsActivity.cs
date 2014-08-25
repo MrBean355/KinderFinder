@@ -1,18 +1,18 @@
-﻿using System.Net;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 
 using Android.App;
 using Android.Content;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Widget;
-using Android.Graphics.Drawables;
-using System;
-using System.Collections.Generic;
 
-namespace KinderFinder_Droid {
+namespace KinderFinder {
 
-	[Activity(Label = "Track Tags")]			
+	[Activity(Label = "Track Tags", Icon = "@drawable/icon")]
 	public class TrackTagsActivity : Activity {
 		ISharedPreferences pref;
 		ISharedPreferencesEditor editor;
@@ -20,50 +20,68 @@ namespace KinderFinder_Droid {
 		ProgressBar progressBar;
 		TextView downloadingText;
 		Bitmap OriginalMap;
+		Timer Timer;
 
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.TrackTags);
 
-			pref = GetSharedPreferences(Globals.PREFERENCES_FILE, 0);
+			pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
 			editor = pref.Edit();
 
 			mapImage = FindViewById<ImageView>(Resource.Id.Track_Map);
 			progressBar = FindViewById<ProgressBar>(Resource.Id.Track_ProgressBar);
 			downloadingText = FindViewById<TextView>(Resource.Id.Track_DownloadingText);
 
-			LoadImage();
+			LoadMapImage();
 		}
 
-		void LoadImage() {
+		/// <summary>
+		/// Displays the map image by setting the ImageView's bitmap. Checks if the image is cached and loads it if
+		/// there is no newer version on the server.
+		/// </summary>
+		void LoadMapImage() {
 			// Hide map image:
 			mapImage.Visibility = Android.Views.ViewStates.Gone;
 
 			ThreadPool.QueueUserWorkItem(state => {
-				string data = "{" +
-				              "\"EmailAddress\":\"" + pref.GetString(Globals.KEY_USERNAME, "") +
-				              "\"}";
+				string email = pref.GetString(Settings.Keys.USERNAME, null);
+				string restaurant = pref.GetString(Settings.Keys.RESTAURANT_NAME, null);
 
-				string rest = pref.GetString(Globals.KEY_RESTAURANT_NAME, "");
-				var response = Utility.SendData("api/mapsize", data);
-				int serverSize = int.Parse(response.Body);
-				bool success = false;
+				if (email == null || restaurant == null) {
+					Toast.MakeText(this, Settings.Errors.LOCAL_DATA_ERROR, ToastLength.Long).Show();
+					return;
+				}
+
+				var builder = new JsonBuilder();
+				builder.AddEntry("EmailAddress", email);
+
+				/* First, find out how big the server's version of the map is. */
+				var response = AppTools.SendRequest("api/mapsize", builder.ToString());
+				int serverSize;
+				string errorMsg = null;
 				Bitmap bitmap = null;
-
 				var cache = new MapCache();
 
-				if (cache.IsMapSame(rest, serverSize)) {
-					bitmap = cache.GetStoredMap(rest);
-					success = true;
-				}
+				int.TryParse(response.Body, out serverSize);
+
+				/* Next, check if the local version of the map is the same size. If it is, simply load the cached map. */
+				if (cache.IsMapSame(restaurant, serverSize))
+					bitmap = cache.GetStoredMap(restaurant); // TODO: Check if map actually loaded.
+				/* Maps are different; request map from server. */
 				else {
-					response = Utility.SendData("api/map", data);
+					response = AppTools.SendRequest("api/map", builder.ToString());
 
 					switch (response.StatusCode) {
 						case HttpStatusCode.OK:
 							bitmap = BitmapFactory.DecodeByteArray(response.Bytes, 0, response.Bytes.Length);
-							cache.AddMap(rest, serverSize, bitmap);
-							success = true;
+							cache.AddMap(restaurant, serverSize, bitmap);
+							break;
+						case HttpStatusCode.BadRequest:
+							errorMsg = "Unable to load the restaurant's map";
+							break;
+						default:
+							errorMsg = Settings.Errors.SERVER_ERROR;
 							break;
 					}
 				}
@@ -73,30 +91,43 @@ namespace KinderFinder_Droid {
 					downloadingText.Visibility = Android.Views.ViewStates.Gone;
 					mapImage.Visibility = Android.Views.ViewStates.Visible;
 
-					if (success) {
-						OriginalMap = Utility.ResizeBitmap(bitmap, Resources.DisplayMetrics.WidthPixels, Resources.DisplayMetrics.HeightPixels);
+					/* No error; success! */
+					if (errorMsg == null) {
+						OriginalMap = AppTools.ResizeBitmap(bitmap, Resources.DisplayMetrics.WidthPixels, Resources.DisplayMetrics.HeightPixels);
 						mapImage.SetImageBitmap(OriginalMap);
 
-						var timer = new Timer(UpdateMap);
-						timer.Change(0, 1000);
+						Timer = new Timer(UpdateMap);
+						Timer.Change(0, 1000);
 					}
-					else {
-						Toast.MakeText(this, "Unable to download map", ToastLength.Short).Show();
-					}
+					/* Something went wrong. */
+					else
+						Toast.MakeText(this, errorMsg, ToastLength.Short).Show();
 				});
 			});
 		}
 
-		public void UpdateMap(object state) {
-			var builder = new JsonBuilder();
-			builder.AddEntry("EmailAddress", pref.GetString(Globals.KEY_USERNAME, ""));
+		/// <summary>
+		/// Updates the map by drawing the locations of the tracked tags.
+		/// </summary>
+		/// <param name="state">Not used.</param>
+		void UpdateMap(object state) {
+			string email = pref.GetString(Settings.Keys.USERNAME, null);
 
-			var	response = Utility.SendData("api/track", builder.ToString());
+			if (email == null) {
+				Toast.MakeText(this, Settings.Errors.LOCAL_DATA_ERROR, ToastLength.Long).Show();
+				Timer.Dispose(); // stop updating map.
+				return;
+			}
+
+			var builder = new JsonBuilder();
+			builder.AddEntry("EmailAddress", email);
+
+			var	response = AppTools.SendRequest("api/track", builder.ToString());
 			List<string> locations = null;
 
 			switch (response.StatusCode) {
 				case HttpStatusCode.OK:
-					locations = Utility.ParseJSON(response.Body);
+					locations = AppTools.ParseJSON(response.Body);
 					break;
 				default:
 					//Toast.MakeText(this, "Unable to retrieve data from server", ToastLength.Short).Show();

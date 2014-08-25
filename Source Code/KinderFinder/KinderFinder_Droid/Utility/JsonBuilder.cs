@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace KinderFinder_Droid {
+namespace KinderFinder {
 
 	public class JsonBuilder {
 		List<KeyValuePair<string, string>> Entries = new List<KeyValuePair<string, string>>();

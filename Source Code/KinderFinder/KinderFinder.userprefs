@@ -1,17 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.006ef195" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="e:\Users\Mike\Documents\University\COS 301 - Software Engineering\Main Project\Source Code\KinderFinder\KinderFinder_Droid\TrackTagsActivity.cs">
     <Files>
-      <File FileName="KinderFinder_Droid\RestaurantListActivity.cs" Line="8" Column="18" />
+      <File FileName="e:\Users\Mike\Documents\University\COS 301 - Software Engineering\Main Project\Source Code\KinderFinder\KinderFinder_Droid\TrackTagsActivity.cs" Line="61" Column="20" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="KinderFinder_Droid" expanded="True">
-            <Node name="Resources" expanded="True">
-              <Node name="layout" expanded="True" />
-            </Node>
-            <Node name="RestaurantListActivity.cs" selected="True" />
+          <Node name="KinderFinder" expanded="True">
+            <Node name="Utility" expanded="True" />
+            <Node name="TrackTagsActivity.cs" selected="True" />
           </Node>
         </State>
       </Pad>
@@ -21,5 +19,5 @@
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.ItemProperties.KinderFinder__Droid MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" />
+  <MonoDevelop.Ide.ItemProperties.KinderFinder MonoForAntroid.PreferredDevice="3.7&quot; WVGA (Nexus One)" />
 </Properties>

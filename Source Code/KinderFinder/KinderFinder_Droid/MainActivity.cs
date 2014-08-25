@@ -8,7 +8,7 @@ using Android.OS;
 using Android.Views.InputMethods;
 using Android.Widget;
 
-namespace KinderFinder_Droid {
+namespace KinderFinder {
 
 	[Activity(Label = "KinderFinder", MainLauncher = true, Icon = "@drawable/icon")]
 	public class MainActivity : Activity {
@@ -21,13 +21,11 @@ namespace KinderFinder_Droid {
 			registerButton;
 		ProgressBar progressBar;
 
-
-
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.Main);
 
-			pref = GetSharedPreferences(Globals.PREFERENCES_FILE, 0);
+			pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
 			editor = pref.Edit();
 
 			emailBox = FindViewById<EditText>(Resource.Id.Main_Email);
@@ -39,18 +37,25 @@ namespace KinderFinder_Droid {
 
 			loginButton.Click += LogInPressed;
 			registerButton.Click += (sender, e) => StartActivity(new Intent(this, typeof(RegisterActivity)));
+		}
 
-			string email = pref.GetString(Globals.KEY_USERNAME, "");
-			string passwordHash = pref.GetString(Globals.KEY_PASSWORD_HASH, "");
-			bool rememberMe = pref.GetBoolean(Globals.KEY_REMEMBER_ME, false);
+		protected override void OnResume() {
+			base.OnResume();
 
-			emailBox.Text = email;
-			rememberMeBox.Checked = rememberMe;
-			progressBar.Visibility = Android.Views.ViewStates.Invisible;
+			string email = pref.GetString(Settings.Keys.USERNAME, null);
+			string passwordHash = pref.GetString(Settings.Keys.PASSWORD_HASH, null);
+			bool rememberMe = pref.GetBoolean(Settings.Keys.REMEMBER_ME, false);
+			progressBar.Visibility = Android.Views.ViewStates.Gone;
 
-			/* If the user checked "Remember me"; auto-login. */
-			if (rememberMe && !email.Equals("") && !passwordHash.Equals(""))
-				LogIn(email, passwordHash);
+			/* Was able to load email and password hash. */
+			if (email != null && passwordHash != null) {
+				emailBox.Text = email;
+				rememberMeBox.Checked = rememberMe;
+
+				/* If "Remember Me" was ticked, try to log in: */
+				if (rememberMe)
+					LogIn(email, passwordHash);
+			}
 		}
 
 		/// <summary>
@@ -59,10 +64,9 @@ namespace KinderFinder_Droid {
 		/// <param name="email">User's email address.</param>
 		/// <param name="passwordHash">Hash of user's password.</param>
 		void LogIn(string email, string passwordHash) {
-			string data = "{" +
-			              "\"EmailAddress\":\"" + email + "\"," +
-			              "\"PasswordHash\":\"" + passwordHash + "\"" +
-			              "}";
+			var builder = new JsonBuilder();
+			builder.AddEntry("EmailAddress", email);
+			builder.AddEntry("PasswordHash", passwordHash);
 
 			/* Disable buttons and show progress bar. */
 			loginButton.Enabled = false;
@@ -71,19 +75,27 @@ namespace KinderFinder_Droid {
 
 			/* Send request in a separate thread. */
 			ThreadPool.QueueUserWorkItem(state => {
-				ServerResponse reply = Utility.SendData("api/login", data);
-				string message = "";
+				var reply = AppTools.SendRequest("api/login", builder.ToString());
+				string message;
 
 				/* Check reply status code. */
 				switch (reply.StatusCode) {
 				/* Log in succeeded. */
 					case HttpStatusCode.OK:
 						message = "Logged in!";
-						editor.PutString(Globals.KEY_USERNAME, email);
-						editor.PutString(Globals.KEY_PASSWORD_HASH, passwordHash);
-						editor.PutBoolean(Globals.KEY_REMEMBER_ME, rememberMeBox.Checked);
+						string prevUser = pref.GetString(Settings.Keys.USERNAME, null);
+
+						/* Clear previous local data. */
+						if (prevUser != null && prevUser != email) {
+							editor.Clear();
+							editor.Commit();
+						}
+
+						editor.PutString(Settings.Keys.USERNAME, email);
+						editor.PutString(Settings.Keys.PASSWORD_HASH, passwordHash);
+						editor.PutBoolean(Settings.Keys.REMEMBER_ME, rememberMeBox.Checked);
 						editor.Commit();
-						;
+
 						StartActivity(new Intent(this, typeof(RestaurantListActivity)));
 						Finish();
 						break;
@@ -93,8 +105,8 @@ namespace KinderFinder_Droid {
 						break;
 				/* Some kind of server error happened. */
 					default:
-						Console.WriteLine("Error: " + reply.StatusCode.ToString());
-						message = "Server error. Please try again later";
+						Console.WriteLine("Error: " + reply.StatusCode);
+						message = Settings.Errors.SERVER_ERROR;
 						break;
 				}
 
@@ -106,8 +118,6 @@ namespace KinderFinder_Droid {
 					progressBar.Visibility = Android.Views.ViewStates.Invisible;
 				});
 			});
-			//FindViewById<Button>(Resource.Id.Main_Login).Click += LogUserIn;
-			//FindViewById<Button>(Resource.Id.Main_Register).Click += RegisterUser;
 		}
 
 		/// <summary>
@@ -117,20 +127,23 @@ namespace KinderFinder_Droid {
 		void LogInPressed(object sender, EventArgs e) {
 			string email = emailBox.Text;
 			string password = passwordBox.Text;
+			string errorMsg = null;
 
 			/* Hide keyboard. */
 			var manager = (InputMethodManager)GetSystemService(InputMethodService);
 			manager.HideSoftInputFromWindow(emailBox.WindowToken, 0);
 
 			/* Invalid email address. */
-			if (!Utility.IsValidEmailAddress(email))
-				Toast.MakeText(this, "Please enter a valid email address", ToastLength.Long).Show();
+			if (!Validator.IsValidEmailAddress(email))
+				errorMsg = "Email address must be valid";
 			/* Invalid password length. */
-			else if (password.Length < Globals.PASSWORD_MIN_LENGTH || password.Length > Globals.PASSWORD_MAX_LENGTH)
-				Toast.MakeText(this, "Password must be between " + Globals.PASSWORD_MIN_LENGTH + " and " + Globals.PASSWORD_MAX_LENGTH + " characters long", ToastLength.Long).Show();
-			/* Valid details; attempt to log in. */
+			else if (!Validator.IsValidPassword(password))
+				errorMsg = string.Format("{0} must be between {1} and {2} characters", "Password", Settings.Lengths.PASSWORD_MIN, Settings.Lengths.PASSWORD_MAX);
+
+			if (errorMsg == null)
+				LogIn(email, AppTools.HashPassword(password));
 			else
-				LogIn(email, Utility.HashPassword(password));
+				Toast.MakeText(this, errorMsg, ToastLength.Short).Show();
 		}
 	}
 }

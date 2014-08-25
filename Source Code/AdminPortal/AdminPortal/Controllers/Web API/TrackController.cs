@@ -62,18 +62,16 @@ namespace AdminPortal.Controllers.Web_API {
 
 		[HttpPost]
 		public IHttpActionResult GetLocations(RequestDetails details) {
+			// TODO: Update this when locations are available.
 			var result = new List<string>();
 
 			foreach (var item in Children) {
-				//System.Diagnostics.Debug.WriteLine("Here: " + item.X.ToString() + "; " + item.Y.ToString());
-
 				result.Add(item.X.ToString());
 				result.Add(item.Y.ToString());
 
 				item.Increment();
 			}
 
-			//System.Diagnostics.Debug.WriteLine("");
 			return Ok(result);
 		}
 

@@ -1,16 +1,13 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 
 using Android.Graphics;
 
-namespace KinderFinder_Droid {
+namespace KinderFinder {
 
 	public class MapCache {
-		static readonly string APP_FOLDER = Android.OS.Environment.ExternalStorageDirectory + "/KinderFinder/";
-		const string MAPS_FOLDER = "maps/";
-		const string IMAGE_EXTENSION = ".jpg";
-		const string ENCRYPTION_PASSWORD = "fv651J5C38v7P7u76W5a5Ely9mk8PM6A";
+		static readonly string APP_FOLDER = Android.OS.Environment.ExternalStorageDirectory + "/" + Settings.Storage.BASE;
 
 		readonly string CacheFilePath;
 
@@ -24,15 +21,15 @@ namespace KinderFinder_Droid {
 			}
 
 			// Create the "KinderFinder/maps/" folder if it doesn't exist:
-			if (!Directory.Exists(APP_FOLDER + MAPS_FOLDER)) {
-				Directory.CreateDirectory(APP_FOLDER + MAPS_FOLDER);
+			if (!Directory.Exists(APP_FOLDER + Settings.Storage.MAPS)) {
+				Directory.CreateDirectory(APP_FOLDER + Settings.Storage.MAPS);
 				Console.WriteLine("Info: Created maps folder.");
 			}
 
 			// Create the cache file if it doesn't exist:
 			if (!File.Exists(APP_FOLDER + CacheFilePath)) {
 				File.Create(APP_FOLDER + "temp").Close();
-				SharpAESCrypt.SharpAESCrypt.Encrypt(ENCRYPTION_PASSWORD, APP_FOLDER + "temp", APP_FOLDER + CacheFilePath);
+				SharpAESCrypt.SharpAESCrypt.Encrypt(Settings.ENCRYPTION_PASSWORD, APP_FOLDER + "temp", APP_FOLDER + CacheFilePath);
 				File.Delete(APP_FOLDER + "temp");
 				Console.WriteLine("Info: Created cache file.");
 			}
@@ -43,7 +40,7 @@ namespace KinderFinder_Droid {
 		/// </summary>
 		/// <returns>The decrypted version of the cache file.</returns>
 		string[] ReadEncryptedFile() {
-			SharpAESCrypt.SharpAESCrypt.Decrypt(ENCRYPTION_PASSWORD, APP_FOLDER + CacheFilePath, APP_FOLDER + "temp");
+			SharpAESCrypt.SharpAESCrypt.Decrypt(Settings.ENCRYPTION_PASSWORD, APP_FOLDER + CacheFilePath, APP_FOLDER + "temp");
 			string[] result = File.ReadAllLines(APP_FOLDER + "temp");
 			File.Delete(APP_FOLDER + "temp");
 
@@ -60,7 +57,7 @@ namespace KinderFinder_Droid {
 					writer.WriteLine(line);
 			}
 
-			SharpAESCrypt.SharpAESCrypt.Encrypt(ENCRYPTION_PASSWORD, APP_FOLDER + "temp", APP_FOLDER + CacheFilePath);
+			SharpAESCrypt.SharpAESCrypt.Encrypt(Settings.ENCRYPTION_PASSWORD, APP_FOLDER + "temp", APP_FOLDER + CacheFilePath);
 			File.Delete(APP_FOLDER + "temp");
 		}
 
@@ -116,7 +113,7 @@ namespace KinderFinder_Droid {
 						found = true;
 
 						// Store map image on device:
-						using (var stream = new FileStream(APP_FOLDER + MAPS_FOLDER + restName + IMAGE_EXTENSION, FileMode.Create))
+						using (var stream = new FileStream(APP_FOLDER + Settings.Storage.MAPS + restName + Settings.Storage.IMAGE_EXTENSION, FileMode.Create))
 							map.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
 
 						Console.WriteLine("Info: Updated '" + restName + "' in cache file.");
@@ -134,7 +131,7 @@ namespace KinderFinder_Droid {
 			if (!found) {
 				result.Add(restName + ":" + bytesCount);
 
-				using (var stream = new FileStream(APP_FOLDER + MAPS_FOLDER + restName + IMAGE_EXTENSION, FileMode.Create))
+				using (var stream = new FileStream(APP_FOLDER + Settings.Storage.MAPS + restName + Settings.Storage.IMAGE_EXTENSION, FileMode.Create))
 					map.Compress(Bitmap.CompressFormat.Jpeg, 100, stream);
 
 				Console.WriteLine("Info: Added '" + restName + "' to cache file.");
@@ -150,7 +147,7 @@ namespace KinderFinder_Droid {
 		/// <param name="restName">Restaurant name.</param>
 		/// <returns>The stored map if found; null otherwise.</returns>
 		public Bitmap GetStoredMap(string restName) {
-			string path = APP_FOLDER + MAPS_FOLDER + restName + IMAGE_EXTENSION;
+			string path = APP_FOLDER + Settings.Storage.MAPS + restName + Settings.Storage.IMAGE_EXTENSION;
 
 			if (!File.Exists(path))
 				return null;

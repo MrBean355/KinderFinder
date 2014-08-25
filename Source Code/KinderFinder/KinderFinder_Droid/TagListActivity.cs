@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Threading;
 
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Widget;
 
-namespace KinderFinder_Droid {
+namespace KinderFinder {
 
-	[Activity(Label = "Linked Tags")]			
+	[Activity(Label = "Linked Tags", Icon = "@drawable/icon")]
 	public class TagListActivity : Activity {
 		ISharedPreferences pref;
 		ISharedPreferencesEditor editor;
@@ -21,7 +23,7 @@ namespace KinderFinder_Droid {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.TagList);
 
-			pref = GetSharedPreferences(Globals.PREFERENCES_FILE, 0);
+			pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
 			editor = pref.Edit();
 
 			trackButton = FindViewById<Button>(Resource.Id.TagList_Track);
@@ -61,16 +63,10 @@ namespace KinderFinder_Droid {
 
 			/* When OK is clicked, save the child's name. */
 			alert.SetPositiveButton("OK", (s, e) => {
-				string name = input.Text;
-
-				if (name.Length < 3)
-					Toast.MakeText(this, "Name must be at least 3 characters", ToastLength.Long).Show();
-				else {
-					editor.PutString(tag, name);
-					editor.Commit();
-					LoadItems(); // reload list.
-					Toast.MakeText(this, "Success", ToastLength.Long).Show();
-				}
+				editor.PutString(tag, input.Text);
+				editor.Commit();
+				LoadItems(); // reload list.
+				Toast.MakeText(this, "Success", ToastLength.Long).Show();
 			});
 
 			/* When Cancel is clicked, do nothing special. */
@@ -84,26 +80,61 @@ namespace KinderFinder_Droid {
 		/// Populates the tag list by contacting the server and getting a list of linked tags.
 		/// </summary>
 		void LoadItems() {
-			ServerResponse reply = Utility.SendData("api/taglist", "{ \"EmailAddress\":\"" + pref.GetString(Globals.KEY_USERNAME, "") + "\" }");
-			tags = Utility.ParseJSON(reply.Body);
-			var items = new List<string>(tags);
+			string email = pref.GetString(Settings.Keys.USERNAME, null);
 
-			if (tags.Count == 0)
-				warning.Visibility = Android.Views.ViewStates.Visible;
-			else {
-				for (int i = 0; i < items.Count; i++) {
-					string name = pref.GetString(tags[i], "");
-
-					if (name.Equals(""))
-						name = "(none assigned)";
-
-					items[i] += " - " + name;
-				}
-
-				warning.Visibility = Android.Views.ViewStates.Gone;
+			if (email == null) {
+				Toast.MakeText(this, Settings.Errors.LOCAL_DATA_ERROR, ToastLength.Long).Show();
+				return;
 			}
 
-			tagListView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, items);
+			var builder = new JsonBuilder();
+			builder.AddEntry("EmailAddress", email);
+
+			ThreadPool.QueueUserWorkItem(state => {
+				var reply = AppTools.SendRequest("api/taglist", builder.ToString());
+				string message = null;
+
+				switch (reply.StatusCode) {
+					case HttpStatusCode.OK:
+						tags = AppTools.ParseJSON(reply.Body);
+						break;
+					case HttpStatusCode.BadRequest:
+						message = "Invalid user details";
+						break;
+					default:
+						message = Settings.Errors.SERVER_ERROR;
+						break;
+				}
+
+				/* Error message was set; create empty list. */
+				if (message != null)
+					tags = new List<string>();
+
+				/* Temporary list for displaying children's names next to tags. */
+				var listItems = new List<string>(tags);
+
+				RunOnUiThread(() => {
+					/* No linked tags; show warning message. */
+					if (tags.Count == 0)
+						warning.Visibility = Android.Views.ViewStates.Visible;
+					/* Has linked tags; display them. */
+					else {
+						for (int i = 0; i < tags.Count; i++) {
+							string name = pref.GetString(tags[i], ""); // load child's name.
+
+							if (name.Equals(""))
+								name = "(no child assigned)";
+
+							listItems[i] += ": " + name;
+						}
+
+						warning.Visibility = Android.Views.ViewStates.Gone; // hide warning message.
+					}
+
+					/* Show temporary list. */
+					tagListView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, listItems);
+				});
+			});
 		}
 	}
 }
