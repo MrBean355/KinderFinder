@@ -7,32 +7,26 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AdminPortal.Models {
-	using System;
-	using System.Collections.Generic;
-	using System.ComponentModel.DataAnnotations;
-
-	public partial class Restaurant {
-		public Restaurant() {
-			this.AppUsers = new HashSet<AppUser>();
-			this.Tags = new HashSet<Tag>();
-		}
-
-		public int ID { get; set; }
-
-		[Display(Name = "Name")]
-		public string Name { get; set; }
-
-		[Display(Name = "Map")]
-		public byte[] Map { get; set; }
-
-		[Display(Name = "Administrator")]
-		public string Admin { get; set; }
-
-		[Display(Name = "Custom Label")]
-		public virtual AspNetUser AspNetUser { get; set; }
-
-		public virtual ICollection<AppUser> AppUsers { get; set; }
-		public virtual ICollection<Tag> Tags { get; set; }
-	}
+namespace AdminPortal.Models
+{
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class Restaurant
+    {
+        public Restaurant()
+        {
+            this.AppUsers = new HashSet<AppUser>();
+            this.Tags = new HashSet<Tag>();
+        }
+    
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public byte[] Map { get; set; }
+        public string Admin { get; set; }
+    
+        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual ICollection<AppUser> AppUsers { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
+    }
 }

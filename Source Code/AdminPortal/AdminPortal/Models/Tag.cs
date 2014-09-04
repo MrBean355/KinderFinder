@@ -7,26 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AdminPortal.Models {
-	using System;
-	using System.ComponentModel.DataAnnotations;
-
-	public partial class Tag {
-		public int ID { get; set; }
-
-		[Display(Name = "Custom Label")]
-		public string Label { get; set; }
-
-		[Display(Name = "Owning Restaurant")]
-		public Nullable<int> Restaurant { get; set; }
-
-		[Display(Name = "Current App User")]
-		public Nullable<int> CurrentUser { get; set; }
-
-		[Display(Name = "Current App User")]
-		public virtual AppUser AppUser { get; set; }
-
-		[Display(Name = "Owning Restaurant")]
-		public virtual Restaurant Restaurant1 { get; set; }
-	}
+namespace AdminPortal.Models
+{
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class Tag
+    {
+        public int ID { get; set; }
+        public string Label { get; set; }
+        public Nullable<int> Restaurant { get; set; }
+        public Nullable<int> CurrentUser { get; set; }
+        public bool OutOfOrder { get; set; }
+        public Nullable<System.DateTime> LastAccessed { get; set; }
+    
+        public virtual AppUser AppUser { get; set; }
+        public virtual Restaurant Restaurant1 { get; set; }
+    }
 }

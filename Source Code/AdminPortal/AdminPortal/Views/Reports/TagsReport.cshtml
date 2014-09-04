@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IEnumerable<AdminPortal.Models.Tag>
+
+@{
+    ViewBag.Title = "Tags Report";
+     ViewBag.OutOfOrderTagsCount = 0;
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+<table class="table">
+
+    @foreach (var item in Model) {
+        if(item.OutOfOrder == true) {
+            ViewBag.OutOfOrderTagsCount++;
+        @*<tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Label)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Restaurant1.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppUser.FirstName)
+            </td>
+        </tr>*@
+    }
+    }
+
+</table>
+
+<table>
+    <tr>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>Total number of Tags out of order: </td>
+        <td>@ViewBag.OutOfOrderTagsCount</td>
+    </tr>
+    <tr>
+        <td>Total number of Tags: </td>
+        <td>@Model.Count()</td>
+    </tr>
+</table>
+
+<div>
+    @Html.ActionLink("Back to Reports main page", "")
+</div>

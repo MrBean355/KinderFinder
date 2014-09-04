@@ -10,11 +10,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="EmailAddress" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="PasswordHash" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Surname" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
           <Property Name="CurrentRestaurant" Type="int" />
         </EntityType>
         <EntityType Name="AspNetUsers">
@@ -49,8 +49,10 @@
           </Key>
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Label" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Restaurant" Type="int" Nullable="false" />
+          <Property Name="Restaurant" Type="int" />
           <Property Name="CurrentUser" Type="int" />
+          <Property Name="OutOfOrder" Type="bit" Nullable="false" />
+          <Property Name="LastAccessed" Type="date" />
         </EntityType>
         <Association Name="FK__AppUser__Current__02FC7413">
           <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="0..1" />
@@ -88,8 +90,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Tag__Restaurant__160F4887">
-          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+        <Association Name="FK__Tag__Restaurant__2739D489">
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="0..1" />
           <End Role="Tag" Type="Self.Tag" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Restaurant">
@@ -117,7 +119,7 @@
             <End Role="AppUser" EntitySet="AppUser" />
             <End Role="Tag" EntitySet="Tag" />
           </AssociationSet>
-          <AssociationSet Name="FK__Tag__Restaurant__160F4887" Association="Self.FK__Tag__Restaurant__160F4887">
+          <AssociationSet Name="FK__Tag__Restaurant__2739D489" Association="Self.FK__Tag__Restaurant__2739D489">
             <End Role="Restaurant" EntitySet="Restaurant" />
             <End Role="Tag" EntitySet="Tag" />
           </AssociationSet>
@@ -195,11 +197,11 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Surname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PasswordHash" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CurrentRestaurant" Type="Int32" />
           <NavigationProperty Name="Restaurant" Relationship="Model.FK__AppUser__Current__02FC7413" FromRole="AppUser" ToRole="Restaurant" />
           <NavigationProperty Name="Tags" Relationship="Model.FK__Tag__CurrentUser__17036CC0" FromRole="AppUser" ToRole="Tag" />
@@ -222,10 +224,12 @@
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Label" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Restaurant" Type="Int32" Nullable="false" />
+          <Property Name="Restaurant" Type="Int32" />
           <Property Name="CurrentUser" Type="Int32" />
           <NavigationProperty Name="AppUser" Relationship="Model.FK__Tag__CurrentUser__17036CC0" FromRole="Tag" ToRole="AppUser" />
           <NavigationProperty Name="Restaurant1" Relationship="Model.FK__Tag__Restaurant__160F4887" FromRole="Tag" ToRole="Restaurant" />
+          <Property Name="OutOfOrder" Type="Boolean" Nullable="false" />
+          <Property Name="LastAccessed" Type="DateTime" Precision="0" />
         </EntityType>
         <Association Name="FK__Tag__CurrentUser__17036CC0">
           <End Type="Model.AppUser" Role="AppUser" Multiplicity="0..1" />
@@ -240,7 +244,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK__Tag__Restaurant__160F4887">
-          <End Type="Model.Restaurant" Role="Restaurant" Multiplicity="1" />
+          <End Type="Model.Restaurant" Role="Restaurant" Multiplicity="0..1" />
           <End Type="Model.Tag" Role="Tag" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Restaurant">
@@ -301,6 +305,8 @@
           <EntitySetMapping Name="Tags">
             <EntityTypeMapping TypeName="Model.Tag">
               <MappingFragment StoreEntitySet="Tag">
+                <ScalarProperty Name="LastAccessed" ColumnName="LastAccessed" />
+                <ScalarProperty Name="OutOfOrder" ColumnName="OutOfOrder" />
                 <ScalarProperty Name="CurrentUser" ColumnName="CurrentUser" />
                 <ScalarProperty Name="Restaurant" ColumnName="Restaurant" />
                 <ScalarProperty Name="Label" ColumnName="Label" />
@@ -322,8 +328,8 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
-        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="False" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

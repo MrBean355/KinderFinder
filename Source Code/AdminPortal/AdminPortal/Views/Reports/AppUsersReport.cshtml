@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model IEnumerable<AdminPortal.Models.AppUser>
+
+@{
+    ViewBag.Title = "App Users Statistics";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table>
+    <tr>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>Total number of App Users: </td>
+        <td>@Model.Count()</td>
+    </tr>
+</table>
+
+<div>
+    @Html.ActionLink("Back to Reports main page", "")
+</div>

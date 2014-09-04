@@ -13,8 +13,20 @@ namespace AdminPortal.Controllers {
 
 		// GET: Reports
 		public ActionResult Index() {
-			return View(db.Tags.ToList());
+			return View();
 		}
+
+        // GET: AppUsersReport
+        public ActionResult AppUsersReport()
+        {
+            return View(db.AppUsers.ToList());
+        }
+
+        // GET: TagssReport
+        public ActionResult TagsReport()
+        {
+            return View(db.Tags.ToList());
+        }
 
 		protected override void Dispose(bool disposing) {
 			if (disposing) {

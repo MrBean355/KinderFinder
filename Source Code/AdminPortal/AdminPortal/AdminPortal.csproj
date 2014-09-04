@@ -296,6 +296,8 @@
     <Content Include="Views\Tags\Index.cshtml" />
     <Content Include="Views\Index.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\Reports\TagsReport.cshtml" />
+    <Content Include="Views\Reports\AppUsersReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

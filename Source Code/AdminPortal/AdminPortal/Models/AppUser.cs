@@ -7,36 +7,27 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AdminPortal.Models {
-	using System;
-	using System.Collections.Generic;
-	using System.ComponentModel.DataAnnotations;
-
-	public partial class AppUser {
-		public AppUser() {
-			this.Tags = new HashSet<Tag>();
-		}
-
-		public int ID { get; set; }
-
-		[Display(Name = "First Name")]
-		public string FirstName { get; set; }
-
-		[Display(Name = "Surname")]
-		public string Surname { get; set; }
-
-		[Display(Name = "Email Address")]
-		public string EmailAddress { get; set; }
-
-		[Display(Name = "Phone Number")]
-		public string PhoneNumber { get; set; }
-
-		public string PasswordHash { get; set; }
-
-		[Display(Name = "Current Restaurant")]
-		public Nullable<int> CurrentRestaurant { get; set; }
-
-		public virtual Restaurant Restaurant { get; set; }
-		public virtual ICollection<Tag> Tags { get; set; }
-	}
+namespace AdminPortal.Models
+{
+    using System;
+    using System.Collections.Generic;
+    
+    public partial class AppUser
+    {
+        public AppUser()
+        {
+            this.Tags = new HashSet<Tag>();
+        }
+    
+        public int ID { get; set; }
+        public string FirstName { get; set; }
+        public string Surname { get; set; }
+        public string EmailAddress { get; set; }
+        public string PhoneNumber { get; set; }
+        public string PasswordHash { get; set; }
+        public Nullable<int> CurrentRestaurant { get; set; }
+    
+        public virtual Restaurant Restaurant { get; set; }
+        public virtual ICollection<Tag> Tags { get; set; }
+    }
 }
