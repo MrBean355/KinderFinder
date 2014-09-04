@@ -1,5 +1,8 @@
-﻿using System;
+﻿using AdminPortal.Models;
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace AdminPortal.Controllers.Web_API {
@@ -51,24 +54,43 @@ namespace AdminPortal.Controllers.Web_API {
 	}
 
 	public class TrackController : ApiController {
+		private const int MAX_TAGS = 50;
 		private static List<ChildSimulator> Children;
+
+		private KinderFinderEntities Db = new KinderFinderEntities();
 
 		static TrackController() {
 			Children = new List<ChildSimulator>();
 
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < MAX_TAGS; i++)
 				Children.Add(new ChildSimulator());
 		}
 
+		/**
+		 * TODO: Update this function to return actual locations.
+		 */
 		[HttpPost]
 		public IHttpActionResult GetLocations(RequestDetails details) {
-			// TODO: Update this when locations are available.
+			// Determine user's current restaurant:
+			var restaurant = (from item in Db.AppUsers
+							  where item.EmailAddress.Equals(details.EmailAddress)
+							  select item.Restaurant).FirstOrDefault();
+
+			// Count how many tags they have at the restaurant:
+			var tags = (from item in Db.Tags
+						where item.AppUser.EmailAddress.Equals(details.EmailAddress, StringComparison.CurrentCultureIgnoreCase)
+							&& item.Restaurant == restaurant.ID
+						select item).Count();
+
 			var result = new List<string>();
 
-			foreach (var item in Children) {
+			for (int i = 0; i < Children.Count; i++) {
+				if (i >= tags)
+					break;
+
+				ChildSimulator item = Children[i];
 				result.Add(item.X.ToString());
 				result.Add(item.Y.ToString());
-
 				item.Increment();
 			}
 

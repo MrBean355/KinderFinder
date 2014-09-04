@@ -97,7 +97,7 @@ namespace KinderFinder {
 						mapImage.SetImageBitmap(OriginalMap);
 
 						Timer = new Timer(UpdateMap);
-						Timer.Change(0, 1000);
+						Timer.Change(0, Settings.Map.UPDATE_FREQUENCY);
 					}
 					/* Something went wrong. */
 					else
@@ -140,7 +140,7 @@ namespace KinderFinder {
 			var paint = new Paint();
 
 			paint.SetStyle(Paint.Style.Fill);
-			paint.SetARGB(255, 0, 200, 0);
+			paint.SetARGB(Settings.Map.DOT_COLOUR_ALPHA, Settings.Map.DOT_COLOUR_RED, Settings.Map.DOT_COLOUR_GREEN, Settings.Map.DOT_COLOUR_BLUE);
 			canvas.DrawBitmap(OriginalMap, 0, 0, null); // draw map normally.
 
 			// If we could retrieve the locations, draw them:
@@ -152,7 +152,7 @@ namespace KinderFinder {
 					if (double.TryParse(locations[i], out loc1) && double.TryParse(locations[i + 1], out loc2)) {
 						int x = (int)(loc1 * OriginalMap.Width);
 						int y = (int)(loc2 * OriginalMap.Height);
-						canvas.DrawCircle(x, y, 10, paint);
+						canvas.DrawCircle(x, y, Settings.Map.DOT_SIZE_RADIUS, paint);
 					}
 					else
 						RunOnUiThread(() => Toast.MakeText(this, "Server replied with some invalid data", ToastLength.Short).Show());

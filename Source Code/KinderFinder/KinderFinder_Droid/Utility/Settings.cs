@@ -34,5 +34,15 @@ namespace KinderFinder {
 			public const int PASSWORD_MIN = 6;
 			public const int PASSWORD_MAX = 50;
 		}
+
+		public static class Map {
+			public const int DOT_COLOUR_BLUE = 150;
+			public const int DOT_COLOUR_ALPHA = 150;
+			public const int DOT_COLOUR_RED = 0;
+			public const int DOT_COLOUR_GREEN = 255;
+			public const int DOT_SIZE_RADIUS = 10;
+
+			public const int UPDATE_FREQUENCY = 1000;
+		}
 	}
 }
