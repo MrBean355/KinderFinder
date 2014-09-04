@@ -37,6 +37,16 @@ namespace KinderFinder {
 		}
 
 		/// <summary>
+		/// When the screen is closed, stop the timer.
+		/// </summary>
+		protected override void OnStop() {
+			base.OnStop();
+
+			if (Timer != null)
+				Timer.Dispose();
+		}
+
+		/// <summary>
 		/// Displays the map image by setting the ImageView's bitmap. Checks if the image is cached and loads it if
 		/// there is no newer version on the server.
 		/// </summary>
@@ -149,7 +159,7 @@ namespace KinderFinder {
 					double loc1;
 					double loc2;
 
-					if (double.TryParse(locations[i], out loc1) && double.TryParse(locations[i + 1], out loc2)) {
+					if (AppTools.ParseDouble(locations[i], out loc1) && AppTools.ParseDouble(locations[i + 1], out loc2)) {
 						int x = (int)(loc1 * OriginalMap.Width);
 						int y = (int)(loc2 * OriginalMap.Height);
 						canvas.DrawCircle(x, y, Settings.Map.DOT_SIZE_RADIUS, paint);

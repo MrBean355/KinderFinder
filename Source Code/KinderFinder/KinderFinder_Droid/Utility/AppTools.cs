@@ -12,6 +12,20 @@ namespace KinderFinder {
 	public static class AppTools {
 
 		/// <summary>
+		/// Parses a string into a double, replacing commas with full stops. This is done because doing this:
+		/// 	double.TryParse("0,123", out d)
+		/// results in d being 123 instead of 0.123. In other words, the built-in function gets confused when the
+		/// decimal separator is a comma and not a full stop.
+		/// </summary>
+		/// <param name="input">Input string.</param>
+		/// <param name="output">Output double if successful.</param>
+		/// <returns>True if successfully parsed; false otherwise.</returns>
+		public static bool ParseDouble(string input, out double output) {
+			input = input.Replace(",", ".");
+			return double.TryParse(input, out output);
+		}
+
+		/// <summary>
 		/// Attempts to parse a JSON string into a list.
 		/// </summary>
 		/// <param name="json">Input string to parse./param>
@@ -22,6 +36,7 @@ namespace KinderFinder {
 			if (json.Length == 0)
 				return result;
 
+			// At this point: ["0,567178641556379","0,544309737726259"]
 			/* Remove '[' and ']' from string. */
 			if (json[0] == '[') {
 				json = json.Remove(json.Length - 1, 1);
@@ -31,19 +46,28 @@ namespace KinderFinder {
 			if (json.Length == 0)
 				return result;
 
-			string[] a = json.Split(',');
+			string temp = "";
 
-			foreach (string s in a) {
-				string temp = s;
-
-				/* Remove surrounding quotation marks. */
-				if (temp[0] == '"' && temp[temp.Length - 1] == '"') {
-					temp = s.Remove(s.Length - 1, 1);
-					temp = temp.Remove(0, 1);
+			// At this point: "0,567178641556379","0,544309737726259"
+			for (int i = 0; i < json.Length; i++) {
+				// Opening quotation found; read until closing one found:
+				if (json[i] == '"') {
+					while (json[++i] != '"')
+						temp += json[i];
+					// TODO: Possibly fix situation where there is a quotation mark embedded in the string, like:
+					// ["hello","wo"rld"]
+					// Check if the embedded quotation mark will be escaped automatically.
 				}
-
-				result.Add(temp);
+				// Element separator found; add previous element:
+				else if (json[i] == ',') {
+					result.Add(temp);
+					temp = "";
+				}
 			}
+
+			// Add final element:
+			if (!temp.Equals(""))
+				result.Add(temp);
 
 			return result;
 		}
