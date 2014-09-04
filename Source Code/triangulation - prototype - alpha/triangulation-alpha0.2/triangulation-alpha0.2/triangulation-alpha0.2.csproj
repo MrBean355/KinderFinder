@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{35C17DFD-00BC-484A-AA47-38BACE47E265}</ProjectGuid>
+    <ProjectGuid>{67C85851-6DB8-40DF-96ED-4F07B8EA698A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TriangulateAlpha</RootNamespace>
-    <AssemblyName>TriangulateAlpha</AssemblyName>
+    <RootNamespace>triangulation_alpha0._2</RootNamespace>
+    <AssemblyName>triangulation-alpha0.2</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -41,8 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdapterToReciever.cs" />
+    <Compile Include="Reciever.cs" />
+    <Compile Include="Coordinates.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Triangulate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

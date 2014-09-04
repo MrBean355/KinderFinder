@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TriangulateAlpha", "TriangulateAlpha\TriangulateAlpha.csproj", "{35C17DFD-00BC-484A-AA47-38BACE47E265}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "triangulation-alpha0.2", "triangulation-alpha0.2\triangulation-alpha0.2.csproj", "{67C85851-6DB8-40DF-96ED-4F07B8EA698A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{35C17DFD-00BC-484A-AA47-38BACE47E265}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35C17DFD-00BC-484A-AA47-38BACE47E265}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35C17DFD-00BC-484A-AA47-38BACE47E265}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35C17DFD-00BC-484A-AA47-38BACE47E265}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67C85851-6DB8-40DF-96ED-4F07B8EA698A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67C85851-6DB8-40DF-96ED-4F07B8EA698A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67C85851-6DB8-40DF-96ED-4F07B8EA698A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67C85851-6DB8-40DF-96ED-4F07B8EA698A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

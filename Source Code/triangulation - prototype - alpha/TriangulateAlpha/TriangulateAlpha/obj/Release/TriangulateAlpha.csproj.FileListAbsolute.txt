@@ -1,6 +1,0 @@
-D:\GitHub\KinderFinder\Source Code\triangulation - prototype - alpha\TriangulateAlpha\TriangulateAlpha\bin\Release\TriangulateAlpha.exe.config
-D:\GitHub\KinderFinder\Source Code\triangulation - prototype - alpha\TriangulateAlpha\TriangulateAlpha\bin\Release\TriangulateAlpha.exe
-D:\GitHub\KinderFinder\Source Code\triangulation - prototype - alpha\TriangulateAlpha\TriangulateAlpha\bin\Release\TriangulateAlpha.pdb
-D:\GitHub\KinderFinder\Source Code\triangulation - prototype - alpha\TriangulateAlpha\TriangulateAlpha\obj\Release\TriangulateAlpha.csprojResolveAssemblyReference.cache
-D:\GitHub\KinderFinder\Source Code\triangulation - prototype - alpha\TriangulateAlpha\TriangulateAlpha\obj\Release\TriangulateAlpha.exe
-D:\GitHub\KinderFinder\Source Code\triangulation - prototype - alpha\TriangulateAlpha\TriangulateAlpha\obj\Release\TriangulateAlpha.pdb

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TriangulateAlpha")]
+[assembly: AssemblyTitle("triangulation-alpha0.2")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("TriangulateAlpha")]
+[assembly: AssemblyProduct("triangulation-alpha0.2")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ff619325-9866-4900-aa1c-fad27793bbf1")]
+[assembly: Guid("4dc4a15e-97ac-4faa-8d8a-5c2e3e8e457b")]
 
 // Version information for an assembly consists of the following four values:
 //
