@@ -1,0 +1,147 @@
+\documentclass[11pt,titlepage]{article} % use larger type; default would be 10pt
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+\usepackage{geometry}
+\geometry{a4paper}
+\geometry{margin=2cm}
+\geometry{portrait}
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
+
+\title{
+		\normalfont \normalsize \textsc{Client Name: DVT} \\
+		\normalfont \normalsize \textsc{Project Name: KinderFinder} \\ [25pt]
+		\horrule{0.5pt} \\[0.4cm]
+		\huge Software Architecture \\
+		\horrule{2pt} \\[0.5cm]
+}
+\author{\begin{tabular}{rl}
+	\texttt{Team Name:} & \texttt{MAU Technologies} \\[0.5cm]
+	Uteshlen Nadesan & 28163304 \\
+	Michael Johnston & 12053300 \\
+	Po-Han Chiu & 11063612
+\end{tabular}
+	\\ \\ \texttt{https://github.com/MrBean355/KinderFinder.git}
+	\\ \\ \texttt{Version: 0.4}}
+\date{12 September 2014}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Architecture requirements}
+
+\subsection{Architectural scope}
+The project will consist of five main components of which one is still a proof of concept (POC).
+\begin{itemize}
+	\item{Web Administration} \\
+	The Web administration must
+	\begin{itemize}
+	\item  Be used to allow installers of the system to setup restaurants and their layouts (using maps). 
+	\item  Enable restaurants to link  wristbands to  a Patron’s mobile application, or assigned electronic tracking device (device not in scope). 
+	\item  Enable restaurants to clear and unlink wristbands from devices and patrons’ mobile apps. 
+	\item  Allow access to basic reporting will also be done through the Web Administration.
+	\end{itemize}
+	
+	
+	\item{Mobile Application}\\
+	The mobile application needs to be developed for either Android or IOS. Ideally both, but for the scope of this project only one platform needs to be supported, unless the project team feels they would want to use some cross platform technology like for eg. Xamarin. This can be discussed with DVT. The mobile application will be one of the methods used by restaurant patrons to access tracking information on their children while having their dining experience. 
+	
+	\item{Web API} \\
+The  system  must  have  a  central  web  based  API  that  concerns  itself  with  gathering information and supplying information from the system. This API will be used by:
+\begin{itemize}
+\item Mobile Application
+\item Web Administration
+\item A Service, if needed, that can push information to devices
+\end{itemize}
+
+Therefore this API must be loosely coupled from any implementation using it ,  as it needs to 
+be re-used for multiple implementations, and possible future applications/implementations.
+	\item{Basic Reporting}\\
+		Basic reporting must be available through the web administration:
+	\begin{itemize}
+ \item  Facility usage (zonebased) by children. This will enable a restaurant to see statistics 
+ on which areas are most popular for children. 
+ \item  Usage statistic of mobile app users that could possibly enable restaurant chains to 
+ implement a loyalty program. 
+ \item  Health reports, reports that will indicate the health of the hardware being used. 
+	\end{itemize}
+	\item{Embedded Hardware and prototyping (POC)}\\
+	Physical hardware devices used in this project includes
+	\begin{itemize}
+		 \item Receiver/Reader prototype
+		 \begin{itemize}
+		 \item These are devices that are placed  at predetermined  locations within the designated area where tracking will occur in order to pick up wristbands and  their relative signal strengths. These devices will use wireless communication 
+ will to communicate this information to an access point with internet access. 
+		 \end{itemize}
+		 
+		\end{itemize}
+	\end{itemize}
+
+\subsection{Quality requirements}
+The quality requirements are the requirements around the quality attributes of the systems and the services it provides. 
+This includes requirements like
+\begin{itemize}
+\item performance
+\item scalability
+\item security
+\item auditabilty
+\item usability
+\item testability
+\end{itemize}
+
+\subsection{Integration and access channel requirements}
+There are no external systems that must be integrated with. However, it needs to integrate with the various hardware devices (such as RFID transmitters and receivers).\\
+The system will be access in two ways; the mobile app, which is used by the parents that are monitoring their children and through a web portal, which is how administrators will access the system for maintenance.
+
+\subsection{Architectural constraints}
+The only constraint for this project is the tools used to build the database for the system, those are the tools the client prefers and specified in the requirements specification.
+
+\section{Architectural patterns or styles}
+The main programming language to be used is C\#, since we are required to use the .NET Framework.\\
+The client browsers and app will be using HTTP messages to communicate with the web API.\\
+The client requested that we make use of the Entity Framework, which is an ORM (object-relational mapper), as it will greatly improve maintainability.
+
+\section{Architectural tactics or strategies}
+%%% TODO!
+As for Architectural tactics and strategies, we will are proposing to use a multi threaded approach in order to achieve scalability. Caching will be done on the maps that need to be downloaded to the mobile application, this will allow users to keep the maps of areas they feel they will frequently visit. 
+
+\section{Use of reference architectures and frameworks}
+%%% TODO!
+We will be using an object relational mapper in the form of the Entity Framework. This will be used to map to the SQL database making accessing database values easier through objects in the code. Reasons for choosing the Entity Framework is that in the type of database access we are dealing with, this object relational mapper provides reuse-ability so that if changes need to be made these changes are easier to implement in the future. 
+
+\section{Access and integration channels}
+End product users will access the system through a Mobile application and the administrators of the system will access the system through a Web API with more privileges and higher level of access of the system compared to the average user. Due to the nature of the project and technologies that will be used, integration is fairly due to the fact that the programming languages for most components are all compatible.
+
+\section{Technologies}
+The technologies that will be used  for this project are the following
+\begin{itemize}
+	\item{Microsoft Visual Studio}
+	\item{ASP .Net MVC 5}
+	\item{HTML 5}
+	\item{JavaScript}
+	\item{JQuery}
+	\item{ASP .Net WebApi}
+	\item{C\#}
+	\item{Microsoft SQL Server 2012}
+	\item{Xamarin}
+	\end{itemize}
+The above mentioned technologies are the technologies that are to be used for this project, but may still be subject to change at a later stage of the software development due to the unforeseen situations. 
+
+%	\subsubsection{Web API}
+
+
+\section{Constraints}
+Software constraints that have to be followed are as follows
+\begin{itemize}
+	\item{ASP .Net MVC 5}
+	\item{ASP .Net WebApi}
+\end{itemize}
+The above mentioned software constraints have been laid out by the client; however, these are not constraints that would prohibit the proper functioning of the overall project.
+
+
+
+\end{document}
