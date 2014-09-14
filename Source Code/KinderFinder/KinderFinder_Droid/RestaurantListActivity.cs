@@ -14,8 +14,40 @@ namespace KinderFinder {
 	public class RestaurantListActivity : Activity {
 		ISharedPreferences pref;
 		ISharedPreferencesEditor editor;
+
 		ListView restListView;
-		List<string> restaurants;
+		EditText searchBox;
+		Button clearButton;
+
+		List<string> AllRestaurants;
+		List<string> MatchingRestaurants;
+
+		public override bool OnCreateOptionsMenu(Android.Views.IMenu menu) {
+			base.OnCreateOptionsMenu(menu);
+			MenuInflater.Inflate(Resource.Menu.MainMenu, menu);
+			return base.OnCreateOptionsMenu(menu);
+		}
+
+		public override bool OnOptionsItemSelected(Android.Views.IMenuItem item) {
+			base.OnOptionsItemSelected(item);
+
+			switch (item.ItemId) {
+				case Resource.Id.Menu_LogOut:
+					editor.Clear();
+					editor.Commit();
+					StartActivity(new Intent(this, typeof(MainActivity)));
+					Finish();
+					break;
+				case Resource.Id.Menu_Exit:
+					System.Environment.Exit(0);
+					break;
+				default:
+					Toast.MakeText(this, "Unknown menu item selected", ToastLength.Short).Show();
+					break;
+			}
+
+			return base.OnOptionsItemSelected(item);
+		}
 
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
@@ -25,8 +57,12 @@ namespace KinderFinder {
 			editor = pref.Edit();
 
 			restListView = FindViewById<ListView>(Resource.Id.RestList_List);
+			searchBox = FindViewById<EditText>(Resource.Id.RestList_Search);
+			clearButton = FindViewById<Button>(Resource.Id.RestList_Clear);
 
 			restListView.ItemClick += ListItemClicked;
+			searchBox.TextChanged += SearchTextChanged;
+			clearButton.Click += (sender, e) => searchBox.Text = "";
 		}
 
 		/// <summary>
@@ -41,8 +77,9 @@ namespace KinderFinder {
 
 				switch (reply.StatusCode) {
 					case HttpStatusCode.OK:
-						restaurants = AppTools.ParseJSON(reply.Body);
-						RunOnUiThread(() => restListView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, restaurants));
+						AllRestaurants = AppTools.ParseJSON(reply.Body);
+						MatchingRestaurants = AllRestaurants;
+						RunOnUiThread(() => restListView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, AllRestaurants));
 						break;
 					default:
 						errorMsg = Settings.Errors.SERVER_ERROR;
@@ -52,6 +89,27 @@ namespace KinderFinder {
 				if (errorMsg != null)
 					RunOnUiThread(() => Toast.MakeText(this, errorMsg, ToastLength.Short).Show());
 			});
+		}
+
+		void SearchTextChanged(object sender, Android.Text.TextChangedEventArgs args) {
+			string search = searchBox.Text.ToLower();
+
+			if (searchBox.Text.Equals("")) {
+				MatchingRestaurants = AllRestaurants;
+			}
+			else {
+				MatchingRestaurants = new List<string>();
+
+				foreach (string restaurant in AllRestaurants) {
+					string str = restaurant.ToLower();
+
+					if (str.Contains(search)) {
+						MatchingRestaurants.Add(restaurant);
+					}
+				}
+			}
+
+			restListView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, MatchingRestaurants);
 		}
 
 		/// <summary>
@@ -67,7 +125,7 @@ namespace KinderFinder {
 				return;
 			}
 
-			string restaurant = restaurants[args.Position];
+			string restaurant = MatchingRestaurants[args.Position];
 			var alert = new AlertDialog.Builder(this);
 
 			alert.SetTitle("Link Restaurant");

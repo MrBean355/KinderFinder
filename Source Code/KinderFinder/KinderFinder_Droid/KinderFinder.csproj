@@ -72,10 +72,12 @@
     <AndroidResource Include="Resources\layout\TagList.axml" />
     <AndroidResource Include="Resources\layout\TrackTags.axml" />
     <AndroidResource Include="Resources\layout\RestaurantList.axml" />
+    <AndroidResource Include="Resources\menu\MainMenu.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
     <Folder Include="Utility\" />
     <Folder Include="Resources\values\" />
+    <Folder Include="Resources\menu\" />
   </ItemGroup>
 </Project>

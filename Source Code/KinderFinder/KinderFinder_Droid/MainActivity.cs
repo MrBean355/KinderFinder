@@ -21,6 +21,31 @@ namespace KinderFinder {
 			registerButton;
 		ProgressBar progressBar;
 
+		public override bool OnCreateOptionsMenu(Android.Views.IMenu menu) {
+			base.OnCreateOptionsMenu(menu);
+			MenuInflater.Inflate(Resource.Menu.MainMenu, menu);
+
+			int items = menu.Size();
+			menu.GetItem(items - 2).SetEnabled(false); // disable log out item (second-last one).
+
+			return base.OnCreateOptionsMenu(menu);
+		}
+
+		public override bool OnOptionsItemSelected(Android.Views.IMenuItem item) {
+			base.OnOptionsItemSelected(item);
+
+			switch (item.ItemId) {
+				case Resource.Id.Menu_Exit:
+					System.Environment.Exit(0); // TODO: Find a better way to do this.
+					break;
+				default:
+					Toast.MakeText(this, "Unknown menu item selected", ToastLength.Short).Show();
+					break;
+			}
+
+			return base.OnOptionsItemSelected(item);
+		}
+
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.Main);

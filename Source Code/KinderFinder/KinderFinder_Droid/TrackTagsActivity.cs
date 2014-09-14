@@ -22,6 +22,33 @@ namespace KinderFinder {
 		Bitmap OriginalMap;
 		Timer Timer;
 
+		public override bool OnCreateOptionsMenu(Android.Views.IMenu menu) {
+			base.OnCreateOptionsMenu(menu);
+			MenuInflater.Inflate(Resource.Menu.MainMenu, menu);
+			return base.OnCreateOptionsMenu(menu);
+		}
+
+		public override bool OnOptionsItemSelected(Android.Views.IMenuItem item) {
+			base.OnOptionsItemSelected(item);
+
+			switch (item.ItemId) {
+				case Resource.Id.Menu_LogOut:
+					editor.Clear();
+					editor.Commit();
+					StartActivity(new Intent(this, typeof(MainActivity)));
+					Finish();
+					break;
+				case Resource.Id.Menu_Exit:
+					System.Environment.Exit(0);
+					break;
+				default:
+					Toast.MakeText(this, "Unknown menu item selected", ToastLength.Short).Show();
+					break;
+			}
+
+			return base.OnOptionsItemSelected(item);
+		}
+
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.TrackTags);
