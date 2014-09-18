@@ -109,7 +109,9 @@ namespace KinderFinder {
 				}
 			}
 
-			restListView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, MatchingRestaurants);
+			if (MatchingRestaurants != null) {
+				restListView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, MatchingRestaurants);
+			}
 		}
 
 		/// <summary>

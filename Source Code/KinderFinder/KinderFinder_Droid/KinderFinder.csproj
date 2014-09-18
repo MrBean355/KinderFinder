@@ -64,6 +64,7 @@
     <Compile Include="Utility\SharpAESCrypt.cs" />
     <Compile Include="Utility\AppTools.cs" />
     <Compile Include="Utility\Settings.cs" />
+    <Compile Include="TagConfigActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -73,6 +74,8 @@
     <AndroidResource Include="Resources\layout\TrackTags.axml" />
     <AndroidResource Include="Resources\layout\RestaurantList.axml" />
     <AndroidResource Include="Resources\menu\MainMenu.xml" />
+    <AndroidResource Include="Resources\layout\TagConfig.axml" />
+    <AndroidResource Include="Resources\layout\spinner_item.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />

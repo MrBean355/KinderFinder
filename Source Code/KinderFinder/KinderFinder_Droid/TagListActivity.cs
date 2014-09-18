@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Widget;
+using Android.Views;
 
 namespace KinderFinder {
 
@@ -76,31 +77,43 @@ namespace KinderFinder {
 		/// <param name="sender">Sender.</param>
 		/// <param name="args">Arguments.</param>
 		void ListItemClicked(object sender, AdapterView.ItemClickEventArgs args) {
-			var alert = new AlertDialog.Builder(this);
-			var input = new EditText(this);
-			string tag = tags[args.Position];
+			StartActivity(new Intent(this, typeof(TagConfigActivity)));
 
-			input.InputType = Android.Text.InputTypes.TextFlagCapWords;
-			input.Text = pref.GetString(tag, ""); // load existing child.
-			input.SetSelection(input.Text.Length); // move cursor to end.
+			/*var alert = new AlertDialog.Builder(this);
+			var tag = tags[args.Position];
+
+
+			//nameBox.InputType = Android.Text.InputTypes.TextFlagCapWords;
+			//nameBox.Text = pref.GetString(tag, ""); // load existing child.
+			//nameBox.SetSelection(nameBox.Text.Length); // move cursor to end.
+
+			LayoutInflater factory = LayoutInflater.From(this);
+			var view = factory.Inflate(Resource.Layout.TagConfig, null);
+
+			var testList = new List<String>();
+
+			for (int i = 0; i < 10; i++) {
+				testList.Add("Item " + (i + 1));
+			}
 
 			alert.SetTitle("Assign Tag");
 			alert.SetMessage("Enter the name of the child to assign this tag to:");
-			alert.SetView(input);
+			alert.SetView(view);
 
-			/* When OK is clicked, save the child's name. */
+
+			/* When OK is clicked, save the child's name. *
 			alert.SetPositiveButton("OK", (s, e) => {
-				editor.PutString(tag, input.Text);
-				editor.Commit();
+				//editor.PutString(tag, nameBox.Text);
+				//editor.Commit();
 				LoadItems(); // reload list.
 				Toast.MakeText(this, "Success", ToastLength.Long).Show();
 			});
 
-			/* When Cancel is clicked, do nothing special. */
+			/* When Cancel is clicked, do nothing special. *
 			alert.SetNegativeButton("Cancel", (s, e) => {
 			});
 
-			alert.Show();
+			alert.Show();*/
 		}
 
 		/// <summary>
