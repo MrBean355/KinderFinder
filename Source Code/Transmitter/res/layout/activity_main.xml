@@ -9,10 +9,29 @@
     tools:context="com.dvt.kinderfinder.transmitter.MainActivity" >
 
     <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Restaurant"
+        android:textSize="20sp" />
+
+    <Spinner
+        android:id="@+id/RestaurantList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/TextView01" />
+
+    <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Transmitter ID" />
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/RestaurantList"
+        android:text="Transmitter ID"
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/TransmitterId"
@@ -23,10 +42,7 @@
         android:ems="10"
         android:enabled="false"
         android:inputType="text"
-        android:text="Not set" >
-
-        <requestFocus />
-    </EditText>
+        android:text="Not set" />
 
     <Button
         android:id="@+id/Request"

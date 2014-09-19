@@ -2,6 +2,8 @@ package com.dvt.kinderfinder.transmitter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -18,6 +20,8 @@ import android.widget.*;
 
 public class MainActivity extends ActionBarActivity {
 	private static final String	SERVER_ADDRESS	= "http://192.168.1.7:55555/";
+
+	private Spinner				restaurantsSpinner;
 	private EditText			transmitterIdBox;
 	private Button				requestButton;
 	private ProgressBar			progressBar;
@@ -58,7 +62,9 @@ public class MainActivity extends ActionBarActivity {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			transmitterIdBox.setText(Utility.removeQuotations(result));
+			
+			LinkedList<String> restaurants = Utility.parseJSON(result);
+			restaurantsSpinner.setAdapter(new ArrayAdapter<>(getApplicationContext(), R.id.spinnerItem, restaurants));
 			progressBar.setVisibility(View.GONE);
 		}
 	}
@@ -68,6 +74,7 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		restaurantsSpinner = (Spinner) findViewById(R.id.RestaurantList);
 		transmitterIdBox = (EditText) findViewById(R.id.TransmitterId);
 		requestButton = (Button) findViewById(R.id.Request);
 		progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
@@ -78,7 +85,8 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View arg0) {
 				progressBar.setVisibility(View.VISIBLE);
-				new RequestTask().execute(SERVER_ADDRESS + "api/ping");
+				new RequestTask()
+						.execute(SERVER_ADDRESS + "api/restaurantlist");
 			}
 		});
 	}
