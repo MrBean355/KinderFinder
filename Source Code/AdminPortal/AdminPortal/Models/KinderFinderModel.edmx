@@ -16,6 +16,7 @@
           <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="PasswordHash" Type="nvarchar(max)" />
           <Property Name="CurrentRestaurant" Type="int" />
+          <Property Name="LastLogin" Type="datetime" />
         </EntityType>
         <EntityType Name="AspNetUsers">
           <Key>
@@ -33,6 +34,7 @@
           <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="LastLogin" Type="datetime" />
         </EntityType>
         <EntityType Name="Restaurant">
           <Key>
@@ -52,7 +54,7 @@
           <Property Name="Restaurant" Type="int" />
           <Property Name="CurrentUser" Type="int" />
           <Property Name="OutOfOrder" Type="bit" Nullable="false" />
-          <Property Name="LastAccessed" Type="date" />
+          <Property Name="LastAccessed" Type="datetime" />
         </EntityType>
         <Association Name="FK__AppUser__Current__02FC7413">
           <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="0..1" />
@@ -145,6 +147,7 @@
           <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Restaurants" Relationship="Self.FK__Restauran__Admin__72C60C4A" FromRole="AspNetUsers" ToRole="Restaurant" />
+          <Property Name="LastLogin" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Restaurant">
           <Key>
@@ -205,6 +208,7 @@
           <Property Name="CurrentRestaurant" Type="Int32" />
           <NavigationProperty Name="Restaurant" Relationship="Model.FK__AppUser__Current__02FC7413" FromRole="AppUser" ToRole="Restaurant" />
           <NavigationProperty Name="Tags" Relationship="Model.FK__Tag__CurrentUser__17036CC0" FromRole="AppUser" ToRole="Tag" />
+          <Property Name="LastLogin" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK__AppUser__Current__02FC7413">
           <End Type="Model.Restaurant" Role="Restaurant" Multiplicity="0..1" />
@@ -229,7 +233,7 @@
           <NavigationProperty Name="AppUser" Relationship="Model.FK__Tag__CurrentUser__17036CC0" FromRole="Tag" ToRole="AppUser" />
           <NavigationProperty Name="Restaurant1" Relationship="Model.FK__Tag__Restaurant__160F4887" FromRole="Tag" ToRole="Restaurant" />
           <Property Name="OutOfOrder" Type="Boolean" Nullable="false" />
-          <Property Name="LastAccessed" Type="DateTime" Precision="0" />
+          <Property Name="LastAccessed" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK__Tag__CurrentUser__17036CC0">
           <End Type="Model.AppUser" Role="AppUser" Multiplicity="0..1" />
@@ -264,6 +268,7 @@
           <EntitySetMapping Name="AspNetUsers">
             <EntityTypeMapping TypeName="Model.AspNetUser">
               <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
@@ -292,6 +297,7 @@
           <EntitySetMapping Name="AppUsers">
             <EntityTypeMapping TypeName="Model.AppUser">
               <MappingFragment StoreEntitySet="AppUser">
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
                 <ScalarProperty Name="CurrentRestaurant" ColumnName="CurrentRestaurant" />
                 <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />

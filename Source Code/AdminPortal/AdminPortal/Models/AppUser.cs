@@ -26,6 +26,7 @@ namespace AdminPortal.Models
         public string PhoneNumber { get; set; }
         public string PasswordHash { get; set; }
         public Nullable<int> CurrentRestaurant { get; set; }
+        public Nullable<System.DateTime> LastLogin { get; set; }
     
         public virtual Restaurant Restaurant { get; set; }
         public virtual ICollection<Tag> Tags { get; set; }
