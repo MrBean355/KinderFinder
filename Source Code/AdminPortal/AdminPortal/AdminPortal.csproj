@@ -175,6 +175,7 @@
     <Compile Include="Controllers\AppUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\Web API\GetIdController.cs" />
     <Compile Include="Controllers\Web API\LoginController.cs" />
     <Compile Include="Controllers\Web API\MapController.cs" />
     <Compile Include="Controllers\Web API\RegisterController.cs" />
