@@ -9,27 +9,11 @@
     tools:context="com.dvt.kinderfinder.transmitter.MainActivity" >
 
     <TextView
-        android:id="@+id/TextView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Restaurant"
-        android:textSize="20sp" />
-
-    <Spinner
-        android:id="@+id/RestaurantList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/TextView01" />
-
-    <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/RestaurantList"
+        android:layout_alignParentTop="true"
         android:text="Transmitter ID"
         android:textSize="20sp" />
 
@@ -42,22 +26,45 @@
         android:ems="10"
         android:enabled="false"
         android:inputType="text"
-        android:text="Not set" />
+        android:text="None requested" />
 
-    <Button
-        android:id="@+id/Request"
+    <Space
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/TextView01"
+        android:layout_alignParentLeft="true" />
+
+    <Spinner
+        android:id="@+id/RestaurantList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/TextView01" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/TransmitterId"
+        android:layout_marginTop="18dp"
+        android:text="Restaurant"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/SelectRestaurant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/RestaurantList"
         android:layout_centerHorizontal="true"
-        android:text="Request" />
+        android:text="Select Restaurant" />
 
     <ProgressBar
         android:id="@+id/ProgressBar"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Request"
+        android:layout_below="@+id/SelectRestaurant"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

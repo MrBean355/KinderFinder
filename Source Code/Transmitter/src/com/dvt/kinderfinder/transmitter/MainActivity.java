@@ -1,73 +1,25 @@
 package com.dvt.kinderfinder.transmitter;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.LinkedList;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-
-import android.support.v7.app.ActionBarActivity;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 	private static final String	SERVER_ADDRESS	= "http://192.168.1.7:55555/";
 
 	private Spinner				restaurantsSpinner;
 	private EditText			transmitterIdBox;
-	private Button				requestButton;
+	private Button				selectButton;
 	private ProgressBar			progressBar;
-
-	// Params, Progress, Result
-	class RequestTask extends AsyncTask<String, String, String> {
-
-		@Override
-		protected String doInBackground(String... uri) {
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpResponse response;
-			String responseString = null;
-
-			try {
-				response = httpclient.execute(new HttpPost(uri[0]));
-				StatusLine statusLine = response.getStatusLine();
-
-				if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-					ByteArrayOutputStream out = new ByteArrayOutputStream();
-					response.getEntity().writeTo(out);
-					out.close();
-					responseString = out.toString();
-				}
-				else {
-					response.getEntity().getContent().close();
-					throw new IOException(statusLine.getReasonPhrase());
-				}
-			}
-			catch (Exception ex) {
-				System.out.println("Error: " + ex);
-				Toast.makeText(getApplicationContext(),
-						"Error contacting server", Toast.LENGTH_LONG).show();
-			}
-
-			return responseString;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-			
-			LinkedList<String> restaurants = Utility.parseJSON(result);
-			restaurantsSpinner.setAdapter(new ArrayAdapter<>(getApplicationContext(), R.id.spinnerItem, restaurants));
-			progressBar.setVisibility(View.GONE);
-		}
-	}
+	private boolean				imDone			= false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,18 +28,71 @@ public class MainActivity extends ActionBarActivity {
 
 		restaurantsSpinner = (Spinner) findViewById(R.id.RestaurantList);
 		transmitterIdBox = (EditText) findViewById(R.id.TransmitterId);
-		requestButton = (Button) findViewById(R.id.Request);
+		selectButton = (Button) findViewById(R.id.SelectRestaurant);
 		progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
 
-		progressBar.setVisibility(View.GONE);
+		load();
+	}
 
-		requestButton.setOnClickListener(new View.OnClickListener() {
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		JsonBuilder jb = new JsonBuilder();
+		jb.addEntry("ID", transmitterIdBox.getText().toString());
+		new RequestTask().execute(SERVER_ADDRESS + "api/releaseid", jb
+				.toString());
+	}
+
+	private void load() {
+		selectButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				progressBar.setVisibility(View.VISIBLE);
-				new RequestTask()
-						.execute(SERVER_ADDRESS + "api/restaurantlist");
+				String restaurant = restaurantsSpinner.getSelectedItem()
+						.toString();
+
+				if (restaurant.equals("")) {
+					Toast.makeText(getApplicationContext(),
+							"No restaurant selected", Toast.LENGTH_SHORT)
+							.show();
+					return;
+				}
+
+				// TODO: Tell server the restaurant we chose.
 			}
 		});
+
+		// Request an ID:
+		new RequestTask() {
+			@Override
+			protected void onPostExecute(String result) {
+				transmitterIdBox.setText(result);
+
+				if (imDone) {
+					progressBar.setVisibility(View.GONE);
+				}
+				else {
+					imDone = true;
+				}
+			}
+		}.execute(SERVER_ADDRESS + "api/getid");
+
+		// Request restaurant list:
+		new RequestTask() {
+			@Override
+			protected void onPostExecute(String result) {
+				LinkedList<String> restaurants = JsonBuilder.JsonToList(result);
+				restaurantsSpinner.setAdapter(new ArrayAdapter<>(
+						getApplicationContext(),
+						android.R.layout.simple_spinner_item, restaurants));
+
+				if (imDone) {
+					progressBar.setVisibility(View.GONE);
+				}
+				else {
+					imDone = true;
+				}
+			}
+		}.execute(SERVER_ADDRESS + "api/restaurantlist");
 	}
 }
