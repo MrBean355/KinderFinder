@@ -1,98 +1,63 @@
 package com.dvt.kinderfinder.transmitter;
 
-import java.util.LinkedList;
+import org.apache.http.HttpStatus;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
-	private static final String	SERVER_ADDRESS	= "http://192.168.1.7:55555/";
-
-	private Spinner				restaurantsSpinner;
-	private EditText			transmitterIdBox;
-	private Button				selectButton;
-	private ProgressBar			progressBar;
-	private boolean				imDone			= false;
+	private EditText emailBox;
+	private EditText passwordBox;
+	private Button logInButton;
+	private ProgressBar progressBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		restaurantsSpinner = (Spinner) findViewById(R.id.RestaurantList);
-		transmitterIdBox = (EditText) findViewById(R.id.TransmitterId);
-		selectButton = (Button) findViewById(R.id.SelectRestaurant);
-		progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
-
-		load();
+		emailBox = (EditText) findViewById(R.id.emailBox);
+		passwordBox = (EditText) findViewById(R.id.passwordBox);
+		logInButton = (Button) findViewById(R.id.logInButton);
+		progressBar = (ProgressBar) findViewById(R.id.progressBar);
+		
+		logInButton.setOnClickListener(logInButtonHandler);
+		progressBar.setVisibility(View.GONE);
 	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-
-		JsonBuilder jb = new JsonBuilder();
-		jb.addEntry("ID", transmitterIdBox.getText().toString());
-		new RequestTask().execute(SERVER_ADDRESS + "api/releaseid", jb
-				.toString());
-	}
-
-	private void load() {
-		selectButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				String restaurant = restaurantsSpinner.getSelectedItem()
-						.toString();
-
-				if (restaurant.equals("")) {
-					Toast.makeText(getApplicationContext(),
-							"No restaurant selected", Toast.LENGTH_SHORT)
-							.show();
-					return;
+	
+	private OnClickListener logInButtonHandler = new OnClickListener() {
+		@Override // hi
+		public void onClick(View v) {
+			String email = emailBox.getText().toString();
+			String password = passwordBox.getText().toString();
+			String hashed = Utility.hashPassword(password);
+			System.out.println("Hash: " + hashed);
+			
+			/*JsonBuilder jb = new JsonBuilder();
+			jb.addEntry("EmailAddress", email);
+			jb.addEntry("PasswordHash", password);
+			
+			logInButton.setEnabled(false);
+			progressBar.setVisibility(View.VISIBLE);
+			
+			new RequestTask(){
+				@Override
+				protected void onPostExecute(String result) {
+					if (statusCode == HttpStatus.SC_OK) {
+						// TODO: Start new activity.
+						finish();
+					}
+					else {
+						logInButton.setEnabled(true);
+						progressBar.setVisibility(View.GONE);
+					}
 				}
-
-				// TODO: Tell server the restaurant we chose.
-			}
-		});
-
-		// Request an ID:
-		new RequestTask() {
-			@Override
-			protected void onPostExecute(String result) {
-				transmitterIdBox.setText(result);
-
-				if (imDone) {
-					progressBar.setVisibility(View.GONE);
-				}
-				else {
-					imDone = true;
-				}
-			}
-		}.execute(SERVER_ADDRESS + "api/getid");
-
-		// Request restaurant list:
-		new RequestTask() {
-			@Override
-			protected void onPostExecute(String result) {
-				LinkedList<String> restaurants = JsonBuilder.JsonToList(result);
-				restaurantsSpinner.setAdapter(new ArrayAdapter<>(
-						getApplicationContext(),
-						android.R.layout.simple_spinner_item, restaurants));
-
-				if (imDone) {
-					progressBar.setVisibility(View.GONE);
-				}
-				else {
-					imDone = true;
-				}
-			}
-		}.execute(SERVER_ADDRESS + "api/restaurantlist");
-	}
+			}.execute("api/login", jb.toString());*/
+		}
+	};
 }

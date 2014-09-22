@@ -8,63 +8,59 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.dvt.kinderfinder.transmitter.MainActivity" >
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true" />
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Transmitter ID"
+        android:text="Enter administrator details:"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="20sp" />
 
     <EditText
-        android:id="@+id/TransmitterId"
+        android:id="@+id/emailBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1"
+        android:layout_marginTop="24dp"
         android:ems="10"
-        android:enabled="false"
-        android:inputType="text"
-        android:text="None requested" />
+        android:hint="Email address"
+        android:inputType="textEmailAddress" >
 
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/TextView01"
-        android:layout_alignParentLeft="true" />
+        <requestFocus />
+    </EditText>
 
-    <Spinner
-        android:id="@+id/RestaurantList"
+    <EditText
+        android:id="@+id/passwordBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/TextView01" />
-
-    <TextView
-        android:id="@+id/TextView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/TransmitterId"
-        android:layout_marginTop="18dp"
-        android:text="Restaurant"
-        android:textSize="20sp" />
+        android:layout_below="@+id/emailBox"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/SelectRestaurant"
+        android:id="@+id/logInButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/RestaurantList"
+        android:layout_below="@+id/passwordBox"
         android:layout_centerHorizontal="true"
-        android:text="Select Restaurant" />
+        android:text="Log In" />
 
     <ProgressBar
-        android:id="@+id/ProgressBar"
+        android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/SelectRestaurant"
+        android:layout_below="@+id/logInButton"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

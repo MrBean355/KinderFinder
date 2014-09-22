@@ -3,5 +3,9 @@
 
     <string name="app_name">Transmitter</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_trasnsmit">TrasnsmitActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_transmit">TransmitActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
 
 </resources>

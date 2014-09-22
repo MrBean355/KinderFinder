@@ -8,7 +8,7 @@
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
 
-    <uses-permission android:name="android.permission.INTERNET" /> 
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -24,5 +24,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".TrasnsmitActivity"
+            android:label="@string/title_activity_trasnsmit" >
+        </activity>
+        <activity
+            android:name=".TransmitActivity"
+            android:label="@string/title_activity_transmit" >
+        </activity>
+        <activity
+            android:name=".LogInActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
     </application>
+
 </manifest>

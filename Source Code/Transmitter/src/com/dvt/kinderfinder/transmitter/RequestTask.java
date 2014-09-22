@@ -14,12 +14,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.os.AsyncTask;
 
 class RequestTask extends AsyncTask<String, String, String> {
-
+	protected int statusCode;
+	
 	@Override
 	protected String doInBackground(String... data) {
 		if (data.length == 0) {
-			System.out
-					.println("[Error] Tried to send data without enough arugments.");
+			System.out.println("[Error] Tried to send data without enough arugments.");
 			return "";
 		}
 
@@ -37,8 +37,9 @@ class RequestTask extends AsyncTask<String, String, String> {
 
 			response = httpclient.execute(httppost);
 			StatusLine statusLine = response.getStatusLine();
+			statusCode = statusLine.getStatusCode();
 
-			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+			if (statusCode == HttpStatus.SC_OK) {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				response.getEntity().writeTo(out);
 				out.close();
