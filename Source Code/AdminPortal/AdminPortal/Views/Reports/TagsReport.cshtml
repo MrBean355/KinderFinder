@@ -6,31 +6,37 @@
 
 @{
     ViewBag.Title = "Tags Report";
-     ViewBag.OutOfOrderTagsCount = 0;
+    ViewBag.OutOfOrderTagsCount = 0;
 }
 
 <h2>@ViewBag.Title</h2>
 
-
 <table class="table">
-
-    @foreach (var item in Model) {
-        if(item.OutOfOrder == true) {
+    <tr>
+        <th>Tag Name</th>
+        <th>Restaurant Name</th>
+        <th>Current User</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        if (item.OutOfOrder == true)
+        {
             ViewBag.OutOfOrderTagsCount++;
-        @*<tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Label)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Restaurant1.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AppUser.FirstName)
-            </td>
-        </tr>*@
+        }
+        else
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Label)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Restaurant1.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppUser.FirstName)
+                </td>
+            </tr> }
     }
-    }
-
 </table>
 
 <table>
@@ -47,7 +53,7 @@
         <td>@Model.Count()</td>
     </tr>
 </table>
-
+<br />
 <div>
     @Html.ActionLink("Back to Reports main page", "")
 </div>

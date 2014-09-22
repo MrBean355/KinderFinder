@@ -25,6 +25,7 @@ namespace AdminPortal.Controllers {
         // GET: TagssReport
         public ActionResult TagsReport()
         {
+            ViewBag.data = db;
             return View(db.Tags.ToList());
         }
 
