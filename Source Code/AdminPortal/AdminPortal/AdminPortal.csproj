@@ -175,7 +175,6 @@
     <Compile Include="Controllers\AppUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
-    <Compile Include="Controllers\Web API\GetIdController.cs" />
     <Compile Include="Controllers\Web API\LoginController.cs" />
     <Compile Include="Controllers\Web API\MapController.cs" />
     <Compile Include="Controllers\Web API\RegisterController.cs" />
@@ -184,6 +183,7 @@
     <Compile Include="Controllers\Web API\TagListController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Controllers\Web API\TrackController.cs" />
+    <Compile Include="Controllers\Web API\TransmitController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
