@@ -5,9 +5,11 @@ import java.util.LinkedList;
 
 public class JsonBuilder {
 	private LinkedList<SimpleEntry<String, String>>	Entries	= new LinkedList<SimpleEntry<String, String>>();
-
+	//private String output = "";
+	
 	public void addEntry(String key, String value) {
 		Entries.add(new SimpleEntry<String, String>(key, value));
+		//output += "\"" + key + "\":" + "\"" + value + "\",";
 	}
 
 	@Override
