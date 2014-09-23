@@ -191,6 +191,9 @@
     <Compile Include="Models\AppUser.cs">
       <DependentUpon>KinderFinderModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AspNetRole.cs">
+      <DependentUpon>KinderFinderModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspNetUser.cs">
       <DependentUpon>KinderFinderModel.tt</DependentUpon>
     </Compile>
@@ -214,6 +217,9 @@
       <DependentUpon>KinderFinderModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Tag.cs">
+      <DependentUpon>KinderFinderModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Transmitter.cs">
       <DependentUpon>KinderFinderModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

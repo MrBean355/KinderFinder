@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\user\Documents\GitHub\KinderFinder\Source Code\AdminPortal\AdminPortal\Models\KinderFinderModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Mike\Documents\Main Project\Source Code\AdminPortal\AdminPortal\Models\KinderFinderModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

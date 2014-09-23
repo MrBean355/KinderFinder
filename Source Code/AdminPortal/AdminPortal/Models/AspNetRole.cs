@@ -12,23 +12,16 @@ namespace AdminPortal.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Restaurant
+    public partial class AspNetRole
     {
-        public Restaurant()
+        public AspNetRole()
         {
-            this.AppUsers = new HashSet<AppUser>();
-            this.Tags = new HashSet<Tag>();
-            this.Transmitters = new HashSet<Transmitter>();
+            this.AspNetUsers = new HashSet<AspNetUser>();
         }
     
-        public int ID { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
-        public byte[] Map { get; set; }
-        public string Admin { get; set; }
     
-        public virtual ICollection<AppUser> AppUsers { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual ICollection<Tag> Tags { get; set; }
-        public virtual ICollection<Transmitter> Transmitters { get; set; }
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
     }
 }

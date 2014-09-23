@@ -7,31 +7,6 @@ using System.Web.Http;
 
 namespace AdminPortal.Controllers.Web_API {
 
-	public class OwnedTagsController : ApiController {
-		private KinderFinderEntities Db = new KinderFinderEntities();
-
-		[HttpPost]
-		public IHttpActionResult GetOwnedTags(RequestDetails details) {
-			var restaurant = (from item in Db.Restaurants
-							  where item.Name.Equals(details.RestaurantName)
-							  select item).FirstOrDefault();
-
-			if (restaurant == null) {
-				return BadRequest();
-			}
-
-			var tags = (from item in Db.Tags
-					   where item.Restaurant == restaurant.ID
-					   select item.Label).ToList();
-
-			return Ok(tags);
-		}
-
-		public struct RequestDetails {
-			public string RestaurantName;
-		}
-	}
-
 	public class TagListController : ApiController {
 		private KinderFinderEntities db = new KinderFinderEntities();
 

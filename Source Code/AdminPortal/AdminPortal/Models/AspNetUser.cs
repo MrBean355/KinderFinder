@@ -16,6 +16,7 @@ namespace AdminPortal.Models
     {
         public AspNetUser()
         {
+            this.AspNetRoles = new HashSet<AspNetRole>();
             this.Restaurants = new HashSet<Restaurant>();
         }
     
@@ -33,6 +34,7 @@ namespace AdminPortal.Models
         public string UserName { get; set; }
         public Nullable<System.DateTime> LastLogin { get; set; }
     
+        public virtual ICollection<AspNetRole> AspNetRoles { get; set; }
         public virtual ICollection<Restaurant> Restaurants { get; set; }
     }
 }

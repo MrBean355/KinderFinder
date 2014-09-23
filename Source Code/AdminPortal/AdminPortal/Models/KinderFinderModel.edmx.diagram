@@ -4,15 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b22abf29df7b4fd1a121cc5c048bba4c" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.AspNetUser" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Restaurant" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
-        <AssociationConnector Association="Model.FK__Restauran__Admin__72C60C4A" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="Model.AppUser" Width="1.5" PointX="5.25" PointY="1.375" />
+      <Diagram DiagramId="fba51d1021e64e53839a9ea0fcd42055" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.AppUser" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetRole" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUser" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Tag" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK__Tag__CurrentUser__17036CC0" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="Model.Restaurant" Width="1.5" PointX="5.25" PointY="5.75" />
         <AssociationConnector Association="Model.FK__AppUser__Current__02FC7413" />
-        <EntityTypeShape EntityType="Model.Tag" Width="1.5" PointX="7.5" PointY="1.625" />
-        <AssociationConnector Association="Model.FK__Tag__CurrentUser__17036CC0" />
-        <AssociationConnector Association="Model.FK__Tag__Restaurant__160F4887" />
+        <AssociationConnector Association="Model.FK__Restauran__Admin__72C60C4A" />
+        <AssociationConnector Association="Model.FK__Tag__Restaurant__2739D489" />
+        <EntityTypeShape EntityType="Model.Transmitter" Width="1.5" PointX="7.5" PointY="6" />
+        <AssociationConnector Association="Model.FK__Transmitt__Resta__756D6ECB" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
