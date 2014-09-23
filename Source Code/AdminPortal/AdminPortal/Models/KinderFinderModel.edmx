@@ -70,7 +70,7 @@
           <Property Name="CurrentUser" Type="int" />
           <Property Name="OutOfOrder" Type="bit" Nullable="false" />
           <Property Name="LastAccessed" Type="datetime" />
-          <Property Name="UUID" Type="nchar" MaxLength="10" />
+          <Property Name="UUID" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Transmitter">
           <Key>
@@ -266,7 +266,7 @@
           <Property Name="LastAccessed" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AppUser" Relationship="Self.FK__Tag__CurrentUser__17036CC0" FromRole="Tag" ToRole="AppUser" />
           <NavigationProperty Name="Restaurant1" Relationship="Model.FK__Tag__Restaurant__2739D489" FromRole="Tag" ToRole="Restaurant" />
-          <Property Name="UUID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="UUID" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__Tag__CurrentUser__17036CC0">
           <End Role="AppUser" Type="Self.AppUser" Multiplicity="0..1" />

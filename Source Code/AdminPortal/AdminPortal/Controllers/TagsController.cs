@@ -97,7 +97,7 @@ namespace AdminPortal.Controllers {
 		// POST: Tags/Create
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include = "ID,Label,Restaurant,CurrentUser,OutOfOrder")] Tag tag) {
+		public ActionResult Create(Tag tag) {
 			if (ModelState.IsValid) {
 				db.Tags.Add(tag);
 				db.SaveChanges();
@@ -146,7 +146,7 @@ namespace AdminPortal.Controllers {
 		// POST: Tags/Edit/5
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Include = "ID,Label,Restaurant,CurrentUser,OutOfOrder")] Tag tag) {
+		public ActionResult Edit(Tag tag) {
 			if (ModelState.IsValid) {
 				db.Entry(tag).State = EntityState.Modified;
 				db.SaveChanges();
