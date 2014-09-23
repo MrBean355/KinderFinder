@@ -20,6 +20,7 @@ namespace AdminPortal.Models
         public Nullable<int> CurrentUser { get; set; }
         public bool OutOfOrder { get; set; }
         public Nullable<System.DateTime> LastAccessed { get; set; }
+        public string UUID { get; set; }
     
         public virtual AppUser AppUser { get; set; }
         public virtual Restaurant Restaurant1 { get; set; }
