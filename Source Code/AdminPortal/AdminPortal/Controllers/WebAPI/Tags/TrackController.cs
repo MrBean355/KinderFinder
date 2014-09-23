@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace AdminPortal.Controllers.Web_API {
+namespace AdminPortal.Controllers.WebAPI.Tags {
 
 	class ChildSimulator {
 		private static Random Generator = new Random(DateTime.Now.Millisecond);
@@ -53,6 +53,10 @@ namespace AdminPortal.Controllers.Web_API {
 		}
 	}
 
+	/**
+	 * Retrieves the positions for each beacon assigned to a user at their
+	 * current restaurant.
+	 */
 	public class TrackController : ApiController {
 		private const int MAX_TAGS = 50;
 		private static List<ChildSimulator> Children;

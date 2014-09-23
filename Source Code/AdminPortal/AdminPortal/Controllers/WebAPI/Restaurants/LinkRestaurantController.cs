@@ -1,26 +1,14 @@
 ﻿using AdminPortal.Models;
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace AdminPortal.Controllers.Web_API {
+namespace AdminPortal.Controllers.WebAPI.Restaurants {
 
-	public class RestaurantListController : ApiController {
-		private KinderFinderEntities db = new KinderFinderEntities();
-
-		[HttpPost]
-		public IHttpActionResult GetRestaurants() {
-			var result = new List<string>();
-
-			foreach (var item in db.Restaurants)
-				result.Add(item.Name);
-
-			return Ok(result);
-		}
-	}
-
+	/**
+	 * Links a user to a restaurant.
+	 */
 	public class LinkRestaurantController : ApiController {
 		private KinderFinderEntities db = new KinderFinderEntities();
 

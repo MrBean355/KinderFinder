@@ -175,15 +175,20 @@
     <Compile Include="Controllers\AppUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
-    <Compile Include="Controllers\Web API\LoginController.cs" />
-    <Compile Include="Controllers\Web API\MapController.cs" />
-    <Compile Include="Controllers\Web API\RegisterController.cs" />
+    <Compile Include="Controllers\WebAPI\Accounts\LoginController.cs" />
+    <Compile Include="Controllers\WebAPI\Maps\MapSizeController.cs" />
+    <Compile Include="Controllers\WebAPI\Maps\MapController.cs" />
+    <Compile Include="Controllers\WebAPI\Accounts\RegisterController.cs" />
     <Compile Include="Controllers\RestaurantsController.cs" />
-    <Compile Include="Controllers\Web API\RestaurantListController.cs" />
-    <Compile Include="Controllers\Web API\TagListController.cs" />
+    <Compile Include="Controllers\WebAPI\Restaurants\LinkRestaurantController.cs" />
+    <Compile Include="Controllers\WebAPI\Restaurants\RestaurantListController.cs" />
+    <Compile Include="Controllers\WebAPI\Tags\TagListController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
-    <Compile Include="Controllers\Web API\TrackController.cs" />
-    <Compile Include="Controllers\Web API\TransmitController.cs" />
+    <Compile Include="Controllers\WebAPI\Tags\TrackController.cs" />
+    <Compile Include="Controllers\WebAPI\Transmitters\AssignRestaurantController.cs" />
+    <Compile Include="Controllers\WebAPI\Transmitters\FreeTransmitterController.cs" />
+    <Compile Include="Controllers\WebAPI\Transmitters\TransmitController.cs" />
+    <Compile Include="Controllers\WebAPI\Transmitters\TransmitterTypeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

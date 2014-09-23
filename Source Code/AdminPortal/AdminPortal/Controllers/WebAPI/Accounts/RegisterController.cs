@@ -3,17 +3,14 @@
 using System.Linq;
 using System.Web.Http;
 
-namespace AdminPortal.Controllers {
+namespace AdminPortal.Controllers.Accounts {
 
+	/**
+	 * Registers a new account for an app user.
+	 */
 	public class RegisterController : ApiController {
 		private KinderFinderEntities db = new KinderFinderEntities();
 
-		/**
-		 * Attempts to register a new account for a user.
-		 * @param patron New user to register.
-		 * @returns OK if successful; Conflict if email already exists;
-		 * InternalServerError otherwise.
-		 */
 		[HttpPost]
 		public IHttpActionResult Register(AppUser newUser) {
 			var user = (from item in db.AppUsers
@@ -21,8 +18,6 @@ namespace AdminPortal.Controllers {
 						select item).FirstOrDefault();
 
 			/* Make sure email address is not already in use. */
-			//int count = query.Count(me => me.EmailAddress == user.EmailAddress);
-
 			if (user == null)
 				return Conflict();
 

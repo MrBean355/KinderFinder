@@ -4,16 +4,14 @@ using System;
 using System.Linq;
 using System.Web.Http;
 
-namespace AdminPortal.Controllers.Web_API {
+namespace AdminPortal.Controllers.WebAPI.Accounts {
 
+	/**
+	 * Attempts to log an app user in.
+	 */
 	public class LoginController : ApiController {
 		private KinderFinderEntities db = new KinderFinderEntities();
 
-		/**
-		 * Attempts to log a user in.
-		 * @param details User's entered details.
-		 * @returns OK if successful; BadRequest otherwise.
-		 */
 		[HttpPost]
 		public IHttpActionResult Login(LoginDetails details) {
 			/* Find first user with matching email address. */

@@ -5,16 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace AdminPortal.Controllers.Web_API {
+namespace AdminPortal.Controllers.WebAPI.Tags {
 
+	/**
+	 * Retrieves a list of tags that are linked to a particular user.
+	 */
 	public class TagListController : ApiController {
 		private KinderFinderEntities db = new KinderFinderEntities();
 
-		/**
-		 * Returns a list of all tags associated with a user.
-		 * @param details User's details.
-		 * @returns List of associated tags.
-		 */
 		[HttpPost]
 		public IHttpActionResult GetTags(RequestDetails details) {
 			/* Find patron's ID and current restaurant. */
