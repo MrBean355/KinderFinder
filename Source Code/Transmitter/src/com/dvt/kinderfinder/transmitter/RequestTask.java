@@ -1,7 +1,6 @@
 package com.dvt.kinderfinder.transmitter;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -14,6 +13,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import android.os.AsyncTask;
 
 class RequestTask extends AsyncTask<String, String, String> {
+	private static final String SERVER_ADDRESS = "http://192.168.1.7:55555/";
 	protected int statusCode;
 	
 	@Override
@@ -24,10 +24,10 @@ class RequestTask extends AsyncTask<String, String, String> {
 		}
 
 		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost(data[0]);
+		HttpPost httppost = new HttpPost(SERVER_ADDRESS + data[0]);
 		httppost.addHeader("content-type", "application/json");
 		HttpResponse response;
-		String responseString = null;
+		String responseString = "";
 
 		try {
 			// Check whether any data is being sent:
@@ -47,11 +47,11 @@ class RequestTask extends AsyncTask<String, String, String> {
 			}
 			else {
 				response.getEntity().getContent().close();
-				throw new IOException(statusLine.getReasonPhrase());
+				//throw new IOException(statusLine.getReasonPhrase());
 			}
 		}
 		catch (Exception e) {
-			System.out.println("Error while sending data: " + e);
+			System.out.println("Error while sending data to '" + SERVER_ADDRESS + data[0] + "': " + e);
 		}
 
 		return responseString;
