@@ -24,7 +24,7 @@ namespace AdminPortal.App_Code {
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
     public partial class DataSet : global::System.Data.DataSet {
         
-        private TagDataTable tableTag;
+        private TagViewDataTable tableTagView;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -54,8 +54,8 @@ namespace AdminPortal.App_Code {
             if ((this.DetermineSchemaSerializationMode(info, context) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXmlSchema(new global::System.Xml.XmlTextReader(new global::System.IO.StringReader(strSchema)));
-                if ((ds.Tables["Tag"] != null)) {
-                    base.Tables.Add(new TagDataTable(ds.Tables["Tag"]));
+                if ((ds.Tables["TagView"] != null)) {
+                    base.Tables.Add(new TagViewDataTable(ds.Tables["TagView"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -79,9 +79,9 @@ namespace AdminPortal.App_Code {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
-        public TagDataTable Tag {
+        public TagViewDataTable TagView {
             get {
-                return this.tableTag;
+                return this.tableTagView;
             }
         }
         
@@ -152,8 +152,8 @@ namespace AdminPortal.App_Code {
                 this.Reset();
                 global::System.Data.DataSet ds = new global::System.Data.DataSet();
                 ds.ReadXml(reader);
-                if ((ds.Tables["Tag"] != null)) {
-                    base.Tables.Add(new TagDataTable(ds.Tables["Tag"]));
+                if ((ds.Tables["TagView"] != null)) {
+                    base.Tables.Add(new TagViewDataTable(ds.Tables["TagView"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -188,10 +188,10 @@ namespace AdminPortal.App_Code {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         internal void InitVars(bool initTable) {
-            this.tableTag = ((TagDataTable)(base.Tables["Tag"]));
+            this.tableTagView = ((TagViewDataTable)(base.Tables["TagView"]));
             if ((initTable == true)) {
-                if ((this.tableTag != null)) {
-                    this.tableTag.InitVars();
+                if ((this.tableTagView != null)) {
+                    this.tableTagView.InitVars();
                 }
             }
         }
@@ -204,13 +204,13 @@ namespace AdminPortal.App_Code {
             this.Namespace = "http://tempuri.org/DataSet.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
-            this.tableTag = new TagDataTable();
-            base.Tables.Add(this.tableTag);
+            this.tableTagView = new TagViewDataTable();
+            base.Tables.Add(this.tableTagView);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        private bool ShouldSerializeTag() {
+        private bool ShouldSerializeTagView() {
             return false;
         }
         
@@ -270,14 +270,14 @@ namespace AdminPortal.App_Code {
         }
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public delegate void TagRowChangeEventHandler(object sender, TagRowChangeEvent e);
+        public delegate void TagViewRowChangeEventHandler(object sender, TagViewRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
         ///</summary>
         [global::System.Serializable()]
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
-        public partial class TagDataTable : global::System.Data.TypedTableBase<TagRow> {
+        public partial class TagViewDataTable : global::System.Data.TypedTableBase<TagViewRow> {
             
             private global::System.Data.DataColumn columnID;
             
@@ -293,10 +293,16 @@ namespace AdminPortal.App_Code {
             
             private global::System.Data.DataColumn columnUUID;
             
+            private global::System.Data.DataColumn columnFirstName;
+            
+            private global::System.Data.DataColumn columnSurname;
+            
+            private global::System.Data.DataColumn columnName;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TagDataTable() {
-                this.TableName = "Tag";
+            public TagViewDataTable() {
+                this.TableName = "TagView";
                 this.BeginInit();
                 this.InitClass();
                 this.EndInit();
@@ -304,7 +310,7 @@ namespace AdminPortal.App_Code {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal TagDataTable(global::System.Data.DataTable table) {
+            internal TagViewDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
                     this.CaseSensitive = table.CaseSensitive;
@@ -321,7 +327,7 @@ namespace AdminPortal.App_Code {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            protected TagDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+            protected TagViewDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
@@ -384,6 +390,30 @@ namespace AdminPortal.App_Code {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn FirstNameColumn {
+                get {
+                    return this.columnFirstName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn SurnameColumn {
+                get {
+                    return this.columnSurname;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn NameColumn {
+                get {
+                    return this.columnName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -393,58 +423,61 @@ namespace AdminPortal.App_Code {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TagRow this[int index] {
+            public TagViewRow this[int index] {
                 get {
-                    return ((TagRow)(this.Rows[index]));
+                    return ((TagViewRow)(this.Rows[index]));
                 }
             }
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event TagRowChangeEventHandler TagRowChanging;
+            public event TagViewRowChangeEventHandler TagViewRowChanging;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event TagRowChangeEventHandler TagRowChanged;
+            public event TagViewRowChangeEventHandler TagViewRowChanged;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event TagRowChangeEventHandler TagRowDeleting;
+            public event TagViewRowChangeEventHandler TagViewRowDeleting;
             
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public event TagRowChangeEventHandler TagRowDeleted;
+            public event TagViewRowChangeEventHandler TagViewRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void AddTagRow(TagRow row) {
+            public void AddTagViewRow(TagViewRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TagRow AddTagRow(string Label, int Restaurant, int CurrentUser, bool OutOfOrder, System.DateTime LastAccessed, string UUID) {
-                TagRow rowTagRow = ((TagRow)(this.NewRow()));
+            public TagViewRow AddTagViewRow(int ID, string Label, int Restaurant, int CurrentUser, bool OutOfOrder, System.DateTime LastAccessed, string UUID, string FirstName, string Surname, string Name) {
+                TagViewRow rowTagViewRow = ((TagViewRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        null,
+                        ID,
                         Label,
                         Restaurant,
                         CurrentUser,
                         OutOfOrder,
                         LastAccessed,
-                        UUID};
-                rowTagRow.ItemArray = columnValuesArray;
-                this.Rows.Add(rowTagRow);
-                return rowTagRow;
+                        UUID,
+                        FirstName,
+                        Surname,
+                        Name};
+                rowTagViewRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowTagViewRow);
+                return rowTagViewRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TagRow FindByID(int ID) {
-                return ((TagRow)(this.Rows.Find(new object[] {
+            public TagViewRow FindByID(int ID) {
+                return ((TagViewRow)(this.Rows.Find(new object[] {
                             ID})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public override global::System.Data.DataTable Clone() {
-                TagDataTable cln = ((TagDataTable)(base.Clone()));
+                TagViewDataTable cln = ((TagViewDataTable)(base.Clone()));
                 cln.InitVars();
                 return cln;
             }
@@ -452,7 +485,7 @@ namespace AdminPortal.App_Code {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
-                return new TagDataTable();
+                return new TagViewDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -465,6 +498,9 @@ namespace AdminPortal.App_Code {
                 this.columnOutOfOrder = base.Columns["OutOfOrder"];
                 this.columnLastAccessed = base.Columns["LastAccessed"];
                 this.columnUUID = base.Columns["UUID"];
+                this.columnFirstName = base.Columns["FirstName"];
+                this.columnSurname = base.Columns["Surname"];
+                this.columnName = base.Columns["Name"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -484,44 +520,50 @@ namespace AdminPortal.App_Code {
                 base.Columns.Add(this.columnLastAccessed);
                 this.columnUUID = new global::System.Data.DataColumn("UUID", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnUUID);
+                this.columnFirstName = new global::System.Data.DataColumn("FirstName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnFirstName);
+                this.columnSurname = new global::System.Data.DataColumn("Surname", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSurname);
+                this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnName);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID}, true));
-                this.columnID.AutoIncrement = true;
-                this.columnID.AutoIncrementSeed = -1;
-                this.columnID.AutoIncrementStep = -1;
                 this.columnID.AllowDBNull = false;
-                this.columnID.ReadOnly = true;
                 this.columnID.Unique = true;
                 this.columnLabel.AllowDBNull = false;
                 this.columnLabel.MaxLength = 50;
                 this.columnOutOfOrder.AllowDBNull = false;
                 this.columnUUID.MaxLength = 2147483647;
+                this.columnFirstName.MaxLength = 50;
+                this.columnSurname.MaxLength = 50;
+                this.columnName.AllowDBNull = false;
+                this.columnName.MaxLength = 50;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TagRow NewTagRow() {
-                return ((TagRow)(this.NewRow()));
+            public TagViewRow NewTagViewRow() {
+                return ((TagViewRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
-                return new TagRow(builder);
+                return new TagViewRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override global::System.Type GetRowType() {
-                return typeof(TagRow);
+                return typeof(TagViewRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
-                if ((this.TagRowChanged != null)) {
-                    this.TagRowChanged(this, new TagRowChangeEvent(((TagRow)(e.Row)), e.Action));
+                if ((this.TagViewRowChanged != null)) {
+                    this.TagViewRowChanged(this, new TagViewRowChangeEvent(((TagViewRow)(e.Row)), e.Action));
                 }
             }
             
@@ -529,8 +571,8 @@ namespace AdminPortal.App_Code {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
-                if ((this.TagRowChanging != null)) {
-                    this.TagRowChanging(this, new TagRowChangeEvent(((TagRow)(e.Row)), e.Action));
+                if ((this.TagViewRowChanging != null)) {
+                    this.TagViewRowChanging(this, new TagViewRowChangeEvent(((TagViewRow)(e.Row)), e.Action));
                 }
             }
             
@@ -538,8 +580,8 @@ namespace AdminPortal.App_Code {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
-                if ((this.TagRowDeleted != null)) {
-                    this.TagRowDeleted(this, new TagRowChangeEvent(((TagRow)(e.Row)), e.Action));
+                if ((this.TagViewRowDeleted != null)) {
+                    this.TagViewRowDeleted(this, new TagViewRowChangeEvent(((TagViewRow)(e.Row)), e.Action));
                 }
             }
             
@@ -547,14 +589,14 @@ namespace AdminPortal.App_Code {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
-                if ((this.TagRowDeleting != null)) {
-                    this.TagRowDeleting(this, new TagRowChangeEvent(((TagRow)(e.Row)), e.Action));
+                if ((this.TagViewRowDeleting != null)) {
+                    this.TagViewRowDeleting(this, new TagViewRowChangeEvent(((TagViewRow)(e.Row)), e.Action));
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void RemoveTagRow(TagRow row) {
+            public void RemoveTagViewRow(TagViewRow row) {
                 this.Rows.Remove(row);
             }
             
@@ -581,7 +623,7 @@ namespace AdminPortal.App_Code {
                 type.Attributes.Add(attribute1);
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
-                attribute2.FixedValue = "TagDataTable";
+                attribute2.FixedValue = "TagViewDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -625,25 +667,25 @@ namespace AdminPortal.App_Code {
         /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
-        public partial class TagRow : global::System.Data.DataRow {
+        public partial class TagViewRow : global::System.Data.DataRow {
             
-            private TagDataTable tableTag;
+            private TagViewDataTable tableTagView;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            internal TagRow(global::System.Data.DataRowBuilder rb) : 
+            internal TagViewRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
-                this.tableTag = ((TagDataTable)(this.Table));
+                this.tableTagView = ((TagViewDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public int ID {
                 get {
-                    return ((int)(this[this.tableTag.IDColumn]));
+                    return ((int)(this[this.tableTagView.IDColumn]));
                 }
                 set {
-                    this[this.tableTag.IDColumn] = value;
+                    this[this.tableTagView.IDColumn] = value;
                 }
             }
             
@@ -651,10 +693,10 @@ namespace AdminPortal.App_Code {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public string Label {
                 get {
-                    return ((string)(this[this.tableTag.LabelColumn]));
+                    return ((string)(this[this.tableTagView.LabelColumn]));
                 }
                 set {
-                    this[this.tableTag.LabelColumn] = value;
+                    this[this.tableTagView.LabelColumn] = value;
                 }
             }
             
@@ -663,14 +705,14 @@ namespace AdminPortal.App_Code {
             public int Restaurant {
                 get {
                     try {
-                        return ((int)(this[this.tableTag.RestaurantColumn]));
+                        return ((int)(this[this.tableTagView.RestaurantColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Restaurant\' in table \'Tag\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'Restaurant\' in table \'TagView\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableTag.RestaurantColumn] = value;
+                    this[this.tableTagView.RestaurantColumn] = value;
                 }
             }
             
@@ -679,14 +721,14 @@ namespace AdminPortal.App_Code {
             public int CurrentUser {
                 get {
                     try {
-                        return ((int)(this[this.tableTag.CurrentUserColumn]));
+                        return ((int)(this[this.tableTagView.CurrentUserColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'CurrentUser\' in table \'Tag\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CurrentUser\' in table \'TagView\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableTag.CurrentUserColumn] = value;
+                    this[this.tableTagView.CurrentUserColumn] = value;
                 }
             }
             
@@ -694,10 +736,10 @@ namespace AdminPortal.App_Code {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool OutOfOrder {
                 get {
-                    return ((bool)(this[this.tableTag.OutOfOrderColumn]));
+                    return ((bool)(this[this.tableTagView.OutOfOrderColumn]));
                 }
                 set {
-                    this[this.tableTag.OutOfOrderColumn] = value;
+                    this[this.tableTagView.OutOfOrderColumn] = value;
                 }
             }
             
@@ -706,14 +748,14 @@ namespace AdminPortal.App_Code {
             public System.DateTime LastAccessed {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tableTag.LastAccessedColumn]));
+                        return ((global::System.DateTime)(this[this.tableTagView.LastAccessedColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'LastAccessed\' in table \'Tag\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'LastAccessed\' in table \'TagView\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableTag.LastAccessedColumn] = value;
+                    this[this.tableTagView.LastAccessedColumn] = value;
                 }
             }
             
@@ -722,63 +764,130 @@ namespace AdminPortal.App_Code {
             public string UUID {
                 get {
                     try {
-                        return ((string)(this[this.tableTag.UUIDColumn]));
+                        return ((string)(this[this.tableTagView.UUIDColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'UUID\' in table \'Tag\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'UUID\' in table \'TagView\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableTag.UUIDColumn] = value;
+                    this[this.tableTagView.UUIDColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string FirstName {
+                get {
+                    try {
+                        return ((string)(this[this.tableTagView.FirstNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'FirstName\' in table \'TagView\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTagView.FirstNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Surname {
+                get {
+                    try {
+                        return ((string)(this[this.tableTagView.SurnameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Surname\' in table \'TagView\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTagView.SurnameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public string Name {
+                get {
+                    return ((string)(this[this.tableTagView.NameColumn]));
+                }
+                set {
+                    this[this.tableTagView.NameColumn] = value;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsRestaurantNull() {
-                return this.IsNull(this.tableTag.RestaurantColumn);
+                return this.IsNull(this.tableTagView.RestaurantColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetRestaurantNull() {
-                this[this.tableTag.RestaurantColumn] = global::System.Convert.DBNull;
+                this[this.tableTagView.RestaurantColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsCurrentUserNull() {
-                return this.IsNull(this.tableTag.CurrentUserColumn);
+                return this.IsNull(this.tableTagView.CurrentUserColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetCurrentUserNull() {
-                this[this.tableTag.CurrentUserColumn] = global::System.Convert.DBNull;
+                this[this.tableTagView.CurrentUserColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsLastAccessedNull() {
-                return this.IsNull(this.tableTag.LastAccessedColumn);
+                return this.IsNull(this.tableTagView.LastAccessedColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetLastAccessedNull() {
-                this[this.tableTag.LastAccessedColumn] = global::System.Convert.DBNull;
+                this[this.tableTagView.LastAccessedColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public bool IsUUIDNull() {
-                return this.IsNull(this.tableTag.UUIDColumn);
+                return this.IsNull(this.tableTagView.UUIDColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetUUIDNull() {
-                this[this.tableTag.UUIDColumn] = global::System.Convert.DBNull;
+                this[this.tableTagView.UUIDColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsFirstNameNull() {
+                return this.IsNull(this.tableTagView.FirstNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetFirstNameNull() {
+                this[this.tableTagView.FirstNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsSurnameNull() {
+                return this.IsNull(this.tableTagView.SurnameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetSurnameNull() {
+                this[this.tableTagView.SurnameColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -786,22 +895,22 @@ namespace AdminPortal.App_Code {
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public class TagRowChangeEvent : global::System.EventArgs {
+        public class TagViewRowChangeEvent : global::System.EventArgs {
             
-            private TagRow eventRow;
+            private TagViewRow eventRow;
             
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TagRowChangeEvent(TagRow row, global::System.Data.DataRowAction action) {
+            public TagViewRowChangeEvent(TagViewRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public TagRow Row {
+            public TagViewRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -829,7 +938,7 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
     [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-    public partial class TagTableAdapter : global::System.ComponentModel.Component {
+    public partial class TagViewTableAdapter : global::System.ComponentModel.Component {
         
         private global::System.Data.SqlClient.SqlDataAdapter _adapter;
         
@@ -843,7 +952,7 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        public TagTableAdapter() {
+        public TagViewTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
@@ -940,7 +1049,7 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
             this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
-            tableMapping.DataSetTable = "Tag";
+            tableMapping.DataSetTable = "TagView";
             tableMapping.ColumnMappings.Add("ID", "ID");
             tableMapping.ColumnMappings.Add("Label", "Label");
             tableMapping.ColumnMappings.Add("Restaurant", "Restaurant");
@@ -948,37 +1057,10 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
             tableMapping.ColumnMappings.Add("OutOfOrder", "OutOfOrder");
             tableMapping.ColumnMappings.Add("LastAccessed", "LastAccessed");
             tableMapping.ColumnMappings.Add("UUID", "UUID");
+            tableMapping.ColumnMappings.Add("FirstName", "FirstName");
+            tableMapping.ColumnMappings.Add("Surname", "Surname");
+            tableMapping.ColumnMappings.Add("Name", "Name");
             this._adapter.TableMappings.Add(tableMapping);
-            this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM [dbo].[Tag] WHERE (([ID] = @Original_ID))";
-            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [dbo].[Tag] ([Label], [Restaurant], [CurrentUser], [OutOfOrder], [Las" +
-                "tAccessed], [UUID]) VALUES (@Label, @Restaurant, @CurrentUser, @OutOfOrder, @Las" +
-                "tAccessed, @UUID)";
-            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Label", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Label", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Restaurant", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Restaurant", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CurrentUser", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "CurrentUser", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OutOfOrder", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "OutOfOrder", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LastAccessed", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LastAccessed", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@UUID", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "UUID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
-            this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE [dbo].[Tag] SET [Label] = @Label, [Restaurant] = @Restaurant, [CurrentUser" +
-                "] = @CurrentUser, [OutOfOrder] = @OutOfOrder, [LastAccessed] = @LastAccessed, [U" +
-                "UID] = @UUID WHERE (([ID] = @Original_ID))";
-            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Label", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Label", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Restaurant", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Restaurant", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CurrentUser", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "CurrentUser", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@OutOfOrder", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "OutOfOrder", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LastAccessed", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LastAccessed", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@UUID", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "UUID", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_ID", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "ID", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -994,8 +1076,8 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
             this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT ID, Label, Restaurant, CurrentUser, OutOfOrder, LastAccessed, UUID FROM db" +
-                "o.Tag";
+            this._commandCollection[0].CommandText = "SELECT ID, Label, Restaurant, CurrentUser, OutOfOrder, LastAccessed, UUID, FirstN" +
+                "ame, Surname, Name FROM dbo.TagView";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -1003,7 +1085,7 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(DataSet.TagDataTable dataTable) {
+        public virtual int Fill(DataSet.TagViewDataTable dataTable) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -1016,167 +1098,11 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual DataSet.TagDataTable GetData() {
+        public virtual DataSet.TagViewDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            DataSet.TagDataTable dataTable = new DataSet.TagDataTable();
+            DataSet.TagViewDataTable dataTable = new DataSet.TagViewDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DataSet.TagDataTable dataTable) {
-            return this.Adapter.Update(dataTable);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(DataSet dataSet) {
-            return this.Adapter.Update(dataSet, "Tag");
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow dataRow) {
-            return this.Adapter.Update(new global::System.Data.DataRow[] {
-                        dataRow});
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(global::System.Data.DataRow[] dataRows) {
-            return this.Adapter.Update(dataRows);
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID) {
-            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID));
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
-            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.DeleteCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.DeleteCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string Label, global::System.Nullable<int> Restaurant, global::System.Nullable<int> CurrentUser, bool OutOfOrder, global::System.Nullable<global::System.DateTime> LastAccessed, string UUID) {
-            if ((Label == null)) {
-                throw new global::System.ArgumentNullException("Label");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(Label));
-            }
-            if ((Restaurant.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[1].Value = ((int)(Restaurant.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
-            }
-            if ((CurrentUser.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((int)(CurrentUser.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[2].Value = global::System.DBNull.Value;
-            }
-            this.Adapter.InsertCommand.Parameters[3].Value = ((bool)(OutOfOrder));
-            if ((LastAccessed.HasValue == true)) {
-                this.Adapter.InsertCommand.Parameters[4].Value = ((System.DateTime)(LastAccessed.Value));
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
-            }
-            if ((UUID == null)) {
-                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[5].Value = ((string)(UUID));
-            }
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
-            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.InsertCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.InsertCommand.Connection.Close();
-                }
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string Label, global::System.Nullable<int> Restaurant, global::System.Nullable<int> CurrentUser, bool OutOfOrder, global::System.Nullable<global::System.DateTime> LastAccessed, string UUID, int Original_ID) {
-            if ((Label == null)) {
-                throw new global::System.ArgumentNullException("Label");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(Label));
-            }
-            if ((Restaurant.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(Restaurant.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
-            }
-            if ((CurrentUser.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(CurrentUser.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[2].Value = global::System.DBNull.Value;
-            }
-            this.Adapter.UpdateCommand.Parameters[3].Value = ((bool)(OutOfOrder));
-            if ((LastAccessed.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((System.DateTime)(LastAccessed.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
-            }
-            if ((UUID == null)) {
-                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(UUID));
-            }
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ID));
-            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
-            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                this.Adapter.UpdateCommand.Connection.Open();
-            }
-            try {
-                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
-                return returnValue;
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    this.Adapter.UpdateCommand.Connection.Close();
-                }
-            }
         }
     }
     
@@ -1192,8 +1118,6 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
         
         private UpdateOrderOption _updateOrder;
         
-        private TagTableAdapter _tagTableAdapter;
-        
         private bool _backupDataSetBeforeUpdate;
         
         private global::System.Data.IDbConnection _connection;
@@ -1206,20 +1130,6 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
             }
             set {
                 this._updateOrder = value;
-            }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
-            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
-            "a", "System.Drawing.Design.UITypeEditor")]
-        public TagTableAdapter TagTableAdapter {
-            get {
-                return this._tagTableAdapter;
-            }
-            set {
-                this._tagTableAdapter = value;
             }
         }
         
@@ -1242,10 +1152,6 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
                 if ((this._connection != null)) {
                     return this._connection;
                 }
-                if (((this._tagTableAdapter != null) 
-                            && (this._tagTableAdapter.Connection != null))) {
-                    return this._tagTableAdapter.Connection;
-                }
                 return null;
             }
             set {
@@ -1259,9 +1165,6 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
         public int TableAdapterInstanceCount {
             get {
                 int count = 0;
-                if ((this._tagTableAdapter != null)) {
-                    count = (count + 1);
-                }
                 return count;
             }
         }
@@ -1273,15 +1176,6 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private int UpdateUpdatedRows(DataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
-            if ((this._tagTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.Tag.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._tagTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             return result;
         }
         
@@ -1292,14 +1186,6 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private int UpdateInsertedRows(DataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
-            if ((this._tagTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.Tag.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._tagTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             return result;
         }
         
@@ -1310,14 +1196,6 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private int UpdateDeletedRows(DataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
-            if ((this._tagTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.Tag.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._tagTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
             return result;
         }
         
@@ -1357,11 +1235,6 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
             if ((dataSet.HasChanges() == false)) {
                 return 0;
             }
-            if (((this._tagTableAdapter != null) 
-                        && (this.MatchTableAdapterConnection(this._tagTableAdapter.Connection) == false))) {
-                throw new global::System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s" +
-                        "tring.");
-            }
             global::System.Data.IDbConnection workConnection = this.Connection;
             if ((workConnection == null)) {
                 throw new global::System.ApplicationException("TableAdapterManager contains no connection information. Set each TableAdapterMana" +
@@ -1394,15 +1267,6 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
             try {
                 // ---- Prepare for update -----------
                 //
-                if ((this._tagTableAdapter != null)) {
-                    revertConnections.Add(this._tagTableAdapter, this._tagTableAdapter.Connection);
-                    this._tagTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(workConnection));
-                    this._tagTableAdapter.Transaction = ((global::System.Data.SqlClient.SqlTransaction)(workTransaction));
-                    if (this._tagTableAdapter.Adapter.AcceptChangesDuringUpdate) {
-                        this._tagTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
-                        adaptersWithAcceptChangesDuringUpdate.Add(this._tagTableAdapter.Adapter);
-                    }
-                }
                 // 
                 //---- Perform updates -----------
                 //
@@ -1460,10 +1324,6 @@ namespace AdminPortal.App_Code.DataSetTableAdapters {
             finally {
                 if (workConnOpened) {
                     workConnection.Close();
-                }
-                if ((this._tagTableAdapter != null)) {
-                    this._tagTableAdapter.Connection = ((global::System.Data.SqlClient.SqlConnection)(revertConnections[this._tagTableAdapter]));
-                    this._tagTableAdapter.Transaction = null;
                 }
                 if ((0 < adaptersWithAcceptChangesDuringUpdate.Count)) {
                     global::System.Data.Common.DataAdapter[] adapters = new System.Data.Common.DataAdapter[adaptersWithAcceptChangesDuringUpdate.Count];
