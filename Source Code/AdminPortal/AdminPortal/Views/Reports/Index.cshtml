@@ -12,7 +12,12 @@
     </p>
     <p>
         Click one of the buttons to view a report.<br />
-        <a href="TagsReport" class="btn btn-primary btn-lg">Tags Report</a>
-        <a href="AppUsersReport" class="btn btn-primary btn-lg">App Users Statistics</a>
+        @* Bad Way *@
+        @*<a href="TagsReport" class="btn btn-primary btn-lg">Tags Report</a>
+        <a href="AppUsersReport" class="btn btn-primary btn-lg">App Users Statistics</a>*@
+
+        @* Good Way *@
+        @Html.ActionLink("Tags Report", "TagsReport", null, new { @class = "btn btn-primary btn-lg" })
+        @Html.ActionLink("App User Statistics", "AppUsersReport", null, new { @class = "btn btn-primary btn-lg" })
     </p>
 </div>
