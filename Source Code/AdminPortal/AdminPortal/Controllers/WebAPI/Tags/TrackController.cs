@@ -7,98 +7,93 @@ using System.Web.Http;
 
 namespace AdminPortal.Controllers.WebAPI.Tags {
 
-	class ChildSimulator {
-		private static Random Generator = new Random(DateTime.Now.Millisecond);
-		private static double TheIncrement = 0.01;
-
-		public double X, Y;
-		private bool PosX, PosY;
-
-		public ChildSimulator() {
-			X = Generator.NextDouble();
-			Y = Generator.NextDouble();
-
-			PosX = Generator.NextDouble() >= 0.5;
-			PosY = Generator.NextDouble() >= 0.5;
-		}
-
-		public void Increment() {
-			if (PosX)
-				X += TheIncrement;
-			else
-				X -= TheIncrement;
-
-			if (PosY)
-				Y += TheIncrement;
-			else
-				Y -= TheIncrement;
-
-			if (X > 1.0) {
-				X = 1.0;
-				PosX = !PosX;
-			}
-			else if (X < 0.0) {
-				X = 0.0;
-				PosX = !PosX;
-			}
-
-			if (Y > 1.0) {
-				Y = 1.0;
-				PosY = !PosY;
-			}
-			else if (Y < 0.0) {
-				Y = 0.0;
-				PosY = !PosY;
-			}
-		}
-	}
-
 	/**
 	 * Retrieves the positions for each beacon assigned to a user at their
 	 * current restaurant.
 	 */
 	public class TrackController : ApiController {
-		private const int MAX_TAGS = 50;
-		private static List<ChildSimulator> Children;
-
 		private KinderFinderEntities Db = new KinderFinderEntities();
+		private double MaxX = -1.0, MaxY = -1.0;
 
-		static TrackController() {
-			Children = new List<ChildSimulator>();
+		private Transmitter[] LoadTransmitters(int restaurantId) {
+			Transmitter[] t = new Transmitter[3];
 
-			for (int i = 0; i < MAX_TAGS; i++)
-				Children.Add(new ChildSimulator());
+			for (int i = 0; i < 3; i++) {
+				t[i] = (from item in Db.Transmitters
+						where item.Restaurant == restaurantId && item.Type == (i + 1)
+						select item).FirstOrDefault();
+
+				if (t[i] == null)
+					return null;
+
+				if (t[i].PosX > MaxX)
+					MaxX = (double)t[i].PosX;
+
+				if (t[i].PosY > MaxY) {
+					MaxY = (double)t[i].PosY;
+				}
+			}
+
+			return t;
 		}
 
-		/**
-		 * TODO: Update this function to return actual locations.
-		 */
 		[HttpPost]
 		public IHttpActionResult GetLocations(RequestDetails details) {
 			// Determine user's current restaurant:
-			var restaurant = (from item in Db.AppUsers
-							  where item.EmailAddress.Equals(details.EmailAddress)
-							  select item.Restaurant).FirstOrDefault();
+			var user = (from item in Db.AppUsers
+						where item.EmailAddress.Equals(details.EmailAddress)
+						select item).FirstOrDefault();
+			
+			var restaurant = Db.Restaurants.Find(user.CurrentRestaurant);
+			Transmitter[] t = LoadTransmitters(restaurant.ID);
 
-			// Count how many tags they have at the restaurant:
-			var tags = (from item in Db.Tags
-						where item.AppUser.EmailAddress.Equals(details.EmailAddress, StringComparison.CurrentCultureIgnoreCase)
-							&& item.Restaurant == restaurant.ID
-						select item).Count();
+			if (t == null)
+				return BadRequest();
 
-			var result = new List<string>();
+			Locator locator = new Locator();
 
-			for (int i = 0; i < Children.Count; i++) {
-				if (i >= tags)
-					break;
+			// Initialise transmitter locations.
+			for (int i = 0; i < t.Length; i++)
+				locator.MoveTransmitter(i + 1, (double)t[i].PosX, (double)t[i].PosY);
 
-				ChildSimulator item = Children[i];
-				result.Add(item.X.ToString());
-				result.Add(item.Y.ToString());
-				item.Increment();
+			// Load tags belonging to the user.
+			var tags = from item in Db.Tags
+					   where item.Restaurant == restaurant.ID && item.CurrentUser == user.ID
+					   select item;
+
+			var result = new List<TagData>();
+
+			// For each of the user's tags"
+			foreach (var tag in tags) {
+				double[] strengths = new double[3];
+
+				// Load all three of its strengths:
+				for (int i = 0; i < 3; i++)
+					strengths[i] = StrengthManager.GetStrength(tag.BeaconID, t[i].ID, (int)t[i].Type);
+
+				// Triangulate its position:
+				var pos = locator.Locate("", strengths[0], strengths[1], strengths[2]);
+
+				TagData td = new TagData();
+				td.Name = tag.Label;
+				td.PosX = pos.X / MaxX;
+				td.PosY = pos.Y / MaxY;
+				result.Add(td);
 			}
 
 			return Ok(result);
+		}
+
+		public struct TagData {
+			public string Name;
+			public double PosX;
+			public double PosY;
+		}
+
+		static TrackController() {
+			StrengthManager.Update("1-177", 25, 1, -0.3);
+			StrengthManager.Update("1-177", 65, 2, -0.3705523704);
+			StrengthManager.Update("1-177", 66, 3, -0.65273907552);
 		}
 
 		public struct RequestDetails {

@@ -14,11 +14,14 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 		public IHttpActionResult FreeTransmitter(RequestDetails details) {
 			int id = int.Parse(details.ID);
 			var transmitter = Db.Transmitters.Find(id);
+			System.Diagnostics.Debug.WriteLine("Trying to free transmitter " + id);
 
 			if (transmitter == null) {
+				System.Diagnostics.Debug.WriteLine("\tDoesn't exist!");
 				return BadRequest();
 			}
 
+			System.Diagnostics.Debug.WriteLine("\tSuccess!");
 			Db.Transmitters.Remove(transmitter);
 			Db.SaveChanges();
 
