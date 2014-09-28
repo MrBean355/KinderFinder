@@ -143,6 +143,12 @@ namespace KinderFinder {
 			});
 		}
 
+		public struct TagData {
+			public string Name;
+			public double PosX;
+			public double PosY;
+		}
+
 		/// <summary>
 		/// Updates the map by drawing the locations of the tracked tags.
 		/// </summary>
@@ -160,11 +166,11 @@ namespace KinderFinder {
 			builder.AddEntry("EmailAddress", email);
 
 			var	response = AppTools.SendRequest("api/track", builder.ToString());
-			List<string> locations = null;
+			List<TagData> locations = null;
 
 			switch (response.StatusCode) {
 				case HttpStatusCode.OK:
-					locations = AppTools.ParseJSON(response.Body);
+					locations = Deserialiser<List<TagData>>.Run(response.Body);
 					break;
 				default:
 					//Toast.MakeText(this, "Unable to retrieve data from server", ToastLength.Short).Show();
@@ -177,22 +183,33 @@ namespace KinderFinder {
 			var paint = new Paint();
 
 			paint.SetStyle(Paint.Style.Fill);
-			paint.SetARGB(Settings.Map.DOT_COLOUR_ALPHA, Settings.Map.DOT_COLOUR_RED, Settings.Map.DOT_COLOUR_GREEN, Settings.Map.DOT_COLOUR_BLUE);
+			paint.TextSize = Settings.Map.OVERLAY_TEXT_SIZE;
 			canvas.DrawBitmap(OriginalMap, 0, 0, null); // draw map normally.
 
 			// If we could retrieve the locations, draw them:
-			if (locations != null && locations.Count % 2 == 0) {
-				for (int i = 0; i < locations.Count; i += 2) {
-					double loc1;
-					double loc2;
+			if (locations != null) {
+				foreach (var data in locations) {
+					int x = (int)(data.PosX * OriginalMap.Width);
+					int y = (int)(data.PosY * OriginalMap.Height);
+					string colour = pref.GetString(data.Name + Settings.Keys.TAG_COLOUR, "");
+					string name = pref.GetString(data.Name + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT);
 
-					if (AppTools.ParseDouble(locations[i], out loc1) && AppTools.ParseDouble(locations[i + 1], out loc2)) {
-						int x = (int)(loc1 * OriginalMap.Width);
-						int y = (int)(loc2 * OriginalMap.Height);
-						canvas.DrawCircle(x, y, Settings.Map.DOT_SIZE_RADIUS, paint);
+					if (name.Equals("")) {
+						name = Settings.Map.UNKNOWN_NAME_TEXT;
 					}
-					else
-						RunOnUiThread(() => Toast.MakeText(this, "Server replied with some invalid data", ToastLength.Short).Show());
+
+					if (!colour.Equals("")) {
+						int r = Convert.ToInt32(colour.Substring(0, 2), 16);
+						int g = Convert.ToInt32(colour.Substring(2, 2), 16);
+						int b = Convert.ToInt32(colour.Substring(4, 2), 16);
+						paint.SetARGB(Settings.Map.DOT_COLOUR_ALPHA, r, g, b);
+					}
+					else {
+						paint.SetARGB(Settings.Map.DOT_COLOUR_ALPHA, Settings.Map.DOT_COLOUR_RED, Settings.Map.DOT_COLOUR_GREEN, Settings.Map.DOT_COLOUR_BLUE);
+					}
+
+					canvas.DrawCircle(x, y, Settings.Map.DOT_SIZE_RADIUS, paint);
+					canvas.DrawText(name, x - 30, y - 25, paint);
 				}
 			}
 

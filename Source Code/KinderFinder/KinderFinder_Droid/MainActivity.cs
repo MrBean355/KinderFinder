@@ -83,6 +83,11 @@ namespace KinderFinder {
 			}
 		}
 
+		class Test {
+			public int Id;
+			public string Name;
+		}
+
 		/// <summary>
 		/// Attempts to log the user in with the provided details. If successful, a new activity is started.
 		/// </summary>
@@ -137,7 +142,7 @@ namespace KinderFinder {
 
 				/* Enable buttons and hide progress bar. Done on main thread. */
 				RunOnUiThread(() => {
-					Toast.MakeText(this, message, ToastLength.Long).Show();
+					Toast.MakeText(this, message, ToastLength.Short).Show();
 					loginButton.Enabled = true;
 					registerButton.Enabled = true;
 					progressBar.Visibility = Android.Views.ViewStates.Invisible;

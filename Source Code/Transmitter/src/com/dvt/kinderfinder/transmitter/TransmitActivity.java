@@ -111,10 +111,14 @@ public class TransmitActivity extends ActionBarActivity {
 	private UUID mMyUuid = UUID.fromString("01122334-4556-6778-899A-ABBCCDDEEFF0");
 	private UUID mAnyUuid = BeaconRegion.ANY_UUID;
 
-	@SuppressWarnings("unused")
-	private class BeaconInfo {
-		public String id;
-		public float distance;
+	private class Request {
+		public String TransmitterId;
+		public LinkedList<Strength> TagData;
+	}
+	
+	private class Strength {
+		public String TagUuid;
+		public float Distance;
 	}
 	
 	/*private BeaconServiceConnection.RegionListener mRegionListener = new BeaconServiceConnection.RegionListener() {
@@ -145,16 +149,20 @@ public class TransmitActivity extends ActionBarActivity {
 				lastSent = now;
 			}
 			
-			LinkedList<BeaconInfo> info = new LinkedList<>();
+			Request req = new Request();
+			req.TransmitterId = id;
+			req.TagData = new LinkedList<>();
 			
 			for (final Beacon beacon : beacons) {
-				BeaconInfo i = new BeaconInfo();
-				i.id = beacon.getUuid().toString();
-				i.distance = beacon.getAccuracy();
-				info.add(i);
+				Strength str = new Strength();
+				str.TagUuid = beacon.getUuid().toString();
+				str.Distance = beacon.getAccuracy();
+				
+				req.TagData.add(str);
 			}
 
-			new RequestTask().execute("api/transmit", new Gson().toJson(info));
+			new RequestTask().execute("api/transmit", new Gson().toJson(req));
+			
 			updates++;
 			
 			beaconCountBox.setText(beacons.length + "");

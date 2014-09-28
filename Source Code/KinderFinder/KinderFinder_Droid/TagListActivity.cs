@@ -20,13 +20,13 @@ namespace KinderFinder {
 		ListView tagListView;
 		List<string> tags;
 
-		public override bool OnCreateOptionsMenu(Android.Views.IMenu menu) {
+		public override bool OnCreateOptionsMenu(IMenu menu) {
 			base.OnCreateOptionsMenu(menu);
 			MenuInflater.Inflate(Resource.Menu.MainMenu, menu);
 			return base.OnCreateOptionsMenu(menu);
 		}
 
-		public override bool OnOptionsItemSelected(Android.Views.IMenuItem item) {
+		public override bool OnOptionsItemSelected(IMenuItem item) {
 			base.OnOptionsItemSelected(item);
 
 			switch (item.ItemId) {
@@ -77,43 +77,9 @@ namespace KinderFinder {
 		/// <param name="sender">Sender.</param>
 		/// <param name="args">Arguments.</param>
 		void ListItemClicked(object sender, AdapterView.ItemClickEventArgs args) {
+			editor.PutString("currenttag", tags[args.Position]);
+			editor.Commit();
 			StartActivity(new Intent(this, typeof(TagConfigActivity)));
-
-			/*var alert = new AlertDialog.Builder(this);
-			var tag = tags[args.Position];
-
-
-			//nameBox.InputType = Android.Text.InputTypes.TextFlagCapWords;
-			//nameBox.Text = pref.GetString(tag, ""); // load existing child.
-			//nameBox.SetSelection(nameBox.Text.Length); // move cursor to end.
-
-			LayoutInflater factory = LayoutInflater.From(this);
-			var view = factory.Inflate(Resource.Layout.TagConfig, null);
-
-			var testList = new List<String>();
-
-			for (int i = 0; i < 10; i++) {
-				testList.Add("Item " + (i + 1));
-			}
-
-			alert.SetTitle("Assign Tag");
-			alert.SetMessage("Enter the name of the child to assign this tag to:");
-			alert.SetView(view);
-
-
-			/* When OK is clicked, save the child's name. *
-			alert.SetPositiveButton("OK", (s, e) => {
-				//editor.PutString(tag, nameBox.Text);
-				//editor.Commit();
-				LoadItems(); // reload list.
-				Toast.MakeText(this, "Success", ToastLength.Long).Show();
-			});
-
-			/* When Cancel is clicked, do nothing special. *
-			alert.SetNegativeButton("Cancel", (s, e) => {
-			});
-
-			alert.Show();*/
 		}
 
 		/// <summary>
@@ -136,7 +102,7 @@ namespace KinderFinder {
 
 				switch (reply.StatusCode) {
 					case HttpStatusCode.OK:
-						tags = AppTools.ParseJSON(reply.Body);
+						tags = Deserialiser<List<string>>.Run(reply.Body);
 						break;
 					case HttpStatusCode.BadRequest:
 						message = "Invalid user details";
@@ -160,7 +126,7 @@ namespace KinderFinder {
 					/* Has linked tags; display them. */
 					else {
 						for (int i = 0; i < tags.Count; i++) {
-							string name = pref.GetString(tags[i], ""); // load child's name.
+							string name = pref.GetString(tags[i] + Settings.Keys.TAG_NAME, ""); // load child's name.
 
 							if (name.Equals(""))
 								name = "(no child assigned)";
@@ -168,7 +134,7 @@ namespace KinderFinder {
 							listItems[i] += ": " + name;
 						}
 
-						warning.Visibility = Android.Views.ViewStates.Gone; // hide warning message.
+						warning.Visibility = ViewStates.Gone; // hide warning message.
 					}
 
 					/* Show temporary list. */

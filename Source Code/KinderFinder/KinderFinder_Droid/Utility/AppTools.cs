@@ -26,53 +26,6 @@ namespace KinderFinder {
 		}
 
 		/// <summary>
-		/// Attempts to parse a JSON string into a list.
-		/// </summary>
-		/// <param name="json">Input string to parse./param>
-		/// <returns>List version of the input.</returns>
-		public static List<string> ParseJSON(string json) {
-			var result = new List<string>();
-
-			if (json.Length == 0)
-				return result;
-
-			// At this point: ["0,567178641556379","0,544309737726259"]
-			/* Remove '[' and ']' from string. */
-			if (json[0] == '[') {
-				json = json.Remove(json.Length - 1, 1);
-				json = json.Remove(0, 1);
-			}
-
-			if (json.Length == 0)
-				return result;
-
-			string temp = "";
-
-			// At this point: "0,567178641556379","0,544309737726259"
-			for (int i = 0; i < json.Length; i++) {
-				// Opening quotation found; read until closing one found:
-				if (json[i] == '"') {
-					while (json[++i] != '"')
-						temp += json[i];
-					// TODO: Possibly fix situation where there is a quotation mark embedded in the string, like:
-					// ["hello","wo"rld"]
-					// Check if the embedded quotation mark will be escaped automatically.
-				}
-				// Element separator found; add previous element:
-				else if (json[i] == ',') {
-					result.Add(temp);
-					temp = "";
-				}
-			}
-
-			// Add final element:
-			if (!temp.Equals(""))
-				result.Add(temp);
-
-			return result;
-		}
-
-		/// <summary>
 		/// Attempts to send data in the form of a JSON string to the server using the POST method.
 		/// </summary>
 		/// <param name="url">URL to send the request to.</param>
@@ -87,8 +40,9 @@ namespace KinderFinder {
 			req.Method = "POST";
 			req.Timeout = Settings.REQUEST_TIMEOUT;
 
-			if (json == null)
+			if (json == null) {
 				json = "";
+			}
 
 			try {
 				/* Write the message's body. */
@@ -134,7 +88,7 @@ namespace KinderFinder {
 			catch (Exception ex) {
 				result.StatusCode = HttpStatusCode.ServiceUnavailable;
 				Console.WriteLine("EXCEPTION while communication with server:\n" + ex);
-				Toast.MakeText(null, "Unable to contact server", ToastLength.Long);
+				Toast.MakeText(null, "Unable to contact server", ToastLength.Short);
 			}
 
 			return result;

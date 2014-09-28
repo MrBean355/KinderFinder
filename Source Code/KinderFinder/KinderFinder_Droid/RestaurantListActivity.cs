@@ -77,7 +77,7 @@ namespace KinderFinder {
 
 				switch (reply.StatusCode) {
 					case HttpStatusCode.OK:
-						AllRestaurants = AppTools.ParseJSON(reply.Body);
+						AllRestaurants = Deserialiser<List<string>>.Run(reply.Body);
 						MatchingRestaurants = AllRestaurants;
 						RunOnUiThread(() => restListView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, AllRestaurants));
 						break;

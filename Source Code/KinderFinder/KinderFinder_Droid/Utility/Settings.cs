@@ -26,6 +26,8 @@ namespace KinderFinder {
 			public const string PASSWORD_HASH = "passwordhash";
 			public const string REMEMBER_ME = "rememberme";
 			public const string RESTAURANT_NAME = "currentrestaurant";
+			public const string TAG_NAME = "_name";
+			public const string TAG_COLOUR = "_colour";
 		}
 
 		public static class Lengths {
@@ -43,6 +45,8 @@ namespace KinderFinder {
 			public const int DOT_SIZE_RADIUS = 10;
 
 			public const int UPDATE_FREQUENCY = 1000;
+			public const float OVERLAY_TEXT_SIZE = 40.0f;
+			public const string UNKNOWN_NAME_TEXT = "Unknown";
 		}
 	}
 }

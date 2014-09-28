@@ -67,7 +67,7 @@ namespace Locator {
 		 * This is where the magic happens. Trilateration in 2 (very long) lines!
 		 * See here: http://stackoverflow.com/questions/17889765/triangulation-algorithm-on-grid-with-signal-strength-c-sharp
 		 */
-		private double[] Run(double str1, double str2, double str3) {
+		public double[] Run(double str1, double str2, double str3) {
 			var px = ((str1 * str1) - (str2 * str2) + (Nodes[1].X * Nodes[1].X)) / (2.0 * Nodes[1].X);
 			var py = ((str1 * str1) - (str3 * str3) + (Nodes[2].X * Nodes[2].X) + (Nodes[2].Y * Nodes[2].Y)) / (2.0 * Nodes[2].Y) - (Nodes[2].X / Nodes[2].X) * px;
 

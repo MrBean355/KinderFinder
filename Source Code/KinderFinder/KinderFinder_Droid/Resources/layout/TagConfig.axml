@@ -8,9 +8,30 @@
         android:layout_height="wrap_content"
         android:id="@+id/TagConfig_Name"
         android:hint="Child's name"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:inputType="textCapWords" />
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/TagConfig_Colour" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout1">
+        <Button
+            android:text="Cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/TagConfig_Cancel"
+            android:layout_weight="1" />
+        <Button
+            android:text="Save"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/TagConfig_Save"
+            android:layout_weight="1" />
+    </LinearLayout>
 </LinearLayout>

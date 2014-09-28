@@ -116,7 +116,7 @@ namespace KinderFinder {
 
 				/* Enable button and hide progress bar. Done on main thread. */
 				RunOnUiThread(() => {
-					Toast.MakeText(this, message, ToastLength.Long).Show();
+					Toast.MakeText(this, message, ToastLength.Short).Show();
 					registerButton.Enabled = true;
 					progressBar.Visibility = Android.Views.ViewStates.Invisible;
 				});

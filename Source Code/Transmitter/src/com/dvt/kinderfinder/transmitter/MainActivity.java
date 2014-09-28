@@ -111,7 +111,9 @@ public class MainActivity extends ActionBarActivity {
 			protected void onPostExecute(String result) {
 				if (statusCode == HttpStatus.SC_OK) {
 					LinkedList<String> restaurants = JsonBuilder.JsonToList(result);
-					restaurantList.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, restaurants));
+					ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, restaurants);
+					adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+					restaurantList.setAdapter(adapter);
 					
 					if (restaurants.size() > 0) {
 						restaurantList.setEnabled(true);
@@ -137,7 +139,9 @@ public class MainActivity extends ActionBarActivity {
 			protected void onPostExecute(String result) {
 				if (statusCode == HttpStatus.SC_OK) {
 					LinkedList<String> types = JsonBuilder.JsonToList(result);
-					typeList.setAdapter(new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, types));
+					ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, types);
+					adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+					typeList.setAdapter(adapter);
 					
 					if (types.size() > 0) {
 						typeList.setEnabled(true);
