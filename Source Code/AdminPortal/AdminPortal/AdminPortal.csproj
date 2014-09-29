@@ -238,6 +238,13 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="WebForms\AppUserReport.aspx.cs">
+      <DependentUpon>AppUserReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForms\AppUserReport.aspx.designer.cs">
+      <DependentUpon>AppUserReport.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WebForms\TagReport.aspx.cs">
       <DependentUpon>TagReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -259,6 +266,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="WebForms\AppUserReport.aspx" />
     <Content Include="WebForms\TagReport.aspx" />
     <EntityDeploy Include="Models\KinderFinderModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -358,6 +366,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="rdlcReports\AppUserReport.rdlc" />
     <EmbeddedResource Include="rdlcReports\TagReport.rdlc" />
   </ItemGroup>
   <PropertyGroup>

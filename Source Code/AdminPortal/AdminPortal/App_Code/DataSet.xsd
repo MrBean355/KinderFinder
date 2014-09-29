@@ -32,6 +32,30 @@
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="AppUserViewTableAdapter" GeneratorDataComponentClassName="AppUserViewTableAdapter" Name="AppUserView" UserDataComponentName="AppUserViewTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="DefaultConnection (Web.config)" DbObjectName="dbo.AppUserView" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT ID, FirstName, Surname, EmailAddress, PhoneNumber, PasswordHash, CurrentRestaurant, LastLogin, Name FROM dbo.AppUserView</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ID" DataSetColumn="ID" />
+              <Mapping SourceColumn="FirstName" DataSetColumn="FirstName" />
+              <Mapping SourceColumn="Surname" DataSetColumn="Surname" />
+              <Mapping SourceColumn="EmailAddress" DataSetColumn="EmailAddress" />
+              <Mapping SourceColumn="PhoneNumber" DataSetColumn="PhoneNumber" />
+              <Mapping SourceColumn="PasswordHash" DataSetColumn="PasswordHash" />
+              <Mapping SourceColumn="CurrentRestaurant" DataSetColumn="CurrentRestaurant" />
+              <Mapping SourceColumn="LastLogin" DataSetColumn="LastLogin" />
+              <Mapping SourceColumn="Name" DataSetColumn="Name" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -40,7 +64,7 @@
   <xs:element name="DataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet" msprop:Generator_UserDSName="DataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="TagView" msprop:Generator_TableClassName="TagViewDataTable" msprop:Generator_TableVarName="tableTagView" msprop:Generator_TablePropName="TagView" msprop:Generator_RowDeletingName="TagViewRowDeleting" msprop:Generator_RowChangingName="TagViewRowChanging" msprop:Generator_RowEvHandlerName="TagViewRowChangeEventHandler" msprop:Generator_RowDeletedName="TagViewRowDeleted" msprop:Generator_UserTableName="TagView" msprop:Generator_RowChangedName="TagViewRowChanged" msprop:Generator_RowEvArgName="TagViewRowChangeEvent" msprop:Generator_RowClassName="TagViewRow">
+        <xs:element name="TagView" msprop:Generator_TableClassName="TagViewDataTable" msprop:Generator_TableVarName="tableTagView" msprop:Generator_RowChangedName="TagViewRowChanged" msprop:Generator_TablePropName="TagView" msprop:Generator_RowDeletingName="TagViewRowDeleting" msprop:Generator_RowChangingName="TagViewRowChanging" msprop:Generator_RowEvHandlerName="TagViewRowChangeEventHandler" msprop:Generator_RowDeletedName="TagViewRowDeleted" msprop:Generator_RowClassName="TagViewRow" msprop:Generator_UserTableName="TagView" msprop:Generator_RowEvArgName="TagViewRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" />
@@ -86,10 +110,65 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="AppUserView" msprop:Generator_TableClassName="AppUserViewDataTable" msprop:Generator_TableVarName="tableAppUserView" msprop:Generator_TablePropName="AppUserView" msprop:Generator_RowDeletingName="AppUserViewRowDeleting" msprop:Generator_RowChangingName="AppUserViewRowChanging" msprop:Generator_RowEvHandlerName="AppUserViewRowChangeEventHandler" msprop:Generator_RowDeletedName="AppUserViewRowDeleted" msprop:Generator_UserTableName="AppUserView" msprop:Generator_RowChangedName="AppUserViewRowChanged" msprop:Generator_RowEvArgName="AppUserViewRowChangeEvent" msprop:Generator_RowClassName="AppUserViewRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" />
+              <xs:element name="FirstName" msprop:Generator_ColumnVarNameInTable="columnFirstName" msprop:Generator_ColumnPropNameInRow="FirstName" msprop:Generator_ColumnPropNameInTable="FirstNameColumn" msprop:Generator_UserColumnName="FirstName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Surname" msprop:Generator_ColumnVarNameInTable="columnSurname" msprop:Generator_ColumnPropNameInRow="Surname" msprop:Generator_ColumnPropNameInTable="SurnameColumn" msprop:Generator_UserColumnName="Surname" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="EmailAddress" msprop:Generator_ColumnVarNameInTable="columnEmailAddress" msprop:Generator_ColumnPropNameInRow="EmailAddress" msprop:Generator_ColumnPropNameInTable="EmailAddressColumn" msprop:Generator_UserColumnName="EmailAddress" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PhoneNumber" msprop:Generator_ColumnVarNameInTable="columnPhoneNumber" msprop:Generator_ColumnPropNameInRow="PhoneNumber" msprop:Generator_ColumnPropNameInTable="PhoneNumberColumn" msprop:Generator_UserColumnName="PhoneNumber" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PasswordHash" msprop:Generator_ColumnVarNameInTable="columnPasswordHash" msprop:Generator_ColumnPropNameInRow="PasswordHash" msprop:Generator_ColumnPropNameInTable="PasswordHashColumn" msprop:Generator_UserColumnName="PasswordHash" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CurrentRestaurant" msprop:Generator_ColumnVarNameInTable="columnCurrentRestaurant" msprop:Generator_ColumnPropNameInRow="CurrentRestaurant" msprop:Generator_ColumnPropNameInTable="CurrentRestaurantColumn" msprop:Generator_UserColumnName="CurrentRestaurant" type="xs:int" minOccurs="0" />
+              <xs:element name="LastLogin" msprop:Generator_ColumnVarNameInTable="columnLastLogin" msprop:Generator_ColumnPropNameInRow="LastLogin" msprop:Generator_ColumnPropNameInTable="LastLoginColumn" msprop:Generator_UserColumnName="LastLogin" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:TagView" />
+      <xs:field xpath="mstns:ID" />
+    </xs:unique>
+    <xs:unique name="AppUserView_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:AppUserView" />
       <xs:field xpath="mstns:ID" />
     </xs:unique>
   </xs:element>
