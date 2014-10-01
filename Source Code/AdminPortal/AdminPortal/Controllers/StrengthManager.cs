@@ -19,6 +19,7 @@ namespace AdminPortal.Controllers {
 				Awe[uuid].Add(tId, item);
 			}
 
+			System.Diagnostics.Debug.WriteLine("Updated: Tag: " + uuid + ", Trans: " + tId + ", Type: " + tType);
 			Awe[uuid][tId][tType - 1] = strength;
 		}
 

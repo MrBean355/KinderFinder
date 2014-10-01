@@ -1,7 +1,8 @@
 ﻿using AdminPortal.Models;
+
 using System.Collections.Generic;
-using System.Web.Http;
 using System.Linq;
+using System.Web.Http;
 
 namespace AdminPortal.Controllers.WebAPI.Transmitters {
 
@@ -16,17 +17,19 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 			// Determine whether the transmitter is still registered:
 			int id = int.Parse(details.TransmitterId);
 
+			// Find the transmitter that is sending:
 			var transmitter = (from item in Db.Transmitters
 							   where item.ID == id
 							   select item).FirstOrDefault();
 
+			// Transmitter not found:
 			if (transmitter == null) {
-				return BadRequest(); // transmitter not in system.
+				return BadRequest();
 			}
 
-			//StrengthManager.Update(transmitter.ID, (int)transmitter.Type, -FeetToMeters(details.TagData[0].Distance));
-
+			// For each tag that the transmitter is telling us about:
 			foreach (var item in details.TagData) {
+				// Update its strength:
 				StrengthManager.Update(item.TagUuid, id, (int)transmitter.Type, item.Distance);
 			}
 
