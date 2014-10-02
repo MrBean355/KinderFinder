@@ -171,6 +171,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet.xsd</DependentUpon>
     </Content>
+    <Content Include="App_Code\DataSet.cs">
+      <DependentUpon>DataSet.xsd</DependentUpon>
+    </Content>
     <Compile Include="Triangulation\AdapterToReciever.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />

@@ -15,10 +15,10 @@
               <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.35417in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.25in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -896,7 +896,7 @@
         </TablixRowHierarchy>
         <DataSetName>DataSet</DataSetName>
         <Height>1in</Height>
-        <Width>6in</Width>
+        <Width>6.60417in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -907,7 +907,7 @@
     <Height>2in</Height>
     <Style />
   </Body>
-  <Width>6.5in</Width>
+  <Width>6.60417in</Width>
   <Page>
     <LeftMargin>1in</LeftMargin>
     <RightMargin>1in</RightMargin>

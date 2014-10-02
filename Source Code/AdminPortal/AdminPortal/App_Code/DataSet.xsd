@@ -7,31 +7,6 @@
           <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="DefaultConnection" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="DefaultConnection (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.DefaultConnection.ConnectionString" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables>
-          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="TagViewTableAdapter" GeneratorDataComponentClassName="TagViewTableAdapter" Name="TagView" UserDataComponentName="TagViewTableAdapter">
-            <MainSource>
-              <DbSource ConnectionRef="DefaultConnection (Web.config)" DbObjectName="dbo.TagView" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
-                <SelectCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>SELECT ID, Label, Restaurant, CurrentUser, OutOfOrder, LastAccessed, UUID, FirstName, Surname, Name FROM dbo.TagView</CommandText>
-                    <Parameters />
-                  </DbCommand>
-                </SelectCommand>
-              </DbSource>
-            </MainSource>
-            <Mappings>
-              <Mapping SourceColumn="ID" DataSetColumn="ID" />
-              <Mapping SourceColumn="Label" DataSetColumn="Label" />
-              <Mapping SourceColumn="Restaurant" DataSetColumn="Restaurant" />
-              <Mapping SourceColumn="CurrentUser" DataSetColumn="CurrentUser" />
-              <Mapping SourceColumn="OutOfOrder" DataSetColumn="OutOfOrder" />
-              <Mapping SourceColumn="LastAccessed" DataSetColumn="LastAccessed" />
-              <Mapping SourceColumn="UUID" DataSetColumn="UUID" />
-              <Mapping SourceColumn="FirstName" DataSetColumn="FirstName" />
-              <Mapping SourceColumn="Surname" DataSetColumn="Surname" />
-              <Mapping SourceColumn="Name" DataSetColumn="Name" />
-            </Mappings>
-            <Sources />
-          </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="AppUserViewTableAdapter" GeneratorDataComponentClassName="AppUserViewTableAdapter" Name="AppUserView" UserDataComponentName="AppUserViewTableAdapter">
             <MainSource>
               <DbSource ConnectionRef="DefaultConnection (Web.config)" DbObjectName="dbo.AppUserView" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
@@ -56,6 +31,31 @@
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="TagViewTableAdapter" GeneratorDataComponentClassName="TagViewTableAdapter" Name="TagView" UserDataComponentName="TagViewTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="DefaultConnection (Web.config)" DbObjectName="dbo.TagView" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT ID, Label, Restaurant, CurrentUser, OutOfOrder, LastAccessed, BeaconID, RestaurantName, FirstName, Surname FROM dbo.TagView</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ID" DataSetColumn="ID" />
+              <Mapping SourceColumn="Label" DataSetColumn="Label" />
+              <Mapping SourceColumn="Restaurant" DataSetColumn="Restaurant" />
+              <Mapping SourceColumn="CurrentUser" DataSetColumn="CurrentUser" />
+              <Mapping SourceColumn="OutOfOrder" DataSetColumn="OutOfOrder" />
+              <Mapping SourceColumn="LastAccessed" DataSetColumn="LastAccessed" />
+              <Mapping SourceColumn="BeaconID" DataSetColumn="BeaconID" />
+              <Mapping SourceColumn="RestaurantName" DataSetColumn="RestaurantName" />
+              <Mapping SourceColumn="FirstName" DataSetColumn="FirstName" />
+              <Mapping SourceColumn="Surname" DataSetColumn="Surname" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -64,53 +64,7 @@
   <xs:element name="DataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet" msprop:Generator_UserDSName="DataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="TagView" msprop:Generator_TableClassName="TagViewDataTable" msprop:Generator_TableVarName="tableTagView" msprop:Generator_RowChangedName="TagViewRowChanged" msprop:Generator_TablePropName="TagView" msprop:Generator_RowDeletingName="TagViewRowDeleting" msprop:Generator_RowChangingName="TagViewRowChanging" msprop:Generator_RowEvHandlerName="TagViewRowChangeEventHandler" msprop:Generator_RowDeletedName="TagViewRowDeleted" msprop:Generator_RowClassName="TagViewRow" msprop:Generator_UserTableName="TagView" msprop:Generator_RowEvArgName="TagViewRowChangeEvent">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" />
-              <xs:element name="Label" msprop:Generator_ColumnVarNameInTable="columnLabel" msprop:Generator_ColumnPropNameInRow="Label" msprop:Generator_ColumnPropNameInTable="LabelColumn" msprop:Generator_UserColumnName="Label">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="Restaurant" msprop:Generator_ColumnVarNameInTable="columnRestaurant" msprop:Generator_ColumnPropNameInRow="Restaurant" msprop:Generator_ColumnPropNameInTable="RestaurantColumn" msprop:Generator_UserColumnName="Restaurant" type="xs:int" minOccurs="0" />
-              <xs:element name="CurrentUser" msprop:Generator_ColumnVarNameInTable="columnCurrentUser" msprop:Generator_ColumnPropNameInRow="CurrentUser" msprop:Generator_ColumnPropNameInTable="CurrentUserColumn" msprop:Generator_UserColumnName="CurrentUser" type="xs:int" minOccurs="0" />
-              <xs:element name="OutOfOrder" msprop:Generator_ColumnVarNameInTable="columnOutOfOrder" msprop:Generator_ColumnPropNameInRow="OutOfOrder" msprop:Generator_ColumnPropNameInTable="OutOfOrderColumn" msprop:Generator_UserColumnName="OutOfOrder" type="xs:boolean" />
-              <xs:element name="LastAccessed" msprop:Generator_ColumnVarNameInTable="columnLastAccessed" msprop:Generator_ColumnPropNameInRow="LastAccessed" msprop:Generator_ColumnPropNameInTable="LastAccessedColumn" msprop:Generator_UserColumnName="LastAccessed" type="xs:dateTime" minOccurs="0" />
-              <xs:element name="UUID" msprop:Generator_ColumnVarNameInTable="columnUUID" msprop:Generator_ColumnPropNameInRow="UUID" msprop:Generator_ColumnPropNameInTable="UUIDColumn" msprop:Generator_UserColumnName="UUID" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="2147483647" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="FirstName" msprop:Generator_ColumnVarNameInTable="columnFirstName" msprop:Generator_ColumnPropNameInRow="FirstName" msprop:Generator_ColumnPropNameInTable="FirstNameColumn" msprop:Generator_UserColumnName="FirstName" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="Surname" msprop:Generator_ColumnVarNameInTable="columnSurname" msprop:Generator_ColumnPropNameInRow="Surname" msprop:Generator_ColumnPropNameInTable="SurnameColumn" msprop:Generator_UserColumnName="Surname" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="Name" msprop:Generator_ColumnVarNameInTable="columnName" msprop:Generator_ColumnPropNameInRow="Name" msprop:Generator_ColumnPropNameInTable="NameColumn" msprop:Generator_UserColumnName="Name">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="AppUserView" msprop:Generator_TableClassName="AppUserViewDataTable" msprop:Generator_TableVarName="tableAppUserView" msprop:Generator_TablePropName="AppUserView" msprop:Generator_RowDeletingName="AppUserViewRowDeleting" msprop:Generator_RowChangingName="AppUserViewRowChanging" msprop:Generator_RowEvHandlerName="AppUserViewRowChangeEventHandler" msprop:Generator_RowDeletedName="AppUserViewRowDeleted" msprop:Generator_UserTableName="AppUserView" msprop:Generator_RowChangedName="AppUserViewRowChanged" msprop:Generator_RowEvArgName="AppUserViewRowChangeEvent" msprop:Generator_RowClassName="AppUserViewRow">
+        <xs:element name="AppUserView" msprop:Generator_TableClassName="AppUserViewDataTable" msprop:Generator_TableVarName="tableAppUserView" msprop:Generator_RowChangedName="AppUserViewRowChanged" msprop:Generator_TablePropName="AppUserView" msprop:Generator_RowDeletingName="AppUserViewRowDeleting" msprop:Generator_RowChangingName="AppUserViewRowChanging" msprop:Generator_RowEvHandlerName="AppUserViewRowChangeEventHandler" msprop:Generator_RowDeletedName="AppUserViewRowDeleted" msprop:Generator_RowClassName="AppUserViewRow" msprop:Generator_UserTableName="AppUserView" msprop:Generator_RowEvArgName="AppUserViewRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" />
@@ -161,14 +115,60 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="TagView" msprop:Generator_TableClassName="TagViewDataTable" msprop:Generator_TableVarName="tableTagView" msprop:Generator_TablePropName="TagView" msprop:Generator_RowDeletingName="TagViewRowDeleting" msprop:Generator_RowChangingName="TagViewRowChanging" msprop:Generator_RowEvHandlerName="TagViewRowChangeEventHandler" msprop:Generator_RowDeletedName="TagViewRowDeleted" msprop:Generator_UserTableName="TagView" msprop:Generator_RowChangedName="TagViewRowChanged" msprop:Generator_RowEvArgName="TagViewRowChangeEvent" msprop:Generator_RowClassName="TagViewRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" />
+              <xs:element name="Label" msprop:Generator_ColumnVarNameInTable="columnLabel" msprop:Generator_ColumnPropNameInRow="Label" msprop:Generator_ColumnPropNameInTable="LabelColumn" msprop:Generator_UserColumnName="Label">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Restaurant" msprop:Generator_ColumnVarNameInTable="columnRestaurant" msprop:Generator_ColumnPropNameInRow="Restaurant" msprop:Generator_ColumnPropNameInTable="RestaurantColumn" msprop:Generator_UserColumnName="Restaurant" type="xs:int" minOccurs="0" />
+              <xs:element name="CurrentUser" msprop:Generator_ColumnVarNameInTable="columnCurrentUser" msprop:Generator_ColumnPropNameInRow="CurrentUser" msprop:Generator_ColumnPropNameInTable="CurrentUserColumn" msprop:Generator_UserColumnName="CurrentUser" type="xs:int" minOccurs="0" />
+              <xs:element name="OutOfOrder" msprop:Generator_ColumnVarNameInTable="columnOutOfOrder" msprop:Generator_ColumnPropNameInRow="OutOfOrder" msprop:Generator_ColumnPropNameInTable="OutOfOrderColumn" msprop:Generator_UserColumnName="OutOfOrder" type="xs:boolean" />
+              <xs:element name="LastAccessed" msprop:Generator_ColumnVarNameInTable="columnLastAccessed" msprop:Generator_ColumnPropNameInRow="LastAccessed" msprop:Generator_ColumnPropNameInTable="LastAccessedColumn" msprop:Generator_UserColumnName="LastAccessed" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="BeaconID" msprop:Generator_ColumnVarNameInTable="columnBeaconID" msprop:Generator_ColumnPropNameInRow="BeaconID" msprop:Generator_ColumnPropNameInTable="BeaconIDColumn" msprop:Generator_UserColumnName="BeaconID" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="RestaurantName" msprop:Generator_ColumnVarNameInTable="columnRestaurantName" msprop:Generator_ColumnPropNameInRow="RestaurantName" msprop:Generator_ColumnPropNameInTable="RestaurantNameColumn" msprop:Generator_UserColumnName="RestaurantName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FirstName" msprop:Generator_ColumnVarNameInTable="columnFirstName" msprop:Generator_ColumnPropNameInRow="FirstName" msprop:Generator_ColumnPropNameInTable="FirstNameColumn" msprop:Generator_UserColumnName="FirstName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Surname" msprop:Generator_ColumnVarNameInTable="columnSurname" msprop:Generator_ColumnPropNameInRow="Surname" msprop:Generator_ColumnPropNameInTable="SurnameColumn" msprop:Generator_UserColumnName="Surname" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">
-      <xs:selector xpath=".//mstns:TagView" />
+      <xs:selector xpath=".//mstns:AppUserView" />
       <xs:field xpath="mstns:ID" />
     </xs:unique>
-    <xs:unique name="AppUserView_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
-      <xs:selector xpath=".//mstns:AppUserView" />
+    <xs:unique name="TagView_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:TagView" />
       <xs:field xpath="mstns:ID" />
     </xs:unique>
   </xs:element>

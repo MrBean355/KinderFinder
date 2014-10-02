@@ -9,7 +9,7 @@
               <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1in</Width>
+              <Width>1.17708in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1.57292in</Width>
@@ -167,14 +167,14 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Restaurant">
+                    <Textbox Name="RestaurantName">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!Name.Value</Value>
+                              <Value>=Fields!RestaurantName.Value</Value>
                               <Style>
                                 <FontFamily>Tahoma</FontFamily>
                                 <Color>#4d4d4d</Color>
@@ -184,7 +184,6 @@
                           <Style />
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Restaurant</rd:DefaultName>
                       <Style>
                         <Border>
                           <Color>#e5e5e5</Color>
@@ -269,7 +268,7 @@
         <DataSetName>DataSet</DataSetName>
         <Left>0.51042in</Left>
         <Height>0.5in</Height>
-        <Width>3.57292in</Width>
+        <Width>3.75in</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -366,7 +365,7 @@
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>918bb89c-fda7-4315-bd4b-182446e00762</rd:DataSourceID>
+      <rd:DataSourceID>de7a187b-f0d8-4bc1-9732-43f0739579f2</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
@@ -400,8 +399,12 @@
           <DataField>LastAccessed</DataField>
           <rd:TypeName>System.DateTime</rd:TypeName>
         </Field>
-        <Field Name="UUID">
-          <DataField>UUID</DataField>
+        <Field Name="BeaconID">
+          <DataField>BeaconID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RestaurantName">
+          <DataField>RestaurantName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="FirstName">
@@ -410,10 +413,6 @@
         </Field>
         <Field Name="Surname">
           <DataField>Surname</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Name">
-          <DataField>Name</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
