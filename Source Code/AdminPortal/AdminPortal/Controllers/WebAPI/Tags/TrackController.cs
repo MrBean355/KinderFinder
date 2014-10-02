@@ -1,9 +1,9 @@
 ﻿using AdminPortal.Models;
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using triangulation_alpha0._2;
 
 namespace AdminPortal.Controllers.WebAPI.Tags {
 
@@ -29,9 +29,8 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 				if (t[i].PosX > MaxX)
 					MaxX = (double)t[i].PosX;
 
-				if (t[i].PosY > MaxY) {
+				if (t[i].PosY > MaxY)
 					MaxY = (double)t[i].PosY;
-				}
 			}
 
 			return t;
@@ -45,6 +44,10 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 						select item).FirstOrDefault();
 			
 			var restaurant = Db.Restaurants.Find(user.CurrentRestaurant);
+
+			if (restaurant == null)
+				return BadRequest();
+
 			Transmitter[] t = LoadTransmitters(restaurant.ID);
 
 			if (t == null)
@@ -61,6 +64,7 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 					   where item.Restaurant == restaurant.ID && item.CurrentUser == user.ID
 					   select item;
 
+			// List of tag positions to be returned:
 			var result = new List<TagData>();
 
 			// For each of the user's tags"
@@ -72,28 +76,74 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 					strengths[i] = StrengthManager.GetStrength(tag.BeaconID, t[i].ID, (int)t[i].Type);
 
 				// Triangulate its position:
-				var pos = locator.Locate("", strengths[0], strengths[1], strengths[2]);
+				//var pos = locator.Locate(tag.BeaconID, strengths[0], strengths[1], strengths[2]);
+				var coord = Triangulate((float)strengths[0], (float)strengths[1], (float)strengths[2]);
 
 				TagData td = new TagData();
 				td.Name = tag.Label;
-				td.PosX = pos.X / MaxX;
-				td.PosY = pos.Y / MaxY;
+				//td.PosX = pos.X / MaxX;
+				//td.PosY = pos.Y / MaxY;
+				td.PosX = coord.getXCoord() / MaxX;
+				td.PosY = coord.getYCoord() / MaxY;
 				result.Add(td);
 			}
 
 			return Ok(result);
 		}
 
+		// TODO: Be able to set transmitter locations.
+		// From [0, 1] to actual co-ords (meters).
+		private Coordinates Triangulate(float s1, float s2, float s3) {
+			//creating beacons
+			Reciever b1 = new Reciever();
+			Reciever b2 = new Reciever();
+			Reciever b3 = new Reciever();
+
+			//creating adapters
+			AdapterToReciever adapter1 = new AdapterToReciever();
+			AdapterToReciever adapter2 = new AdapterToReciever();
+			AdapterToReciever adapter3 = new AdapterToReciever();
+
+			//assiging signal strengths
+			adapter1.addBeaconNumber(1);
+			adapter2.addBeaconNumber(2);
+			adapter3.addBeaconNumber(3);
+
+			//assigning signal strengths
+			adapter1.addSignalStrength(s1);
+			adapter2.addSignalStrength(s2);
+			adapter3.addSignalStrength(s3);
+
+			//assigning adapters
+			b1 = adapter1.addBeacon();
+			b2 = adapter2.addBeacon();
+			b3 = adapter3.addBeacon();
+
+			//creating triagulation object
+			Triangulate triangulate = new Triangulate();
+
+			//adding beacons...
+			triangulate.add3Beacons(b1, b2, b3);
+
+			//creating matrix
+			triangulate.createMatrix();
+
+			//showing empty matrix            
+			triangulate.printArray();
+
+			//triagulating
+			triangulate.triangulateCoord();
+
+			//creating coordinates point for the rest of the program
+			Coordinates coordinates = new Coordinates();
+			coordinates = triangulate.getCoordinatesForAdapter();
+			return coordinates;
+		}
+
 		public struct TagData {
 			public string Name;
 			public double PosX;
 			public double PosY;
-		}
-
-		static TrackController() {
-			StrengthManager.Update("1-177", 25, 1, -0.3);
-			StrengthManager.Update("1-177", 65, 2, -0.3705523704);
-			StrengthManager.Update("1-177", 66, 3, -0.65273907552);
 		}
 
 		public struct RequestDetails {

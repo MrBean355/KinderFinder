@@ -171,6 +171,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet.xsd</DependentUpon>
     </Content>
+    <Compile Include="Triangulation\AdapterToReciever.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="Controllers\WebAPI\Transmitters\FreeTransmitterController.cs" />
     <Compile Include="Controllers\WebAPI\Transmitters\TransmitController.cs" />
     <Compile Include="Controllers\WebAPI\Transmitters\TransmitterTypeController.cs" />
+    <Compile Include="Triangulation\Coordinates.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -237,7 +239,9 @@
       <DependentUpon>KinderFinderModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Triangulation\Reciever.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Triangulation\Triangulate.cs" />
     <Compile Include="WebForms\AppUserReport.aspx.cs">
       <DependentUpon>AppUserReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

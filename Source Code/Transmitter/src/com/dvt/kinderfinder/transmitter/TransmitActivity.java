@@ -155,7 +155,7 @@ public class TransmitActivity extends ActionBarActivity {
 			
 			for (final Beacon beacon : beacons) {
 				Strength str = new Strength();
-				str.TagUuid = beacon.getUuid().toString();
+				str.TagUuid = beacon.getMajor() + "-" + beacon.getMinor();
 				str.Distance = beacon.getAccuracy();
 				
 				req.TagData.add(str);
