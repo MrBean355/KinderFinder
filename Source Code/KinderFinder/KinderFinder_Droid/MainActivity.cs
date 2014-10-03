@@ -8,6 +8,8 @@ using Android.OS;
 using Android.Views.InputMethods;
 using Android.Widget;
 
+using KinderFinder.Utility;
+
 namespace KinderFinder {
 
 	[Activity(Label = "KinderFinder", MainLauncher = true, Icon = "@drawable/icon")]
@@ -81,11 +83,6 @@ namespace KinderFinder {
 				if (rememberMe)
 					LogIn(email, passwordHash);
 			}
-		}
-
-		class Test {
-			public int Id;
-			public string Name;
 		}
 
 		/// <summary>

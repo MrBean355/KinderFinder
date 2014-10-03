@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -7,7 +6,7 @@ using System.Text;
 using Android.Graphics;
 using Android.Widget;
 
-namespace KinderFinder {
+namespace KinderFinder.Utility {
 
 	public static class AppTools {
 

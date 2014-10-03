@@ -1,5 +1,5 @@
 ﻿
-namespace KinderFinder {
+namespace KinderFinder.Utility {
 
 	public static class Settings {
 		public const string SERVER_ADDRESS = "http://192.168.1.7:55555/";

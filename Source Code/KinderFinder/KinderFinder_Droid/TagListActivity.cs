@@ -9,6 +9,8 @@ using Android.OS;
 using Android.Widget;
 using Android.Views;
 
+using KinderFinder.Utility;
+
 namespace KinderFinder {
 
 	[Activity(Label = "Linked Tags", Icon = "@drawable/icon")]

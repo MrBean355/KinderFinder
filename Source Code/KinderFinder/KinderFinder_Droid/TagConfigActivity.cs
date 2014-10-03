@@ -1,10 +1,12 @@
-﻿using Android.App;
+﻿using System;
+using System.Collections.Generic;
+
+using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Widget;
 
-using System.Collections.Generic;
-using System;
-using Android.Content;
+using KinderFinder.Utility;
 
 namespace KinderFinder {
 

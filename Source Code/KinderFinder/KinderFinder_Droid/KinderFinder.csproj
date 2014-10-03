@@ -67,6 +67,7 @@
     <Compile Include="Utility\AppTools.cs" />
     <Compile Include="Utility\Settings.cs" />
     <Compile Include="TagConfigActivity.cs" />
+    <Compile Include="Utility\Deserialiser.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />

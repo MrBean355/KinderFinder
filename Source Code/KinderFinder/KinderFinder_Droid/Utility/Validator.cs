@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace KinderFinder {
+namespace KinderFinder.Utility {
 
 	public static class Validator {
 

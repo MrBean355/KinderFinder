@@ -4,7 +4,7 @@ using System.IO;
 
 using Android.Graphics;
 
-namespace KinderFinder {
+namespace KinderFinder.Utility {
 
 	public class MapCache {
 		static readonly string APP_FOLDER = Android.OS.Environment.ExternalStorageDirectory + "/" + Settings.Storage.BASE;

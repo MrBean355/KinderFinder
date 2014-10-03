@@ -44,5 +44,10 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 			public string TransmitterId;
 			public List<Strength> TagData;
 		}
+
+		public struct Strength {
+			public string TagUuid;
+			public double Distance;
+		}
 	}
 }

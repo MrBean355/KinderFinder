@@ -73,8 +73,13 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 				double[] strengths = new double[3];
 
 				// Load all three of its strengths:
-				for (int i = 0; i < 3; i++)
+				for (int i = 0; i < 3; i++) {
 					strengths[i] = StrengthManager.GetStrength(tag.BeaconID, t[i].ID, (int)t[i].Type);
+
+					if (strengths[i] == StrengthManager.NOT_ENOUGH_AVERAGES) {
+						// TODO: Do something if there aren't enough averages?
+					}
+				}
 
 				// Triangulate its position:
 				var pos = locator.Locate(tag.BeaconID, strengths[0], strengths[1], strengths[2]);

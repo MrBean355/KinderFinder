@@ -8,6 +8,8 @@ using Android.Content;
 using Android.OS;
 using Android.Widget;
 
+using KinderFinder.Utility;
+
 namespace KinderFinder {
 
 	[Activity(Label = "Link Restaurant", Icon = "@drawable/icon")]

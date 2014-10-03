@@ -10,6 +10,8 @@ using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Widget;
 
+using KinderFinder.Utility;
+
 namespace KinderFinder {
 
 	[Activity(Label = "Track Tags", Icon = "@drawable/icon")]

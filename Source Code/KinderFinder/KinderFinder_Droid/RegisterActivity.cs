@@ -7,6 +7,8 @@ using Android.Content;
 using Android.OS;
 using Android.Widget;
 
+using KinderFinder.Utility;
+
 namespace KinderFinder {
 
 	[Activity(Label = "Register Account", Icon = "@drawable/icon")]
