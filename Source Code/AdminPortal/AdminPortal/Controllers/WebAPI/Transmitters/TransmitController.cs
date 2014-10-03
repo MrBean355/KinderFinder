@@ -36,7 +36,7 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 			return Ok();
 		}
 
-		private double FeetToMeters(double feet) {
+		private static double FeetToMeters(double feet) {
 			return feet * 0.3048;
 		}
 

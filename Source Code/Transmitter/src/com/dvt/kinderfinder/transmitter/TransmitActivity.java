@@ -7,11 +7,13 @@ import no.nordicsemi.android.beacon.Beacon;
 import no.nordicsemi.android.beacon.BeaconRegion;
 import no.nordicsemi.android.beacon.BeaconServiceConnection;
 import no.nordicsemi.android.beacon.ServiceProxy;
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -23,8 +25,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
-public class TransmitActivity extends ActionBarActivity {
-	private static final int TRANSMIT_FREQUENCY = 1000;
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN) public class TransmitActivity extends ActionBarActivity {
+	private static final int TRANSMIT_FREQUENCY = 500;
 	
 	private long lastSent;
 	private int updates = 0;

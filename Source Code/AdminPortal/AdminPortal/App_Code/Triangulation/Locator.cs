@@ -3,7 +3,7 @@
 using System;
 using System.Linq;
 
-namespace AdminPortal.Triangulation {
+namespace AdminPortal.Code.Triangulation {
 
 	public class Locator {
 		private const int X = 0;

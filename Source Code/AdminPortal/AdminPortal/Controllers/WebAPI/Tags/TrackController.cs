@@ -1,8 +1,6 @@
 ﻿using AdminPortal.Code;
+using AdminPortal.Code.Triangulation;
 using AdminPortal.Models;
-using AdminPortal.Triangulation;
-//using triangulation_alpha0._2;
-
 
 using System.Collections.Generic;
 using System.Linq;
