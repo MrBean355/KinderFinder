@@ -39,7 +39,7 @@ namespace triangulation_alpha0._2
             Triangulate triangulate = new Triangulate();
 
             //adding beacons...
-            triangulate.add3Beacons(b1, b2, b3);
+            triangulate.add3Recievers(b1, b2, b3);
 
             //creating matrix
             triangulate.createMatrix();
@@ -61,6 +61,8 @@ namespace triangulation_alpha0._2
             //printing out the to the console the coordinates of the beacon
             Console.WriteLine("The coordinates of the becon are: x - " + coordinates.getXCoord() + " y - " + coordinates.getYCoord());
 
+            var pos = triangulate.run(-0.3, -1.125, -0.409);
+            Console.WriteLine("\nLocation: (" + pos[0] + ", " + pos[1] + ")");
             
             Console.ReadLine();
         }

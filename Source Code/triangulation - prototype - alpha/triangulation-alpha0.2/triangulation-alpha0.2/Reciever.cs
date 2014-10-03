@@ -9,14 +9,14 @@ namespace triangulation_alpha0._2
     class Reciever
     {
         private int beacon_number;
-        private float signal_strength;
+        private double signal_strength;
 
         public void addBeaconNumber(int _beaconNumber)
         {
             beacon_number = _beaconNumber;
         }
 
-        public void addSignalStrength(float _signalStrength)
+        public void addSignalStrength(double _signalStrength)
         {
             signal_strength = _signalStrength;
         }
@@ -26,7 +26,7 @@ namespace triangulation_alpha0._2
             return beacon_number;
         }
 
-        public float getSignalStrength()
+        public double getSignalStrength()
         {
             return signal_strength;
         }
