@@ -174,7 +174,12 @@
     <Content Include="App_Code\DataSet.cs">
       <DependentUpon>DataSet.xsd</DependentUpon>
     </Content>
-    <Compile Include="Triangulation\AdapterToReciever.cs" />
+    <Compile Include="App_Code\Triangulation\Locator.cs" />
+    <Compile Include="App_Code\StrengthManager.cs" />
+    <Compile Include="App_Code\Triangulation\AdapterToReciever.cs" />
+    <Compile Include="App_Code\Triangulation\Coordinates.cs" />
+    <Compile Include="App_Code\Triangulation\Reciever.cs" />
+    <Compile Include="App_Code\Triangulation\Triangulate.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -185,9 +190,7 @@
     <Compile Include="Controllers\AdminsController.cs" />
     <Compile Include="Controllers\AppUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\Locator.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
-    <Compile Include="Controllers\StrengthManager.cs" />
     <Compile Include="Controllers\WebAPI\Accounts\LoginController.cs" />
     <Compile Include="Controllers\WebAPI\Maps\MapSizeController.cs" />
     <Compile Include="Controllers\WebAPI\Maps\MapController.cs" />
@@ -202,7 +205,6 @@
     <Compile Include="Controllers\WebAPI\Transmitters\FreeTransmitterController.cs" />
     <Compile Include="Controllers\WebAPI\Transmitters\TransmitController.cs" />
     <Compile Include="Controllers\WebAPI\Transmitters\TransmitterTypeController.cs" />
-    <Compile Include="Triangulation\Coordinates.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -242,9 +244,7 @@
       <DependentUpon>KinderFinderModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Triangulation\Reciever.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Triangulation\Triangulate.cs" />
     <Compile Include="WebForms\AppUserReport.aspx.cs">
       <DependentUpon>AppUserReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 //this is the class where you can add the attributes of the beacon and basically use the attributes to the rest of the project
-namespace triangulation_alpha0._2
+namespace AdminPortal.Triangulation
 {
     class Reciever
     {

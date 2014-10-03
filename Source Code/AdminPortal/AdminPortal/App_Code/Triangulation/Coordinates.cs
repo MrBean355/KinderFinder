@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace triangulation_alpha0._2
+namespace AdminPortal.Triangulation
 {
-    class Coordinates
+    public class Coordinates
     {
         private float x_coord;
         private float y_coord;

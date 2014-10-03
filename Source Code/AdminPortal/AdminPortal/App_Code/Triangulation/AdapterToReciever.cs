@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace triangulation_alpha0._2
+namespace AdminPortal.Triangulation
 {//initialise the beacons here, this program is where the beacons can just adapt to the rest of the program
     class AdapterToReciever
     {

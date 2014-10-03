@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AdminPortal.Controllers {
+namespace AdminPortal.Code {
 
 	public static class StrengthManager {
 		private static Dictionary<string, Dictionary<int, List<double>>> Awe = new Dictionary<string, Dictionary<int, List<double>>>();

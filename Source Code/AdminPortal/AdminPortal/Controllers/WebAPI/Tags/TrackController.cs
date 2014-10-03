@@ -1,5 +1,8 @@
-﻿using AdminPortal.Models;
-using triangulation_alpha0._2;
+﻿using AdminPortal.Code;
+using AdminPortal.Models;
+using AdminPortal.Triangulation;
+//using triangulation_alpha0._2;
+
 
 using System.Collections.Generic;
 using System.Linq;
@@ -93,7 +96,7 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 
 		// TODO: Be able to set transmitter locations.
 		// From [0, 1] to actual co-ords (meters).
-		private Coordinates Triangulate(float s1, float s2, float s3) {
+		private Coordinates TriangulateStuff(float s1, float s2, float s3) {
 			//creating beacons
 			Reciever b1 = new Reciever();
 			Reciever b2 = new Reciever();
