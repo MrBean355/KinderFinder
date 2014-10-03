@@ -38,8 +38,8 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 
 			Transmitter t = new Transmitter();
 
-			//details.X = details.X.Replace('.', ',');
-			//details.Y = details.Y.Replace('.', ',');
+			details.X = details.X.Replace('.', ',');
+			details.Y = details.Y.Replace('.', ',');
 
 			t.Type = int.Parse(details.TransmitterType);
 			t.PosX = float.Parse(details.X);

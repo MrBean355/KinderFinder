@@ -18,7 +18,7 @@ namespace AdminPortal.Controllers.Accounts {
 						select item).FirstOrDefault();
 
 			/* Make sure email address is not already in use. */
-			if (user == null)
+			if (user != null)
 				return Conflict();
 
 			/* Insert patron into database. */

@@ -94,7 +94,7 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 
 		// TODO: Be able to set transmitter locations.
 		// From [0, 1] to actual co-ords (meters).
-		private Coordinates TriangulateStuff(float s1, float s2, float s3) {
+		/*private Coordinates TriangulateStuff(float s1, float s2, float s3) {
 			//creating beacons
 			Reciever b1 = new Reciever();
 			Reciever b2 = new Reciever();
@@ -139,7 +139,7 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 			Coordinates coordinates = new Coordinates();
 			coordinates = triangulate.getCoordinatesForAdapter();
 			return coordinates;
-		}
+		}*/
 
 		public struct TagData {
 			public string Name;
