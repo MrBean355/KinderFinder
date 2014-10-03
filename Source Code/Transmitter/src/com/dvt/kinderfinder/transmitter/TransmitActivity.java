@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -35,9 +36,9 @@ public class TransmitActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_transmit);
-		
+
 		id = getIntent().getStringExtra("ID");
-		
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		BluetoothAdapter ba = BluetoothAdapter.getDefaultAdapter();
 		
 		if (ba == null) {
@@ -111,11 +112,14 @@ public class TransmitActivity extends ActionBarActivity {
 	private UUID mMyUuid = UUID.fromString("01122334-4556-6778-899A-ABBCCDDEEFF0");
 	private UUID mAnyUuid = BeaconRegion.ANY_UUID;
 
+
+	@SuppressWarnings("unused")
 	private class Request {
 		public String TransmitterId;
 		public LinkedList<Strength> TagData;
 	}
-	
+
+	@SuppressWarnings("unused")
 	private class Strength {
 		public String TagUuid;
 		public float Distance;
@@ -173,7 +177,6 @@ public class TransmitActivity extends ActionBarActivity {
 	private BeaconServiceConnection mConnection = new BeaconServiceConnection() {
 		@Override
 		public void onServiceConnected() {
-			//Log.v(TAG, "Service connected");
 			//startMonitoringForRegion(mAnyUuid, mRegionListener);
 			startRangingBeaconsInRegion(mMyUuid, mBeaconsListener);
 			startRangingBeaconsInRegion(mMyUuid, 5, mBeaconsListener);
@@ -182,7 +185,7 @@ public class TransmitActivity extends ActionBarActivity {
 
 		@Override
 		public void onServiceDisconnected() {
-			//Log.v(TAG, "Service disconnected");
+			
 		}
 	};
 	

@@ -14,7 +14,9 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
@@ -22,6 +24,8 @@ public class MainActivity extends ActionBarActivity {
 	private Spinner typeList;
 	private Button transmitButton;
 	private EditText xPosBox, yPosBox;
+	private ProgressBar progressBar;
+	private TextView contactingText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,8 @@ public class MainActivity extends ActionBarActivity {
 		xPosBox = (EditText) findViewById(R.id.xPosBox);
 		yPosBox = (EditText) findViewById(R.id.yPosBox);
 		transmitButton = (Button) findViewById(R.id.transmitButton);
+		progressBar = (ProgressBar) findViewById(R.id.progressBar);
+		contactingText = (TextView) findViewById(R.id.contactingText);
 		
 		restaurantList.setOnItemSelectedListener(spinnerItemSelectedhandler);
 		transmitButton.setOnClickListener(buttonClickHandler);
@@ -49,6 +55,7 @@ public class MainActivity extends ActionBarActivity {
 
 		@Override
 		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+			setContactingVisibility(true);
 			loadTypes(restaurantList.getSelectedItem().toString());
 		}
 
@@ -122,8 +129,15 @@ public class MainActivity extends ActionBarActivity {
 				else {
 					Toast.makeText(getApplicationContext(), "Error contacting server", Toast.LENGTH_SHORT).show();
 				}
+				
+				setContactingVisibility(false);
 			}
 		}.execute("api/restaurantlist");
+	}
+	
+	private void setContactingVisibility(boolean visible) {
+		progressBar.setVisibility(visible ? View.VISIBLE : View.GONE);
+		contactingText.setVisibility(visible ? View.VISIBLE : View.GONE);
 	}
 	
 	/**
@@ -156,6 +170,8 @@ public class MainActivity extends ActionBarActivity {
 				else {
 					Toast.makeText(getApplicationContext(), "Error contacting server", Toast.LENGTH_SHORT).show();
 				}
+				
+				setContactingVisibility(false);
 			}
 		}.execute("api/transmittertype", jb.toString());
 	}

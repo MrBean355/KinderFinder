@@ -10,16 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.dvt.kinderfinder.transmitter.MainActivity" >
 
-    <TextView
-        
-        android:id="@+id/label1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Select restaurant:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
     <Spinner
         android:id="@+id/restaurantList"
         android:layout_width="wrap_content"
@@ -42,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/restaurantList"
-        android:text="Select transmitter type:"
+        android:text="Transmitter type:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -51,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/typeList"
-        android:text="Enter transmitter position:"
+        android:text="Transmitter position:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <LinearLayout
@@ -67,7 +57,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:enabled="true"
-            android:inputType="numberDecimal" >
+            android:inputType="numberDecimal"
+            android:text="0.0" >
 
             <requestFocus />
         </EditText>
@@ -78,7 +69,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:text="0.0" />
 
     </LinearLayout>
 
@@ -89,5 +81,40 @@
         android:layout_below="@+id/linearLayout1"
         android:layout_centerHorizontal="true"
         android:text="Start Transmitting" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/transmitButton"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/contactingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:text="Contacting server..."
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Enter Transmitter Details"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/label1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/restaurantList"
+        android:layout_below="@+id/textView1"
+        android:text="Restaurant:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
