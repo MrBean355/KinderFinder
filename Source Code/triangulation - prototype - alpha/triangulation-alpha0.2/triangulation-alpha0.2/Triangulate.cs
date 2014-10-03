@@ -12,17 +12,80 @@ namespace triangulation_alpha0._2
         private Reciever beacon1, beacon2, beacon3;
         private int[,] roomArray;
 
+        //new code
+        //struct Coordinates
+        //{
+        //    public double x, y;
+        //}
+
+        private const int maxNumberOfRecievers = 3;//here you can add the max number of recievers to test
+        private const int max_nodes = 3;
+        private List<Coordinates> coordinates;
+        private Coordinates beacon;
+        private int index;
+
+
         public Triangulate()
         {
             roomArray = new int[xMatrixSize, yMatrixSize];
+
+            coordinates = new List<Coordinates>();
+            beacon = new Coordinates();
+            index = 0;
+
+            for (int b = 0; b < max_nodes; b++)
+            {
+                coordinates.Add(new Coordinates());
+            }
         }
 
-        public void add3Beacons(Reciever b1, Reciever b2, Reciever b3)
+        public void add3Recievers(Reciever b1, Reciever b2, Reciever b3)
         {
             beacon1 = b1;
             beacon2 = b2;
             beacon3 = b3;
+
+            // to fix later
+            coordinates[0].setXCoord(0);
+            coordinates[0].setYCoord(0);
+            coordinates[1].setXCoord(0);
+            coordinates[1].setYCoord(10);
+            coordinates[2].setXCoord(10);
+            coordinates[2].setYCoord(0);
+
         }
+
+        public void moveBeacon(double x, double y)
+        {
+            beacon.setXCoord(x);
+            beacon.setYCoord(y);
+        }
+
+        public double[] run(double str1, double str2, double str3)
+        {
+            var px = ((str1 * str1) - (str2 * str2) + (coordinates[1].getXCoord() * coordinates[1].getXCoord())) / (2.0 * coordinates[1].getXCoord());
+            var py = ((str1 * str1) - (str3 * str3) + (coordinates[2].getXCoord() * coordinates[2].getXCoord()) + (coordinates[2].getYCoord() * coordinates[2].getYCoord())) / (2.0 * coordinates[2].getYCoord()) - (coordinates[2].getXCoord() / coordinates[2].getYCoord()) * px;
+            return new double[] { px, py };
+        }
+
+        public double[] locate()
+        {
+            double str1 = GetSignalStrength(coordinates[0]);
+			double str2 = GetSignalStrength(coordinates[1]);
+			double str3 = GetSignalStrength(coordinates[2]);
+            return run(str1, str2, str3);
+        }
+
+        private double GetSignalStrength(Coordinates node)
+        {
+            double xd = node.getXCoord() - beacon.getXCoord();
+            double yd = node.getYCoord() - beacon.getYCoord();
+
+            var signalStrength = Math.Sqrt((xd * xd) + (yd * yd));
+
+            return -signalStrength;
+        }
+
 
         public void createMatrix()
         {
@@ -47,7 +110,7 @@ namespace triangulation_alpha0._2
 
         public void triangulateCoord()
         {
-            float signalStrength1, signalStrength2, signalStrength3;
+            double signalStrength1, signalStrength2, signalStrength3;
             signalStrength1 = beacon1.getSignalStrength();
             signalStrength2 = beacon2.getSignalStrength();
             signalStrength3 = beacon3.getSignalStrength();
@@ -118,6 +181,8 @@ namespace triangulation_alpha0._2
             return co;
 
         }
+
+        //add code here
 
 
 

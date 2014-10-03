@@ -8,25 +8,25 @@ namespace triangulation_alpha0._2
 {
     class Coordinates
     {
-        private float x_coord;
-        private float y_coord;
+        private double x_coord;
+        private double y_coord;
 
-        public float getXCoord()
+        public double getXCoord()
         {
             return x_coord;
         }
 
-        public float getYCoord()
+        public double getYCoord()
         {
             return y_coord;
         }
 
-        public void setYCoord(float y)
+        public void setYCoord(double y)
         {
             y_coord = y;
         }
 
-        public void setXCoord(float x)
+        public void setXCoord(double x)
         {
             x_coord = x;
         }
