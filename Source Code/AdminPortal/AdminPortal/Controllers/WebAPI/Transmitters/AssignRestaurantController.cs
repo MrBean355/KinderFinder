@@ -1,6 +1,11 @@
 ﻿using AdminPortal.Models;
-
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Timers;
+using System.Web;
 using System.Web.Http;
 
 namespace AdminPortal.Controllers.WebAPI.Transmitters {
@@ -20,7 +25,7 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 			if (restaurant == null) {
 				return BadRequest();
 			}
-
+			
 			int type = int.Parse(details.TransmitterType);
 
 			var count = (from item in Db.Transmitters

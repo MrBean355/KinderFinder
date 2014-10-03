@@ -1,9 +1,9 @@
 ﻿using AdminPortal.Models;
+using triangulation_alpha0._2;
 
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using triangulation_alpha0._2;
 
 namespace AdminPortal.Controllers.WebAPI.Tags {
 
@@ -76,15 +76,15 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 					strengths[i] = StrengthManager.GetStrength(tag.BeaconID, t[i].ID, (int)t[i].Type);
 
 				// Triangulate its position:
-				//var pos = locator.Locate(tag.BeaconID, strengths[0], strengths[1], strengths[2]);
-				var coord = Triangulate((float)strengths[0], (float)strengths[1], (float)strengths[2]);
+				var pos = locator.Locate(tag.BeaconID, strengths[0], strengths[1], strengths[2]);
+				//var coord = Triangulate((float)strengths[0], (float)strengths[1], (float)strengths[2]);
 
 				TagData td = new TagData();
 				td.Name = tag.Label;
-				//td.PosX = pos.X / MaxX;
-				//td.PosY = pos.Y / MaxY;
-				td.PosX = coord.getXCoord() / MaxX;
-				td.PosY = coord.getYCoord() / MaxY;
+				td.PosX = pos.X / MaxX;
+				td.PosY = pos.Y / MaxY;
+				//td.PosX = coord.getXCoord() / MaxX;
+				//td.PosY = coord.getYCoord() / MaxY;
 				result.Add(td);
 			}
 
