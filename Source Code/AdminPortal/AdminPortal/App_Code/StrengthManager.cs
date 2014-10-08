@@ -26,7 +26,7 @@ namespace AdminPortal.Code {
 				Strengths[uuid].Add(tId, item);
 			}
 
-			System.Diagnostics.Debug.WriteLine("Updated: Tag: " + uuid + ", Trans: " + tId + ", Type: " + tType);
+			System.Diagnostics.Debug.WriteLine("Strength updated from type " + tType);
 			Strengths[uuid][tId][tType - 1].AddStrength(strength);
 		}
 

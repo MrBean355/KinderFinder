@@ -24,6 +24,7 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 
 			// Transmitter not found:
 			if (transmitter == null) {
+                System.Diagnostics.Debug.WriteLine("TransmitController::Transmit: Transmitter not found.");
 				return BadRequest();
 			}
 
