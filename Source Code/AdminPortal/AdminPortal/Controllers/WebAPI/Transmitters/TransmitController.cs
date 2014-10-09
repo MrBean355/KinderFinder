@@ -1,5 +1,6 @@
 ﻿using AdminPortal.Code;
 using AdminPortal.Models;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -24,14 +25,15 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 
 			// Transmitter not found:
 			if (transmitter == null) {
-                System.Diagnostics.Debug.WriteLine("TransmitController::Transmit: Transmitter not found.");
+                System.Diagnostics.Debug.WriteLine("[Warning] Transmitter " + id + " not found.");
 				return BadRequest();
 			}
 
 			// For each tag that the transmitter is telling us about:
 			foreach (var item in details.TagData) {
 				// Update its strength:
-				StrengthManager.Update(item.TagUuid, id, (int)transmitter.Type, item.Distance);
+				StrengthManager.Update(item.TagMinorMajor, id, (int)transmitter.Type, item.Distance);
+                StrengthManager.FlagTag(item.TagMinorMajor, false);
 			}
 
 			return Ok();
@@ -44,11 +46,11 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 		public struct RequestDetails {
 			public string TransmitterId;
 			public List<Strength> TagData;
-		}
 
-		public struct Strength {
-			public string TagUuid;
-			public double Distance;
-		}
+            public struct Strength {
+                public string TagMinorMajor;
+                public double Distance;
+            }
+		}	
 	}
 }

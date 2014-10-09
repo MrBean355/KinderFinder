@@ -204,6 +204,7 @@
     <Compile Include="Controllers\WebAPI\Tags\TrackController.cs" />
     <Compile Include="Controllers\WebAPI\Transmitters\AssignRestaurantController.cs" />
     <Compile Include="Controllers\WebAPI\Transmitters\FreeTransmitterController.cs" />
+    <Compile Include="Controllers\WebAPI\Transmitters\OutOfRangeController.cs" />
     <Compile Include="Controllers\WebAPI\Transmitters\TransmitController.cs" />
     <Compile Include="Controllers\WebAPI\Transmitters\TransmitterTypeController.cs" />
     <Compile Include="Global.asax.cs">

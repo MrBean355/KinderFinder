@@ -68,83 +68,36 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 			// List of tag positions to be returned:
 			var result = new List<TagData>();
 
-			// For each of the user's tags"
+			// For each of the user's tags:
 			foreach (var tag in tags) {
-				double[] strengths = new double[3];
+                TagData td = new TagData();
+                td.Name = tag.Label;
+                var pos = new Locator.Location(-100.0, -100.0);
 
-				// Load all three of its strengths:
-				for (int i = 0; i < 3; i++) {
-					strengths[i] = StrengthManager.GetStrength(tag.BeaconID, t[i].ID, (int)t[i].Type);
+                // Tag is not flagged; locate as normal:
+                if (!StrengthManager.IsTagFlagged(tag.BeaconID)) {
+                    double[] strengths = new double[3];
 
-					if (strengths[i] == StrengthManager.NOT_ENOUGH_AVERAGES) {
-						// TODO: Do something if there aren't enough averages?
-					}
-				}
+                    // Load all three of its strengths:
+                    for (int i = 0; i < 3; i++) {
+                        strengths[i] = StrengthManager.GetStrength(tag.BeaconID, t[i].ID, (int)t[i].Type);
 
-				// Triangulate its position:
-				var pos = locator.Locate(tag.BeaconID, strengths[0], strengths[1], strengths[2]);
-				//var coord = Triangulate((float)strengths[0], (float)strengths[1], (float)strengths[2]);
+                        if (strengths[i] == StrengthManager.NOT_ENOUGH_AVERAGES) {
+                            // TODO: Do something if there aren't enough averages?
+                        }
+                    }
 
-				TagData td = new TagData();
-				td.Name = tag.Label;
-				td.PosX = pos.X / MaxX;
-				td.PosY = pos.Y / MaxY;
-				//td.PosX = coord.getXCoord() / MaxX;
-				//td.PosY = coord.getYCoord() / MaxY;
+                    // Triangulate its position:
+                    pos = locator.Locate(tag.BeaconID, strengths[0], strengths[1], strengths[2]);
+                    td.PosX = pos.X / MaxX;
+                    td.PosY = pos.Y / MaxY;
+                }
+
 				result.Add(td);
 			}
 
 			return Ok(result);
 		}
-
-		// TODO: Be able to set transmitter locations.
-		// From [0, 1] to actual co-ords (meters).
-		/*private Coordinates TriangulateStuff(float s1, float s2, float s3) {
-			//creating beacons
-			Reciever b1 = new Reciever();
-			Reciever b2 = new Reciever();
-			Reciever b3 = new Reciever();
-
-			//creating adapters
-			AdapterToReciever adapter1 = new AdapterToReciever();
-			AdapterToReciever adapter2 = new AdapterToReciever();
-			AdapterToReciever adapter3 = new AdapterToReciever();
-
-			//assiging signal strengths
-			adapter1.addBeaconNumber(1);
-			adapter2.addBeaconNumber(2);
-			adapter3.addBeaconNumber(3);
-
-			//assigning signal strengths
-			adapter1.addSignalStrength(s1);
-			adapter2.addSignalStrength(s2);
-			adapter3.addSignalStrength(s3);
-
-			//assigning adapters
-			b1 = adapter1.addBeacon();
-			b2 = adapter2.addBeacon();
-			b3 = adapter3.addBeacon();
-
-			//creating triagulation object
-			Triangulate triangulate = new Triangulate();
-
-			//adding beacons...
-			triangulate.add3Beacons(b1, b2, b3);
-
-			//creating matrix
-			triangulate.createMatrix();
-
-			//showing empty matrix            
-			triangulate.printArray();
-
-			//triagulating
-			triangulate.triangulateCoord();
-
-			//creating coordinates point for the rest of the program
-			Coordinates coordinates = new Coordinates();
-			coordinates = triangulate.getCoordinatesForAdapter();
-			return coordinates;
-		}*/
 
 		public struct TagData {
 			public string Name;
