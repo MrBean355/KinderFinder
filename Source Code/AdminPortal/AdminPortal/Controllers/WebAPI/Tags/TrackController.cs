@@ -1,4 +1,6 @@
-﻿using AdminPortal.Code;
+﻿#define MOCK_DATA
+
+using AdminPortal.Code;
 using AdminPortal.Code.Triangulation;
 using AdminPortal.Models;
 
@@ -19,6 +21,7 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 		private Transmitter[] LoadTransmitters(int restaurantId) {
 			Transmitter[] t = new Transmitter[3];
 
+#if !MOCK_DATA
 			for (int i = 0; i < 3; i++) {
 				t[i] = (from item in Db.Transmitters
 						where item.Restaurant == restaurantId && item.Type == (i + 1)
@@ -26,12 +29,32 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 
 				if (t[i] == null)
 					return null;
+			}
+#else
+			var restaurant = (from item in Db.Restaurants
+							  where item.Name.Equals("Demo Room")
+							  select item.ID).FirstOrDefault();
 
-				if (t[i].PosX > MaxX)
-					MaxX = (double)t[i].PosX;
+			for (int i = 0; i < 3; i++) {
+				t[i].ID = i + 1;
+				t[i].Restaurant = restaurant;
+			}
 
-				if (t[i].PosY > MaxY)
-					MaxY = (double)t[i].PosY;
+			t[0].PosX =  0.0; t[0].PosY =  0.0;
+			t[1].PosX = 10.0; t[1].PosY =  0.0;
+			t[2].PosX = 10.0; t[2].PosY = 10.0;
+
+			StrengthManager.Update("1-777", 1, 1, -0.3);
+			StrengthManager.Update("1-777", 2, 2, -0.3);
+			StrengthManager.Update("1-777", 3, 3, -0.3);
+#endif
+			// Find the max and min co-ords, so we can scale the points:
+			foreach (var item in t) {
+				if (item.PosX > MaxX)
+					MaxX = (double)item.PosX;
+
+				if (item.PosY > MaxY)
+					MaxY = (double)item.PosY;
 			}
 
 			return t;
