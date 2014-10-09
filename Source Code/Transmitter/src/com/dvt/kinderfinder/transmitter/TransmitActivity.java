@@ -15,6 +15,8 @@ import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -27,21 +29,23 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 public class TransmitActivity extends ActionBarActivity {
-	private static final int TRANSMIT_FREQUENCY = 500;
+	private static final int TRANSMIT_FREQUENCY = 1000;
 	
 	private long lastSent;
 	private int updates = 0;
 	private String id;
 	private EditText transmitterIdBox, beaconCountBox, updateCountBox;
 	private Button stopButton;
+	private LinkedList<String> prevBeacons;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_transmit);
 
-		id = getIntent().getStringExtra("ID");
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON); // tell system to keep screen on.
+		
+		// Check if Bluetooth is on, and ask to switch on it it's off:
 		BluetoothAdapter ba = BluetoothAdapter.getDefaultAdapter();
 		
 		if (ba == null) {
@@ -55,18 +59,22 @@ public class TransmitActivity extends ActionBarActivity {
 		    startActivityForResult(enableBtIntent, 1);
 		}
 
+		id = getIntent().getStringExtra("ID"); // load our unique ID.
+		prevBeacons = new LinkedList<String>();
+		
 		transmitterIdBox = (EditText) findViewById(R.id.idBox);
 		beaconCountBox = (EditText) findViewById(R.id.countBox);
 		updateCountBox = (EditText) findViewById(R.id.updatesBox);
 		stopButton = (Button) findViewById(R.id.stopButton);
 		
 		stopButton.setOnClickListener(buttonHandler);
-		
+
 		transmitterIdBox.setText(id);
 	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// If we requested to switch on Bluetooth and the user rejected, close app:
 		if (requestCode == 1 && resultCode != RESULT_OK) {
 		    Toast.makeText(getApplicationContext(), "Must enable Bluetooth to continue", Toast.LENGTH_LONG).show();
 		    finish();
@@ -115,7 +123,6 @@ public class TransmitActivity extends ActionBarActivity {
 	private UUID mMyUuid = UUID.fromString("01122334-4556-6778-899A-ABBCCDDEEFF0");
 	private UUID mAnyUuid = BeaconRegion.ANY_UUID;
 
-
 	@SuppressWarnings("unused")
 	private class Request {
 		public String TransmitterId;
@@ -124,21 +131,9 @@ public class TransmitActivity extends ActionBarActivity {
 
 	@SuppressWarnings("unused")
 	private class Strength {
-		public String TagUuid;
+		public String TagMinorMajor;
 		public float Distance;
 	}
-	
-	/*private BeaconServiceConnection.RegionListener mRegionListener = new BeaconServiceConnection.RegionListener() {
-		@Override
-		public void onEnterRegion(final BeaconRegion region) {
-			//Log.i(TAG, "onEnterRegion: " + region);
-		}
-
-		@Override
-		public void onExitRegion(final BeaconRegion region) {
-			//Log.i(TAG, "onExitRegion: " + region);
-		}
-	};*/
 	
 	private BeaconServiceConnection.BeaconsListener mBeaconsListener = new BeaconServiceConnection.BeaconsListener() {
 		@Override
@@ -149,26 +144,39 @@ public class TransmitActivity extends ActionBarActivity {
 			long now = System.currentTimeMillis();
 			long diff = now - lastSent;
 			
-			if (diff < TRANSMIT_FREQUENCY) {
+			if (diff < TRANSMIT_FREQUENCY)
 				return;
-			}
-			else {
+			else
 				lastSent = now;
-			}
 			
-			Request req = new Request();
+			final Request req = new Request();
 			req.TransmitterId = id;
 			req.TagData = new LinkedList<>();
+			LinkedList<String> newBeacons = new LinkedList<String>();
 			
 			for (final Beacon beacon : beacons) {
+				String tagId = beacon.getMajor() + "-" + beacon.getMinor();
 				Strength str = new Strength();
-				str.TagUuid = beacon.getMajor() + "-" + beacon.getMinor();
+				str.TagMinorMajor = tagId;
 				str.Distance = beacon.getAccuracy();
-				
 				req.TagData.add(str);
+				
+				newBeacons.add(tagId);
 			}
-
-			new RequestTask() {
+			
+			// For each previously detected beacon:
+			for (String prev : prevBeacons) {
+				// If it was not detected this time, raise an alarm:
+				if (!newBeacons.contains(prev)) {
+					JsonBuilder jb = new JsonBuilder();
+					jb.addEntry("BeaconId", prev);
+					new RequestTask().execute("api/outofrange", jb.toString());
+				}
+			}
+			
+			prevBeacons = newBeacons;
+			
+			RequestTask t = new RequestTask() {
 				@Override
 				public void onPostExecute(String result) {
 					// Only increase the count only if the update was received:
@@ -183,7 +191,12 @@ public class TransmitActivity extends ActionBarActivity {
 						});
 					}
 				}
-			}.execute("api/transmit", new Gson().toJson(req));
+			};
+			
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+				t.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "api/transmit", new Gson().toJson(req));
+			else
+				t.execute("api/transmit", new Gson().toJson(req));
 			
 			beaconCountBox.setText(beacons.length + "");
 		}
@@ -192,16 +205,13 @@ public class TransmitActivity extends ActionBarActivity {
 	private BeaconServiceConnection mConnection = new BeaconServiceConnection() {
 		@Override
 		public void onServiceConnected() {
-			//startMonitoringForRegion(mAnyUuid, mRegionListener);
 			startRangingBeaconsInRegion(mMyUuid, mBeaconsListener);
 			startRangingBeaconsInRegion(mMyUuid, 5, mBeaconsListener);
 			startRangingBeaconsInRegion(mAnyUuid, mBeaconsListener);
 		}
 
 		@Override
-		public void onServiceDisconnected() {
-			
-		}
+		public void onServiceDisconnected() { }
 	};
 	
 	private OnClickListener buttonHandler = new OnClickListener() {

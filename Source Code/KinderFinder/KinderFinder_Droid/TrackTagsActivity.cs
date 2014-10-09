@@ -11,6 +11,7 @@ using Android.OS;
 using Android.Widget;
 
 using KinderFinder.Utility;
+using Android.Media;
 
 namespace KinderFinder {
 
@@ -23,6 +24,7 @@ namespace KinderFinder {
 		TextView downloadingText;
 		Bitmap OriginalMap;
 		Timer Timer;
+		MediaPlayer AlarmPlayer;
 
 		public override bool OnCreateOptionsMenu(Android.Views.IMenu menu) {
 			base.OnCreateOptionsMenu(menu);
@@ -191,6 +193,11 @@ namespace KinderFinder {
 			// If we could retrieve the locations, draw them:
 			if (locations != null) {
 				foreach (var data in locations) {
+					if (data.PosX.Equals(-100.0) && data.PosY.Equals(-100.0)) {
+						PlayAlarm(data.Name);
+						continue;
+					}
+
 					int x = (int)(data.PosX * OriginalMap.Width);
 					int y = (int)(data.PosY * OriginalMap.Height);
 					string colour = pref.GetString(data.Name + Settings.Keys.TAG_COLOUR, "");
@@ -217,6 +224,22 @@ namespace KinderFinder {
 
 			// Display new map:
 			RunOnUiThread(() => mapImage.SetImageDrawable(new BitmapDrawable(Resources, newBitmap)));
+		}
+
+		void PlayAlarm(string tagName) {
+			var dialog = new AlertDialog.Builder(this);
+			dialog.SetTitle("Alert!");
+			dialog.SetMessage("A tag is out of range!\nTag Name: " + tagName);
+			dialog.SetNeutralButton("Ok", (sender, e) => {
+				AlarmPlayer.Stop();
+			});
+			dialog.Show();
+
+			if (AlarmPlayer != null && AlarmPlayer.IsPlaying)
+				return;
+
+			AlarmPlayer = MediaPlayer.Create(this, Resource.Raw.OutOfRangeAlarm);
+			AlarmPlayer.Start();
 		}
 	}
 }

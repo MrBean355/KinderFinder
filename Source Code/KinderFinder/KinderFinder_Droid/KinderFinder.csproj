@@ -78,11 +78,13 @@
     <AndroidResource Include="Resources\layout\RestaurantList.axml" />
     <AndroidResource Include="Resources\menu\MainMenu.xml" />
     <AndroidResource Include="Resources\layout\TagConfig.axml" />
+    <AndroidResource Include="Resources\raw\OutOfRangeAlarm.mp3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
     <Folder Include="Utility\" />
     <Folder Include="Resources\values\" />
     <Folder Include="Resources\menu\" />
+    <Folder Include="Resources\raw\" />
   </ItemGroup>
 </Project>

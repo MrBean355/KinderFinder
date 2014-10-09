@@ -1,6 +1,7 @@
 package com.dvt.kinderfinder.transmitter;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -22,20 +23,20 @@ class RequestTask extends AsyncTask<String, String, String> {
 			System.out.println("[Error] Tried to send data without enough arugments.");
 			return "";
 		}
-
-		HttpClient httpclient = new DefaultHttpClient();
-		HttpPost httppost = new HttpPost(SERVER_ADDRESS + data[0]);
-		httppost.addHeader("content-type", "application/json");
+		
+		HttpClient client = new DefaultHttpClient();
+		HttpPost post = new HttpPost(SERVER_ADDRESS + data[0]);
+		post.addHeader("content-type", "application/json");
 		HttpResponse response;
-		String responseString = "";
-
+		
 		try {
 			// Check whether any data is being sent:
 			if (data.length > 1 && !data[1].equals("")) {
-				httppost.setEntity(new StringEntity(data[1]));
+				System.out.println("Sending: " + data[1]);
+				post.setEntity(new StringEntity(data[1]));
 			}
 
-			response = httpclient.execute(httppost);
+			response = client.execute(post);
 			StatusLine statusLine = response.getStatusLine();
 			statusCode = statusLine.getStatusCode();
 
@@ -43,17 +44,20 @@ class RequestTask extends AsyncTask<String, String, String> {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				response.getEntity().writeTo(out);
 				out.close();
-				responseString = out.toString();
+				return out.toString();
 			}
 			else {
 				response.getEntity().getContent().close();
-				//throw new IOException(statusLine.getReasonPhrase());
+				throw new IOException(statusLine.getReasonPhrase());
 			}
 		}
 		catch (Exception e) {
 			System.out.println("Error while sending data to '" + SERVER_ADDRESS + data[0] + "': " + e);
 		}
-
-		return responseString;
+		finally {
+			client.getConnectionManager().shutdown();
+		}
+		
+		return "";
 	}
 }
