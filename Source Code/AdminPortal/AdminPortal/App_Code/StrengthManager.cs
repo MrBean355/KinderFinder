@@ -18,7 +18,6 @@ namespace AdminPortal.Code {
             if (flag) {
                 if (!FlaggedTags.Contains(beaconId))
                     FlaggedTags.Add(beaconId);
-                System.Diagnostics.Debug.WriteLine("Flagged " + beaconId);
             }
             else {
                 if (FlaggedTags.Contains(beaconId))

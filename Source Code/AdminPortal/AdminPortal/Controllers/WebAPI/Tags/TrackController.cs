@@ -36,7 +36,9 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 							  select item.ID).FirstOrDefault();
 
 			for (int i = 0; i < 3; i++) {
+                t[i] = new Transmitter();
 				t[i].ID = i + 1;
+                t[i].Type = i + 1;
 				t[i].Restaurant = restaurant;
 			}
 
@@ -44,9 +46,13 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 			t[1].PosX = 10.0; t[1].PosY =  0.0;
 			t[2].PosX = 10.0; t[2].PosY = 10.0;
 
-			StrengthManager.Update("1-777", 1, 1, -0.3);
-			StrengthManager.Update("1-777", 2, 2, -0.3);
-			StrengthManager.Update("1-777", 3, 3, -0.3);
+			StrengthManager.Update("1-177", 1, 1, -0.3);
+			StrengthManager.Update("1-177", 2, 2, -0.0);
+			StrengthManager.Update("1-177", 3, 3, -0.3);
+            updates++;
+            System.Diagnostics.Debug.WriteLine("Updates " + updates);
+            if (updates == 10)
+                StrengthManager.FlagTag("1-177", true);
 #endif
 			// Find the max and min co-ords, so we can scale the points:
 			foreach (var item in t) {
@@ -59,7 +65,7 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 
 			return t;
 		}
-
+        static int updates = 0;
 		[HttpPost]
 		public IHttpActionResult GetLocations(RequestDetails details) {
 			// Determine user's current restaurant:
@@ -103,6 +109,8 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 
                     // Load all three of its strengths:
                     for (int i = 0; i < 3; i++) {
+                        //System.Diagnostics.Debug.WriteLine("Here: " + t[i].ID);
+                        //System.Diagnostics.Debug.WriteLine("Here: " + (int)t[i].Type);
                         strengths[i] = StrengthManager.GetStrength(tag.BeaconID, t[i].ID, (int)t[i].Type);
 
                         if (strengths[i] == StrengthManager.NOT_ENOUGH_AVERAGES) {
@@ -115,7 +123,10 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
                     td.PosX = pos.X / MaxX;
                     td.PosY = pos.Y / MaxY;
                 }
-
+                else {
+                    td.PosX = pos.X;
+                    td.PosY = pos.Y;
+                }
 				result.Add(td);
 			}
 
