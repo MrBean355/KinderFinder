@@ -17,6 +17,8 @@ namespace KinderFinder {
 
 	[Activity(Label = "Track Tags", Icon = "@drawable/icon")]
 	public class TrackTagsActivity : Activity {
+		static MediaPlayer AlarmPlayer;
+
 		ISharedPreferences pref;
 		ISharedPreferencesEditor editor;
 		ImageView mapImage;
@@ -24,7 +26,6 @@ namespace KinderFinder {
 		TextView downloadingText;
 		Bitmap OriginalMap;
 		Timer Timer;
-		MediaPlayer AlarmPlayer;
 
 		public override bool OnCreateOptionsMenu(Android.Views.IMenu menu) {
 			base.OnCreateOptionsMenu(menu);
@@ -177,8 +178,7 @@ namespace KinderFinder {
 					locations = Deserialiser<List<TagData>>.Run(response.Body);
 					break;
 				default:
-					//Toast.MakeText(this, "Unable to retrieve data from server", ToastLength.Short).Show();
-					Console.WriteLine("Something bad happened: " + response.StatusCode.ToString());
+					RunOnUiThread(() => Toast.MakeText(this, "Unable to retrieve data from server", ToastLength.Short).Show());
 					break;
 			}
 
@@ -193,7 +193,7 @@ namespace KinderFinder {
 			// If we could retrieve the locations, draw them:
 			if (locations != null) {
 				foreach (var data in locations) {
-					if (data.PosX.Equals(-100.0) && data.PosY.Equals(-100.0)) {
+					if (data.PosX.Equals(Settings.SpecialPoints.OUT_OF_RANGE) && data.PosY.Equals(Settings.SpecialPoints.OUT_OF_RANGE)) {
 						PlayAlarm(data.Name);
 						continue;
 					}
@@ -203,9 +203,8 @@ namespace KinderFinder {
 					string colour = pref.GetString(data.Name + Settings.Keys.TAG_COLOUR, "");
 					string name = pref.GetString(data.Name + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT);
 
-					if (name.Equals("")) {
+					if (name.Equals(""))
 						name = Settings.Map.UNKNOWN_NAME_TEXT;
-					}
 
 					if (!colour.Equals("")) {
 						int r = Convert.ToInt32(colour.Substring(0, 2), 16);
@@ -213,9 +212,8 @@ namespace KinderFinder {
 						int b = Convert.ToInt32(colour.Substring(4, 2), 16);
 						paint.SetARGB(Settings.Map.DOT_COLOUR_ALPHA, r, g, b);
 					}
-					else {
+					else
 						paint.SetARGB(Settings.Map.DOT_COLOUR_ALPHA, Settings.Map.DOT_COLOUR_RED, Settings.Map.DOT_COLOUR_GREEN, Settings.Map.DOT_COLOUR_BLUE);
-					}
 
 					canvas.DrawCircle(x, y, Settings.Map.DOT_SIZE_RADIUS, paint);
 					canvas.DrawText(name, x - 30, y - 25, paint);
@@ -227,16 +225,14 @@ namespace KinderFinder {
 		}
 
 		void PlayAlarm(string tagName) {
+			if (AlarmPlayer != null && AlarmPlayer.IsPlaying)
+				return;
+
 			var dialog = new AlertDialog.Builder(this);
 			dialog.SetTitle("Alert!");
 			dialog.SetMessage("A tag is out of range!\nTag Name: " + tagName);
-			dialog.SetNeutralButton("Ok", (sender, e) => {
-				AlarmPlayer.Stop();
-			});
-			dialog.Show();
-
-			if (AlarmPlayer != null && AlarmPlayer.IsPlaying)
-				return;
+			dialog.SetNeutralButton("Ok", (sender, e) => AlarmPlayer.Stop());
+			RunOnUiThread(() => dialog.Show());
 
 			AlarmPlayer = MediaPlayer.Create(this, Resource.Raw.OutOfRangeAlarm);
 			AlarmPlayer.Start();

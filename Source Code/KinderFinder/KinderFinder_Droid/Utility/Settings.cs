@@ -48,5 +48,9 @@ namespace KinderFinder.Utility {
 			public const float OVERLAY_TEXT_SIZE = 40.0f;
 			public const string UNKNOWN_NAME_TEXT = "Unknown";
 		}
+
+		public static class SpecialPoints {
+			public const double OUT_OF_RANGE = -100.0;
+		}
 	}
 }
