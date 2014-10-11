@@ -1,6 +1,12 @@
 package com.dvt.kinderfinder.transmitter;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 import no.nordicsemi.android.beacon.Beacon;
@@ -31,12 +37,13 @@ import com.google.gson.Gson;
 public class TransmitActivity extends ActionBarActivity {
 	private static final int TRANSMIT_FREQUENCY = 1000;
 	
-	private long lastSent;
 	private int updates = 0;
 	private String id;
 	private EditText transmitterIdBox, beaconCountBox, updateCountBox;
 	private Button stopButton;
 	private LinkedList<String> prevBeacons;
+	private Timer timer;
+	private HashMap<String, Float> TagData = new HashMap<>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +77,68 @@ public class TransmitActivity extends ActionBarActivity {
 		stopButton.setOnClickListener(buttonHandler);
 
 		transmitterIdBox.setText(id);
+		
+		timer = new Timer();
+		timer.schedule(sendUpdateTask, TRANSMIT_FREQUENCY, TRANSMIT_FREQUENCY);
+	}
+	
+	private TimerTask sendUpdateTask = new TimerTask() {
+		@Override
+		public void run() {
+			final Request req = new Request();
+			req.TransmitterId = id;
+			req.TagData = new LinkedList<>();
+			LinkedList<String> newBeacons = new LinkedList<String>();
+			Iterator<Entry<String, Float>> it = TagData.entrySet().iterator();
+			
+			while (it.hasNext()) {
+				Map.Entry<String, Float> pairs = (Map.Entry<String, Float>)it.next();
+				Strength str = new Strength();
+				str.TagMinorMajor = pairs.getKey();
+				str.Distance = pairs.getValue();
+				
+				req.TagData.add(str);
+				newBeacons.add(str.TagMinorMajor);
+			}
+			
+			// For each previously detected beacon:
+			for (String prev : prevBeacons) {
+				// If it was not detected this time, raise an alarm:
+				if (!newBeacons.contains(prev)) {
+					JsonBuilder jb = new JsonBuilder();
+					jb.addEntry("BeaconId", prev);
+					new RequestTask().execute("api/outofrange", jb.toString());
+				}
+			}
+			
+			prevBeacons = newBeacons;
+			
+			RequestTask t = new RequestTask() {
+				@Override
+				public void onPostExecute(String result) {
+					// Only increase the count only if the update was received:
+					if (statusCode == HttpStatus.SC_OK)
+						updates++;
+				}
+			};
+			
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+				t.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "api/transmit", new Gson().toJson(req));
+			else
+				t.execute("api/transmit", new Gson().toJson(req));
+			
+			updateBoxes();
+		}
+	};
+	
+	private void updateBoxes() {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				updateCountBox.setText(updates + "");
+				beaconCountBox.setText(TagData.size() + "");
+			}
+		});
 	}
 	
 	@Override
@@ -85,7 +154,6 @@ public class TransmitActivity extends ActionBarActivity {
 	protected void onResume() {
 		super.onResume();
 
-		lastSent = 0;
 		ServiceProxy.bindService(this, mConnection);
 		ServiceProxy.stopMonitoringForRegion(this, mMyUuid);
 	}
@@ -138,67 +206,11 @@ public class TransmitActivity extends ActionBarActivity {
 	private BeaconServiceConnection.BeaconsListener mBeaconsListener = new BeaconServiceConnection.BeaconsListener() {
 		@Override
 		public void onBeaconsInRegion(final Beacon[] beacons, final BeaconRegion region) {
-			// The following snippet ensures that we only send to the server
-			// at most once per second. This prevents the server from being
-			// flooded with data (hopefully).
-			long now = System.currentTimeMillis();
-			long diff = now - lastSent;
-			
-			if (diff < TRANSMIT_FREQUENCY)
-				return;
-			else
-				lastSent = now;
-			
-			final Request req = new Request();
-			req.TransmitterId = id;
-			req.TagData = new LinkedList<>();
-			LinkedList<String> newBeacons = new LinkedList<String>();
-			
-			for (final Beacon beacon : beacons) {
-				String tagId = beacon.getMajor() + "-" + beacon.getMinor();
-				Strength str = new Strength();
-				str.TagMinorMajor = tagId;
-				str.Distance = beacon.getAccuracy();
-				req.TagData.add(str);
-				
-				newBeacons.add(tagId);
+			// For each detected tag, store its strength:
+			for (Beacon beacon : beacons) {
+				String id = beacon.getMajor() + "-" + beacon.getMinor();
+				TagData.put(id, beacon.getAccuracy());
 			}
-			
-			// For each previously detected beacon:
-			for (String prev : prevBeacons) {
-				// If it was not detected this time, raise an alarm:
-				if (!newBeacons.contains(prev)) {
-					JsonBuilder jb = new JsonBuilder();
-					jb.addEntry("BeaconId", prev);
-					new RequestTask().execute("api/outofrange", jb.toString());
-				}
-			}
-			
-			prevBeacons = newBeacons;
-			
-			RequestTask t = new RequestTask() {
-				@Override
-				public void onPostExecute(String result) {
-					// Only increase the count only if the update was received:
-					if (statusCode == HttpStatus.SC_OK) {
-						updates++;
-						
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								updateCountBox.setText(updates + "");
-							}
-						});
-					}
-				}
-			};
-			
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-				t.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "api/transmit", new Gson().toJson(req));
-			else
-				t.execute("api/transmit", new Gson().toJson(req));
-			
-			beaconCountBox.setText(beacons.length + "");
 		}
 	};
 
