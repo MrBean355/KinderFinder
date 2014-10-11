@@ -4,26 +4,41 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdminPortal.Code.Triangulation
+namespace triangulation_alpha0._2
 {
     class Triangulate
     {
         private int xMatrixSize = 10, yMatrixSize = 10;
-        private Reciever beacon1, beacon2, beacon3;
+        private Reciever reciever1, reciever2, reciever3;
         private int[,] roomArray;
+        bool outOfBounds;
 
-        public Triangulate()
+        private const int maxNumberOfRecievers = 3;//here you can add the max number of recievers to test
+
+
+        public Triangulate()//constructor that takes no parameters for testing
         {
             roomArray = new int[xMatrixSize, yMatrixSize];
+            outOfBounds = false;
         }
 
-        public void add3Beacons(Reciever b1, Reciever b2, Reciever b3)
+        public Triangulate(int x_WidthOfRoom, int y_HeightOfRoom)//when calling the constructor add the dimenstions of the room, x first, then y
         {
-            beacon1 = b1;
-            beacon2 = b2;
-            beacon3 = b3;
+            xMatrixSize = x_WidthOfRoom;
+            yMatrixSize = y_HeightOfRoom;
+            roomArray = new int[xMatrixSize, yMatrixSize];
+            outOfBounds = false;
+
         }
 
+        public void add3Recievers(Reciever b1, Reciever b2, Reciever b3)
+        {
+            reciever1 = b1;
+            reciever2 = b2;
+            reciever3 = b3;           
+        }
+
+              
         public void createMatrix()
         {
             for (int x = 0; x < xMatrixSize; x++)
@@ -47,10 +62,41 @@ namespace AdminPortal.Code.Triangulation
 
         public void triangulateCoord()
         {
-            float signalStrength1, signalStrength2, signalStrength3;
-            signalStrength1 = beacon1.getSignalStrength();
-            signalStrength2 = beacon2.getSignalStrength();
-            signalStrength3 = beacon3.getSignalStrength();
+            double signalStrength1, signalStrength2, signalStrength3;
+            signalStrength1 = reciever1.getSignalStrength();
+            signalStrength2 = reciever2.getSignalStrength();
+            signalStrength3 = reciever3.getSignalStrength();
+
+            if ((signalStrength1 > xMatrixSize))
+            {
+                signalStrength1 = xMatrixSize;
+                outOfBounds = true;
+            }
+            if ((signalStrength1 > yMatrixSize))
+            {
+                signalStrength1 = yMatrixSize;
+                outOfBounds = true;
+            }
+            if ((signalStrength2 > xMatrixSize))
+            {
+                signalStrength1 = xMatrixSize;
+                outOfBounds = true;
+            }
+            if ((signalStrength2 > yMatrixSize))
+            {
+                signalStrength1 = yMatrixSize;
+                outOfBounds = true;
+            }
+            if ((signalStrength3 > xMatrixSize))
+            {
+                signalStrength1 = xMatrixSize;
+                outOfBounds = true;
+            }
+            if ((signalStrength3 > yMatrixSize))
+            {
+                signalStrength1 = yMatrixSize;
+                outOfBounds = true;
+            }
 
             //adjusting matrix for signal 1
 
@@ -67,7 +113,7 @@ namespace AdminPortal.Code.Triangulation
                 for (int y = 0; y < signalStrength2; y++)
                 {
                     if (roomArray[x, y] == 1)
-                        roomArray[x, y] = 5;
+                        roomArray[x, y] = 4;
                     else
                         roomArray[x, y] = 2;
                 }
@@ -97,7 +143,9 @@ namespace AdminPortal.Code.Triangulation
         {
             Coordinates co = new Coordinates();
             int max = roomArray[0, 0];
-            float x_coord = 0, y_coord = 0;
+            double x_coord = 0, y_coord = 0;
+            double xAverage = 0,yAverage = 0;
+
             for (int x = 0; x < xMatrixSize; x++)
             {
                 for (int y = 0; y < yMatrixSize; y++)
@@ -112,13 +160,40 @@ namespace AdminPortal.Code.Triangulation
                 }
             }
 
+            int counter=0;
+            for (int x = 0; x < xMatrixSize; x++)
+            {
+                for (int y = 0; y < yMatrixSize; y++)
+                {
+                    if (max == roomArray[x, y])
+                    {
+                        xAverage += x + 1;
+                        yAverage += y + 1;
+                        counter++;
+                    }
+                }
+            }
+            xAverage = xAverage / counter;
+            yAverage = yAverage / counter;
+
+
+            //if (x_coord == 0 || y_coord == 0)
+            //{
+            //    x_coord = -1;
+            //    y_coord = -1;
+            //}
+
             co.setYCoord(y_coord);
             co.setXCoord(x_coord);
+
+            //sets them to the averages for more accuracy
+            co.setYCoord(xAverage);
+            co.setXCoord(yAverage);
+
 
             return co;
 
         }
-
 
 
     }

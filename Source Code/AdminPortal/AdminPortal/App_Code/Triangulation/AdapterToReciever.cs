@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdminPortal.Code.Triangulation
+namespace triangulation_alpha0._2
 {//initialise the beacons here, this program is where the beacons can just adapt to the rest of the program
     class AdapterToReciever
     {
         private Reciever beacon = new Reciever();
 
-        public void addBeaconNumber(int _beaconNumber)
+        public void addRecieverNumber(int _beaconNumber)
         {
             beacon.addBeaconNumber(_beaconNumber);
         }
@@ -18,7 +18,7 @@ namespace AdminPortal.Code.Triangulation
         {
             beacon.addSignalStrength(signal_streangth);
         }
-        public Reciever addBeacon()
+        public Reciever addReciever()
         {
             Console.WriteLine("beacon added...:");
             return beacon;
