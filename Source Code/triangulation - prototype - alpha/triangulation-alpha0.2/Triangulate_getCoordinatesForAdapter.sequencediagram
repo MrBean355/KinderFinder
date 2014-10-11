@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SequenceDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm4="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm5="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" dslVersion="1.0.0.0" Id="562f8b8b-732c-4e38-aa5a-849de32d7eba" name="Triangulate_getCoordinatesForAdapter" mode="DotNet" xmlns="http://schemas.microsoft.com/VisualStudio/TeamArchitect/SequenceDesigner">
+  <packagedElements>
+    <packageHasNamedElement>
+      <interaction Id="f768986b-b85b-4374-a10a-960e61ef2055" name="Triangulate_getCoordinatesForAdapter" collapseFragmentsFlag="false" isActiveClass="false" isAbstract="false" isLeaf="false" isReentrant="false">
+        <fragments>
+          <behaviorExecutionSpecification Id="bc9fde6f-948f-4a32-8083-57ebd4580fe3" name="BehaviorExecutionSpecification">
+            <coveredLifelines>
+              <lifelineMoniker Id="06556e54-291c-4446-a9db-1c7eae3a26ff" LastKnownName="this : Triangulate" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker Id="7ab096c5-2b0e-4150-b9a1-66fa06302414" LastKnownName="ExecutionOccurrenceSpecification" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker Id="a4590137-0dd3-496f-bc34-903c66340487" LastKnownName="ExecutionOccurrenceSpecification" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker Id="acac5496-d4e5-4f81-a426-06d1eab85a51" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="48901c85-8625-4bec-956f-c29a5dd175c1" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="3ecaf5f9-2f8a-43c7-bbeb-dce9f3a89767" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="9b03973d-8aec-4d13-9368-410ec7d71341" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="dfa36c8e-e41b-4d3d-ab7b-47303693fdb9" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="b55ebd66-5c50-4871-8cff-0e287196fb97" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="6165af57-d0e3-45d6-874a-df3667fbc2dd" LastKnownName="MessageOccurrenceSpecification" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification Id="a4590137-0dd3-496f-bc34-903c66340487" name="ExecutionOccurrenceSpecification">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="75fdfa05-1741-4479-8c4e-cfd98f4406e1" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="06556e54-291c-4446-a9db-1c7eae3a26ff" LastKnownName="this : Triangulate" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <lostFoundTarget Id="5d9f3a28-b76f-46a0-a8ad-6bdfdb05fa21" name="LostFoundTarget" />
+          <messageOccurrenceSpecification Id="acac5496-d4e5-4f81-a426-06d1eab85a51" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="06556e54-291c-4446-a9db-1c7eae3a26ff" LastKnownName="this : Triangulate" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <behaviorExecutionSpecification Id="d7251f48-fdc7-468e-a239-ac5bfe09c4a1" name="BehaviorExecutionSpecification">
+            <coveredLifelines>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker Id="391dfe35-54e9-43d7-bfdb-8ce600f8ac29" LastKnownName="ExecutionOccurrenceSpecification" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker Id="cfe5e057-6b52-4e94-a223-308aab301acf" LastKnownName="ExecutionOccurrenceSpecification" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker Id="97e0031f-a014-4eed-a78a-7fea0a68d765" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="8c0f1b58-4841-4e0f-9995-8c48e0ed4b3a" LastKnownName="MessageOccurrenceSpecification" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification Id="cfe5e057-6b52-4e94-a223-308aab301acf" name="ExecutionOccurrenceSpecification">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="cc03816d-4fba-4232-9b53-d5aa742b4df0" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="48901c85-8625-4bec-956f-c29a5dd175c1" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="06556e54-291c-4446-a9db-1c7eae3a26ff" LastKnownName="this : Triangulate" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="97e0031f-a014-4eed-a78a-7fea0a68d765" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="8c0f1b58-4841-4e0f-9995-8c48e0ed4b3a" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="3ecaf5f9-2f8a-43c7-bbeb-dce9f3a89767" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="06556e54-291c-4446-a9db-1c7eae3a26ff" LastKnownName="this : Triangulate" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification Id="391dfe35-54e9-43d7-bfdb-8ce600f8ac29" name="ExecutionOccurrenceSpecification">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="0bbab2cc-11e7-46d5-aaf7-159579c9ce63" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <behaviorExecutionSpecification Id="0e660535-6b8d-44c2-a82c-b88c8ba0f1e3" name="BehaviorExecutionSpecification">
+            <coveredLifelines>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker Id="02cd7f6a-8380-430b-8e1e-4ff0ca6a3637" LastKnownName="ExecutionOccurrenceSpecification" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker Id="8c31d17f-1a56-4332-9202-9c925c49cc49" LastKnownName="ExecutionOccurrenceSpecification" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker Id="576a39c3-b09c-4b73-8fb7-08f79b21e8d3" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="91c6ed1b-fbd8-40b8-b948-88cfc00bcc37" LastKnownName="MessageOccurrenceSpecification" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification Id="8c31d17f-1a56-4332-9202-9c925c49cc49" name="ExecutionOccurrenceSpecification">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="a2515e6b-8799-4492-a907-56751039785e" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="9b03973d-8aec-4d13-9368-410ec7d71341" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="06556e54-291c-4446-a9db-1c7eae3a26ff" LastKnownName="this : Triangulate" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="576a39c3-b09c-4b73-8fb7-08f79b21e8d3" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="91c6ed1b-fbd8-40b8-b948-88cfc00bcc37" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="dfa36c8e-e41b-4d3d-ab7b-47303693fdb9" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="06556e54-291c-4446-a9db-1c7eae3a26ff" LastKnownName="this : Triangulate" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification Id="02cd7f6a-8380-430b-8e1e-4ff0ca6a3637" name="ExecutionOccurrenceSpecification">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="da3b69be-7271-4aac-854b-a294dab33a42" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <behaviorExecutionSpecification Id="f826a150-232a-40e6-920e-63506ed2f978" name="BehaviorExecutionSpecification">
+            <coveredLifelines>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </coveredLifelines>
+            <finish>
+              <executionOccurrenceSpecificationMoniker Id="004190f1-ae80-4ca1-823a-cec0e2a3376a" LastKnownName="ExecutionOccurrenceSpecification" />
+            </finish>
+            <start>
+              <executionOccurrenceSpecificationMoniker Id="348df98e-85f5-458c-a72f-d2ff2bab51f9" LastKnownName="ExecutionOccurrenceSpecification" />
+            </start>
+            <nestedOccurrences>
+              <messageOccurrenceSpecificationMoniker Id="ecce8834-6783-41c6-af79-f3a2c8c5c68f" LastKnownName="MessageOccurrenceSpecification" />
+              <messageOccurrenceSpecificationMoniker Id="ff102404-6769-47a7-aee3-e8f0113bb538" LastKnownName="MessageOccurrenceSpecification" />
+            </nestedOccurrences>
+          </behaviorExecutionSpecification>
+          <executionOccurrenceSpecification Id="348df98e-85f5-458c-a72f-d2ff2bab51f9" name="ExecutionOccurrenceSpecification">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="7ac2bae6-eec2-4994-a696-d39829802cd6" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="b55ebd66-5c50-4871-8cff-0e287196fb97" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="06556e54-291c-4446-a9db-1c7eae3a26ff" LastKnownName="this : Triangulate" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="ecce8834-6783-41c6-af79-f3a2c8c5c68f" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="ff102404-6769-47a7-aee3-e8f0113bb538" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <messageOccurrenceSpecification Id="6165af57-d0e3-45d6-874a-df3667fbc2dd" name="MessageOccurrenceSpecification">
+            <covered>
+              <lifelineMoniker Id="06556e54-291c-4446-a9db-1c7eae3a26ff" LastKnownName="this : Triangulate" />
+            </covered>
+          </messageOccurrenceSpecification>
+          <executionOccurrenceSpecification Id="004190f1-ae80-4ca1-823a-cec0e2a3376a" name="ExecutionOccurrenceSpecification">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="7f24f989-4363-4bac-90a3-bb0155d0e50a" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" LastKnownName="co : Coordinates" />
+            </covered>
+          </executionOccurrenceSpecification>
+          <executionOccurrenceSpecification Id="7ab096c5-2b0e-4150-b9a1-66fa06302414" name="ExecutionOccurrenceSpecification">
+            <event>
+              <executionOccurrenceSpecificationReferencesEvent>
+                <executionEventMoniker Id="8d1c5957-31b3-4a4a-8a33-44be7ecb7164" LastKnownName="ExecutionEvent" />
+              </executionOccurrenceSpecificationReferencesEvent>
+            </event>
+            <covered>
+              <lifelineMoniker Id="06556e54-291c-4446-a9db-1c7eae3a26ff" LastKnownName="this : Triangulate" />
+            </covered>
+          </executionOccurrenceSpecification>
+        </fragments>
+        <lifelines>
+          <lifeline Id="06556e54-291c-4446-a9db-1c7eae3a26ff" name="this : Triangulate" isActor="false" lifelineDisplayName="this : Triangulate" referencedInstance="(Assembly=&quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&quot; Namespace=triangulation_alpha0._2 Type=Triangulate ObjectInstance=&quot;Object instance 1&quot;)" referencedType="triangulation_alpha0‎._2‎.Triangulate">
+            <referencesInternal>
+              <reference Id="fbb7d48e-46d7-41ab-8824-1d563d14da18" handle="+ Id.Equals(&quot;Microsoft.Solution.ClassView&quot;) /&#xD;&#xA;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Namespace=triangulation_alpha0._2)&quot;)/&#xD;&#xA;&quot;Microsoft.Contains&quot;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Assembly=&amp;quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&amp;quot; Namespace=triangulation_alpha0._2 Type=Triangulate)&quot;)" tag="DGQL" />
+              <reference Id="ee982b0d-62d3-417e-a55f-f1c361c54ad9" handle="(Assembly=&quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&quot; Namespace=triangulation_alpha0._2 Type=Triangulate)" tag="DGML" />
+            </referencesInternal>
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker Id="a4590137-0dd3-496f-bc34-903c66340487" LastKnownName="ExecutionOccurrenceSpecification" />
+              <executionOccurrenceSpecificationMoniker Id="7ab096c5-2b0e-4150-b9a1-66fa06302414" LastKnownName="ExecutionOccurrenceSpecification" />
+            </topLevelOccurrences>
+          </lifeline>
+          <lifeline Id="e6a7ab46-6e0b-45e7-b0d2-a944fb07c656" name="co : Coordinates" isActor="false" lifelineDisplayName="co : Coordinates" referencedInstance="(Assembly=&quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&quot; Namespace=triangulation_alpha0._2 Type=Coordinates ObjectInstance=&quot;Object instance 2&quot;)" referencedType="triangulation_alpha0‎._2‎.Coordinates">
+            <referencesInternal>
+              <reference Id="7cd8c87a-9182-45d3-9654-36253a7b99e5" handle="+ Id.Equals(&quot;Microsoft.Solution.ClassView&quot;) /&#xD;&#xA;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Namespace=triangulation_alpha0._2)&quot;)/&#xD;&#xA;&quot;Microsoft.Contains&quot;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Assembly=&amp;quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&amp;quot; Namespace=triangulation_alpha0._2 Type=Coordinates)&quot;)" tag="DGQL" />
+              <reference Id="c8d0ea0a-1d9f-4084-8a92-db1f47a21b1d" handle="(Assembly=&quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&quot; Namespace=triangulation_alpha0._2 Type=Coordinates)" tag="DGML" />
+            </referencesInternal>
+            <topLevelOccurrences>
+              <executionOccurrenceSpecificationMoniker Id="cfe5e057-6b52-4e94-a223-308aab301acf" LastKnownName="ExecutionOccurrenceSpecification" />
+              <executionOccurrenceSpecificationMoniker Id="391dfe35-54e9-43d7-bfdb-8ce600f8ac29" LastKnownName="ExecutionOccurrenceSpecification" />
+              <executionOccurrenceSpecificationMoniker Id="8c31d17f-1a56-4332-9202-9c925c49cc49" LastKnownName="ExecutionOccurrenceSpecification" />
+              <executionOccurrenceSpecificationMoniker Id="02cd7f6a-8380-430b-8e1e-4ff0ca6a3637" LastKnownName="ExecutionOccurrenceSpecification" />
+              <executionOccurrenceSpecificationMoniker Id="348df98e-85f5-458c-a72f-d2ff2bab51f9" LastKnownName="ExecutionOccurrenceSpecification" />
+              <executionOccurrenceSpecificationMoniker Id="004190f1-ae80-4ca1-823a-cec0e2a3376a" LastKnownName="ExecutionOccurrenceSpecification" />
+            </topLevelOccurrences>
+          </lifeline>
+        </lifelines>
+        <messages>
+          <message Id="7abc5917-11e5-41f3-9eec-647367a77bae" name="getCoordinatesForAdapter" messageKind="Found" messageSort="AsynchCall" createSelfMessage="false">
+            <referencesInternal>
+              <reference Id="53db5984-e3eb-48fa-984e-08b7a45da719" handle="+ Id.Equals(&quot;Microsoft.Solution.ClassView&quot;) /&#xD;&#xA;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Namespace=triangulation_alpha0._2)&quot;)/&#xD;&#xA;&quot;Microsoft.Contains&quot;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Assembly=&amp;quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&amp;quot; Namespace=triangulation_alpha0._2 Type=Triangulate)&quot;)/&#xD;&#xA;&quot;Microsoft.Contains&quot;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Assembly=&amp;quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&amp;quot; Namespace=triangulation_alpha0._2 Type=Triangulate Member=getCoordinatesForAdapter)&quot;)" tag="DGQL" />
+              <reference Id="8cc800df-21d7-45f7-8e90-df10661838ad" handle="(Assembly=&quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&quot; Namespace=triangulation_alpha0._2 Type=Triangulate Member=getCoordinatesForAdapter)" tag="DGML" />
+            </referencesInternal>
+            <sendEvent>
+              <lostFoundTargetMoniker Id="5d9f3a28-b76f-46a0-a8ad-6bdfdb05fa21" LastKnownName="LostFoundTarget" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker Id="acac5496-d4e5-4f81-a426-06d1eab85a51" LastKnownName="MessageOccurrenceSpecification" />
+            </receiveEvent>
+          </message>
+          <message Id="b799f352-a979-4f58-9ece-2efff1a3ec38" name="Create Coordinates" messageKind="Complete" messageSort="CreateMessage" createSelfMessage="false" signatureText="new Coordinates()">
+            <referencesInternal>
+              <reference Id="07c41410-907c-4a80-b9c6-90d7e5fe76eb" handle="+ Id.Equals(&quot;Microsoft.Solution.ClassView&quot;) /&#xD;&#xA;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Namespace=triangulation_alpha0._2)&quot;)/&#xD;&#xA;&quot;Microsoft.Contains&quot;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Assembly=&amp;quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&amp;quot; Namespace=triangulation_alpha0._2 Type=Coordinates)&quot;)/&#xD;&#xA;&quot;Microsoft.Contains&quot;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Assembly=&amp;quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&amp;quot; Namespace=triangulation_alpha0._2 Type=Coordinates Member=.ctor)&quot;)" tag="DGQL" />
+              <reference Id="0ae1ac2e-0e62-4aca-a927-1a70955a1e8c" handle="(Assembly=&quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&quot; Namespace=triangulation_alpha0._2 Type=Coordinates Member=.ctor)" tag="DGML" />
+            </referencesInternal>
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker Id="48901c85-8625-4bec-956f-c29a5dd175c1" LastKnownName="MessageOccurrenceSpecification" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker Id="97e0031f-a014-4eed-a78a-7fea0a68d765" LastKnownName="MessageOccurrenceSpecification" />
+            </receiveEvent>
+          </message>
+          <message Id="abeced7a-ec3e-4dc2-9364-0182c8b0069f" name="&lt;&lt;return&gt;&gt;" messageKind="Complete" messageSort="Reply" createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker Id="8c0f1b58-4841-4e0f-9995-8c48e0ed4b3a" LastKnownName="MessageOccurrenceSpecification" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker Id="3ecaf5f9-2f8a-43c7-bbeb-dce9f3a89767" LastKnownName="MessageOccurrenceSpecification" />
+            </receiveEvent>
+          </message>
+          <message Id="851dc86d-80f6-43d1-af8e-2f7f46257743" name="setYCoord" messageKind="Complete" messageSort="SynchCall" createSelfMessage="false" signatureText="co.setYCoord(y_coord)">
+            <referencesInternal>
+              <reference Id="0f2f496c-0967-4ad5-8800-06d0f5415407" handle="+ Id.Equals(&quot;Microsoft.Solution.ClassView&quot;) /&#xD;&#xA;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Namespace=triangulation_alpha0._2)&quot;)/&#xD;&#xA;&quot;Microsoft.Contains&quot;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Assembly=&amp;quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&amp;quot; Namespace=triangulation_alpha0._2 Type=Coordinates)&quot;)/&#xD;&#xA;&quot;Microsoft.Contains&quot;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Assembly=&amp;quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&amp;quot; Namespace=triangulation_alpha0._2 Type=Coordinates Member=(Name=setYCoord OverloadingParameters=[(Assembly=&amp;quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll&amp;quot; Namespace=System Type=Double)]))&quot;)" tag="DGQL" />
+              <reference Id="8661e3a5-82c6-4c83-bb4a-e0c668541792" handle="(Assembly=&quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&quot; Namespace=triangulation_alpha0._2 Type=Coordinates Member=(Name=setYCoord OverloadingParameters=[(Assembly=&quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll&quot; Namespace=System Type=Double)]))" tag="DGML" />
+            </referencesInternal>
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker Id="9b03973d-8aec-4d13-9368-410ec7d71341" LastKnownName="MessageOccurrenceSpecification" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker Id="576a39c3-b09c-4b73-8fb7-08f79b21e8d3" LastKnownName="MessageOccurrenceSpecification" />
+            </receiveEvent>
+          </message>
+          <message Id="1def0c95-a26a-4019-8e40-e646755b77f2" name="&lt;&lt;return&gt;&gt;" messageKind="Complete" messageSort="Reply" createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker Id="91c6ed1b-fbd8-40b8-b948-88cfc00bcc37" LastKnownName="MessageOccurrenceSpecification" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker Id="dfa36c8e-e41b-4d3d-ab7b-47303693fdb9" LastKnownName="MessageOccurrenceSpecification" />
+            </receiveEvent>
+          </message>
+          <message Id="8582835c-7764-4f10-8063-400328eb3313" name="setXCoord" messageKind="Complete" messageSort="SynchCall" createSelfMessage="false" signatureText="co.setXCoord(x_coord)">
+            <referencesInternal>
+              <reference Id="136b9fc9-5a60-4c67-80ea-e63c87ddac09" handle="+ Id.Equals(&quot;Microsoft.Solution.ClassView&quot;) /&#xD;&#xA;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Namespace=triangulation_alpha0._2)&quot;)/&#xD;&#xA;&quot;Microsoft.Contains&quot;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Assembly=&amp;quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&amp;quot; Namespace=triangulation_alpha0._2 Type=Coordinates)&quot;)/&#xD;&#xA;&quot;Microsoft.Contains&quot;/&#xD;&#xA;+ Id.EqualsIgnoreCase(&quot;(Assembly=&amp;quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&amp;quot; Namespace=triangulation_alpha0._2 Type=Coordinates Member=(Name=setXCoord OverloadingParameters=[(Assembly=&amp;quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll&amp;quot; Namespace=System Type=Double)]))&quot;)" tag="DGQL" />
+              <reference Id="44e09d95-95ee-4c04-adc1-7725c135083d" handle="(Assembly=&quot;$(67c85851-6db8-40df-96ed-4f07b8ea698a.OutputPathUri)&quot; Namespace=triangulation_alpha0._2 Type=Coordinates Member=(Name=setXCoord OverloadingParameters=[(Assembly=&quot;$(FxReferenceAssembliesUri)/.NETFramework/v4.5/mscorlib.dll&quot; Namespace=System Type=Double)]))" tag="DGML" />
+            </referencesInternal>
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker Id="b55ebd66-5c50-4871-8cff-0e287196fb97" LastKnownName="MessageOccurrenceSpecification" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker Id="ecce8834-6783-41c6-af79-f3a2c8c5c68f" LastKnownName="MessageOccurrenceSpecification" />
+            </receiveEvent>
+          </message>
+          <message Id="b4d87648-d198-44f0-beab-c781ab722f25" name="&lt;&lt;return&gt;&gt;" messageKind="Complete" messageSort="Reply" createSelfMessage="false">
+            <sendEvent>
+              <messageOccurrenceSpecificationMoniker Id="ff102404-6769-47a7-aee3-e8f0113bb538" LastKnownName="MessageOccurrenceSpecification" />
+            </sendEvent>
+            <receiveEvent>
+              <messageOccurrenceSpecificationMoniker Id="6165af57-d0e3-45d6-874a-df3667fbc2dd" LastKnownName="MessageOccurrenceSpecification" />
+            </receiveEvent>
+          </message>
+        </messages>
+      </interaction>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="75fdfa05-1741-4479-8c4e-cfd98f4406e1" name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="8d1c5957-31b3-4a4a-8a33-44be7ecb7164" name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="cc03816d-4fba-4232-9b53-d5aa742b4df0" name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="0bbab2cc-11e7-46d5-aaf7-159579c9ce63" name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="a2515e6b-8799-4492-a907-56751039785e" name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="da3b69be-7271-4aac-854b-a294dab33a42" name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="7ac2bae6-eec2-4994-a696-d39829802cd6" name="ExecutionEvent" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <executionEvent Id="7f24f989-4363-4bac-90a3-bb0155d0e50a" name="ExecutionEvent" />
+    </packageHasNamedElement>
+  </packagedElements>
+</SequenceDesignerModel>

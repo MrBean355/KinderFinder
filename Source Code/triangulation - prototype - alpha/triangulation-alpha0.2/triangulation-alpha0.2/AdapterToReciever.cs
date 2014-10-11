@@ -10,7 +10,7 @@ namespace triangulation_alpha0._2
     {
         private Reciever beacon = new Reciever();
 
-        public void addBeaconNumber(int _beaconNumber)
+        public void addRecieverNumber(int _beaconNumber)
         {
             beacon.addBeaconNumber(_beaconNumber);
         }
@@ -18,7 +18,7 @@ namespace triangulation_alpha0._2
         {
             beacon.addSignalStrength(signal_streangth);
         }
-        public Reciever addBeacon()
+        public Reciever addReciever()
         {
             Console.WriteLine("beacon added...:");
             return beacon;
