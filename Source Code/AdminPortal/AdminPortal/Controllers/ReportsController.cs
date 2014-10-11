@@ -23,10 +23,17 @@ namespace AdminPortal.Controllers {
         }
 
         // GET: TagssReport
-        public ActionResult TagsReport()
+        public ActionResult TagsReport(int? SelectedRestaurant)
         {
-            ViewBag.data = db;
-            return View(db.Tags.ToList());
+            var restaurants = db.Restaurants.OrderBy(q => q.Name).ToList();
+            ViewBag.SelectedRestaurant = new SelectList(restaurants, "ID", "Name", SelectedRestaurant);
+            int restaurantID = SelectedRestaurant.GetValueOrDefault();
+
+            IQueryable<Tag> tags = db.Tags
+                .Where(t => !SelectedRestaurant.HasValue || t.Restaurant == restaurantID)
+                .OrderBy(r => r.ID);
+            var sql = tags.ToString();
+            return View(tags.ToList());
         }
 
 		protected override void Dispose(bool disposing) {

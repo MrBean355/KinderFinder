@@ -43,9 +43,9 @@
 
         <!-- CURRENT USER -->
         <div class="form-group">
-            @Html.LabelFor(model => model.CurrentUser, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CurrentUser, "Current User", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("CurrentUser", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("AppUsersID", String.Empty)
                 @Html.ValidationMessageFor(model => model.CurrentUser, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -56,6 +56,15 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.OutOfOrder, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.OutOfOrder, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <!-- LAST ACCESSED -->
+        <div class="form-group">
+            @Html.LabelFor(model => model.LastAccessed, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LastAccessed, new { htmlAttributes = new { @class = "form-control"}})
+                @Html.ValidationMessageFor(model => model.LastAccessed)
             </div>
         </div>
 

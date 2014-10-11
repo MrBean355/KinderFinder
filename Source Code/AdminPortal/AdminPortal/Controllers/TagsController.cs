@@ -71,7 +71,7 @@ namespace AdminPortal.Controllers {
 
 		// GET: Tags/Create
 		public ActionResult Create() {
-			ViewBag.CurrentUser = new SelectList(db.AppUsers, "ID", "FirstName");
+            PopulateAppUsersDropDownList();
 
 			if (User.IsInRole("GlobalAdmins"))
 				ViewBag.Restaurant = new SelectList(db.Restaurants, "ID", "Name");
@@ -120,8 +120,6 @@ namespace AdminPortal.Controllers {
 			if (tag == null)
 				return HttpNotFound();
 
-			ViewBag.CurrentUser = new SelectList(db.AppUsers, "ID", "FirstName", tag.CurrentUser);
-
 			if (User.IsInRole("GlobalAdmins"))
 				ViewBag.Restaurant = new SelectList(db.Restaurants, "ID", "Name");
 			else {
@@ -139,7 +137,11 @@ namespace AdminPortal.Controllers {
 
 				ViewBag.Restaurant = new SelectList(list, "ID", "Name");
 			}
-
+            if (tag.OutOfOrder == false)
+            {
+                tag.LastAccessed = System.DateTime.Now;
+            }
+            PopulateAppUsersDropDownList(tag.CurrentUser);
 			return View(tag);
 		}
 
@@ -155,6 +157,15 @@ namespace AdminPortal.Controllers {
 
 			return View(tag);
 		}
+
+        //@param: selectedAppUser - is the selected current user.
+        private void PopulateAppUsersDropDownList(object selectedAppUser = null)
+        {
+            var AppUsersQuery = from d in db.AppUsers
+                                   orderby d.Surname
+                                   select d;
+            ViewBag.AppUsersID = new SelectList(AppUsersQuery, "ID", "FirstName", selectedAppUser);
+        }
 
 		// GET: Tags/Delete/5
 		public ActionResult Delete(int? id) {

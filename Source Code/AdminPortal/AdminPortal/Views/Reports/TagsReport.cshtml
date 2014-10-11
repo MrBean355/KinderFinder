@@ -11,11 +11,25 @@
 
 <h2>@ViewBag.Title</h2>
 
+@using (Html.BeginForm())
+{
+    <p>
+        Select Restaurant: @Html.DropDownList("SelectedRestaurant", "All")
+        <input type="submit" value="Filter" />
+    </p>
+}
+
 <table class="table">
     <tr>
         <th>Tag Name</th>
         <th>Restaurant Name</th>
         <th>Current User</th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastAccessed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OutOfOrder)
+        </th>
     </tr>
     @foreach (var item in Model)
     {
@@ -23,19 +37,23 @@
         {
             ViewBag.OutOfOrderTagsCount++;
         }
-        else
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Label)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Restaurant1.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AppUser.FirstName)
-                </td>
-            </tr> }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Label)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Restaurant1.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppUser.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastAccessed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OutOfOrder)
+            </td>
+        </tr>
     }
 </table>
 
