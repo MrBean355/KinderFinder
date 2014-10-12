@@ -5,21 +5,22 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="fba51d1021e64e53839a9ea0fcd42055" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.AppUser" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.AspNetRole" Width="1.5" PointX="0.75" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.AspNetUser" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model.Tag" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AppUser" Width="1.5" PointX="9.625" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetRole" Width="1.5" PointX="0.5" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUser" Width="1.5" PointX="2.875" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Tag" Width="1.5" PointX="12.625" PointY="0.5" IsExpanded="true" />
         <AssociationConnector Association="Model.FK__Tag__CurrentUser__17036CC0" ManuallyRouted="false" />
         <AssociationConnector Association="Model.AspNetUserRoles" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="Model.Restaurant" Width="1.5" PointX="5.25" PointY="5.75" />
+        <EntityTypeShape EntityType="Model.Restaurant" Width="1.5" PointX="5.625" PointY="0.5" IsExpanded="true" />
         <AssociationConnector Association="Model.FK__AppUser__Current__02FC7413" />
         <AssociationConnector Association="Model.FK__Restauran__Admin__72C60C4A" />
         <AssociationConnector Association="Model.FK__Tag__Restaurant__2739D489" />
-        <EntityTypeShape EntityType="Model.Transmitter" Width="1.5" PointX="7.5" PointY="6" />
+        <EntityTypeShape EntityType="Model.Transmitter" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
         <AssociationConnector Association="Model.FK__Transmitt__Resta__756D6ECB" />
-        <EntityTypeShape EntityType="Model.AppUserStat" Width="1.5" PointX="7.5" PointY="2.625" />
+        <EntityTypeShape EntityType="Model.AppUserStat" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
         <AssociationConnector Association="Model.FK__AppUserSt__AppUs__2EA5EC27" />
         <AssociationConnector Association="Model.FK__AppUserSt__LastR__40C49C62" />
+        <AssociationConnector Association="Model.RestaurantAspNetUser" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

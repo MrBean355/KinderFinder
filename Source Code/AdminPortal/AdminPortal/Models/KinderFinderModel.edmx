@@ -70,6 +70,14 @@
           <Property Name="Map" Type="image" />
           <Property Name="Admin" Type="nvarchar" MaxLength="128" />
         </EntityType>
+        <EntityType Name="RestaurantAspNetUser">
+          <Key>
+            <PropertyRef Name="RestaurantID" />
+            <PropertyRef Name="AspNetUserID" />
+          </Key>
+          <Property Name="RestaurantID" Type="int" Nullable="false" />
+          <Property Name="AspNetUserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
         <EntityType Name="Tag">
           <Key>
             <PropertyRef Name="ID" />
@@ -204,6 +212,34 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_RestaurantAspNetUser_dbo_AspNetUsers_AspNetUserID">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RestaurantAspNetUser" Type="Self.RestaurantAspNetUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RestaurantAspNetUser">
+              <PropertyRef Name="AspNetUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_RestaurantAspNetUser_dbo_Restaurant_CourseID">
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RestaurantAspNetUser" Type="Self.RestaurantAspNetUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="RestaurantAspNetUser">
+              <PropertyRef Name="RestaurantID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="AppUser" EntityType="Self.AppUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AppUserStats" EntityType="Self.AppUserStats" Schema="dbo" store:Type="Tables" />
@@ -211,6 +247,7 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Restaurant" EntityType="Self.Restaurant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RestaurantAspNetUser" EntityType="Self.RestaurantAspNetUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tag" EntityType="Self.Tag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transmitter" EntityType="Self.Transmitter" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__AppUser__Current__02FC7413" Association="Self.FK__AppUser__Current__02FC7413">
@@ -248,6 +285,14 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_RestaurantAspNetUser_dbo_AspNetUsers_AspNetUserID" Association="Self.FK_dbo_RestaurantAspNetUser_dbo_AspNetUsers_AspNetUserID">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="RestaurantAspNetUser" EntitySet="RestaurantAspNetUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_RestaurantAspNetUser_dbo_Restaurant_CourseID" Association="Self.FK_dbo_RestaurantAspNetUser_dbo_Restaurant_CourseID">
+            <End Role="Restaurant" EntitySet="Restaurant" />
+            <End Role="RestaurantAspNetUser" EntitySet="RestaurantAspNetUser" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -297,6 +342,7 @@
           <Property Name="LastLogin" Type="DateTime" Precision="3" />
           <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
           <NavigationProperty Name="Restaurants" Relationship="Model.FK__Restauran__Admin__72C60C4A" FromRole="AspNetUser" ToRole="Restaurant" />
+          <NavigationProperty Name="Restaurants1" Relationship="Model.RestaurantAspNetUser" FromRole="AspNetUser" ToRole="Restaurant" />
         </EntityType>
         <EntityType Name="Tag">
           <Key>
@@ -368,6 +414,10 @@
             <End Role="Restaurant" EntitySet="Restaurants" />
             <End Role="AppUserStat" EntitySet="AppUserStats" />
           </AssociationSet>
+          <AssociationSet Name="RestaurantAspNetUser" Association="Model.RestaurantAspNetUser">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="Restaurant" EntitySet="Restaurants" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Restaurant">
           <Key>
@@ -382,6 +432,7 @@
           <NavigationProperty Name="Tags" Relationship="Model.FK__Tag__Restaurant__2739D489" FromRole="Restaurant" ToRole="Tag" />
           <NavigationProperty Name="Transmitters" Relationship="Model.FK__Transmitt__Resta__756D6ECB" FromRole="Restaurant" ToRole="Transmitter" />
           <NavigationProperty Name="AppUserStats" Relationship="Model.FK__AppUserSt__LastR__40C49C62" FromRole="Restaurant" ToRole="AppUserStat" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Model.RestaurantAspNetUser" FromRole="Restaurant" ToRole="AspNetUser" />
         </EntityType>
         <Association Name="FK__AppUser__Current__02FC7413">
           <End Type="Model.Restaurant" Role="Restaurant" Multiplicity="0..1" />
@@ -477,6 +528,10 @@
               <PropertyRef Name="LastRestaurant" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="RestaurantAspNetUser">
+          <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+          <End Type="Model.Restaurant" Role="Restaurant" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -578,6 +633,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="RestaurantAspNetUser" TypeName="Model.RestaurantAspNetUser" StoreEntitySet="RestaurantAspNetUser">
+            <EndProperty Name="Restaurant">
+              <ScalarProperty Name="ID" ColumnName="RestaurantID" />
+            </EndProperty>
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="AspNetUserID" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

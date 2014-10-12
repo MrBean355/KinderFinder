@@ -20,6 +20,7 @@ namespace AdminPortal.Models
             this.Tags = new HashSet<Tag>();
             this.Transmitters = new HashSet<Transmitter>();
             this.AppUserStats = new HashSet<AppUserStat>();
+            this.AspNetUsers = new HashSet<AspNetUser>();
         }
     
         public int ID { get; set; }
@@ -32,5 +33,6 @@ namespace AdminPortal.Models
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<Transmitter> Transmitters { get; set; }
         public virtual ICollection<AppUserStat> AppUserStats { get; set; }
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
     }
 }
