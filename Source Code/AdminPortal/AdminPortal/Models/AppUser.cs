@@ -30,5 +30,6 @@ namespace AdminPortal.Models
     
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual Restaurant Restaurant { get; set; }
+        public virtual AppUserStat AppUserStat { get; set; }
     }
 }

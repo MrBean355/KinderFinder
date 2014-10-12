@@ -14,7 +14,7 @@
 @using (Html.BeginForm())
 {
     <p>
-        Select Restaurant: @Html.DropDownList("SelectedRestaurant", "All")
+        Select Restaurant: @Html.DropDownList("SelectedRestaurant", ViewBag.DropdownListOptionLabel as String)
         <input type="submit" value="Filter" />
     </p>
 }

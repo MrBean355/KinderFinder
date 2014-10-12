@@ -17,6 +17,9 @@
         <AssociationConnector Association="Model.FK__Tag__Restaurant__2739D489" />
         <EntityTypeShape EntityType="Model.Transmitter" Width="1.5" PointX="7.5" PointY="6" />
         <AssociationConnector Association="Model.FK__Transmitt__Resta__756D6ECB" />
+        <EntityTypeShape EntityType="Model.AppUserStat" Width="1.5" PointX="7.5" PointY="2.625" />
+        <AssociationConnector Association="Model.FK__AppUserSt__AppUs__2EA5EC27" />
+        <AssociationConnector Association="Model.FK__AppUserSt__LastR__40C49C62" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

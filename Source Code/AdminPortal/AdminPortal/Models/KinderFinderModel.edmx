@@ -18,6 +18,16 @@
           <Property Name="CurrentRestaurant" Type="int" />
           <Property Name="LastLogin" Type="datetime" />
         </EntityType>
+        <EntityType Name="AppUserStats">
+          <Key>
+            <PropertyRef Name="AppUserID" />
+          </Key>
+          <Property Name="AppUserID" Type="int" Nullable="false" />
+          <Property Name="FullName" Type="varchar(max)" />
+          <Property Name="VisitCount" Type="int" />
+          <Property Name="LastRestaurant" Type="int" />
+          <Property Name="LastVisit" Type="datetime" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -91,6 +101,30 @@
             </Principal>
             <Dependent Role="AppUser">
               <PropertyRef Name="CurrentRestaurant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AppUserSt__AppUs__2EA5EC27">
+          <End Role="AppUser" Type="Self.AppUser" Multiplicity="1" />
+          <End Role="AppUserStats" Type="Self.AppUserStats" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AppUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AppUserStats">
+              <PropertyRef Name="AppUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AppUserSt__LastR__40C49C62">
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="0..1" />
+          <End Role="AppUserStats" Type="Self.AppUserStats" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AppUserStats">
+              <PropertyRef Name="LastRestaurant" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -172,6 +206,7 @@
         </Association>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="AppUser" EntityType="Self.AppUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AppUserStats" EntityType="Self.AppUserStats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
@@ -181,6 +216,14 @@
           <AssociationSet Name="FK__AppUser__Current__02FC7413" Association="Self.FK__AppUser__Current__02FC7413">
             <End Role="Restaurant" EntitySet="Restaurant" />
             <End Role="AppUser" EntitySet="AppUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AppUserSt__AppUs__2EA5EC27" Association="Self.FK__AppUserSt__AppUs__2EA5EC27">
+            <End Role="AppUser" EntitySet="AppUser" />
+            <End Role="AppUserStats" EntitySet="AppUserStats" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AppUserSt__LastR__40C49C62" Association="Self.FK__AppUserSt__LastR__40C49C62">
+            <End Role="Restaurant" EntitySet="Restaurant" />
+            <End Role="AppUserStats" EntitySet="AppUserStats" />
           </AssociationSet>
           <AssociationSet Name="FK__Restauran__Admin__72C60C4A" Association="Self.FK__Restauran__Admin__72C60C4A">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -225,6 +268,7 @@
           <Property Name="LastLogin" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Tags" Relationship="Self.FK__Tag__CurrentUser__17036CC0" FromRole="AppUser" ToRole="Tag" />
           <NavigationProperty Name="Restaurant" Relationship="Model.FK__AppUser__Current__02FC7413" FromRole="AppUser" ToRole="Restaurant" />
+          <NavigationProperty Name="AppUserStat" Relationship="Model.FK__AppUserSt__AppUs__2EA5EC27" FromRole="AppUser" ToRole="AppUserStat" />
         </EntityType>
         <EntityType Name="AspNetRole">
           <Key>
@@ -315,6 +359,15 @@
             <End Role="Restaurant" EntitySet="Restaurants" />
             <End Role="Transmitter" EntitySet="Transmitters" />
           </AssociationSet>
+          <EntitySet Name="AppUserStats" EntityType="Model.AppUserStat" />
+          <AssociationSet Name="FK__AppUserSt__AppUs__2EA5EC27" Association="Model.FK__AppUserSt__AppUs__2EA5EC27">
+            <End Role="AppUser" EntitySet="AppUsers" />
+            <End Role="AppUserStat" EntitySet="AppUserStats" />
+          </AssociationSet>
+          <AssociationSet Name="FK__AppUserSt__LastR__40C49C62" Association="Model.FK__AppUserSt__LastR__40C49C62">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="AppUserStat" EntitySet="AppUserStats" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Restaurant">
           <Key>
@@ -328,6 +381,7 @@
           <NavigationProperty Name="AspNetUser" Relationship="Model.FK__Restauran__Admin__72C60C4A" FromRole="Restaurant" ToRole="AspNetUser" />
           <NavigationProperty Name="Tags" Relationship="Model.FK__Tag__Restaurant__2739D489" FromRole="Restaurant" ToRole="Tag" />
           <NavigationProperty Name="Transmitters" Relationship="Model.FK__Transmitt__Resta__756D6ECB" FromRole="Restaurant" ToRole="Transmitter" />
+          <NavigationProperty Name="AppUserStats" Relationship="Model.FK__AppUserSt__LastR__40C49C62" FromRole="Restaurant" ToRole="AppUserStat" />
         </EntityType>
         <Association Name="FK__AppUser__Current__02FC7413">
           <End Type="Model.Restaurant" Role="Restaurant" Multiplicity="0..1" />
@@ -385,6 +439,42 @@
             </Principal>
             <Dependent Role="Transmitter">
               <PropertyRef Name="Restaurant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AppUserStat">
+          <Key>
+            <PropertyRef Name="AppUserID" />
+          </Key>
+          <Property Name="AppUserID" Type="Int32" Nullable="false" />
+          <Property Name="FullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="VisitCount" Type="Int32" />
+          <Property Name="LastRestaurant" Type="Int32" />
+          <Property Name="LastVisit" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AppUser" Relationship="Model.FK__AppUserSt__AppUs__2EA5EC27" FromRole="AppUserStat" ToRole="AppUser" />
+          <NavigationProperty Name="Restaurant" Relationship="Model.FK__AppUserSt__LastR__40C49C62" FromRole="AppUserStat" ToRole="Restaurant" />
+        </EntityType>
+        <Association Name="FK__AppUserSt__AppUs__2EA5EC27">
+          <End Type="Model.AppUser" Role="AppUser" Multiplicity="1" />
+          <End Type="Model.AppUserStat" Role="AppUserStat" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AppUser">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AppUserStat">
+              <PropertyRef Name="AppUserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__AppUserSt__LastR__40C49C62">
+          <End Type="Model.Restaurant" Role="Restaurant" Multiplicity="0..1" />
+          <End Type="Model.AppUserStat" Role="AppUserStat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AppUserStat">
+              <PropertyRef Name="LastRestaurant" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -474,6 +564,17 @@
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Restaurant" ColumnName="Restaurant" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AppUserStats">
+            <EntityTypeMapping TypeName="Model.AppUserStat">
+              <MappingFragment StoreEntitySet="AppUserStats">
+                <ScalarProperty Name="LastVisit" ColumnName="LastVisit" />
+                <ScalarProperty Name="LastRestaurant" ColumnName="LastRestaurant" />
+                <ScalarProperty Name="VisitCount" ColumnName="VisitCount" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="AppUserID" ColumnName="AppUserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

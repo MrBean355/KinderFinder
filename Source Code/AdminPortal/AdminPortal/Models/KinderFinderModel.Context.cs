@@ -31,5 +31,6 @@ namespace AdminPortal.Models
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<Restaurant> Restaurants { get; set; }
         public virtual DbSet<Transmitter> Transmitters { get; set; }
+        public virtual DbSet<AppUserStat> AppUserStats { get; set; }
     }
 }

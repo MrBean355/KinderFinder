@@ -214,6 +214,9 @@
     <Compile Include="Models\AppUser.cs">
       <DependentUpon>KinderFinderModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AppUserStat.cs">
+      <DependentUpon>KinderFinderModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspNetRole.cs">
       <DependentUpon>KinderFinderModel.tt</DependentUpon>
     </Compile>

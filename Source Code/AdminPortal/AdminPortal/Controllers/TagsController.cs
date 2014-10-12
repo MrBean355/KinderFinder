@@ -158,7 +158,10 @@ namespace AdminPortal.Controllers {
 			return View(tag);
 		}
 
-        //@param: selectedAppUser - is the selected current user.
+        /// <summary>
+        /// A viewbag called AppUsersID that contains the select list items for a drop down list.
+        /// </summary>
+        /// <param name="selectedAppUser">the default app user selected on the drop down list.</param>
         private void PopulateAppUsersDropDownList(object selectedAppUser = null)
         {
             var AppUsersQuery = from d in db.AppUsers

@@ -1,5 +1,6 @@
 ﻿using AdminPortal.Models;
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -17,22 +18,76 @@ namespace AdminPortal.Controllers {
 		}
 
         // GET: AppUsersReport
-        public ActionResult AppUsersReport()
+        public ActionResult AppUsersReport(int? SelectedRestaurant = null)
         {
-            return View(db.AppUsers.ToList());
+            IQueryable<AppUserStat> appUsers;
+            int restaurantID = SelectedRestaurant.GetValueOrDefault();
+            if (User.IsInRole("GlobalAdmins"))
+            {
+                var restaurants = db.Restaurants.OrderBy(q => q.Name).ToList();
+                ViewBag.SelectedRestaurant = new SelectList(restaurants, "ID", "Name", SelectedRestaurant);
+                restaurantID = SelectedRestaurant.GetValueOrDefault();
+                appUsers = db.AppUserStats
+                    .Where(t => !SelectedRestaurant.HasValue || t.LastRestaurant == restaurantID)
+                    .OrderBy(r => r.VisitCount);
+                ViewBag.DropdownListOptionLabel = "All";
+            }
+            else
+            {
+                // Fetches all tags that belong to the current admin.
+                // Basically gets all tags owned by restaurants that the user is an admin of.
+                var restaurants = from user in db.AspNetUsers
+                                  join rest in db.Restaurants
+                                      on user.Id equals rest.Admin
+                                  where user.UserName.Equals(User.Identity.Name)
+                                  orderby rest.Name
+                                  select rest;
+
+                ViewBag.SelectedRestaurant = new SelectList(restaurants, "ID", "Name", SelectedRestaurant);
+                restaurantID = SelectedRestaurant.GetValueOrDefault();
+                appUsers = db.AppUserStats
+                    .Where(t => SelectedRestaurant.HasValue || t.LastRestaurant == restaurantID)
+                    .OrderBy(r => r.VisitCount);
+                ViewBag.DropdownListOptionLabel = System.String.Empty;
+            }
+
+            return View(appUsers.ToList());
         }
 
-        // GET: TagssReport
-        public ActionResult TagsReport(int? SelectedRestaurant)
+        // GET: TagsReport
+        public ActionResult TagsReport(int? SelectedRestaurant = null)
         {
-            var restaurants = db.Restaurants.OrderBy(q => q.Name).ToList();
-            ViewBag.SelectedRestaurant = new SelectList(restaurants, "ID", "Name", SelectedRestaurant);
+            IQueryable<Tag> tags;
             int restaurantID = SelectedRestaurant.GetValueOrDefault();
+            if (User.IsInRole("GlobalAdmins"))
+            {
+                var restaurants = db.Restaurants.OrderBy(q => q.Name).ToList();
+                ViewBag.SelectedRestaurant = new SelectList(restaurants, "ID", "Name", SelectedRestaurant);
+                restaurantID = SelectedRestaurant.GetValueOrDefault();
+                tags = db.Tags
+                    .Where(t => !SelectedRestaurant.HasValue || t.Restaurant == restaurantID)
+                    .OrderBy(r => r.ID);
+                ViewBag.DropdownListOptionLabel = "All";
+            }
+            else
+            {
+                // Fetches all tags that belong to the current admin.
+                // Basically gets all tags owned by restaurants that the user is an admin of.
+                var restaurants = from user in db.AspNetUsers
+                                  join rest in db.Restaurants
+                                      on user.Id equals rest.Admin
+                                      where user.UserName.Equals(User.Identity.Name)
+                                      orderby rest.Name
+                                      select rest;           
 
-            IQueryable<Tag> tags = db.Tags
-                .Where(t => !SelectedRestaurant.HasValue || t.Restaurant == restaurantID)
-                .OrderBy(r => r.ID);
-            var sql = tags.ToString();
+                ViewBag.SelectedRestaurant = new SelectList(restaurants, "ID", "Name", SelectedRestaurant);
+                restaurantID = SelectedRestaurant.GetValueOrDefault();
+                tags = db.Tags
+                    .Where(t => SelectedRestaurant.HasValue || t.Restaurant == restaurantID)
+                    .OrderBy(r => r.ID);
+                ViewBag.DropdownListOptionLabel = System.String.Empty;
+            }
+
             return View(tags.ToList());
         }
 

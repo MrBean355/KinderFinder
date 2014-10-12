@@ -2,13 +2,54 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@model IEnumerable<AdminPortal.Models.AppUser>
+@model IEnumerable<AdminPortal.Models.AppUserStat>
 
 @{
     ViewBag.Title = "App Users Statistics";
 }
 
 <h2>@ViewBag.Title</h2>
+@using (Html.BeginForm())
+{
+    <p>
+        Select Restaurant: @Html.DropDownList("SelectedRestaurant", ViewBag.DropdownListOptionLabel as String)
+        <input type="submit" value="Filter" />
+    </p>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(m => m.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(m => m.LastRestaurant)
+        </th>
+        <th>
+            @Html.DisplayNameFor(m => m.LastVisit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(m => m.VisitCount)
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Restaurant.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastVisit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitCount)
+            </td>
+        </tr>
+    }
+</table>
 
 <table>
     <tr>
@@ -20,7 +61,7 @@
         <td>@Model.Count()</td>
     </tr>
 </table>
-
+<br />
 <div>
     @Html.ActionLink("Printable report", "", "WebForms/AppUserReport.aspx")
     <br />
