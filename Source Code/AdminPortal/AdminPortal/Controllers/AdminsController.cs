@@ -48,19 +48,18 @@ namespace AdminPortal.Controllers {
 			return View(user);
 		}
 
-		// GET: Admins/Create
-		public ActionResult Create() {
-			if (!User.IsInRole("GlobalAdmins"))
-				return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+        //// GET: Admins/Create
+        //public ActionResult Create() {
+        //    if (!User.IsInRole("GlobalAdmins"))
+        //        return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+        //    return View();
+        //}
 
-			return View();
-		}
-
-		// POST: Admins/Create
-		[HttpPost]
-		public ActionResult Create(AspNetUser user) {
-			return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-		}
+        //// POST: Admins/Create
+        //[HttpPost]
+        //public ActionResult Create(AspNetUser user) {
+        //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //}
 
 		// GET: Admins/Edit/5
 		public ActionResult Edit(string id) {
@@ -98,8 +97,8 @@ namespace AdminPortal.Controllers {
 
 		// POST: Admins/Edit/5
 		[HttpPost]
-		public ActionResult Edit(int? id, string[] selectedRestaurants) {
-            var userToUpdate = db.AspNetUsers
+		public ActionResult Edit(string id, string[] selectedRestaurants) {
+            AspNetUser userToUpdate = db.AspNetUsers
                 .Find(id);
 
 			if (ModelState.IsValid) {
@@ -170,9 +169,12 @@ namespace AdminPortal.Controllers {
 
 		// POST: Admins/Delete/5
 		[HttpPost]
-		public ActionResult Delete(int id, FormCollection collection) {
+		public ActionResult Delete(string id, FormCollection collection) {
 			try {
-				// TODO: Add delete logic here
+                AspNetUser user = db.AspNetUsers.Find(id);
+                user.Restaurants1 = null;
+                db.AspNetUsers.Remove(user);
+                db.SaveChanges();
 
 				return RedirectToAction("Index");
 			}
