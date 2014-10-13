@@ -24,7 +24,6 @@ namespace KinderFinder {
 		static TagConfigActivity() {
 			Colours = new Dictionary<string, string>();
 			Colours.Add("Black", "000000");
-			Colours.Add("Red", "FF0000");
 			Colours.Add("Green", "00FF00");
 			Colours.Add("Blue", "0000FF");
 			Colours.Add("Yellow", "FFD700");
@@ -55,26 +54,23 @@ namespace KinderFinder {
 			}
 
 			ColourSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, items);
-
 			CurrentTag = pref.GetString(Settings.Keys.CURRENT_TAG, "");
 
 			if (!CurrentTag.Equals("")) {
 				string name = pref.GetString(CurrentTag + Settings.Keys.TAG_NAME, "");
 				string colour = pref.GetString(CurrentTag + Settings.Keys.TAG_COLOUR, "");
+				string toMatch = !colour.Equals("") ? colour : Settings.Map.DEFAULT_DOT_COLOUR;
+				int pos = 0;
 
 				NameBox.Text = name;
 
-				if (!colour.Equals("")) {
-					int pos = 0;
-
-					foreach (var item in Colours) {
-						if (colour.Equals(item.Value)) {
-							ColourSpinner.SetSelection(pos);
-							break;
-						}
-
-						pos++;
+				foreach (var item in Colours) {
+					if (item.Value.Equals(toMatch)) {
+						ColourSpinner.SetSelection(pos);
+						break;
 					}
+
+					pos++;
 				}
 			}
 			else {

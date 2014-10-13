@@ -255,15 +255,14 @@ namespace KinderFinder {
 					if (name.Equals(""))
 						name = Settings.Map.UNKNOWN_NAME_TEXT;
 
-					if (!colour.Equals("")) {
-						int r = Convert.ToInt32(colour.Substring(0, 2), 16);
-						int g = Convert.ToInt32(colour.Substring(2, 2), 16);
-						int b = Convert.ToInt32(colour.Substring(4, 2), 16);
-						paint.SetARGB(Settings.Map.DOT_COLOUR_ALPHA, r, g, b);
-					}
-					else
-						paint.SetARGB(Settings.Map.DOT_COLOUR_ALPHA, Settings.Map.DOT_COLOUR_RED, Settings.Map.DOT_COLOUR_GREEN, Settings.Map.DOT_COLOUR_BLUE);
+					if (colour.Equals(""))
+						colour = Settings.Map.DEFAULT_DOT_COLOUR;
 
+					int r = Convert.ToInt32(colour.Substring(0, 2), 16);
+					int g = Convert.ToInt32(colour.Substring(2, 2), 16);
+					int b = Convert.ToInt32(colour.Substring(4, 2), 16);
+
+					paint.SetARGB(Settings.Map.DOT_COLOUR_ALPHA, r, g, b);
 					canvas.DrawCircle(x, y, Settings.Map.DOT_SIZE_RADIUS, paint);
 					canvas.DrawText(name, x - 30, y - 25, paint);
 				}
