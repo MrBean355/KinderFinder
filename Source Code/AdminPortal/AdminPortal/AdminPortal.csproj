@@ -192,6 +192,8 @@
     <Compile Include="Controllers\AppUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\WebAPI\Accounts\EditDetailsController.cs" />
+    <Compile Include="Controllers\WebAPI\Accounts\GetDetailsController.cs" />
     <Compile Include="Controllers\WebAPI\Accounts\LoginController.cs" />
     <Compile Include="Controllers\WebAPI\Maps\MapSizeController.cs" />
     <Compile Include="Controllers\WebAPI\Maps\MapController.cs" />

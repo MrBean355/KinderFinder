@@ -9,6 +9,7 @@ using Android.Graphics;
 using Android.Graphics.Drawables;
 using Android.Media;
 using Android.OS;
+using Android.Views;
 using Android.Widget;
 
 using KinderFinder.Utility;
@@ -27,16 +28,33 @@ namespace KinderFinder {
 		Bitmap OriginalMap;
 		Timer Timer;
 
-		public override bool OnCreateOptionsMenu(Android.Views.IMenu menu) {
+		/// <summary>
+		/// Keeps track of each tag that is out of range, so that we only display a notification once for each tag.
+		/// </summary>
+		List<string> OutOfRange = new List<string>();
+		/// <summary>
+		/// Remembers each tag's last location, so that when a tag is out of range, we can display its last know
+		/// location.
+		/// </summary>
+		Dictionary<string, Point> PrevLocations = new Dictionary<string, Point>();
+
+		public override bool OnCreateOptionsMenu(IMenu menu) {
 			base.OnCreateOptionsMenu(menu);
 			MenuInflater.Inflate(Resource.Menu.MainMenu, menu);
 			return base.OnCreateOptionsMenu(menu);
 		}
 
-		public override bool OnOptionsItemSelected(Android.Views.IMenuItem item) {
+		public override bool OnOptionsItemSelected(IMenuItem item) {
 			base.OnOptionsItemSelected(item);
 
 			switch (item.ItemId) {
+				case Resource.Id.Menu_ChangeRestaurant:
+					StartActivity(new Intent(this, typeof(RestaurantListActivity)));
+					Finish();
+					break;
+				case Resource.Id.Menu_EditDetails:
+					StartActivity(new Intent(this, typeof(EditDetailsActivity)));
+					break;
 				case Resource.Id.Menu_LogOut:
 					editor.Clear();
 					editor.Commit();
@@ -164,10 +182,6 @@ namespace KinderFinder {
 			}
 		}
 
-		List<string> OutOfRange = new List<string>();
-		//List<TagData> PrevLocations = new List<TagData>();
-		Dictionary<string, Point> PrevLocations = new Dictionary<string, Point>();
-
 		/// <summary>
 		/// Updates the map by drawing the locations of the tracked tags.
 		/// </summary>
@@ -209,6 +223,7 @@ namespace KinderFinder {
 				foreach (var data in locations) {
 					int x = 0;
 					int y = 0;
+					bool outOfRange = false;
 
 					// Tag out of range; play alarm and load last position:
 					if (data.PosX.Equals(Settings.SpecialPoints.OUT_OF_RANGE) && data.PosY.Equals(Settings.SpecialPoints.OUT_OF_RANGE)) {
@@ -224,6 +239,8 @@ namespace KinderFinder {
 						}
 						else
 							continue;
+
+						outOfRange = true;
 					}
 					// Tag in range; position normally:
 					else {
@@ -239,7 +256,6 @@ namespace KinderFinder {
 						// Tag was previously out of range but isn't anymore:
 						if (OutOfRange.Contains(data.Name)) {
 							OutOfRange.Remove(data.Name);
-							//RunOnUiThread(() => Toast.MakeText(this, "Tag back in range", ToastLength.Short).Show());
 							var dialog = new AlertDialog.Builder(this);
 							dialog.SetTitle("Tag In Range");
 
@@ -254,6 +270,9 @@ namespace KinderFinder {
 
 					if (name.Equals(""))
 						name = Settings.Map.UNKNOWN_NAME_TEXT;
+
+					if (outOfRange)
+						name = "(!)" + name;
 
 					if (colour.Equals(""))
 						colour = Settings.Map.DEFAULT_DOT_COLOUR;

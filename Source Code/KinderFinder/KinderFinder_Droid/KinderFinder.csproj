@@ -68,6 +68,7 @@
     <Compile Include="Utility\Settings.cs" />
     <Compile Include="TagConfigActivity.cs" />
     <Compile Include="Utility\Deserialiser.cs" />
+    <Compile Include="EditDetailsActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -79,6 +80,7 @@
     <AndroidResource Include="Resources\menu\MainMenu.xml" />
     <AndroidResource Include="Resources\layout\TagConfig.axml" />
     <AndroidResource Include="Resources\raw\OutOfRangeAlarm.mp3" />
+    <AndroidResource Include="Resources\layout\EditDetails.axml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />

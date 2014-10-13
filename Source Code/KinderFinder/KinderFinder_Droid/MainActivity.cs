@@ -5,6 +5,7 @@ using System.Threading;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
 
@@ -23,22 +24,37 @@ namespace KinderFinder {
 			registerButton;
 		ProgressBar progressBar;
 
-		public override bool OnCreateOptionsMenu(Android.Views.IMenu menu) {
+		public override bool OnCreateOptionsMenu(IMenu menu) {
 			base.OnCreateOptionsMenu(menu);
 			MenuInflater.Inflate(Resource.Menu.MainMenu, menu);
 
 			int items = menu.Size();
-			menu.GetItem(items - 2).SetEnabled(false); // disable log out item (second-last one).
+			menu.GetItem(items - 2).SetEnabled(false); // disable log out item.
+			menu.GetItem(items - 3).SetEnabled(false); // disable edit details item.
+			menu.GetItem(items - 4).SetEnabled(false); // disable change restaurant item.
 
 			return base.OnCreateOptionsMenu(menu);
 		}
 
-		public override bool OnOptionsItemSelected(Android.Views.IMenuItem item) {
+		public override bool OnOptionsItemSelected(IMenuItem item) {
 			base.OnOptionsItemSelected(item);
 
 			switch (item.ItemId) {
+				case Resource.Id.Menu_ChangeRestaurant:
+					StartActivity(new Intent(this, typeof(RestaurantListActivity)));
+					Finish();
+					break;
+				case Resource.Id.Menu_EditDetails:
+					StartActivity(new Intent(this, typeof(EditDetailsActivity)));
+					break;
+				case Resource.Id.Menu_LogOut:
+					editor.Clear();
+					editor.Commit();
+					StartActivity(new Intent(this, typeof(MainActivity)));
+					Finish();
+					break;
 				case Resource.Id.Menu_Exit:
-					System.Environment.Exit(0); // TODO: Find a better way to do this.
+					System.Environment.Exit(0);
 					break;
 				default:
 					Toast.MakeText(this, "Unknown menu item selected", ToastLength.Short).Show();

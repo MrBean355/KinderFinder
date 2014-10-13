@@ -32,6 +32,13 @@ namespace KinderFinder {
 			base.OnOptionsItemSelected(item);
 
 			switch (item.ItemId) {
+				case Resource.Id.Menu_ChangeRestaurant:
+					StartActivity(new Intent(this, typeof(RestaurantListActivity)));
+					Finish();
+					break;
+				case Resource.Id.Menu_EditDetails:
+					StartActivity(new Intent(this, typeof(EditDetailsActivity)));
+					break;
 				case Resource.Id.Menu_LogOut:
 					editor.Clear();
 					editor.Commit();

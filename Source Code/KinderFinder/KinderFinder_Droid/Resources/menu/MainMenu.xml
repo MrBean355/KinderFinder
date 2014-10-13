@@ -3,6 +3,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/MainMenu" >
 
+	<item android:id="@+id/Menu_ChangeRestaurant"
+	    android:title="Change Restaurant" />
+
+	<item android:id="@+id/Menu_EditDetails"
+	    android:title="Edit Details" />
+
 	<item android:id="@+id/Menu_LogOut"
 	    android:title="Log Out" />
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Views;
 using Android.Widget;
 
 using KinderFinder.Utility;
@@ -30,6 +31,40 @@ namespace KinderFinder {
 			Colours.Add("Purple", "FF00FF");
 			Colours.Add("Pink", "FFC0CB");
 			Colours.Add("Orange", "FF8C00");
+		}
+
+		public override bool OnCreateOptionsMenu(IMenu menu) {
+			base.OnCreateOptionsMenu(menu);
+			MenuInflater.Inflate(Resource.Menu.MainMenu, menu);
+			return base.OnCreateOptionsMenu(menu);
+		}
+
+		public override bool OnOptionsItemSelected(IMenuItem item) {
+			base.OnOptionsItemSelected(item);
+
+			switch (item.ItemId) {
+				case Resource.Id.Menu_ChangeRestaurant:
+					StartActivity(new Intent(this, typeof(RestaurantListActivity)));
+					Finish();
+					break;
+				case Resource.Id.Menu_EditDetails:
+					StartActivity(new Intent(this, typeof(EditDetailsActivity)));
+					break;
+				case Resource.Id.Menu_LogOut:
+					editor.Clear();
+					editor.Commit();
+					StartActivity(new Intent(this, typeof(MainActivity)));
+					Finish();
+					break;
+				case Resource.Id.Menu_Exit:
+					System.Environment.Exit(0);
+					break;
+				default:
+					Toast.MakeText(this, "Unknown menu item selected", ToastLength.Short).Show();
+					break;
+			}
+
+			return base.OnOptionsItemSelected(item);
 		}
 
 		protected override void OnCreate(Bundle bundle) {
