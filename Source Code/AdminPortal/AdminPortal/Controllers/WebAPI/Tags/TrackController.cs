@@ -18,6 +18,8 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 		private KinderFinderEntities Db = new KinderFinderEntities();
 		private double MaxX = -1.0, MaxY = -1.0;
 
+		private static int debug_updates = 0;
+
 		private Transmitter[] LoadTransmitters(int restaurantId) {
 			Transmitter[] t = new Transmitter[3];
 
@@ -31,10 +33,15 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 					return null;
 			}
 #else
+			const string RESTAURANT_NAME = "Demo Room";
+			const string TAG_BEACON_ID = "1-177";
+			double[] STRENGTHS = { -0.3, -0.3, -0.3 };
+
 			var restaurant = (from item in Db.Restaurants
-							  where item.Name.Equals("Demo Room")
+							  where item.Name.Equals(RESTAURANT_NAME)
 							  select item.ID).FirstOrDefault();
 
+			// Generate temporary Transmitters (not saved in db):
 			for (int i = 0; i < 3; i++) {
                 t[i] = new Transmitter();
 				t[i].ID = i + 1;
@@ -42,17 +49,24 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 				t[i].Restaurant = restaurant;
 			}
 
+			// Position Transmitters:
 			t[0].PosX =  0.0; t[0].PosY =  0.0;
 			t[1].PosX = 10.0; t[1].PosY =  0.0;
 			t[2].PosX = 10.0; t[2].PosY = 10.0;
 
-			StrengthManager.Update("1-177", 1, 1, -0.3);
-			StrengthManager.Update("1-177", 2, 2, -0.0);
-			StrengthManager.Update("1-177", 3, 3, -0.3);
-            updates++;
-            System.Diagnostics.Debug.WriteLine("Updates " + updates);
-            if (updates == 10)
-                StrengthManager.FlagTag("1-177", true);
+			// Update Tag strength to each Transmitter:
+			for (int i = 0; i < 3; i++)
+				StrengthManager.Update(TAG_BEACON_ID, i + 1, i + 1, STRENGTHS[i]);
+
+            debug_updates++;
+            System.Diagnostics.Debug.WriteLine("--> Updates " + debug_updates);
+
+			// Simulate the tag going out of range:
+            if (debug_updates == 10)
+				StrengthManager.FlagTag(TAG_BEACON_ID, true);
+			// Simulate the tag coming back into range:
+			else if (debug_updates == 20)
+				StrengthManager.FlagTag(TAG_BEACON_ID, false);
 #endif
 			// Find the max and min co-ords, so we can scale the points:
 			foreach (var item in t) {
@@ -65,7 +79,7 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 
 			return t;
 		}
-        static int updates = 0;
+
 		[HttpPost]
 		public IHttpActionResult GetLocations(RequestDetails details) {
 			// Determine user's current restaurant:
@@ -101,32 +115,36 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 			foreach (var tag in tags) {
                 TagData td = new TagData();
                 td.Name = tag.Label;
-                var pos = new Locator.Location(-100.0, -100.0);
 
+				// Tag has not been given a major-minor ID which corresponds to
+				// the Bluetooth beacon's ID; we cannot locate it.
+				if (tag.BeaconID == null) {
+					System.Diagnostics.Debug.WriteLine("[Warning] No beacon ID set for tag '" + tag.Label + "'.");
+					continue;
+				}
                 // Tag is not flagged; locate as normal:
-                if (!StrengthManager.IsTagFlagged(tag.BeaconID)) {
+                else if (!StrengthManager.IsTagFlagged(tag.BeaconID)) {
                     double[] strengths = new double[3];
 
                     // Load all three of its strengths:
                     for (int i = 0; i < 3; i++) {
-                        //System.Diagnostics.Debug.WriteLine("Here: " + t[i].ID);
-                        //System.Diagnostics.Debug.WriteLine("Here: " + (int)t[i].Type);
                         strengths[i] = StrengthManager.GetStrength(tag.BeaconID, t[i].ID, (int)t[i].Type);
-
-                        if (strengths[i] == StrengthManager.NOT_ENOUGH_AVERAGES) {
-                            // TODO: Do something if there aren't enough averages?
-                        }
+						// The strength may be equal to StrengthManager.NOT_ENOUGH_AVERAGES.
                     }
 
                     // Triangulate its position:
-                    pos = locator.Locate(tag.BeaconID, strengths[0], strengths[1], strengths[2]);
+                    var pos = locator.Locate(tag.BeaconID, strengths[0], strengths[1], strengths[2]);
+
+					// Scale point to be between 0 and 1:
                     td.PosX = pos.X / MaxX;
                     td.PosY = pos.Y / MaxY;
                 }
-                else {
-                    td.PosX = pos.X;
-                    td.PosY = pos.Y;
-                }
+				// Tag is flagged as out of range:
+				else {
+					td.PosX = -100.0;
+					td.PosY = -100.0;
+				}
+
 				result.Add(td);
 			}
 

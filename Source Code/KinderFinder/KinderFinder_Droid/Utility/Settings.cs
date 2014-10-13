@@ -28,6 +28,7 @@ namespace KinderFinder.Utility {
 			public const string RESTAURANT_NAME = "currentrestaurant";
 			public const string TAG_NAME = "_name";
 			public const string TAG_COLOUR = "_colour";
+			public const string CURRENT_TAG = "currenttag";
 		}
 
 		public static class Lengths {
@@ -38,10 +39,9 @@ namespace KinderFinder.Utility {
 		}
 
 		public static class Map {
-			public const int DOT_COLOUR_BLUE = 150;
+			public const string DEFAULT_DOT_COLOUR = "00FF00";
+			public const string PROBLEM_DOT_COLOUR = "FF0000";
 			public const int DOT_COLOUR_ALPHA = 150;
-			public const int DOT_COLOUR_RED = 0;
-			public const int DOT_COLOUR_GREEN = 255;
 			public const int DOT_SIZE_RADIUS = 10;
 
 			public const int UPDATE_FREQUENCY = 1000;

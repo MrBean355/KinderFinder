@@ -3,11 +3,17 @@
 namespace AdminPortal.Code {
 
 	public static class StrengthManager {
-		public const int AVERAGE_VALUES = 5;
+		public const int AVERAGE_VALUES = 1;
 		public const double NOT_ENOUGH_AVERAGES = -95.0;
 
-		private static Dictionary<string, Dictionary<int, List<AverageManager>>> Strengths = new Dictionary<string, Dictionary<int, List<AverageManager>>>();
-        private static List<string> FlaggedTags = new List<string>();
+		//                       BeaconID          TransID   Avg for each trans type
+		private static Dictionary<string, Dictionary<int, List<AverageManager>>> Strengths;
+		private static List<string> FlaggedTags;
+
+		static StrengthManager() {
+			Strengths = new Dictionary<string, Dictionary<int, List<AverageManager>>>();
+			FlaggedTags = new List<string>();
+		}
 
         /// <summary>
         /// Flags a tag as being out of range of one of the transmitters.
