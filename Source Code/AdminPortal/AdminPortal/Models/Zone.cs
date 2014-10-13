@@ -12,27 +12,18 @@ namespace AdminPortal.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Restaurant
+    public partial class Zone
     {
-        public Restaurant()
+        public Zone()
         {
-            this.AppUsers = new HashSet<AppUser>();
-            this.Tags = new HashSet<Tag>();
             this.Transmitters = new HashSet<Transmitter>();
-            this.AppUserStats = new HashSet<AppUserStat>();
-            this.Zones = new HashSet<Zone>();
         }
     
         public int ID { get; set; }
-        public string Name { get; set; }
-        public byte[] Map { get; set; }
-        public string Admin { get; set; }
+        public string ZoneName { get; set; }
+        public int Restaurant { get; set; }
     
-        public virtual ICollection<AppUser> AppUsers { get; set; }
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual ICollection<Tag> Tags { get; set; }
+        public virtual Restaurant RestaurantZ { get; set; }
         public virtual ICollection<Transmitter> Transmitters { get; set; }
-        public virtual ICollection<AppUserStat> AppUserStats { get; set; }
-        public virtual ICollection<Zone> Zones { get; set; }
     }
 }

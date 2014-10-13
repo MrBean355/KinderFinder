@@ -14,6 +14,11 @@ namespace AdminPortal.Models
     
     public partial class Transmitter
     {
+        public Transmitter()
+        {
+            this.Zones = new HashSet<Zone>();
+        }
+    
         public int ID { get; set; }
         public Nullable<int> Restaurant { get; set; }
         public Nullable<int> Type { get; set; }
@@ -21,5 +26,6 @@ namespace AdminPortal.Models
         public Nullable<double> PosY { get; set; }
     
         public virtual Restaurant Restaurant1 { get; set; }
+        public virtual ICollection<Zone> Zones { get; set; }
     }
 }
