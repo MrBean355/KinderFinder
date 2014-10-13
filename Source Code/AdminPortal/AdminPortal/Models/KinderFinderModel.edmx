@@ -100,6 +100,22 @@
           <Property Name="PosX" Type="float" />
           <Property Name="PosY" Type="float" />
         </EntityType>
+        <EntityType Name="Zone">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ZoneName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Restaurant" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ZoneTransmitter">
+          <Key>
+            <PropertyRef Name="ZoneID" />
+            <PropertyRef Name="TransmitterID" />
+          </Key>
+          <Property Name="ZoneID" Type="int" Nullable="false" />
+          <Property Name="TransmitterID" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK__AppUser__Current__02FC7413">
           <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="0..1" />
           <End Role="AppUser" Type="Self.AppUser" Multiplicity="*" />
@@ -184,6 +200,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__Zone__Restaurant__67DE6983">
+          <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
+          <End Role="Zone" Type="Self.Zone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Zone">
+              <PropertyRef Name="Restaurant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -212,6 +240,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+<<<<<<< HEAD
         <Association Name="FK_dbo_RestaurantAspNetUser_dbo_AspNetUsers_AspNetUserID">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -237,6 +266,33 @@
             </Principal>
             <Dependent Role="RestaurantAspNetUser">
               <PropertyRef Name="RestaurantID" />
+=======
+        <Association Name="FK_dbo_ZoneTransmitter_dbo_Transmitter_AspNetUserID">
+          <End Role="Transmitter" Type="Self.Transmitter" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ZoneTransmitter" Type="Self.ZoneTransmitter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transmitter">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ZoneTransmitter">
+              <PropertyRef Name="TransmitterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ZoneTransmitter_dbo_Zone_CourseID">
+          <End Role="Zone" Type="Self.Zone" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ZoneTransmitter" Type="Self.ZoneTransmitter" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zone">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ZoneTransmitter">
+              <PropertyRef Name="ZoneID" />
+>>>>>>> origin/master
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -250,6 +306,8 @@
           <EntitySet Name="RestaurantAspNetUser" EntityType="Self.RestaurantAspNetUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tag" EntityType="Self.Tag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transmitter" EntityType="Self.Transmitter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Zone" EntityType="Self.Zone" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ZoneTransmitter" EntityType="Self.ZoneTransmitter" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__AppUser__Current__02FC7413" Association="Self.FK__AppUser__Current__02FC7413">
             <End Role="Restaurant" EntitySet="Restaurant" />
             <End Role="AppUser" EntitySet="AppUser" />
@@ -278,6 +336,10 @@
             <End Role="Restaurant" EntitySet="Restaurant" />
             <End Role="Transmitter" EntitySet="Transmitter" />
           </AssociationSet>
+          <AssociationSet Name="FK__Zone__Restaurant__67DE6983" Association="Self.FK__Zone__Restaurant__67DE6983">
+            <End Role="Restaurant" EntitySet="Restaurant" />
+            <End Role="Zone" EntitySet="Zone" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
@@ -286,6 +348,7 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
+<<<<<<< HEAD
           <AssociationSet Name="FK_dbo_RestaurantAspNetUser_dbo_AspNetUsers_AspNetUserID" Association="Self.FK_dbo_RestaurantAspNetUser_dbo_AspNetUsers_AspNetUserID">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="RestaurantAspNetUser" EntitySet="RestaurantAspNetUser" />
@@ -293,6 +356,15 @@
           <AssociationSet Name="FK_dbo_RestaurantAspNetUser_dbo_Restaurant_CourseID" Association="Self.FK_dbo_RestaurantAspNetUser_dbo_Restaurant_CourseID">
             <End Role="Restaurant" EntitySet="Restaurant" />
             <End Role="RestaurantAspNetUser" EntitySet="RestaurantAspNetUser" />
+=======
+          <AssociationSet Name="FK_dbo_ZoneTransmitter_dbo_Transmitter_AspNetUserID" Association="Self.FK_dbo_ZoneTransmitter_dbo_Transmitter_AspNetUserID">
+            <End Role="Transmitter" EntitySet="Transmitter" />
+            <End Role="ZoneTransmitter" EntitySet="ZoneTransmitter" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ZoneTransmitter_dbo_Zone_CourseID" Association="Self.FK_dbo_ZoneTransmitter_dbo_Zone_CourseID">
+            <End Role="Zone" EntitySet="Zone" />
+            <End Role="ZoneTransmitter" EntitySet="ZoneTransmitter" />
+>>>>>>> origin/master
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -414,9 +486,20 @@
             <End Role="Restaurant" EntitySet="Restaurants" />
             <End Role="AppUserStat" EntitySet="AppUserStats" />
           </AssociationSet>
+<<<<<<< HEAD
           <AssociationSet Name="RestaurantAspNetUser" Association="Model.RestaurantAspNetUser">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="Restaurant" EntitySet="Restaurants" />
+=======
+          <EntitySet Name="Zones" EntityType="Model.Zone" />
+          <AssociationSet Name="FK__Zone__Restaurant__67DE6983" Association="Model.FK__Zone__Restaurant__67DE6983">
+            <End Role="Restaurant" EntitySet="Restaurants" />
+            <End Role="Zone" EntitySet="Zones" />
+          </AssociationSet>
+          <AssociationSet Name="ZoneTransmitter" Association="Model.ZoneTransmitter">
+            <End Role="Transmitter" EntitySet="Transmitters" />
+            <End Role="Zone" EntitySet="Zones" />
+>>>>>>> origin/master
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Restaurant">
@@ -432,7 +515,11 @@
           <NavigationProperty Name="Tags" Relationship="Model.FK__Tag__Restaurant__2739D489" FromRole="Restaurant" ToRole="Tag" />
           <NavigationProperty Name="Transmitters" Relationship="Model.FK__Transmitt__Resta__756D6ECB" FromRole="Restaurant" ToRole="Transmitter" />
           <NavigationProperty Name="AppUserStats" Relationship="Model.FK__AppUserSt__LastR__40C49C62" FromRole="Restaurant" ToRole="AppUserStat" />
+<<<<<<< HEAD
           <NavigationProperty Name="AspNetUsers" Relationship="Model.RestaurantAspNetUser" FromRole="Restaurant" ToRole="AspNetUser" />
+=======
+          <NavigationProperty Name="Zones" Relationship="Model.FK__Zone__Restaurant__67DE6983" FromRole="Restaurant" ToRole="Zone" />
+>>>>>>> origin/master
         </EntityType>
         <Association Name="FK__AppUser__Current__02FC7413">
           <End Type="Model.Restaurant" Role="Restaurant" Multiplicity="0..1" />
@@ -480,6 +567,7 @@
           <NavigationProperty Name="Restaurant1" Relationship="Model.FK__Transmitt__Resta__756D6ECB" FromRole="Transmitter" ToRole="Restaurant" />
           <Property Name="PosX" Type="Double" />
           <Property Name="PosY" Type="Double" />
+          <NavigationProperty Name="Zones" Relationship="Model.ZoneTransmitter" FromRole="Transmitter" ToRole="Zone" />
         </EntityType>
         <Association Name="FK__Transmitt__Resta__756D6ECB">
           <End Type="Model.Restaurant" Role="Restaurant" Multiplicity="0..1" />
@@ -529,9 +617,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+<<<<<<< HEAD
         <Association Name="RestaurantAspNetUser">
           <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="*" />
           <End Type="Model.Restaurant" Role="Restaurant" Multiplicity="*" />
+=======
+        <EntityType Name="Zone">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ZoneName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Restaurant" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RestaurantZ" Relationship="Model.FK__Zone__Restaurant__67DE6983" FromRole="Zone" ToRole="Restaurant" />
+          <NavigationProperty Name="Transmitters" Relationship="Model.ZoneTransmitter" FromRole="Zone" ToRole="Transmitter" />
+        </EntityType>
+        <Association Name="FK__Zone__Restaurant__67DE6983">
+          <End Type="Model.Restaurant" Role="Restaurant" Multiplicity="1" />
+          <End Type="Model.Zone" Role="Zone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Restaurant">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Zone">
+              <PropertyRef Name="Restaurant" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ZoneTransmitter">
+          <End Type="Model.Transmitter" Role="Transmitter" Multiplicity="*" />
+          <End Type="Model.Zone" Role="Zone" Multiplicity="*" />
+>>>>>>> origin/master
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -633,12 +749,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+<<<<<<< HEAD
           <AssociationSetMapping Name="RestaurantAspNetUser" TypeName="Model.RestaurantAspNetUser" StoreEntitySet="RestaurantAspNetUser">
             <EndProperty Name="Restaurant">
               <ScalarProperty Name="ID" ColumnName="RestaurantID" />
             </EndProperty>
             <EndProperty Name="AspNetUser">
               <ScalarProperty Name="Id" ColumnName="AspNetUserID" />
+=======
+          <EntitySetMapping Name="Zones">
+            <EntityTypeMapping TypeName="Model.Zone">
+              <MappingFragment StoreEntitySet="Zone">
+                <ScalarProperty Name="Restaurant" ColumnName="Restaurant" />
+                <ScalarProperty Name="ZoneName" ColumnName="ZoneName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ZoneTransmitter" TypeName="Model.ZoneTransmitter" StoreEntitySet="ZoneTransmitter">
+            <EndProperty Name="Zone">
+              <ScalarProperty Name="ID" ColumnName="ZoneID" />
+            </EndProperty>
+            <EndProperty Name="Transmitter">
+              <ScalarProperty Name="ID" ColumnName="TransmitterID" />
+>>>>>>> origin/master
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

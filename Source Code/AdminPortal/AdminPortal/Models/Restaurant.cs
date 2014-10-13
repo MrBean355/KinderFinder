@@ -20,7 +20,11 @@ namespace AdminPortal.Models
             this.Tags = new HashSet<Tag>();
             this.Transmitters = new HashSet<Transmitter>();
             this.AppUserStats = new HashSet<AppUserStat>();
+<<<<<<< HEAD
             this.AspNetUsers = new HashSet<AspNetUser>();
+=======
+            this.Zones = new HashSet<Zone>();
+>>>>>>> origin/master
         }
     
         public int ID { get; set; }
@@ -33,6 +37,10 @@ namespace AdminPortal.Models
         public virtual ICollection<Tag> Tags { get; set; }
         public virtual ICollection<Transmitter> Transmitters { get; set; }
         public virtual ICollection<AppUserStat> AppUserStats { get; set; }
+<<<<<<< HEAD
         public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
+=======
+        public virtual ICollection<Zone> Zones { get; set; }
+>>>>>>> origin/master
     }
 }

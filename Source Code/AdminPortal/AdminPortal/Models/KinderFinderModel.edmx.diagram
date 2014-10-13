@@ -20,7 +20,13 @@
         <EntityTypeShape EntityType="Model.AppUserStat" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
         <AssociationConnector Association="Model.FK__AppUserSt__AppUs__2EA5EC27" />
         <AssociationConnector Association="Model.FK__AppUserSt__LastR__40C49C62" />
+<<<<<<< HEAD
         <AssociationConnector Association="Model.RestaurantAspNetUser" />
+=======
+        <EntityTypeShape EntityType="Model.Zone" Width="1.5" PointX="9.75" PointY="6.25" />
+        <AssociationConnector Association="Model.FK__Zone__Restaurant__67DE6983" />
+        <AssociationConnector Association="Model.ZoneTransmitter" />
+>>>>>>> origin/master
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

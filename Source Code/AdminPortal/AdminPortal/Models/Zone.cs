@@ -12,20 +12,18 @@ namespace AdminPortal.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Transmitter
+    public partial class Zone
     {
-        public Transmitter()
+        public Zone()
         {
-            this.Zones = new HashSet<Zone>();
+            this.Transmitters = new HashSet<Transmitter>();
         }
     
         public int ID { get; set; }
-        public Nullable<int> Restaurant { get; set; }
-        public Nullable<int> Type { get; set; }
-        public Nullable<double> PosX { get; set; }
-        public Nullable<double> PosY { get; set; }
+        public string ZoneName { get; set; }
+        public int Restaurant { get; set; }
     
-        public virtual Restaurant Restaurant1 { get; set; }
-        public virtual ICollection<Zone> Zones { get; set; }
+        public virtual Restaurant RestaurantZ { get; set; }
+        public virtual ICollection<Transmitter> Transmitters { get; set; }
     }
 }
