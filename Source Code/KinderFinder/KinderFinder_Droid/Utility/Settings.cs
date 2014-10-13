@@ -28,6 +28,7 @@ namespace KinderFinder.Utility {
 			public const string RESTAURANT_NAME = "currentrestaurant";
 			public const string TAG_NAME = "_name";
 			public const string TAG_COLOUR = "_colour";
+			public const string CURRENT_TAG = "currenttag";
 		}
 
 		public static class Lengths {

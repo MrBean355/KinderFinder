@@ -56,7 +56,7 @@ namespace KinderFinder {
 
 			ColourSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, items);
 
-			CurrentTag = pref.GetString("currenttag", "");
+			CurrentTag = pref.GetString(Settings.Keys.CURRENT_TAG, "");
 
 			if (!CurrentTag.Equals("")) {
 				string name = pref.GetString(CurrentTag + Settings.Keys.TAG_NAME, "");

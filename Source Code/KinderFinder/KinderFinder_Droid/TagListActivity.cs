@@ -79,7 +79,7 @@ namespace KinderFinder {
 		/// <param name="sender">Sender.</param>
 		/// <param name="args">Arguments.</param>
 		void ListItemClicked(object sender, AdapterView.ItemClickEventArgs args) {
-			editor.PutString("currenttag", tags[args.Position]);
+			editor.PutString(Settings.Keys.CURRENT_TAG, tags[args.Position]);
 			editor.Commit();
 			StartActivity(new Intent(this, typeof(TagConfigActivity)));
 		}

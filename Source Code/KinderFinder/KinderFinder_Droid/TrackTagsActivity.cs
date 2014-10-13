@@ -7,11 +7,11 @@ using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Android.Media;
 using Android.OS;
 using Android.Widget;
 
 using KinderFinder.Utility;
-using Android.Media;
 
 namespace KinderFinder {
 
@@ -154,6 +154,20 @@ namespace KinderFinder {
 			public double PosY;
 		}
 
+		public struct Point {
+			public double X;
+			public double Y;
+
+			public Point(double x, double y) {
+				X = x;
+				Y = y;
+			}
+		}
+
+		List<string> OutOfRange = new List<string>();
+		//List<TagData> PrevLocations = new List<TagData>();
+		Dictionary<string, Point> PrevLocations = new Dictionary<string, Point>();
+
 		/// <summary>
 		/// Updates the map by drawing the locations of the tracked tags.
 		/// </summary>
@@ -193,13 +207,48 @@ namespace KinderFinder {
 			// If we could retrieve the locations, draw them:
 			if (locations != null) {
 				foreach (var data in locations) {
+					int x = 0;
+					int y = 0;
+
+					// Tag out of range; play alarm and load last position:
 					if (data.PosX.Equals(Settings.SpecialPoints.OUT_OF_RANGE) && data.PosY.Equals(Settings.SpecialPoints.OUT_OF_RANGE)) {
-						PlayAlarm(data.Name);
-						continue;
+						// If we haven't displayed a warning for the tag yet:
+						if (!OutOfRange.Contains(data.Name)) {
+							OutOfRange.Add(data.Name);
+							PlayAlarm(data.Name);
+						}
+
+						if (PrevLocations.ContainsKey(data.Name)) {
+							x = (int)(PrevLocations[data.Name].X * OriginalMap.Width);
+							y = (int)(PrevLocations[data.Name].Y * OriginalMap.Height);
+						}
+						else
+							continue;
+					}
+					// Tag in range; position normally:
+					else {
+						x = (int)(data.PosX * OriginalMap.Width);
+						y = (int)(data.PosY * OriginalMap.Height);
+						var pt = new Point(data.PosX, data.PosY);
+
+						if (!PrevLocations.ContainsKey(data.Name))
+							PrevLocations.Add(data.Name, pt);
+						else
+							PrevLocations[data.Name] = pt;
+
+						// Tag was previously out of range but isn't anymore:
+						if (OutOfRange.Contains(data.Name)) {
+							OutOfRange.Remove(data.Name);
+							//RunOnUiThread(() => Toast.MakeText(this, "Tag back in range", ToastLength.Short).Show());
+							var dialog = new AlertDialog.Builder(this);
+							dialog.SetTitle("Tag In Range");
+
+							dialog.SetMessage("A tag is back in range!\nTag Name: " + data.Name + "\nChild: " + pref.GetString(data.Name + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT));
+							dialog.SetNeutralButton("Ok", (sender, e) => AlarmPlayer.Stop());
+							RunOnUiThread(() => dialog.Show());
+						}
 					}
 
-					int x = (int)(data.PosX * OriginalMap.Width);
-					int y = (int)(data.PosY * OriginalMap.Height);
 					string colour = pref.GetString(data.Name + Settings.Keys.TAG_COLOUR, "");
 					string name = pref.GetString(data.Name + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT);
 
@@ -230,7 +279,8 @@ namespace KinderFinder {
 
 			var dialog = new AlertDialog.Builder(this);
 			dialog.SetTitle("Alert!");
-			dialog.SetMessage("A tag is out of range!\nTag Name: " + tagName);
+
+			dialog.SetMessage("A tag is out of range!\nTag Name: " + tagName + "\nChild: " + pref.GetString(tagName + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT));
 			dialog.SetNeutralButton("Ok", (sender, e) => AlarmPlayer.Stop());
 			RunOnUiThread(() => dialog.Show());
 
