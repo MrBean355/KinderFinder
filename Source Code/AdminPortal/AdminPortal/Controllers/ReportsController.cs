@@ -35,15 +35,18 @@ namespace AdminPortal.Controllers {
             else
             {
                 // Fetches all tags that belong to the current admin.
-                // Basically gets all tags owned by restaurants that the user is an admin of.
-                var restaurants = from user in db.AspNetUsers
-                                  join rest in db.Restaurants
-                                      on user.Id equals rest.Admin
-                                  where user.UserName.Equals(User.Identity.Name)
-                                  orderby rest.Name
-                                  select rest;
+                // Basically gets all clients that visited the restaurants that the user is an admin of.
+                var restaurantModel = new AdminIndexData();
+                restaurantModel.AspNetUsers = db.AspNetUsers.Where(i => i.UserName.Equals(User.Identity.Name));
+                restaurantModel.Restaurants = restaurantModel.AspNetUsers.Single().Restaurants1;
+                //var restaurants = from user in db.AspNetUsers
+                //                  join rest in db.Restaurants
+                //                      on user.Id equals rest.Admin
+                //                  where user.UserName.Equals(User.Identity.Name)
+                //                  orderby rest.Name
+                //                  select rest;
 
-                ViewBag.SelectedRestaurant = new SelectList(restaurants, "ID", "Name", SelectedRestaurant);
+                ViewBag.SelectedRestaurant = new SelectList(restaurantModel.Restaurants, "ID", "Name", SelectedRestaurant);
                 restaurantID = SelectedRestaurant.GetValueOrDefault();
                 appUsers = db.AppUserStats
                     .Where(t => SelectedRestaurant.HasValue || t.LastRestaurant == restaurantID)
@@ -73,14 +76,18 @@ namespace AdminPortal.Controllers {
             {
                 // Fetches all tags that belong to the current admin.
                 // Basically gets all tags owned by restaurants that the user is an admin of.
-                var restaurants = from user in db.AspNetUsers
-                                  join rest in db.Restaurants
-                                      on user.Id equals rest.Admin
-                                      where user.UserName.Equals(User.Identity.Name)
-                                      orderby rest.Name
-                                      select rest;           
+                var restaurantModel = new AdminIndexData();
+                restaurantModel.AspNetUsers = db.AspNetUsers.Where(i => i.UserName.Equals(User.Identity.Name));
+                restaurantModel.Restaurants = restaurantModel.AspNetUsers.Single().Restaurants1;
 
-                ViewBag.SelectedRestaurant = new SelectList(restaurants, "ID", "Name", SelectedRestaurant);
+                //var restaurants = from user in db.AspNetUsers
+                //                  join rest in db.Restaurants
+                //                      on user.Id equals rest.Admin
+                //                      where user.UserName.Equals(User.Identity.Name)
+                //                      orderby rest.Name
+                //                      select rest;           
+
+                ViewBag.SelectedRestaurant = new SelectList(restaurantModel.Restaurants, "ID", "Name", SelectedRestaurant);
                 restaurantID = SelectedRestaurant.GetValueOrDefault();
                 tags = db.Tags
                     .Where(t => SelectedRestaurant.HasValue || t.Restaurant == restaurantID)
