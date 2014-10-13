@@ -167,7 +167,7 @@ namespace AdminPortal.Controllers {
             var AppUsersQuery = from d in db.AppUsers
                                    orderby d.Surname
                                    select d;
-            ViewBag.AppUsersID = new SelectList(AppUsersQuery, "ID", "FirstName", selectedAppUser);
+            ViewBag.CurrentUser = new SelectList(AppUsersQuery, "ID", "FirstName", selectedAppUser);
         }
 
 		// GET: Tags/Delete/5
