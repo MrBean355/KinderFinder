@@ -271,11 +271,13 @@ namespace KinderFinder {
 					if (name.Equals(""))
 						name = Settings.Map.UNKNOWN_NAME_TEXT;
 
-					if (outOfRange)
-						name = "(!)" + name;
-
 					if (colour.Equals(""))
 						colour = Settings.Map.DEFAULT_DOT_COLOUR;
+
+					if (outOfRange) {
+						name = "(!)" + name;
+						colour = Settings.Map.PROBLEM_DOT_COLOUR;
+					}
 
 					int r = Convert.ToInt32(colour.Substring(0, 2), 16);
 					int g = Convert.ToInt32(colour.Substring(2, 2), 16);
