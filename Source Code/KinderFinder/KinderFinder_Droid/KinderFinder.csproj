@@ -81,6 +81,7 @@
     <AndroidResource Include="Resources\layout\TagConfig.axml" />
     <AndroidResource Include="Resources\raw\OutOfRangeAlarm.mp3" />
     <AndroidResource Include="Resources\layout\EditDetails.axml" />
+    <AndroidResource Include="Resources\drawable\TeamLogo.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />

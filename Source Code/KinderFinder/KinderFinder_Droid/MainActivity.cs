@@ -88,7 +88,7 @@ namespace KinderFinder {
 			string email = pref.GetString(Settings.Keys.USERNAME, null);
 			string passwordHash = pref.GetString(Settings.Keys.PASSWORD_HASH, null);
 			bool rememberMe = pref.GetBoolean(Settings.Keys.REMEMBER_ME, false);
-			progressBar.Visibility = Android.Views.ViewStates.Gone;
+			progressBar.Visibility = ViewStates.Invisible;
 
 			/* Was able to load email and password hash. */
 			if (email != null && passwordHash != null) {
@@ -114,7 +114,7 @@ namespace KinderFinder {
 			/* Disable buttons and show progress bar. */
 			loginButton.Enabled = false;
 			registerButton.Enabled = false;
-			progressBar.Visibility = Android.Views.ViewStates.Visible;
+			progressBar.Visibility = ViewStates.Visible;
 
 			/* Send request in a separate thread. */
 			ThreadPool.QueueUserWorkItem(state => {
@@ -158,7 +158,7 @@ namespace KinderFinder {
 					Toast.MakeText(this, message, ToastLength.Short).Show();
 					loginButton.Enabled = true;
 					registerButton.Enabled = true;
-					progressBar.Visibility = Android.Views.ViewStates.Invisible;
+					progressBar.Visibility = ViewStates.Invisible;
 				});
 			});
 		}

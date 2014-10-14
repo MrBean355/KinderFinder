@@ -11,7 +11,7 @@ using KinderFinder.Utility;
 
 namespace KinderFinder {
 
-	[Activity(Label = "Configure Tag")]			
+	[Activity(Label = "Configure Tag", Icon = "@drawable/icon")]			
 	public class TagConfigActivity : Activity {
 		static Dictionary<string, string> Colours;
 

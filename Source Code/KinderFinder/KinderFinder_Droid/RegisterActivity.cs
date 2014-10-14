@@ -104,7 +104,7 @@ namespace KinderFinder {
 
 			/* Disable button and show progress bar. */
 			registerButton.Enabled = false;
-			progressBar.Visibility = Android.Views.ViewStates.Visible;
+			progressBar.Visibility = ViewStates.Visible;
 
 			/* Send request in a separate thread. */
 			ThreadPool.QueueUserWorkItem(state => {
@@ -136,7 +136,7 @@ namespace KinderFinder {
 				RunOnUiThread(() => {
 					Toast.MakeText(this, message, ToastLength.Short).Show();
 					registerButton.Enabled = true;
-					progressBar.Visibility = Android.Views.ViewStates.Invisible;
+					progressBar.Visibility = ViewStates.Invisible;
 				});
 			});
 		}

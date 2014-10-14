@@ -102,7 +102,7 @@ namespace KinderFinder {
 		/// </summary>
 		void LoadMapImage() {
 			// Hide map image:
-			mapImage.Visibility = Android.Views.ViewStates.Gone;
+			mapImage.Visibility = ViewStates.Gone;
 
 			ThreadPool.QueueUserWorkItem(state => {
 				string email = pref.GetString(Settings.Keys.USERNAME, null);
@@ -147,9 +147,9 @@ namespace KinderFinder {
 				}
 
 				RunOnUiThread(() => {
-					progressBar.Visibility = Android.Views.ViewStates.Gone;
-					downloadingText.Visibility = Android.Views.ViewStates.Gone;
-					mapImage.Visibility = Android.Views.ViewStates.Visible;
+					progressBar.Visibility = ViewStates.Gone;
+					downloadingText.Visibility = ViewStates.Gone;
+					mapImage.Visibility = ViewStates.Visible;
 
 					/* No error; success! */
 					if (errorMsg == null) {

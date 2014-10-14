@@ -36,20 +36,23 @@
         android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout1"
-        android:layout_marginBottom="0.0dp">
-        <Button
-            android:text="Register"
-            android:id="@+id/Main_Register"
+        android:id="@+id/linearLayout2">
+        <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:id="@+id/space3"
+            android:layout_weight="5" />
         <Button
             android:text="Log In"
             android:id="@+id/Main_Login"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="3" />
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/space4"
+            android:layout_weight="5" />
     </LinearLayout>
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
@@ -61,4 +64,49 @@
         android:max="100"
         android:progress="10"
         android:secondaryProgress="5" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/linearLayout1">
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/space1"
+            android:layout_weight="5" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linearLayout3">
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/space5"
+                android:layout_weight="5" />
+            <Button
+                android:text="Register"
+                android:id="@+id/Main_Register"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="3" />
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/space6"
+                android:layout_weight="5" />
+        </LinearLayout>
+        <ImageView
+            android:src="@drawable/TeamLogo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView1"
+            android:layout_marginBottom="0.0dp"
+            android:scaleType="fitStart"
+            android:adjustViewBounds="true" />
+    </LinearLayout>
 </LinearLayout>

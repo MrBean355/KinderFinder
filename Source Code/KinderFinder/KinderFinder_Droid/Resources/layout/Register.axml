@@ -48,11 +48,30 @@
         android:layout_height="wrap_content"
         android:id="@+id/Register_PasswordConfirm"
         android:hint="Confirm password" />
-    <Button
-        android:text="Register"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/Register_Register" />
+        android:id="@+id/linearLayout1">
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/space2"
+            android:layout_weight="5" />
+        <Button
+            android:text="Register"
+            android:id="@+id/Register_Register"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="3" />
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/space1"
+            android:layout_weight="5" />
+    </LinearLayout>
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="match_parent"

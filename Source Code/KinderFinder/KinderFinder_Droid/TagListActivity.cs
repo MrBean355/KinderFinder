@@ -17,7 +17,7 @@ namespace KinderFinder {
 	public class TagListActivity : Activity {
 		ISharedPreferences pref;
 		ISharedPreferencesEditor editor;
-		Button trackButton;
+		Button refreshButton, trackButton;
 		TextView warning;
 		ListView tagListView;
 		List<string> tags;
@@ -63,12 +63,18 @@ namespace KinderFinder {
 			pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
 			editor = pref.Edit();
 
+			refreshButton = FindViewById<Button>(Resource.Id.TagList_Refresh);
 			trackButton = FindViewById<Button>(Resource.Id.TagList_Track);
 			warning = FindViewById<TextView>(Resource.Id.TagList_Warning);
 			tagListView = FindViewById<ListView>(Resource.Id.TagList_List);
 
+			refreshButton.Click += (sender, e) => LoadItems();
 			trackButton.Click += (sender, e) => StartActivity(new Intent(this, typeof(TrackTagsActivity)));
-			tagListView.ItemClick += ListItemClicked;
+			tagListView.ItemClick += (sender, e) => {
+				editor.PutString(Settings.Keys.CURRENT_TAG, tags[e.Position]);
+				editor.Commit();
+				StartActivity(new Intent(this, typeof(TagConfigActivity)));
+			};
 		}
 
 		/**
@@ -78,17 +84,6 @@ namespace KinderFinder {
 			base.OnResume();
 
 			LoadItems();
-		}
-
-		/// <summary>
-		/// Executes when the user presses a tag in the list.
-		/// </summary>
-		/// <param name="sender">Sender.</param>
-		/// <param name="args">Arguments.</param>
-		void ListItemClicked(object sender, AdapterView.ItemClickEventArgs args) {
-			editor.PutString(Settings.Keys.CURRENT_TAG, tags[args.Position]);
-			editor.Commit();
-			StartActivity(new Intent(this, typeof(TagConfigActivity)));
 		}
 
 		/// <summary>
@@ -130,8 +125,10 @@ namespace KinderFinder {
 
 				RunOnUiThread(() => {
 					/* No linked tags; show warning message. */
-					if (tags.Count == 0)
-						warning.Visibility = Android.Views.ViewStates.Visible;
+					if (tags.Count == 0) {
+						warning.Visibility = ViewStates.Visible;
+						trackButton.Enabled = false;
+					}
 					/* Has linked tags; display them. */
 					else {
 						for (int i = 0; i < tags.Count; i++) {
@@ -144,6 +141,7 @@ namespace KinderFinder {
 						}
 
 						warning.Visibility = ViewStates.Gone; // hide warning message.
+						trackButton.Enabled = true;
 					}
 
 					/* Show temporary list. */

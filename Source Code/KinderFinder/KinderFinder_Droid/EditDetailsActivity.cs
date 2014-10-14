@@ -12,7 +12,7 @@ using KinderFinder.Utility;
 
 namespace KinderFinder {
 
-	[Activity(Label = "Edit Details")]			
+	[Activity(Label = "Edit Details", Icon = "@drawable/icon")]			
 	public class EditDetailsActivity : Activity {
 		ISharedPreferences pref;
 		ISharedPreferencesEditor editor;

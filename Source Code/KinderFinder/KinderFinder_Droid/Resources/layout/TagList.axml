@@ -3,13 +3,28 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <Button
-        android:text="Track Tags"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/TagList_Track" />
+        android:id="@+id/linearLayout1">
+        <Button
+            android:text="Refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/TagList_Refresh"
+            android:layout_weight="1" />
+        <Button
+            android:text="Track Tags"
+            android:id="@+id/TagList_Track"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="5" />
+    </LinearLayout>
     <TextView
-        android:text="No linked tags! Contact the system administrator to link a tag."
+        android:text="No tags have been linked to your account. Contact the restaruant administrator to link tags."
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

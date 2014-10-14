@@ -47,6 +47,8 @@ namespace KinderFinder.Utility {
 			public const int UPDATE_FREQUENCY = 1000;
 			public const float OVERLAY_TEXT_SIZE = 40.0f;
 			public const string UNKNOWN_NAME_TEXT = "Unknown";
+			public const int MAX_ZOOMS = 5;
+			public const double ZOOM_AMOUNT = 0.1;
 		}
 
 		public static class SpecialPoints {
