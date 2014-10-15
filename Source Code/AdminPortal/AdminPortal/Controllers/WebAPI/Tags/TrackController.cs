@@ -133,11 +133,14 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
                     }
 
                     // Triangulate its position:
-                    var pos = locator.Locate(tag.BeaconID, strengths[0], strengths[1], strengths[2]);
+                    //var pos = locator.Locate(tag.BeaconID, strengths[0], strengths[1], strengths[2]);
+                    var pos = Triangulate(strengths[0], strengths[1], strengths[2]);
 
 					// Scale point to be between 0 and 1:
-                    td.PosX = pos.X / MaxX;
-                    td.PosY = pos.Y / MaxY;
+                    td.PosX = pos.getXCoord() / MaxX;
+                    td.PosY = pos.getYCoord() / MaxY;
+
+                    //System.Diagnostics.Debug.WriteLine("Pos: (" + td.PosX + ", " + td.PosY + ")");
                 }
 				// Tag is flagged as out of range:
 				else {
@@ -150,6 +153,52 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 
 			return Ok(result);
 		}
+
+        private Coordinates Triangulate(double str1, double str2, double str3) {
+            //creating beacons
+            Reciever r1 = new Reciever();
+            Reciever r2 = new Reciever();
+            Reciever r3 = new Reciever();
+
+            //creating adapters
+            AdapterToReciever adapter1 = new AdapterToReciever();
+            AdapterToReciever adapter2 = new AdapterToReciever();
+            AdapterToReciever adapter3 = new AdapterToReciever();
+
+            //assiging reciever numbers
+            adapter1.addRecieverNumber(1);
+            adapter2.addRecieverNumber(2);
+            adapter3.addRecieverNumber(3);
+
+            //assigning signal strengths
+            adapter1.addSignalStrength(str1);
+            adapter2.addSignalStrength(str2);
+            adapter3.addSignalStrength(str3);
+
+            //assigning adapters
+            r1 = adapter1.addReciever();
+            r2 = adapter2.addReciever();
+            r3 = adapter3.addReciever();
+
+            //creating triagulation object
+            Triangulate triangulate = new Triangulate(10, 11);
+
+            //adding beacons...
+            triangulate.add3Recievers(r1, r2, r3);
+
+            //creating matrix
+            triangulate.createMatrix();
+
+            //showing empty matrix            
+            //triangulate.printArray();
+
+            //triagulating
+            triangulate.triangulateCoord();
+            
+            //creating coordinates point for the rest of the program
+            //Coordinates coordinates = new Coordinates();
+            return triangulate.getCoordinatesForAdapter();
+        }
 
 		public struct TagData {
 			public string Name;

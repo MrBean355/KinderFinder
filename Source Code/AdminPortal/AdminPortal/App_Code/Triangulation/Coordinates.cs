@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace triangulation_alpha0._2
+namespace AdminPortal.Code.Triangulation
 {
     class Coordinates
     {
