@@ -1,0 +1,66 @@
+﻿@model IEnumerable<AdminPortal.Models.Zone>
+
+@{
+    ViewBag.Title = "ZonesReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ZonesReport</h2>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Select Restaurant: @Html.DropDownList("SelectedRestaurant", ViewBag.DropdownListOptionLabel as String)
+        <input type="submit" value="Filter" />
+    </p>
+}
+<table>
+    <tr>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>Total number of Tags: </td>
+        <td>@Model.Count()</td>
+    </tr>
+</table>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ZoneName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RestaurantZ.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ZonePa.ZoneName)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ZoneName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RestaurantZ.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ZonePa.ZoneName)
+        </td>
+    </tr>
+}
+
+</table>
+
+<br />
+<div>
+    @Html.ActionLink("Back to Reports main page", "Index")
+</div>

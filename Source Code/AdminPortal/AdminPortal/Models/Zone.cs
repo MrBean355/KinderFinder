@@ -17,13 +17,18 @@ namespace AdminPortal.Models
         public Zone()
         {
             this.Transmitters = new HashSet<Transmitter>();
+            this.ZoneCh = new HashSet<Zone>();
         }
     
         public int ID { get; set; }
         public string ZoneName { get; set; }
         public int Restaurant { get; set; }
+        public string Status { get; set; }
+        public Nullable<int> PrecedingZone { get; set; }
     
         public virtual Restaurant RestaurantZ { get; set; }
         public virtual ICollection<Transmitter> Transmitters { get; set; }
+        public virtual ICollection<Zone> ZoneCh { get; set; }
+        public virtual Zone ZonePa { get; set; }
     }
 }

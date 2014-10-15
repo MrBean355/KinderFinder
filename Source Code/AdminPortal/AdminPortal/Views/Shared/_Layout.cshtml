@@ -26,6 +26,7 @@
                     @if (User.Identity.IsAuthenticated) {
                         <li>@Html.ActionLink("App Users", "Index", "AppUsers")</li>
                         <li>@Html.ActionLink("Tags", "Index", "Tags")</li>
+                        <li>@Html.ActionLink("Zones", "Index", "Zones")</li>
                         <li>@Html.ActionLink("Reports", "Index", "Reports")</li>
                         
                         @* Only display these links to global admins. *@

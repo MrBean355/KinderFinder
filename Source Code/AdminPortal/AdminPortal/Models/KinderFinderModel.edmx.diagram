@@ -23,6 +23,7 @@
         <EntityTypeShape EntityType="Model.Zone" Width="1.5" PointX="9.75" PointY="6.25" />
         <AssociationConnector Association="Model.FK__Zone__Restaurant__67DE6983" />
         <AssociationConnector Association="Model.ZoneTransmitter" />
+        <AssociationConnector Association="Model.FK__Zone__PrecedingZ__7908F585" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

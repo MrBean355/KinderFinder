@@ -209,6 +209,7 @@
     <Compile Include="Controllers\WebAPI\Transmitters\OutOfRangeController.cs" />
     <Compile Include="Controllers\WebAPI\Transmitters\TransmitController.cs" />
     <Compile Include="Controllers\WebAPI\Transmitters\TransmitterTypeController.cs" />
+    <Compile Include="Controllers\ZonesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -368,6 +369,12 @@
     <Content Include="Views\Reports\Index.cshtml" />
     <Content Include="Views\Reports\TagsReport.cshtml" />
     <Content Include="Views\Reports\AppUsersReport.cshtml" />
+    <Content Include="Views\Zones\Create.cshtml" />
+    <Content Include="Views\Zones\Delete.cshtml" />
+    <Content Include="Views\Zones\Details.cshtml" />
+    <Content Include="Views\Zones\Edit.cshtml" />
+    <Content Include="Views\Zones\Index.cshtml" />
+    <Content Include="Views\Reports\ZonesReport.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

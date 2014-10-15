@@ -96,9 +96,11 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ZoneName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Restaurant" Type="int" Nullable="false" />
+          <Property Name="Status" Type="nvarchar" MaxLength="50" />
+          <Property Name="PrecedingZone" Type="int" />
         </EntityType>
         <EntityType Name="ZoneTransmitter">
           <Key>
@@ -192,7 +194,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Zone__Restaurant__67DE6983">
+        <Association Name="FK__Zone__PrecedingZ__0EF836A4">
+          <End Role="Zone" Type="Self.Zone" Multiplicity="0..1" />
+          <End Role="Zone1" Type="Self.Zone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zone">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Zone1">
+              <PropertyRef Name="PrecedingZone" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Zone__Restaurant__0E04126B">
           <End Role="Restaurant" Type="Self.Restaurant" Multiplicity="1" />
           <End Role="Zone" Type="Self.Zone" Multiplicity="*" />
           <ReferentialConstraint>
@@ -299,7 +313,11 @@
             <End Role="Restaurant" EntitySet="Restaurant" />
             <End Role="Transmitter" EntitySet="Transmitter" />
           </AssociationSet>
-          <AssociationSet Name="FK__Zone__Restaurant__67DE6983" Association="Self.FK__Zone__Restaurant__67DE6983">
+          <AssociationSet Name="FK__Zone__PrecedingZ__0EF836A4" Association="Self.FK__Zone__PrecedingZ__0EF836A4">
+            <End Role="Zone" EntitySet="Zone" />
+            <End Role="Zone1" EntitySet="Zone" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Zone__Restaurant__0E04126B" Association="Self.FK__Zone__Restaurant__0E04126B">
             <End Role="Restaurant" EntitySet="Restaurant" />
             <End Role="Zone" EntitySet="Zone" />
           </AssociationSet>
@@ -447,6 +465,10 @@
             <End Role="Transmitter" EntitySet="Transmitters" />
             <End Role="Zone" EntitySet="Zones" />
           </AssociationSet>
+          <AssociationSet Name="FK__Zone__PrecedingZ__7908F585" Association="Model.FK__Zone__PrecedingZ__7908F585">
+            <End Role="Zone" EntitySet="Zones" />
+            <End Role="Zone1" EntitySet="Zones" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Restaurant">
           <Key>
@@ -568,6 +590,10 @@
           <Property Name="Restaurant" Type="Int32" Nullable="false" />
           <NavigationProperty Name="RestaurantZ" Relationship="Model.FK__Zone__Restaurant__67DE6983" FromRole="Zone" ToRole="Restaurant" />
           <NavigationProperty Name="Transmitters" Relationship="Model.ZoneTransmitter" FromRole="Zone" ToRole="Transmitter" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PrecedingZone" Type="Int32" />
+          <NavigationProperty Name="ZoneCh" Relationship="Model.FK__Zone__PrecedingZ__7908F585" FromRole="Zone" ToRole="Zone1" />
+          <NavigationProperty Name="ZonePa" Relationship="Model.FK__Zone__PrecedingZ__7908F585" FromRole="Zone1" ToRole="Zone" />
         </EntityType>
         <Association Name="FK__Zone__Restaurant__67DE6983">
           <End Type="Model.Restaurant" Role="Restaurant" Multiplicity="1" />
@@ -584,6 +610,18 @@
         <Association Name="ZoneTransmitter">
           <End Type="Model.Transmitter" Role="Transmitter" Multiplicity="*" />
           <End Type="Model.Zone" Role="Zone" Multiplicity="*" />
+        </Association>
+        <Association Name="FK__Zone__PrecedingZ__7908F585">
+          <End Type="Model.Zone" Role="Zone" Multiplicity="0..1" />
+          <End Type="Model.Zone" Role="Zone1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Zone">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Zone1">
+              <PropertyRef Name="PrecedingZone" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -688,6 +726,8 @@
           <EntitySetMapping Name="Zones">
             <EntityTypeMapping TypeName="Model.Zone">
               <MappingFragment StoreEntitySet="Zone">
+                <ScalarProperty Name="PrecedingZone" ColumnName="PrecedingZone" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Restaurant" ColumnName="Restaurant" />
                 <ScalarProperty Name="ZoneName" ColumnName="ZoneName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
