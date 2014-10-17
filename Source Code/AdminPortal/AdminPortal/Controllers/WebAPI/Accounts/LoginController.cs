@@ -58,7 +58,7 @@ namespace AdminPortal.Controllers.WebAPI.Accounts {
                 else
                 {
                     stat.VisitCount = 1;
-                    stat.LastRestaurant = appUserSelected.CurrentRestaurant
+					stat.LastRestaurant = appUserSelected.CurrentRestaurant;
                 }
                 stat.LastVisit = DateTime.Now;
                 db.Entry(stat).State = System.Data.Entity.EntityState.Modified;
