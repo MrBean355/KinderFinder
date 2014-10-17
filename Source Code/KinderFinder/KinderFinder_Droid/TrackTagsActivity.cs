@@ -20,12 +20,22 @@ namespace KinderFinder {
 	public class TrackTagsActivity : Activity {
 		static MediaPlayer AlarmPlayer;
 
-		ISharedPreferences pref;
-		ISharedPreferencesEditor editor;
-		ImageView mapImage;
-		ProgressBar progressBar;
-		TextView downloadingText;
+		ISharedPreferences Pref;
+		ISharedPreferencesEditor Editor;
+		ImageView MapImageView;
+		ProgressBar ProgressBar;
+		TextView DownloadingText;
+
+		/// <summary>
+		/// The plain map, which has no dots overlayed onto it.
+		/// </summary>
 		Bitmap OriginalMap;
+
+		/// <summary>
+		/// The plain map with the tag positions overlayed onto it.
+		/// </summary>
+		Bitmap CurrentMap = null;
+
 		Timer Timer;
 
 		/// <summary>
@@ -56,8 +66,8 @@ namespace KinderFinder {
 					StartActivity(new Intent(this, typeof(EditDetailsActivity)));
 					break;
 				case Resource.Id.Menu_LogOut:
-					editor.Clear();
-					editor.Commit();
+					Editor.Clear();
+					Editor.Commit();
 					StartActivity(new Intent(this, typeof(MainActivity)));
 					Finish();
 					break;
@@ -76,12 +86,12 @@ namespace KinderFinder {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.TrackTags);
 
-			pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
-			editor = pref.Edit();
+			Pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
+			Editor = Pref.Edit();
 
-			mapImage = FindViewById<ImageView>(Resource.Id.Track_Map);
-			progressBar = FindViewById<ProgressBar>(Resource.Id.Track_ProgressBar);
-			downloadingText = FindViewById<TextView>(Resource.Id.Track_DownloadingText);
+			MapImageView = FindViewById<ImageView>(Resource.Id.Track_Map);
+			ProgressBar = FindViewById<ProgressBar>(Resource.Id.Track_ProgressBar);
+			DownloadingText = FindViewById<TextView>(Resource.Id.Track_DownloadingText);
 
 			LoadMapImage();
 		}
@@ -102,11 +112,11 @@ namespace KinderFinder {
 		/// </summary>
 		void LoadMapImage() {
 			// Hide map image:
-			mapImage.Visibility = ViewStates.Gone;
+			MapImageView.Visibility = ViewStates.Gone;
 
 			ThreadPool.QueueUserWorkItem(state => {
-				string email = pref.GetString(Settings.Keys.USERNAME, null);
-				string restaurant = pref.GetString(Settings.Keys.RESTAURANT_NAME, null);
+				string email = Pref.GetString(Settings.Keys.USERNAME, null);
+				string restaurant = Pref.GetString(Settings.Keys.RESTAURANT_NAME, null);
 
 				if (email == null || restaurant == null) {
 					Toast.MakeText(this, Settings.Errors.LOCAL_DATA_ERROR, ToastLength.Long).Show();
@@ -147,14 +157,14 @@ namespace KinderFinder {
 				}
 
 				RunOnUiThread(() => {
-					progressBar.Visibility = ViewStates.Gone;
-					downloadingText.Visibility = ViewStates.Gone;
-					mapImage.Visibility = ViewStates.Visible;
+					ProgressBar.Visibility = ViewStates.Gone;
+					DownloadingText.Visibility = ViewStates.Gone;
+					MapImageView.Visibility = ViewStates.Visible;
 
 					/* No error; success! */
 					if (errorMsg == null) {
 						OriginalMap = AppTools.ResizeBitmap(bitmap, Resources.DisplayMetrics.WidthPixels, Resources.DisplayMetrics.HeightPixels);
-						mapImage.SetImageBitmap(OriginalMap);
+						MapImageView.SetImageBitmap(OriginalMap);
 
 						Timer = new Timer(UpdateMap);
 						Timer.Change(0, Settings.Map.UPDATE_FREQUENCY);
@@ -187,7 +197,7 @@ namespace KinderFinder {
 		/// </summary>
 		/// <param name="state">Not used.</param>
 		void UpdateMap(object state) {
-			string email = pref.GetString(Settings.Keys.USERNAME, null);
+			string email = Pref.GetString(Settings.Keys.USERNAME, null);
 
 			if (email == null) {
 				Toast.MakeText(this, Settings.Errors.LOCAL_DATA_ERROR, ToastLength.Long).Show();
@@ -210,8 +220,12 @@ namespace KinderFinder {
 					break;
 			}
 
-			var newBitmap = Bitmap.CreateBitmap(OriginalMap.Width, OriginalMap.Height, Bitmap.Config.Rgb565);
-			var canvas = new Canvas(newBitmap);
+			if (CurrentMap != null && CurrentMap != OriginalMap && !CurrentMap.IsRecycled)
+				CurrentMap.Recycle();
+
+			//var newBitmap = Bitmap.CreateBitmap(OriginalMap.Width, OriginalMap.Height, Bitmap.Config.Rgb565);
+			CurrentMap = Bitmap.CreateBitmap(OriginalMap.Width, OriginalMap.Height, Bitmap.Config.Rgb565);
+			var canvas = new Canvas(CurrentMap);
 			var paint = new Paint();
 
 			paint.SetStyle(Paint.Style.Fill);
@@ -259,14 +273,14 @@ namespace KinderFinder {
 							var dialog = new AlertDialog.Builder(this);
 							dialog.SetTitle("Tag In Range");
 
-							dialog.SetMessage("A tag is back in range!\nTag Name: " + data.Name + "\nChild: " + pref.GetString(data.Name + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT));
+							dialog.SetMessage("A tag is back in range!\nTag Name: " + data.Name + "\nChild: " + Pref.GetString(data.Name + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT));
 							dialog.SetNeutralButton("Ok", (sender, e) => AlarmPlayer.Stop());
 							RunOnUiThread(() => dialog.Show());
 						}
 					}
 
-					string colour = pref.GetString(data.Name + Settings.Keys.TAG_COLOUR, "");
-					string name = pref.GetString(data.Name + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT);
+					string colour = Pref.GetString(data.Name + Settings.Keys.TAG_COLOUR, "");
+					string name = Pref.GetString(data.Name + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT);
 
 					if (name.Equals(""))
 						name = Settings.Map.UNKNOWN_NAME_TEXT;
@@ -290,7 +304,7 @@ namespace KinderFinder {
 			}
 
 			// Display new map:
-			RunOnUiThread(() => mapImage.SetImageDrawable(new BitmapDrawable(Resources, newBitmap)));
+			RunOnUiThread(() => MapImageView.SetImageDrawable(new BitmapDrawable(Resources, CurrentMap)));
 		}
 
 		void PlayAlarm(string tagName) {
@@ -300,7 +314,7 @@ namespace KinderFinder {
 			var dialog = new AlertDialog.Builder(this);
 			dialog.SetTitle("Alert!");
 
-			dialog.SetMessage("A tag is out of range!\nTag Name: " + tagName + "\nChild: " + pref.GetString(tagName + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT));
+			dialog.SetMessage("A tag is out of range!\nTag Name: " + tagName + "\nChild: " + Pref.GetString(tagName + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT));
 			dialog.SetNeutralButton("Ok", (sender, e) => AlarmPlayer.Stop());
 			RunOnUiThread(() => dialog.Show());
 

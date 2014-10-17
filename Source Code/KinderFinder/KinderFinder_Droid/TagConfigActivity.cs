@@ -15,8 +15,8 @@ namespace KinderFinder {
 	public class TagConfigActivity : Activity {
 		static Dictionary<string, string> Colours;
 
-		ISharedPreferences pref;
-		ISharedPreferencesEditor editor;
+		ISharedPreferences Pref;
+		ISharedPreferencesEditor Editor;
 		EditText NameBox;
 		Spinner ColourSpinner;
 		Button CancelButton, SaveButton;
@@ -51,8 +51,8 @@ namespace KinderFinder {
 					StartActivity(new Intent(this, typeof(EditDetailsActivity)));
 					break;
 				case Resource.Id.Menu_LogOut:
-					editor.Clear();
-					editor.Commit();
+					Editor.Clear();
+					Editor.Commit();
 					StartActivity(new Intent(this, typeof(MainActivity)));
 					Finish();
 					break;
@@ -71,8 +71,8 @@ namespace KinderFinder {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.TagConfig);
 
-			pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
-			editor = pref.Edit();
+			Pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
+			Editor = Pref.Edit();
 
 			NameBox = FindViewById<EditText>(Resource.Id.TagConfig_Name);
 			ColourSpinner = FindViewById<Spinner>(Resource.Id.TagConfig_Colour);
@@ -89,11 +89,11 @@ namespace KinderFinder {
 			}
 
 			ColourSpinner.Adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleSpinnerItem, items);
-			CurrentTag = pref.GetString(Settings.Keys.CURRENT_TAG, "");
+			CurrentTag = Pref.GetString(Settings.Keys.CURRENT_TAG, "");
 
 			if (!CurrentTag.Equals("")) {
-				string name = pref.GetString(CurrentTag + Settings.Keys.TAG_NAME, "");
-				string colour = pref.GetString(CurrentTag + Settings.Keys.TAG_COLOUR, "");
+				string name = Pref.GetString(CurrentTag + Settings.Keys.TAG_NAME, "");
+				string colour = Pref.GetString(CurrentTag + Settings.Keys.TAG_COLOUR, "");
 				string toMatch = !colour.Equals("") ? colour : Settings.Map.DEFAULT_DOT_COLOUR;
 				int pos = 0;
 
@@ -116,9 +116,9 @@ namespace KinderFinder {
 
 		void SaveButtonClicked(object sender, EventArgs args) {
 			string colour = ColourSpinner.SelectedItem.ToString();
-			editor.PutString(CurrentTag + Settings.Keys.TAG_NAME, NameBox.Text);
-			editor.PutString(CurrentTag + Settings.Keys.TAG_COLOUR, Colours[colour]);
-			editor.Commit();
+			Editor.PutString(CurrentTag + Settings.Keys.TAG_NAME, NameBox.Text);
+			Editor.PutString(CurrentTag + Settings.Keys.TAG_COLOUR, Colours[colour]);
+			Editor.Commit();
 
 			Finish();
 		}

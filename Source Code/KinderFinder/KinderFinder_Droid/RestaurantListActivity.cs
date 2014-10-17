@@ -15,12 +15,12 @@ namespace KinderFinder {
 
 	[Activity(Label = "Link Restaurant", Icon = "@drawable/icon")]
 	public class RestaurantListActivity : Activity {
-		ISharedPreferences pref;
-		ISharedPreferencesEditor editor;
+		ISharedPreferences Pref;
+		ISharedPreferencesEditor Editor;
 
-		ListView restListView;
-		EditText searchBox;
-		Button clearButton;
+		ListView RestaurantList;
+		EditText SearchBox;
+		Button ClearButton;
 
 		List<string> AllRestaurants;
 		List<string> MatchingRestaurants;
@@ -47,8 +47,8 @@ namespace KinderFinder {
 					StartActivity(new Intent(this, typeof(EditDetailsActivity)));
 					break;
 				case Resource.Id.Menu_LogOut:
-					editor.Clear();
-					editor.Commit();
+					Editor.Clear();
+					Editor.Commit();
 					StartActivity(new Intent(this, typeof(MainActivity)));
 					Finish();
 					break;
@@ -67,16 +67,16 @@ namespace KinderFinder {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.RestaurantList);
 
-			pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
-			editor = pref.Edit();
+			Pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
+			Editor = Pref.Edit();
 
-			restListView = FindViewById<ListView>(Resource.Id.RestList_List);
-			searchBox = FindViewById<EditText>(Resource.Id.RestList_Search);
-			clearButton = FindViewById<Button>(Resource.Id.RestList_Clear);
+			RestaurantList = FindViewById<ListView>(Resource.Id.RestList_List);
+			SearchBox = FindViewById<EditText>(Resource.Id.RestList_Search);
+			ClearButton = FindViewById<Button>(Resource.Id.RestList_Clear);
 
-			restListView.ItemClick += ListItemClicked;
-			searchBox.TextChanged += SearchTextChanged;
-			clearButton.Click += (sender, e) => searchBox.Text = "";
+			RestaurantList.ItemClick += ListItemClicked;
+			SearchBox.TextChanged += SearchTextChanged;
+			ClearButton.Click += (sender, e) => SearchBox.Text = "";
 		}
 
 		/// <summary>
@@ -93,7 +93,7 @@ namespace KinderFinder {
 					case HttpStatusCode.OK:
 						AllRestaurants = Deserialiser<List<string>>.Run(reply.Body);
 						MatchingRestaurants = AllRestaurants;
-						RunOnUiThread(() => restListView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, AllRestaurants));
+						RunOnUiThread(() => RestaurantList.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, AllRestaurants));
 						break;
 					default:
 						errorMsg = Settings.Errors.SERVER_ERROR;
@@ -106,9 +106,9 @@ namespace KinderFinder {
 		}
 
 		void SearchTextChanged(object sender, Android.Text.TextChangedEventArgs args) {
-			string search = searchBox.Text.ToLower();
+			string search = SearchBox.Text.ToLower();
 
-			if (searchBox.Text.Equals("")) {
+			if (SearchBox.Text.Equals("")) {
 				MatchingRestaurants = AllRestaurants;
 			}
 			else {
@@ -124,7 +124,7 @@ namespace KinderFinder {
 			}
 
 			if (MatchingRestaurants != null) {
-				restListView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, MatchingRestaurants);
+				RestaurantList.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, MatchingRestaurants);
 			}
 		}
 
@@ -134,7 +134,7 @@ namespace KinderFinder {
 		/// <param name="sender">Sender.</param>
 		/// <param name="args">Arguments.</param>
 		void ListItemClicked(object sender, AdapterView.ItemClickEventArgs args) {
-			string email = pref.GetString(Settings.Keys.USERNAME, null);
+			string email = Pref.GetString(Settings.Keys.USERNAME, null);
 
 			if (email == null) {
 				Toast.MakeText(this, Settings.Errors.LOCAL_DATA_ERROR, ToastLength.Long).Show();
@@ -157,8 +157,8 @@ namespace KinderFinder {
 				switch (reply.StatusCode) {
 					case HttpStatusCode.OK:
 						Toast.MakeText(this, "Successfully linked!", ToastLength.Short).Show();
-						editor.PutString(Settings.Keys.RESTAURANT_NAME, restaurant);
-						editor.Commit();
+						Editor.PutString(Settings.Keys.RESTAURANT_NAME, restaurant);
+						Editor.Commit();
 						StartActivity(new Intent(this, typeof(TagListActivity)));
 						Finish();
 						break;

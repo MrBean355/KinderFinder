@@ -14,16 +14,16 @@ namespace KinderFinder {
 
 	[Activity(Label = "Register Account", Icon = "@drawable/icon")]
 	public class RegisterActivity : Activity {
-		ISharedPreferences pref;
-		ISharedPreferencesEditor editor;
-		EditText firstNameBox,
-			surnameBox,
-			emailBox,
-			phoneBox,
-			passwordBox,
-			passwordConfirmBox;
-		Button registerButton;
-		ProgressBar progressBar;
+		ISharedPreferences Pref;
+		ISharedPreferencesEditor Editor;
+		EditText FirstNameBox,
+			SurnameBox,
+			EmailBox,
+			PhoneBox,
+			PasswordBox,
+			PasswordConfirmBox;
+		Button RegisterButton;
+		ProgressBar ProgressBar;
 
 		public override bool OnCreateOptionsMenu(IMenu menu) {
 			base.OnCreateOptionsMenu(menu);
@@ -49,8 +49,8 @@ namespace KinderFinder {
 					StartActivity(new Intent(this, typeof(EditDetailsActivity)));
 					break;
 				case Resource.Id.Menu_LogOut:
-					editor.Clear();
-					editor.Commit();
+					Editor.Clear();
+					Editor.Commit();
 					StartActivity(new Intent(this, typeof(MainActivity)));
 					Finish();
 					break;
@@ -69,21 +69,21 @@ namespace KinderFinder {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.Register);
 
-			pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
-			editor = pref.Edit();
+			Pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
+			Editor = Pref.Edit();
 
-			firstNameBox = FindViewById<EditText>(Resource.Id.Register_FirstName);
-			surnameBox = FindViewById<EditText>(Resource.Id.Register_Surname);
-			emailBox = FindViewById<EditText>(Resource.Id.Register_Email);
-			phoneBox = FindViewById<EditText>(Resource.Id.Register_Phone);
-			passwordBox = FindViewById<EditText>(Resource.Id.Register_Password);
-			passwordConfirmBox = FindViewById<EditText>(Resource.Id.Register_PasswordConfirm);
-			registerButton = FindViewById<Button>(Resource.Id.Register_Register);
-			progressBar = FindViewById<ProgressBar>(Resource.Id.Register_ProgressBar);
+			FirstNameBox = FindViewById<EditText>(Resource.Id.Register_FirstName);
+			SurnameBox = FindViewById<EditText>(Resource.Id.Register_Surname);
+			EmailBox = FindViewById<EditText>(Resource.Id.Register_Email);
+			PhoneBox = FindViewById<EditText>(Resource.Id.Register_Phone);
+			PasswordBox = FindViewById<EditText>(Resource.Id.Register_Password);
+			PasswordConfirmBox = FindViewById<EditText>(Resource.Id.Register_PasswordConfirm);
+			RegisterButton = FindViewById<Button>(Resource.Id.Register_Register);
+			ProgressBar = FindViewById<ProgressBar>(Resource.Id.Register_ProgressBar);
 
-			registerButton.Click += RegisterPressed;
+			RegisterButton.Click += RegisterPressed;
 
-			progressBar.Visibility = ViewStates.Invisible;
+			ProgressBar.Visibility = ViewStates.Invisible;
 		}
 
 		/// <summary>
@@ -103,8 +103,8 @@ namespace KinderFinder {
 			builder.AddEntry("PasswordHash", passwordHash);
 
 			/* Disable button and show progress bar. */
-			registerButton.Enabled = false;
-			progressBar.Visibility = ViewStates.Visible;
+			RegisterButton.Enabled = false;
+			ProgressBar.Visibility = ViewStates.Visible;
 
 			/* Send request in a separate thread. */
 			ThreadPool.QueueUserWorkItem(state => {
@@ -116,10 +116,10 @@ namespace KinderFinder {
 				/* Registration was successful. */
 					case HttpStatusCode.OK:
 						message = "Registration successful!";
-						editor.PutString(Settings.Keys.USERNAME, email);
-						editor.Remove(Settings.Keys.REMEMBER_ME);
-						editor.Remove(Settings.Keys.PASSWORD_HASH);
-						editor.Commit();
+						Editor.PutString(Settings.Keys.USERNAME, email);
+						Editor.Remove(Settings.Keys.REMEMBER_ME);
+						Editor.Remove(Settings.Keys.PASSWORD_HASH);
+						Editor.Commit();
 						Finish();
 						break;
 				/* Email address is already in use. */
@@ -135,8 +135,8 @@ namespace KinderFinder {
 				/* Enable button and hide progress bar. Done on main thread. */
 				RunOnUiThread(() => {
 					Toast.MakeText(this, message, ToastLength.Short).Show();
-					registerButton.Enabled = true;
-					progressBar.Visibility = ViewStates.Invisible;
+					RegisterButton.Enabled = true;
+					ProgressBar.Visibility = ViewStates.Invisible;
 				});
 			});
 		}
@@ -146,12 +146,12 @@ namespace KinderFinder {
 		/// server to attempt to create a new account.
 		/// </summary>
 		void RegisterPressed(object sender, EventArgs e) {
-			string firstName = firstNameBox.Text;
-			string surname = surnameBox.Text;
-			string email = emailBox.Text;
-			string phone = phoneBox.Text;
-			string pass1 = passwordBox.Text;
-			string pass2 = passwordConfirmBox.Text;
+			string firstName = FirstNameBox.Text;
+			string surname = SurnameBox.Text;
+			string email = EmailBox.Text;
+			string phone = PhoneBox.Text;
+			string pass1 = PasswordBox.Text;
+			string pass2 = PasswordConfirmBox.Text;
 			string errorMsg = null;
 
 			if (!Validator.IsValidName(firstName))

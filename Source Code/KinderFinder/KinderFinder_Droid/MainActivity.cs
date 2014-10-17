@@ -15,14 +15,14 @@ namespace KinderFinder {
 
 	[Activity(Label = "KinderFinder", MainLauncher = true, Icon = "@drawable/icon")]
 	public class MainActivity : Activity {
-		ISharedPreferences pref;
-		ISharedPreferencesEditor editor;
-		EditText emailBox,
-			passwordBox;
-		CheckBox rememberMeBox;
-		Button loginButton,
-			registerButton;
-		ProgressBar progressBar;
+		ISharedPreferences Pref;
+		ISharedPreferencesEditor Editor;
+		EditText EmailBox,
+			PasswordBox;
+		CheckBox RememberMeBox;
+		Button LoginButton,
+			RegisterButton;
+		ProgressBar ProgressBar;
 
 		public override bool OnCreateOptionsMenu(IMenu menu) {
 			base.OnCreateOptionsMenu(menu);
@@ -48,8 +48,8 @@ namespace KinderFinder {
 					StartActivity(new Intent(this, typeof(EditDetailsActivity)));
 					break;
 				case Resource.Id.Menu_LogOut:
-					editor.Clear();
-					editor.Commit();
+					Editor.Clear();
+					Editor.Commit();
 					StartActivity(new Intent(this, typeof(MainActivity)));
 					Finish();
 					break;
@@ -68,32 +68,32 @@ namespace KinderFinder {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.Main);
 
-			pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
-			editor = pref.Edit();
+			Pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
+			Editor = Pref.Edit();
 
-			emailBox = FindViewById<EditText>(Resource.Id.Main_Email);
-			passwordBox = FindViewById<EditText>(Resource.Id.Main_Password);
-			rememberMeBox = FindViewById<CheckBox>(Resource.Id.Main_Remember);
-			loginButton = FindViewById<Button>(Resource.Id.Main_Login);
-			registerButton = FindViewById<Button>(Resource.Id.Main_Register);
-			progressBar = FindViewById<ProgressBar>(Resource.Id.Main_ProgressBar);
+			EmailBox = FindViewById<EditText>(Resource.Id.Main_Email);
+			PasswordBox = FindViewById<EditText>(Resource.Id.Main_Password);
+			RememberMeBox = FindViewById<CheckBox>(Resource.Id.Main_Remember);
+			LoginButton = FindViewById<Button>(Resource.Id.Main_Login);
+			RegisterButton = FindViewById<Button>(Resource.Id.Main_Register);
+			ProgressBar = FindViewById<ProgressBar>(Resource.Id.Main_ProgressBar);
 
-			loginButton.Click += LogInPressed;
-			registerButton.Click += (sender, e) => StartActivity(new Intent(this, typeof(RegisterActivity)));
+			LoginButton.Click += LogInPressed;
+			RegisterButton.Click += (sender, e) => StartActivity(new Intent(this, typeof(RegisterActivity)));
 		}
 
 		protected override void OnResume() {
 			base.OnResume();
 
-			string email = pref.GetString(Settings.Keys.USERNAME, null);
-			string passwordHash = pref.GetString(Settings.Keys.PASSWORD_HASH, null);
-			bool rememberMe = pref.GetBoolean(Settings.Keys.REMEMBER_ME, false);
-			progressBar.Visibility = ViewStates.Invisible;
+			string email = Pref.GetString(Settings.Keys.USERNAME, null);
+			string passwordHash = Pref.GetString(Settings.Keys.PASSWORD_HASH, null);
+			bool rememberMe = Pref.GetBoolean(Settings.Keys.REMEMBER_ME, false);
+			ProgressBar.Visibility = ViewStates.Invisible;
 
 			/* Was able to load email and password hash. */
 			if (email != null && passwordHash != null) {
-				emailBox.Text = email;
-				rememberMeBox.Checked = rememberMe;
+				EmailBox.Text = email;
+				RememberMeBox.Checked = rememberMe;
 
 				/* If "Remember Me" was ticked, try to log in: */
 				if (rememberMe)
@@ -112,9 +112,9 @@ namespace KinderFinder {
 			builder.AddEntry("PasswordHash", passwordHash);
 
 			/* Disable buttons and show progress bar. */
-			loginButton.Enabled = false;
-			registerButton.Enabled = false;
-			progressBar.Visibility = ViewStates.Visible;
+			LoginButton.Enabled = false;
+			RegisterButton.Enabled = false;
+			ProgressBar.Visibility = ViewStates.Visible;
 
 			/* Send request in a separate thread. */
 			ThreadPool.QueueUserWorkItem(state => {
@@ -126,18 +126,18 @@ namespace KinderFinder {
 				/* Log in succeeded. */
 					case HttpStatusCode.OK:
 						message = "Logged in!";
-						string prevUser = pref.GetString(Settings.Keys.USERNAME, null);
+						string prevUser = Pref.GetString(Settings.Keys.USERNAME, null);
 
 						/* Clear previous local data. */
 						if (prevUser != null && prevUser != email) {
-							editor.Clear();
-							editor.Commit();
+							Editor.Clear();
+							Editor.Commit();
 						}
 
-						editor.PutString(Settings.Keys.USERNAME, email);
-						editor.PutString(Settings.Keys.PASSWORD_HASH, passwordHash);
-						editor.PutBoolean(Settings.Keys.REMEMBER_ME, rememberMeBox.Checked);
-						editor.Commit();
+						Editor.PutString(Settings.Keys.USERNAME, email);
+						Editor.PutString(Settings.Keys.PASSWORD_HASH, passwordHash);
+						Editor.PutBoolean(Settings.Keys.REMEMBER_ME, RememberMeBox.Checked);
+						Editor.Commit();
 
 						StartActivity(new Intent(this, typeof(RestaurantListActivity)));
 						Finish();
@@ -156,9 +156,9 @@ namespace KinderFinder {
 				/* Enable buttons and hide progress bar. Done on main thread. */
 				RunOnUiThread(() => {
 					Toast.MakeText(this, message, ToastLength.Short).Show();
-					loginButton.Enabled = true;
-					registerButton.Enabled = true;
-					progressBar.Visibility = ViewStates.Invisible;
+					LoginButton.Enabled = true;
+					RegisterButton.Enabled = true;
+					ProgressBar.Visibility = ViewStates.Invisible;
 				});
 			});
 		}
@@ -168,13 +168,13 @@ namespace KinderFinder {
 		/// and then attempts to log in.
 		/// </summary>
 		void LogInPressed(object sender, EventArgs e) {
-			string email = emailBox.Text;
-			string password = passwordBox.Text;
+			string email = EmailBox.Text;
+			string password = PasswordBox.Text;
 			string errorMsg = null;
 
 			/* Hide keyboard. */
 			var manager = (InputMethodManager)GetSystemService(InputMethodService);
-			manager.HideSoftInputFromWindow(emailBox.WindowToken, 0);
+			manager.HideSoftInputFromWindow(EmailBox.WindowToken, 0);
 
 			/* Invalid email address. */
 			if (!Validator.IsValidEmailAddress(email))

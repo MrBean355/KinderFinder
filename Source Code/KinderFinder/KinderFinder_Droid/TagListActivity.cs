@@ -15,12 +15,12 @@ namespace KinderFinder {
 
 	[Activity(Label = "Linked Tags", Icon = "@drawable/icon")]
 	public class TagListActivity : Activity {
-		ISharedPreferences pref;
-		ISharedPreferencesEditor editor;
-		Button refreshButton, trackButton;
-		TextView warning;
-		ListView tagListView;
-		List<string> tags;
+		ISharedPreferences Pref;
+		ISharedPreferencesEditor Editor;
+		Button RefreshButton, TrackButton;
+		TextView Warning;
+		ListView TagListView;
+		List<string> TagNames;
 
 		public override bool OnCreateOptionsMenu(IMenu menu) {
 			base.OnCreateOptionsMenu(menu);
@@ -40,8 +40,8 @@ namespace KinderFinder {
 					StartActivity(new Intent(this, typeof(EditDetailsActivity)));
 					break;
 				case Resource.Id.Menu_LogOut:
-					editor.Clear();
-					editor.Commit();
+					Editor.Clear();
+					Editor.Commit();
 					StartActivity(new Intent(this, typeof(MainActivity)));
 					Finish();
 					break;
@@ -60,19 +60,19 @@ namespace KinderFinder {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.TagList);
 
-			pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
-			editor = pref.Edit();
+			Pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
+			Editor = Pref.Edit();
 
-			refreshButton = FindViewById<Button>(Resource.Id.TagList_Refresh);
-			trackButton = FindViewById<Button>(Resource.Id.TagList_Track);
-			warning = FindViewById<TextView>(Resource.Id.TagList_Warning);
-			tagListView = FindViewById<ListView>(Resource.Id.TagList_List);
+			RefreshButton = FindViewById<Button>(Resource.Id.TagList_Refresh);
+			TrackButton = FindViewById<Button>(Resource.Id.TagList_Track);
+			Warning = FindViewById<TextView>(Resource.Id.TagList_Warning);
+			TagListView = FindViewById<ListView>(Resource.Id.TagList_List);
 
-			refreshButton.Click += (sender, e) => LoadItems();
-			trackButton.Click += (sender, e) => StartActivity(new Intent(this, typeof(TrackTagsActivity)));
-			tagListView.ItemClick += (sender, e) => {
-				editor.PutString(Settings.Keys.CURRENT_TAG, tags[e.Position]);
-				editor.Commit();
+			RefreshButton.Click += (sender, e) => LoadItems();
+			TrackButton.Click += (sender, e) => StartActivity(new Intent(this, typeof(TrackTagsActivity)));
+			TagListView.ItemClick += (sender, e) => {
+				Editor.PutString(Settings.Keys.CURRENT_TAG, TagNames[e.Position]);
+				Editor.Commit();
 				StartActivity(new Intent(this, typeof(TagConfigActivity)));
 			};
 		}
@@ -90,7 +90,7 @@ namespace KinderFinder {
 		/// Populates the tag list by contacting the server and getting a list of linked tags.
 		/// </summary>
 		void LoadItems() {
-			string email = pref.GetString(Settings.Keys.USERNAME, null);
+			string email = Pref.GetString(Settings.Keys.USERNAME, null);
 
 			if (email == null) {
 				Toast.MakeText(this, Settings.Errors.LOCAL_DATA_ERROR, ToastLength.Long).Show();
@@ -106,7 +106,7 @@ namespace KinderFinder {
 
 				switch (reply.StatusCode) {
 					case HttpStatusCode.OK:
-						tags = Deserialiser<List<string>>.Run(reply.Body);
+						TagNames = Deserialiser<List<string>>.Run(reply.Body);
 						break;
 					case HttpStatusCode.BadRequest:
 						message = "Invalid user details";
@@ -118,21 +118,21 @@ namespace KinderFinder {
 
 				/* Error message was set; create empty list. */
 				if (message != null)
-					tags = new List<string>();
+					TagNames = new List<string>();
 
 				/* Temporary list for displaying children's names next to tags. */
-				var listItems = new List<string>(tags);
+				var listItems = new List<string>(TagNames);
 
 				RunOnUiThread(() => {
 					/* No linked tags; show warning message. */
-					if (tags.Count == 0) {
-						warning.Visibility = ViewStates.Visible;
-						trackButton.Enabled = false;
+					if (TagNames.Count == 0) {
+						Warning.Visibility = ViewStates.Visible;
+						TrackButton.Enabled = false;
 					}
 					/* Has linked tags; display them. */
 					else {
-						for (int i = 0; i < tags.Count; i++) {
-							string name = pref.GetString(tags[i] + Settings.Keys.TAG_NAME, ""); // load child's name.
+						for (int i = 0; i < TagNames.Count; i++) {
+							string name = Pref.GetString(TagNames[i] + Settings.Keys.TAG_NAME, ""); // load child's name.
 
 							if (name.Equals(""))
 								name = "(no child assigned)";
@@ -140,12 +140,12 @@ namespace KinderFinder {
 							listItems[i] += ": " + name;
 						}
 
-						warning.Visibility = ViewStates.Gone; // hide warning message.
-						trackButton.Enabled = true;
+						Warning.Visibility = ViewStates.Gone; // hide warning message.
+						TrackButton.Enabled = true;
 					}
 
 					/* Show temporary list. */
-					tagListView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, listItems);
+					TagListView.Adapter = new ArrayAdapter<String>(this, Android.Resource.Layout.SimpleListItem1, listItems);
 				});
 			});
 		}

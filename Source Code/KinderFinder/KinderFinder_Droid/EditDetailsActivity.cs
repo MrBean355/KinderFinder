@@ -14,17 +14,17 @@ namespace KinderFinder {
 
 	[Activity(Label = "Edit Details", Icon = "@drawable/icon")]			
 	public class EditDetailsActivity : Activity {
-		ISharedPreferences pref;
-		ISharedPreferencesEditor editor;
-		EditText firstNameBox,
-			surnameBox,
-			emailBox,
-			phoneBox,
-			passwordBox,
-			passwordConfirmBox;
-		Button cancelButton,
-			saveButton;
-		ProgressBar progressBar;
+		ISharedPreferences Pref;
+		ISharedPreferencesEditor Editor;
+		EditText FirstNameBox,
+			SurnameBox,
+			EmailBox,
+			PhoneBox,
+			PasswordBox,
+			PasswordConfirmBox;
+		Button CancelButton,
+			SaveButton;
+		ProgressBar ProgressBar;
 
 		public override bool OnCreateOptionsMenu(IMenu menu) {
 			base.OnCreateOptionsMenu(menu);
@@ -44,8 +44,8 @@ namespace KinderFinder {
 					StartActivity(new Intent(this, typeof(EditDetailsActivity)));
 					break;
 				case Resource.Id.Menu_LogOut:
-					editor.Clear();
-					editor.Commit();
+					Editor.Clear();
+					Editor.Commit();
 					StartActivity(new Intent(this, typeof(MainActivity)));
 					Finish();
 					break;
@@ -64,21 +64,21 @@ namespace KinderFinder {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.EditDetails);
 
-			pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
-			editor = pref.Edit();
+			Pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
+			Editor = Pref.Edit();
 
-			firstNameBox = FindViewById<EditText>(Resource.Id.Edit_FirstName);
-			surnameBox = FindViewById<EditText>(Resource.Id.Edit_Surname);
-			emailBox = FindViewById<EditText>(Resource.Id.Edit_Email);
-			phoneBox = FindViewById<EditText>(Resource.Id.Edit_Phone);
-			passwordBox = FindViewById<EditText>(Resource.Id.Edit_Password);
-			passwordConfirmBox = FindViewById<EditText>(Resource.Id.Edit_PasswordConfirm);
-			cancelButton = FindViewById<Button>(Resource.Id.Edit_Cancel);
-			saveButton = FindViewById<Button>(Resource.Id.Edit_Save);
-			progressBar = FindViewById<ProgressBar>(Resource.Id.Edit_ProgressBar);
+			FirstNameBox = FindViewById<EditText>(Resource.Id.Edit_FirstName);
+			SurnameBox = FindViewById<EditText>(Resource.Id.Edit_Surname);
+			EmailBox = FindViewById<EditText>(Resource.Id.Edit_Email);
+			PhoneBox = FindViewById<EditText>(Resource.Id.Edit_Phone);
+			PasswordBox = FindViewById<EditText>(Resource.Id.Edit_Password);
+			PasswordConfirmBox = FindViewById<EditText>(Resource.Id.Edit_PasswordConfirm);
+			CancelButton = FindViewById<Button>(Resource.Id.Edit_Cancel);
+			SaveButton = FindViewById<Button>(Resource.Id.Edit_Save);
+			ProgressBar = FindViewById<ProgressBar>(Resource.Id.Edit_ProgressBar);
 
-			cancelButton.Click += CancelPressed;
-			saveButton.Click += SavePressed;
+			CancelButton.Click += CancelPressed;
+			SaveButton.Click += SavePressed;
 
 			LoadDetails();
 		}
@@ -90,7 +90,7 @@ namespace KinderFinder {
 		}
 
 		void LoadDetails() {
-			string email = pref.GetString(Settings.Keys.USERNAME, "");
+			string email = Pref.GetString(Settings.Keys.USERNAME, "");
 
 			if (email.Equals("")) {
 				Finish();
@@ -99,7 +99,7 @@ namespace KinderFinder {
 
 			var builder = new JsonBuilder();
 			builder.AddEntry("EmailAddress", email);
-			progressBar.Visibility = ViewStates.Visible;
+			ProgressBar.Visibility = ViewStates.Visible;
 
 			ThreadPool.QueueUserWorkItem(state => {
 				var reply = AppTools.SendRequest("api/getdetails", builder.ToString());
@@ -109,10 +109,10 @@ namespace KinderFinder {
 						var details = Deserialiser<Details>.Run(reply.Body);
 
 						RunOnUiThread(() => {
-							firstNameBox.Text = details.FirstName;
-							surnameBox.Text = details.Surname;
-							emailBox.Text = email;
-							phoneBox.Text = details.PhoneNumber;
+							FirstNameBox.Text = details.FirstName;
+							SurnameBox.Text = details.Surname;
+							EmailBox.Text = email;
+							PhoneBox.Text = details.PhoneNumber;
 						});
 
 						break;
@@ -121,7 +121,7 @@ namespace KinderFinder {
 						break;
 				}
 
-				RunOnUiThread(() => progressBar.Visibility = ViewStates.Gone);
+				RunOnUiThread(() => ProgressBar.Visibility = ViewStates.Gone);
 			});
 		}
 
@@ -130,12 +130,12 @@ namespace KinderFinder {
 		}
 
 		void SavePressed(object sender, EventArgs e) {
-			string firstName = firstNameBox.Text;
-			string surname = surnameBox.Text;
-			string email = emailBox.Text;
-			string phone = phoneBox.Text;
-			string pass1 = passwordBox.Text;
-			string pass2 = passwordConfirmBox.Text;
+			string firstName = FirstNameBox.Text;
+			string surname = SurnameBox.Text;
+			string email = EmailBox.Text;
+			string phone = PhoneBox.Text;
+			string pass1 = PasswordBox.Text;
+			string pass2 = PasswordConfirmBox.Text;
 			bool newPassword = !pass1.Equals("");
 			string errorMsg = null;
 
@@ -157,7 +157,7 @@ namespace KinderFinder {
 				return;
 			}
 
-			string oldEmail = pref.GetString(Settings.Keys.USERNAME, "");
+			string oldEmail = Pref.GetString(Settings.Keys.USERNAME, "");
 
 			if (oldEmail.Equals(""))
 				return;
@@ -187,7 +187,7 @@ namespace KinderFinder {
 						break;
 				}
 
-				RunOnUiThread(() => progressBar.Visibility = ViewStates.Gone);
+				RunOnUiThread(() => ProgressBar.Visibility = ViewStates.Gone);
 			});
 		}
 	}
