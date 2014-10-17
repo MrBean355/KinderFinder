@@ -149,9 +149,9 @@ namespace triangulation_alpha0._2
                     }
                 }
             }
-            catch(IndexOutOfRangeException exeptionForOutOfRange)
+            catch(IndexOutOfRangeException exceptionForOutOfRange)
             {
-                sEvent = exeptionForOutOfRange.ToString();
+                sEvent = exceptionForOutOfRange.ToString();
               
                 if(!EventLog.SourceExists(source))
                 {
