@@ -20,6 +20,7 @@ namespace Transmitter {
 		Spinner RestaurantList, TypeList;
 		EditText XPosBox, YPosBox;
 		Button StartButton, StopButton;
+		ProgressBar ProgressBar;
 
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
@@ -34,18 +35,13 @@ namespace Transmitter {
 			YPosBox = FindViewById<EditText>(Resource.Id.YPos);
 			StartButton = FindViewById<Button>(Resource.Id.Start);
 			StopButton = FindViewById<Button>(Resource.Id.Stop);
+			ProgressBar = FindViewById<ProgressBar>(Resource.Id.ProgressBar);
 
 			RestaurantList.ItemSelected += (sender, e) => LoadTypes(RestaurantList.SelectedItem.ToString());
 			StartButton.Click += StartPressed;
 			StopButton.Click += StopPressed;
 
 			CheckService();
-		}
-
-		protected override void OnDestroy() {
-			base.OnDestroy();
-
-			//StopService(new Intent(this, typeof(TransmitService)));
 		}
 
 		void CheckService() {
@@ -62,13 +58,15 @@ namespace Transmitter {
 				TypeList.Enabled = false;
 				XPosBox.Enabled = false;
 				YPosBox.Enabled = false;
-				StartButton.Enabled = true;
+				StartButton.Enabled = false;
 				StopButton.Enabled = false;
 				LoadRestaurants();
 			}
 		}
 
 		void LoadRestaurants() {
+			ProgressBar.Visibility = Android.Views.ViewStates.Visible;
+
 			ThreadPool.QueueUserWorkItem(state => {
 				var reply = AppTools.SendRequest("api/restaurantlist", null);
 
@@ -77,20 +75,26 @@ namespace Transmitter {
 						var list = Deserialiser<List<string>>.Run(reply.Body);
 						var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, list);
 						adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-						RunOnUiThread(() => RestaurantList.Adapter = adapter);
 
-						if (list.Count > 0)
-							RunOnUiThread(() => RestaurantList.Enabled = true);
+						RunOnUiThread(() => {
+							RestaurantList.Adapter = adapter;
+
+							if (list.Count > 0)
+								RestaurantList.Enabled = true;
+						});
 
 						break;
 					default:
 						RunOnUiThread(() => Toast.MakeText(this, "Error contacting server", ToastLength.Short).Show());
 						break;
 				}
+
+				RunOnUiThread(() => ProgressBar.Visibility = Android.Views.ViewStates.Invisible);
 			});
 		}
 
 		void LoadTypes(string restaurant) {
+			ProgressBar.Visibility = Android.Views.ViewStates.Visible;
 			var jb = new JsonBuilder();
 			jb.AddEntry("RestaurantName", restaurant);
 
@@ -121,6 +125,8 @@ namespace Transmitter {
 						RunOnUiThread(() => Toast.MakeText(this, "Error contacting server", ToastLength.Short).Show());
 						break;
 				}
+
+				RunOnUiThread(() => ProgressBar.Visibility = Android.Views.ViewStates.Invisible);
 			});
 		}
 

@@ -131,4 +131,8 @@
             android:id="@+id/space4"
             android:layout_weight="3" />
     </LinearLayout>
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ProgressBar" />
 </LinearLayout>
