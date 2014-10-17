@@ -47,7 +47,7 @@ namespace Transmitter.Utility {
 			/* Another exception was thrown in this method. */
 			catch (Exception ex) {
 				result.StatusCode = HttpStatusCode.ServiceUnavailable;
-				Console.WriteLine("EXCEPTION while communication with server:\n" + ex);
+				Console.WriteLine("[Error] Exception encountered while sending request: " + ex);
 			}
 
 			return result;

@@ -14,64 +14,61 @@ namespace Transmitter {
 
 	[Activity(Label = "Transmitter", MainLauncher = true, Icon = "@drawable/icon")]
 	public class MainActivity : Activity {
+		ISharedPreferences Pref;
+		ISharedPreferencesEditor Editor;
+
 		Spinner RestaurantList, TypeList;
 		EditText XPosBox, YPosBox;
-		Button TransmitButton;
+		Button StartButton, StopButton;
 
 		protected override void OnCreate(Bundle bundle) {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.Main);
 
+			Pref = GetSharedPreferences("Preferences", 0);
+			Editor = Pref.Edit();
+
 			RestaurantList = FindViewById<Spinner>(Resource.Id.RestaurantList);
 			TypeList = FindViewById<Spinner>(Resource.Id.TypeList);
 			XPosBox = FindViewById<EditText>(Resource.Id.XPos);
 			YPosBox = FindViewById<EditText>(Resource.Id.YPos);
-			TransmitButton = FindViewById<Button>(Resource.Id.Transmit);
+			StartButton = FindViewById<Button>(Resource.Id.Start);
+			StopButton = FindViewById<Button>(Resource.Id.Stop);
 
 			RestaurantList.ItemSelected += (sender, e) => LoadTypes(RestaurantList.SelectedItem.ToString());
-			TransmitButton.Click += TransmitPressed;
+			StartButton.Click += StartPressed;
+			StopButton.Click += StopPressed;
 
-			LoadRestaurants();
+			CheckService();
 		}
 
-		void LoadTypes(string restaurant) {
-			var jb = new JsonBuilder();
-			jb.AddEntry("RestaurantName", restaurant);
+		protected override void OnDestroy() {
+			base.OnDestroy();
 
-			ThreadPool.QueueUserWorkItem(state => {
-				var reply = AppTools.SendRequest("api/transmittertype", jb.ToString());
+			//StopService(new Intent(this, typeof(TransmitService)));
+		}
 
-				switch (reply.StatusCode) {
-					case HttpStatusCode.OK:
-						var list = Deserialiser<List<string>>.Run(reply.Body);
-						var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, list);
-						adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
-						RunOnUiThread(() => TypeList.Adapter = adapter);
-
-						if (list.Count > 0) {
-							RunOnUiThread(() => {
-								TypeList.Enabled = true;
-								XPosBox.Enabled = true;
-								YPosBox.Enabled = true;
-								TransmitButton.Enabled = true;
-							});
-						}
-
-						break;
-					default:
-						RunOnUiThread(() => Toast.MakeText(this, "Error contacting server", ToastLength.Short).Show());
-						break;
-				}
-			});
+		void CheckService() {
+			if (TransmitService.IsRunning()) {
+				RestaurantList.Enabled = false;
+				TypeList.Enabled = false;
+				XPosBox.Enabled = false;
+				YPosBox.Enabled = false;
+				StartButton.Enabled = false;
+				StopButton.Enabled = true;
+			}
+			else {
+				RestaurantList.Enabled = false;
+				TypeList.Enabled = false;
+				XPosBox.Enabled = false;
+				YPosBox.Enabled = false;
+				StartButton.Enabled = true;
+				StopButton.Enabled = false;
+				LoadRestaurants();
+			}
 		}
 
 		void LoadRestaurants() {
-			RestaurantList.Enabled = false;
-			TypeList.Enabled = false;
-			XPosBox.Enabled = false;
-			YPosBox.Enabled = false;
-			TransmitButton.Enabled = false;
-
 			ThreadPool.QueueUserWorkItem(state => {
 				var reply = AppTools.SendRequest("api/restaurantlist", null);
 
@@ -93,7 +90,41 @@ namespace Transmitter {
 			});
 		}
 
-		void TransmitPressed(object sender, EventArgs e) {
+		void LoadTypes(string restaurant) {
+			var jb = new JsonBuilder();
+			jb.AddEntry("RestaurantName", restaurant);
+
+			ThreadPool.QueueUserWorkItem(state => {
+				var reply = AppTools.SendRequest("api/transmittertype", jb.ToString());
+
+				switch (reply.StatusCode) {
+					case HttpStatusCode.OK:
+						var list = Deserialiser<List<string>>.Run(reply.Body);
+						var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleSpinnerItem, list);
+						adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+
+						RunOnUiThread(() => {
+							TypeList.Adapter = adapter;
+
+							if (list.Count > 0) {
+								RunOnUiThread(() => {
+									TypeList.Enabled = true;
+									XPosBox.Enabled = true;
+									YPosBox.Enabled = true;
+									StartButton.Enabled = true;
+								});
+							}
+						});
+
+						break;
+					default:
+						RunOnUiThread(() => Toast.MakeText(this, "Error contacting server", ToastLength.Short).Show());
+						break;
+				}
+			});
+		}
+
+		void StartPressed(object sender, EventArgs e) {
 			string restaurant = RestaurantList.SelectedItem.ToString();
 			string type = TypeList.SelectedItem.ToString();
 			string xPos = XPosBox.Text;
@@ -119,16 +150,21 @@ namespace Transmitter {
 
 				switch (reply.StatusCode) {
 					case HttpStatusCode.OK:
-						var intent = new Intent(this, typeof(TransmitActivity));
-						intent.PutExtra("ID", reply.Body);
-						StartActivity(intent);
-						Finish();
+						Editor.PutString("ID", reply.Body);
+						Editor.Commit();
+						StartService(new Intent(this, typeof(TransmitService)));
+						RunOnUiThread(CheckService);
 						break;
 					default:
 						RunOnUiThread(() => Toast.MakeText(this, "Error contacting server", ToastLength.Short).Show());
 						break;
 				}
 			});
+		}
+
+		void StopPressed(object sender, EventArgs e) {
+			StopService(new Intent(this, typeof(TransmitService)));
+			CheckService();
 		}
 	}
 }

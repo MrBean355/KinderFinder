@@ -52,15 +52,16 @@
     <Compile Include="no\nordicsemi\android\beacon\BeaconServiceConnection.cs" />
     <Compile Include="no\nordicsemi\android\beacon\Proximity.cs" />
     <Compile Include="no\nordicsemi\android\beacon\ServiceProxy.cs" />
-    <Compile Include="TransmitActivity.cs" />
     <Compile Include="Utility\AppTools.cs" />
     <Compile Include="Utility\Deserialiser.cs" />
     <Compile Include="Utility\JsonBuilder.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
+    <Compile Include="TransmitService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
+    <None Include="TransmitActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />

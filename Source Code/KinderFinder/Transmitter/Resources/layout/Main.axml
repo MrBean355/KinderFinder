@@ -95,16 +95,40 @@
             android:layout_height="match_parent"
             android:id="@+id/space1"
             android:layout_weight="5" />
-        <Button
-            android:text="Transmit"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/Transmit"
-            android:layout_weight="3" />
         <Space
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/space2"
             android:layout_weight="5" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout3">
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/space3"
+            android:layout_weight="3" />
+        <Button
+            android:text="Start"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/Start"
+            android:layout_weight="3" />
+        <Button
+            android:text="Stop"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/Stop"
+            android:layout_weight="3" />
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/space4"
+            android:layout_weight="3" />
     </LinearLayout>
 </LinearLayout>
