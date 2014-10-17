@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,12 @@ namespace triangulation_alpha0._2
         private Reciever reciever1, reciever2, reciever3;
         private int[,] roomArray;
         bool outOfBounds;
+        
+        //for logger
+        string source;
+        string log;
+        string sEvent;
+
 
         private const int maxNumberOfRecievers = 3;//here you can add the max number of recievers to test
 
@@ -20,6 +27,8 @@ namespace triangulation_alpha0._2
         {
             roomArray = new int[xMatrixSize, yMatrixSize];
             outOfBounds = false;
+            source = "Triangulation_log";
+            log = "Triangulation";
         }
 
         public Triangulate(int x_WidthOfRoom, int y_HeightOfRoom)//when calling the constructor add the dimenstions of the room, x first, then y
@@ -28,6 +37,9 @@ namespace triangulation_alpha0._2
             yMatrixSize = y_HeightOfRoom;
             roomArray = new int[xMatrixSize, yMatrixSize];
             outOfBounds = false;
+
+            source = "Triangulation_log";
+            log = "Triangulation";
 
         }
 
@@ -99,42 +111,56 @@ namespace triangulation_alpha0._2
             }
 
             //adjusting matrix for signal 1
-
-            for (int x = 0; x < signalStrength1; x++)
+            try
             {
-                for (int y = 0; y < signalStrength1; y++)
+                for (int x = 0; x < signalStrength1; x++)
                 {
-                    roomArray[x, y] = 1;
-                } 
-            }
-            //adjusting matrix for signal 2
-            for (int x = xMatrixSize -1; x > xMatrixSize - 1 - signalStrength2; x--)
-            {
-                for (int y = 0; y < signalStrength2; y++)
-                {
-                    if (roomArray[x, y] == 1)
-                        roomArray[x, y] = 4;
-                    else
-                        roomArray[x, y] = 2;
+                    for (int y = 0; y < signalStrength1; y++)
+                    {
+                        roomArray[x, y] = 1;
+                    }
                 }
-            } 
-            //adjusting matrix for signal 3
-            for (int x = 0; x < signalStrength3; x++)
-            {
-                for (int y = yMatrixSize - 1; y > yMatrixSize - 1 - signalStrength3; y--)
+                //adjusting matrix for signal 2
+                for (int x = xMatrixSize - 1; x > xMatrixSize - 1 - signalStrength2; x--)
                 {
-                    if (roomArray[x, y] == 1)
-                        roomArray[x, y] = 5;
-                    else
-                        if (roomArray[x, y] == 2)
+                    for (int y = 0; y < signalStrength2; y++)
+                    {
+                        if (roomArray[x, y] == 1)
+                            roomArray[x, y] = 4;
+                        else
+                            roomArray[x, y] = 2;
+                    }
+                }
+                //adjusting matrix for signal 3
+                for (int x = 0; x < signalStrength3; x++)
+                {
+                    for (int y = yMatrixSize - 1; y > yMatrixSize - 1 - signalStrength3; y--)
+                    {
+                        if (roomArray[x, y] == 1)
                             roomArray[x, y] = 5;
                         else
-                            if (roomArray[x, y] == 5)
-                                roomArray[x, y] = 6;
+                            if (roomArray[x, y] == 2)
+                                roomArray[x, y] = 5;
                             else
-                                roomArray[x, y] = 3;
+                                if (roomArray[x, y] == 5)
+                                    roomArray[x, y] = 6;
+                                else
+                                    roomArray[x, y] = 3;
+                    }
                 }
-            } 
+            }
+            catch(IndexOutOfRangeException exeptionForOutOfRange)
+            {
+                sEvent = exeptionForOutOfRange.ToString();
+              
+                if(!EventLog.SourceExists(source))
+                {
+                    EventLog.CreateEventSource(source,log);
+                }
+
+                EventLog.WriteEntry(source,sEvent);
+                EventLog.WriteEntry(source, sEvent, EventLogEntryType.Error, 100);
+            }
 
 
         }
