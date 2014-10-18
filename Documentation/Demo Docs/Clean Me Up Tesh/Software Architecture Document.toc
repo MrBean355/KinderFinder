@@ -1,6 +1,0 @@
-\contentsline {section}{\numberline {1}Architecture requirements}{2}
-\contentsline {subsection}{\numberline {1.1}Architectural scope}{2}
-\contentsline {subsection}{\numberline {1.2}Architectural constraints}{2}
-\contentsline {section}{\numberline {2}Access and integration channels}{2}
-\contentsline {section}{\numberline {3}Technologies}{2}
-\contentsline {section}{\numberline {A}Glossary}{3}
