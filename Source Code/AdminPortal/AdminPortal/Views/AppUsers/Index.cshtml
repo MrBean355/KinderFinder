@@ -17,12 +17,12 @@
         <th>
             @Html.DisplayNameFor(model => model.Surname)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.EmailAddress)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.PhoneNumber)
-        </th>
+        </th>*@
         <th>
             @Html.DisplayNameFor(model => model.CurrentRestaurant)
         </th>
@@ -37,19 +37,19 @@
         <td>
             @Html.DisplayFor(modelItem => item.Surname)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.EmailAddress)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PhoneNumber)
-        </td>
+        </td>*@
         <td>
             @Html.DisplayFor(modelItem => item.Restaurant.Name)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) 
             @*@Html.ActionLink("Edit", "Edit", new { id=item.ID }) |*@
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.ID })*@
         </td>
     </tr>
 }

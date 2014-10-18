@@ -42,16 +42,24 @@
         </dd>
 
         <!-- CURRENT RESTAURANT -->
-        <dt>
-            @Html.DisplayNameFor(model => model.Restaurant.Name)
+        <dt> Current Restaurant
+            @*@Html.DisplayNameFor(model => model.Restaurant.Name)*@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Restaurant.Name)
         </dd>
+
+        <!-- DATE OF LATEST VISIT (TODAY)-->
+        <dt>
+            Date of lastest visit
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUserStat.LastVisit)
+        </dd>
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Delete", "Delete", new { id = Model.ID }) |
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.ID }) |*@
     @Html.ActionLink("Back to List", "Index")
 </p>
