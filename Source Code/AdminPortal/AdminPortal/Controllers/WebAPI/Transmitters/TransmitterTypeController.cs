@@ -18,9 +18,8 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 							  where item.Name.Equals(details.RestaurantName)
 							  select item).FirstOrDefault();
 
-			if (restaurant == null) {
+			if (restaurant == null)
 				return BadRequest();
-			}
 
 			var types = new List<string>();
 			types.Add("1");
@@ -34,14 +33,12 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 			foreach (var item in trans) {
 				string type = (int)item.Type + "";
 
-				if (types.Contains(type)) {
+				if (types.Contains(type))
 					types.Remove(type);
-				}
 			}
 
-			if (types.Count == 0) {
-				return BadRequest();
-			}
+			if (types.Count == 0)
+				return Conflict();
 
 			return Ok(types);
 		}

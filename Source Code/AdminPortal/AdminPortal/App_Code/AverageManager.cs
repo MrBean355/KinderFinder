@@ -4,46 +4,46 @@ using System.Collections.Generic;
 namespace AdminPortal.Code {
 	
 	public class AverageManager {
-		private List<double> Data = new List<double>();
+		private List<double> Data;
+		private int Size;
+		private int Index;
+
+		public AverageManager(int averages) {
+			Data = new List<double>();
+			Size = averages;
+			Index = 0;
+
+			for (int i = 0; i < Size; i++)
+				Data.Add(0.0);
+		}
 
 		public void AddStrength(double strength) {
-			Data.Add(strength);
+			Data[Index] = strength;
+			Index = (Index + 1) % Size;
 		}
 
 		public double GetAverage() {
-			if (Data.Count == 0) {
-				System.Diagnostics.Debug.WriteLine("Error getting average strength: no strengths to average.");
-				return -1.0;
-			}
+			// First, calculate the average of all the strengths:
+			double average = 0.0;
 
-			double sum = 0.0;
+			foreach (var strength in Data)
+				average += strength;
 
-			foreach (var item in Data) {
-				sum += item;
-			}
+			average /= Size;
+			double bestDiff = 0.0;
+			double bestStrength = -100.0;
 
-			double average = sum / Data.Count;
-			double dist = double.MaxValue;
-			double best = -1.0;
+			// Next we need to find which strength is closest to the average:
+			foreach (var strength in Data) {
+				double diff = Math.Abs(average - strength);
 
-			foreach (var item in Data) {
-				double diff = Math.Abs(item - average);
-
-				if (diff < dist) {
-					dist = diff;
-					best = item;
+				if (bestStrength == -100.0 || diff < bestDiff) {
+					bestStrength = strength;
+					bestDiff = diff;
 				}
 			}
 
-			return best;
-		}
-
-		public int CountAverages() {
-			return Data.Count;
-		}
-
-		public void ResetAverages() {
-			Data.Clear();
+			return bestStrength;
 		}
 	}
 }

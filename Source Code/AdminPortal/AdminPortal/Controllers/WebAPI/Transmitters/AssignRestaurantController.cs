@@ -1,11 +1,6 @@
 ﻿using AdminPortal.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
+
 using System.Linq;
-using System.Net;
-using System.Timers;
-using System.Web;
 using System.Web.Http;
 
 namespace AdminPortal.Controllers.WebAPI.Transmitters {
@@ -22,9 +17,8 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 							  where item.Name.Equals(details.RestaurantName)
 							  select item).FirstOrDefault();
 
-			if (restaurant == null) {
+			if (restaurant == null)
 				return BadRequest();
-			}
 			
 			int type = int.Parse(details.TransmitterType);
 
@@ -32,14 +26,13 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 						 where item.Restaurant == restaurant.ID && item.Type == type
 						 select item).Count();
 
-			if (count > 0) {
-				return BadRequest();
-			}
+			if (count > 0)
+				return Conflict();
 
 			Transmitter t = new Transmitter();
 
-			details.X = details.X.Replace('.', ',');
-			details.Y = details.Y.Replace('.', ',');
+			//details.X = details.X.Replace('.', ',');
+			//details.Y = details.Y.Replace('.', ',');
 
 			t.Type = int.Parse(details.TransmitterType);
 			t.PosX = float.Parse(details.X);

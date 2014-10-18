@@ -6,6 +6,10 @@ namespace Transmitter.Utility {
 		
 	public static class AppTools {
 
+		public static long GetCurrentTime() {
+			return DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+		}
+
 		public static ServerResponse SendRequest(string url, string json, int timeout = 10000) {
 			var result = new ServerResponse();
 			result.StatusCode = HttpStatusCode.OK;

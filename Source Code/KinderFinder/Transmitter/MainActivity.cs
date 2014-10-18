@@ -19,7 +19,7 @@ namespace Transmitter {
 
 		Spinner RestaurantList, TypeList;
 		EditText XPosBox, YPosBox;
-		Button StartButton, StopButton;
+		Button RefreshButton, StartButton, StopButton;
 		ProgressBar ProgressBar;
 
 		protected override void OnCreate(Bundle bundle) {
@@ -33,14 +33,20 @@ namespace Transmitter {
 			TypeList = FindViewById<Spinner>(Resource.Id.TypeList);
 			XPosBox = FindViewById<EditText>(Resource.Id.XPos);
 			YPosBox = FindViewById<EditText>(Resource.Id.YPos);
+			RefreshButton = FindViewById<Button>(Resource.Id.Refresh);
 			StartButton = FindViewById<Button>(Resource.Id.Start);
 			StopButton = FindViewById<Button>(Resource.Id.Stop);
 			ProgressBar = FindViewById<ProgressBar>(Resource.Id.ProgressBar);
 
 			RestaurantList.ItemSelected += (sender, e) => LoadTypes(RestaurantList.SelectedItem.ToString());
+			RefreshButton.Click += RefreshPressed;
 			StartButton.Click += StartPressed;
 			StopButton.Click += StopPressed;
 
+			CheckService();
+		}
+
+		void RefreshPressed(object sender, EventArgs e) {
 			CheckService();
 		}
 
@@ -52,6 +58,7 @@ namespace Transmitter {
 				YPosBox.Enabled = false;
 				StartButton.Enabled = false;
 				StopButton.Enabled = true;
+				ProgressBar.Visibility = Android.Views.ViewStates.Invisible;
 			}
 			else {
 				RestaurantList.Enabled = false;
@@ -78,14 +85,12 @@ namespace Transmitter {
 
 						RunOnUiThread(() => {
 							RestaurantList.Adapter = adapter;
-
-							if (list.Count > 0)
-								RestaurantList.Enabled = true;
+							RestaurantList.Enabled = list.Count > 0;
 						});
 
 						break;
 					default:
-						RunOnUiThread(() => Toast.MakeText(this, "Error contacting server", ToastLength.Short).Show());
+						RunOnUiThread(() => Toast.MakeText(this, "Error contacting server: " + reply.StatusCode, ToastLength.Short).Show());
 						break;
 				}
 
@@ -109,20 +114,22 @@ namespace Transmitter {
 
 						RunOnUiThread(() => {
 							TypeList.Adapter = adapter;
-
-							if (list.Count > 0) {
-								RunOnUiThread(() => {
-									TypeList.Enabled = true;
-									XPosBox.Enabled = true;
-									YPosBox.Enabled = true;
-									StartButton.Enabled = true;
-								});
-							}
+							bool enable = list.Count > 0;
+							TypeList.Enabled = enable;
+							XPosBox.Enabled = enable;
+							YPosBox.Enabled = enable;
+							StartButton.Enabled = enable;
 						});
 
 						break;
+					case HttpStatusCode.BadRequest:
+						RunOnUiThread(() => Toast.MakeText(this, "Transmitter ID not accepted; restart app", ToastLength.Short).Show());
+						break;
+					case HttpStatusCode.Conflict:
+						RunOnUiThread(() => Toast.MakeText(this, "No more available transmitter types", ToastLength.Short).Show());
+						break;
 					default:
-						RunOnUiThread(() => Toast.MakeText(this, "Error contacting server", ToastLength.Short).Show());
+						RunOnUiThread(() => Toast.MakeText(this, "Error contacting server: " + reply.StatusCode, ToastLength.Short).Show());
 						break;
 				}
 
@@ -161,16 +168,32 @@ namespace Transmitter {
 						StartService(new Intent(this, typeof(TransmitService)));
 						RunOnUiThread(CheckService);
 						break;
+					case HttpStatusCode.BadRequest:
+						RunOnUiThread(() => Toast.MakeText(this, "Transmitter ID not accepted; restart app", ToastLength.Short).Show());
+						break;
+					case HttpStatusCode.Conflict:
+						RunOnUiThread(() => Toast.MakeText(this, "Transmitter type in use; press refresh", ToastLength.Short).Show());
+						break;
 					default:
-						RunOnUiThread(() => Toast.MakeText(this, "Error contacting server", ToastLength.Short).Show());
+						RunOnUiThread(() => Toast.MakeText(this, "Error contacting server: " + reply.StatusCode, ToastLength.Short).Show());
 						break;
 				}
 			});
 		}
 
 		void StopPressed(object sender, EventArgs e) {
+			// Needed to add a slight delay to calling CheckService(), otherwise the service isn't stopped yet so it
+			// thinks the service is still running.
 			StopService(new Intent(this, typeof(TransmitService)));
-			CheckService();
+			ProgressBar.Visibility = Android.Views.ViewStates.Visible;
+
+			new Thread(() => {
+				Thread.Sleep(100);
+				RunOnUiThread(() => {
+					CheckService();
+					ProgressBar.Visibility = Android.Views.ViewStates.Visible;
+				});
+			}).Start();
 		}
 	}
 }

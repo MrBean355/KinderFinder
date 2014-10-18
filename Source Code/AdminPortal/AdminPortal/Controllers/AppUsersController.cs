@@ -113,7 +113,7 @@ namespace AdminPortal.Controllers {
 		}*/
 
 		// GET: AppUsers/Delete/5
-		public ActionResult Delete(int? id) {
+		/*public ActionResult Delete(int? id) {
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -136,7 +136,7 @@ namespace AdminPortal.Controllers {
 			db.AppUsers.Remove(appUser);
 			db.SaveChanges();
 			return RedirectToAction("Index");
-		}
+		}*/
 
 		protected override void Dispose(bool disposing) {
 			if (disposing) {

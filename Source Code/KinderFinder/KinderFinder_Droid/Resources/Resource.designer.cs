@@ -63,8 +63,8 @@ namespace KinderFinder
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f060009
-			public const int Edit_Cancel = 2131099657;
+			// aapt resource value: 0x7f06000a
+			public const int Edit_Cancel = 2131099658;
 			
 			// aapt resource value: 0x7f060003
 			public const int Edit_Email = 2131099651;
@@ -81,62 +81,62 @@ namespace KinderFinder
 			// aapt resource value: 0x7f060004
 			public const int Edit_Phone = 2131099652;
 			
-			// aapt resource value: 0x7f06000b
-			public const int Edit_ProgressBar = 2131099659;
+			// aapt resource value: 0x7f06000d
+			public const int Edit_ProgressBar = 2131099661;
 			
-			// aapt resource value: 0x7f06000a
-			public const int Edit_Save = 2131099658;
+			// aapt resource value: 0x7f06000b
+			public const int Edit_Save = 2131099659;
 			
 			// aapt resource value: 0x7f060002
 			public const int Edit_Surname = 2131099650;
 			
-			// aapt resource value: 0x7f060031
-			public const int MainMenu = 2131099697;
-			
-			// aapt resource value: 0x7f06000c
-			public const int Main_Email = 2131099660;
-			
-			// aapt resource value: 0x7f060011
-			public const int Main_Login = 2131099665;
-			
-			// aapt resource value: 0x7f06000d
-			public const int Main_Password = 2131099661;
-			
-			// aapt resource value: 0x7f060013
-			public const int Main_ProgressBar = 2131099667;
-			
-			// aapt resource value: 0x7f060017
-			public const int Main_Register = 2131099671;
+			// aapt resource value: 0x7f060032
+			public const int MainMenu = 2131099698;
 			
 			// aapt resource value: 0x7f06000e
-			public const int Main_Remember = 2131099662;
+			public const int Main_Email = 2131099662;
 			
-			// aapt resource value: 0x7f060032
-			public const int Menu_ChangeRestaurant = 2131099698;
+			// aapt resource value: 0x7f060013
+			public const int Main_Login = 2131099667;
+			
+			// aapt resource value: 0x7f06000f
+			public const int Main_Password = 2131099663;
+			
+			// aapt resource value: 0x7f060015
+			public const int Main_ProgressBar = 2131099669;
+			
+			// aapt resource value: 0x7f060018
+			public const int Main_Register = 2131099672;
+			
+			// aapt resource value: 0x7f060010
+			public const int Main_Remember = 2131099664;
 			
 			// aapt resource value: 0x7f060033
-			public const int Menu_EditDetails = 2131099699;
-			
-			// aapt resource value: 0x7f060035
-			public const int Menu_Exit = 2131099701;
+			public const int Menu_ChangeRestaurant = 2131099699;
 			
 			// aapt resource value: 0x7f060034
-			public const int Menu_LogOut = 2131099700;
+			public const int Menu_EditDetails = 2131099700;
 			
-			// aapt resource value: 0x7f06001c
-			public const int Register_Email = 2131099676;
+			// aapt resource value: 0x7f060036
+			public const int Menu_Exit = 2131099702;
 			
-			// aapt resource value: 0x7f06001a
-			public const int Register_FirstName = 2131099674;
-			
-			// aapt resource value: 0x7f06001e
-			public const int Register_Password = 2131099678;
-			
-			// aapt resource value: 0x7f06001f
-			public const int Register_PasswordConfirm = 2131099679;
+			// aapt resource value: 0x7f060035
+			public const int Menu_LogOut = 2131099701;
 			
 			// aapt resource value: 0x7f06001d
-			public const int Register_Phone = 2131099677;
+			public const int Register_Email = 2131099677;
+			
+			// aapt resource value: 0x7f06001b
+			public const int Register_FirstName = 2131099675;
+			
+			// aapt resource value: 0x7f06001f
+			public const int Register_Password = 2131099679;
+			
+			// aapt resource value: 0x7f060020
+			public const int Register_PasswordConfirm = 2131099680;
+			
+			// aapt resource value: 0x7f06001e
+			public const int Register_Phone = 2131099678;
 			
 			// aapt resource value: 0x7f060022
 			public const int Register_ProgressBar = 2131099682;
@@ -144,8 +144,8 @@ namespace KinderFinder
 			// aapt resource value: 0x7f060021
 			public const int Register_Register = 2131099681;
 			
-			// aapt resource value: 0x7f06001b
-			public const int Register_Surname = 2131099675;
+			// aapt resource value: 0x7f06001c
+			public const int Register_Surname = 2131099676;
 			
 			// aapt resource value: 0x7f060024
 			public const int RestList_Clear = 2131099684;
@@ -156,74 +156,77 @@ namespace KinderFinder
 			// aapt resource value: 0x7f060023
 			public const int RestList_Search = 2131099683;
 			
-			// aapt resource value: 0x7f060028
-			public const int TagConfig_Cancel = 2131099688;
+			// aapt resource value: 0x7f060029
+			public const int TagConfig_Cancel = 2131099689;
 			
-			// aapt resource value: 0x7f060027
-			public const int TagConfig_Colour = 2131099687;
+			// aapt resource value: 0x7f060028
+			public const int TagConfig_Colour = 2131099688;
 			
 			// aapt resource value: 0x7f060026
 			public const int TagConfig_Name = 2131099686;
 			
-			// aapt resource value: 0x7f060029
-			public const int TagConfig_Save = 2131099689;
-			
-			// aapt resource value: 0x7f06002d
-			public const int TagList_List = 2131099693;
-			
 			// aapt resource value: 0x7f06002a
-			public const int TagList_Refresh = 2131099690;
-			
-			// aapt resource value: 0x7f06002b
-			public const int TagList_Track = 2131099691;
-			
-			// aapt resource value: 0x7f06002c
-			public const int TagList_Warning = 2131099692;
-			
-			// aapt resource value: 0x7f060030
-			public const int Track_DownloadingText = 2131099696;
+			public const int TagConfig_Save = 2131099690;
 			
 			// aapt resource value: 0x7f06002e
-			public const int Track_Map = 2131099694;
+			public const int TagList_List = 2131099694;
+			
+			// aapt resource value: 0x7f06002b
+			public const int TagList_Refresh = 2131099691;
+			
+			// aapt resource value: 0x7f06002c
+			public const int TagList_Track = 2131099692;
+			
+			// aapt resource value: 0x7f06002d
+			public const int TagList_Warning = 2131099693;
+			
+			// aapt resource value: 0x7f060031
+			public const int Track_DownloadingText = 2131099697;
 			
 			// aapt resource value: 0x7f06002f
-			public const int Track_ProgressBar = 2131099695;
+			public const int Track_Map = 2131099695;
 			
-			// aapt resource value: 0x7f060019
-			public const int imageView1 = 2131099673;
+			// aapt resource value: 0x7f060030
+			public const int Track_ProgressBar = 2131099696;
+			
+			// aapt resource value: 0x7f06001a
+			public const int imageView1 = 2131099674;
 			
 			// aapt resource value: 0x7f060008
 			public const int linearLayout1 = 2131099656;
 			
-			// aapt resource value: 0x7f06000f
-			public const int linearLayout2 = 2131099663;
-			
-			// aapt resource value: 0x7f060015
-			public const int linearLayout3 = 2131099669;
-			
-			// aapt resource value: 0x7f060014
-			public const int space1 = 2131099668;
-			
-			// aapt resource value: 0x7f060020
-			public const int space2 = 2131099680;
-			
-			// aapt resource value: 0x7f060010
-			public const int space3 = 2131099664;
-			
-			// aapt resource value: 0x7f060012
-			public const int space4 = 2131099666;
+			// aapt resource value: 0x7f060011
+			public const int linearLayout2 = 2131099665;
 			
 			// aapt resource value: 0x7f060016
-			public const int space5 = 2131099670;
+			public const int linearLayout3 = 2131099670;
 			
-			// aapt resource value: 0x7f060018
-			public const int space6 = 2131099672;
+			// aapt resource value: 0x7f060009
+			public const int space1 = 2131099657;
+			
+			// aapt resource value: 0x7f06000c
+			public const int space2 = 2131099660;
+			
+			// aapt resource value: 0x7f060012
+			public const int space3 = 2131099666;
+			
+			// aapt resource value: 0x7f060014
+			public const int space4 = 2131099668;
+			
+			// aapt resource value: 0x7f060017
+			public const int space5 = 2131099671;
+			
+			// aapt resource value: 0x7f060019
+			public const int space6 = 2131099673;
 			
 			// aapt resource value: 0x7f060000
 			public const int textView1 = 2131099648;
 			
 			// aapt resource value: 0x7f060005
 			public const int textView2 = 2131099653;
+			
+			// aapt resource value: 0x7f060027
+			public const int textView3 = 2131099687;
 			
 			static Id()
 			{

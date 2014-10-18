@@ -5,12 +5,19 @@ using Android.App;
 // Information about this assembly is defined by the following attributes.
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("KinderFinder_Droid")]
+#if DEBUG
+[assembly: Application(Debuggable=true)]
+
+#else
+[assembly: Application(Debuggable = false)]
+#endif
+
+[assembly: AssemblyTitle("KinderFinder")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("-Student-")]
+[assembly: AssemblyCompany("MAU Technologies")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("MAU Technologies")]
+[assembly: AssemblyCopyright("DVT")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

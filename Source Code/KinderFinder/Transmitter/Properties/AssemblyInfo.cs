@@ -5,12 +5,19 @@ using Android.App;
 // Information about this assembly is defined by the following attributes.
 // Change them to the values specific to your project.
 
+#if DEBUG
+[assembly: Application(Debuggable=true)]
+
+#else
+[assembly: Application(Debuggable = false)]
+#endif
+
 [assembly: AssemblyTitle("Transmitter")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("MAU Technologies")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("MAU Technologies")]
+[assembly: AssemblyCopyright("DVT")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

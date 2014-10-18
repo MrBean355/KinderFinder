@@ -60,32 +60,35 @@ namespace Transmitter
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050013
-			public const int BeaconCount = 2131034131;
+			// aapt resource value: 0x7f050014
+			public const int BeaconCount = 2131034132;
 			
-			// aapt resource value: 0x7f050011
-			public const int ProgressBar = 2131034129;
+			// aapt resource value: 0x7f050012
+			public const int ProgressBar = 2131034130;
+			
+			// aapt resource value: 0x7f05000e
+			public const int Refresh = 2131034126;
 			
 			// aapt resource value: 0x7f050002
 			public const int RestaurantList = 2131034114;
 			
-			// aapt resource value: 0x7f05000e
-			public const int Start = 2131034126;
-			
 			// aapt resource value: 0x7f05000f
-			public const int Stop = 2131034127;
+			public const int Start = 2131034127;
 			
-			// aapt resource value: 0x7f050015
-			public const int StopButton = 2131034133;
+			// aapt resource value: 0x7f050010
+			public const int Stop = 2131034128;
 			
-			// aapt resource value: 0x7f050012
-			public const int TransmitterId = 2131034130;
+			// aapt resource value: 0x7f050016
+			public const int StopButton = 2131034134;
+			
+			// aapt resource value: 0x7f050013
+			public const int TransmitterId = 2131034131;
 			
 			// aapt resource value: 0x7f050004
 			public const int TypeList = 2131034116;
 			
-			// aapt resource value: 0x7f050014
-			public const int UpdateCount = 2131034132;
+			// aapt resource value: 0x7f050015
+			public const int UpdateCount = 2131034133;
 			
 			// aapt resource value: 0x7f050007
 			public const int XPos = 2131034119;
@@ -111,8 +114,8 @@ namespace Transmitter
 			// aapt resource value: 0x7f05000d
 			public const int space3 = 2131034125;
 			
-			// aapt resource value: 0x7f050010
-			public const int space4 = 2131034128;
+			// aapt resource value: 0x7f050011
+			public const int space4 = 2131034129;
 			
 			// aapt resource value: 0x7f050000
 			public const int textView1 = 2131034112;

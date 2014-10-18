@@ -42,7 +42,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
-        android:paddingLeft="10dp" />
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp" />
     <EditText
         android:inputType="textPassword"
         android:layout_width="match_parent"
@@ -62,18 +63,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/linearLayout1">
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/space1"
+            android:layout_weight="5" />
         <Button
             android:text="Cancel"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:id="@+id/Edit_Cancel"
-            android:layout_weight="1" />
+            android:layout_weight="3" />
         <Button
             android:text="Save"
             android:layout_height="match_parent"
             android:id="@+id/Edit_Save"
             android:layout_width="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="3" />
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/space2"
+            android:layout_weight="5" />
     </LinearLayout>
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"

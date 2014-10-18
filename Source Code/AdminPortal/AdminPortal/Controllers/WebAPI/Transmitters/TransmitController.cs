@@ -29,12 +29,17 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 				return BadRequest();
 			}
 
+			string output = "Updated strengths from type " + (int)transmitter.Type + ": ";
+
 			// For each tag that the transmitter is telling us about:
 			foreach (var item in details.TagData) {
 				// Update its strength:
-				StrengthManager.Update(item.TagMinorMajor, id, (int)transmitter.Type, item.Distance);
+				StrengthManager.Update(item.TagMinorMajor, id, (int)transmitter.Type, FeetToMeters(item.Distance));
                 StrengthManager.FlagTag(item.TagMinorMajor, false);
+				output += item.TagMinorMajor + " ";
 			}
+			
+			System.Diagnostics.Debug.WriteLine(output);
 
 			return Ok();
 		}

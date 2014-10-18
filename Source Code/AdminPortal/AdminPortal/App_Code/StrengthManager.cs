@@ -4,7 +4,6 @@ namespace AdminPortal.Code {
 
 	public static class StrengthManager {
 		public const int AVERAGE_VALUES = 1;
-		public const double NOT_ENOUGH_AVERAGES = -95.0;
 
 		//                       BeaconID          TransID   Avg for each trans type
 		private static Dictionary<string, Dictionary<int, List<AverageManager>>> Strengths;
@@ -58,13 +57,13 @@ namespace AdminPortal.Code {
 			if (!Strengths[tagMinorMajor].ContainsKey(tId)) {
 				var item = new List<AverageManager>();
 				// Insert an AverageManager for each transmitter type.
-				item.Add(new AverageManager());
-				item.Add(new AverageManager());
-				item.Add(new AverageManager());
+				item.Add(new AverageManager(AVERAGE_VALUES));
+				item.Add(new AverageManager(AVERAGE_VALUES));
+				item.Add(new AverageManager(AVERAGE_VALUES));
 				Strengths[tagMinorMajor].Add(tId, item);
 			}
 
-			System.Diagnostics.Debug.WriteLine("[Info] Strength updated from type " + tType);
+			//System.Diagnostics.Debug.WriteLine("[Info] Strength updated for beacon " + tagMinorMajor + " from type " + tType);
 			Strengths[tagMinorMajor][tId][tType - 1].AddStrength(strength);
 		}
 
@@ -81,20 +80,9 @@ namespace AdminPortal.Code {
 				return -97.0;
 			}
 
-			// Find the average manager:
+			// Find the average from the average manager:
 			var manager = Strengths[tagMinorMajor][tId][tType - 1];
-
-			// Enough values have been read for an average:
-			if (manager.CountAverages() >= AVERAGE_VALUES) {
-				// Get the average and reset the averages:
-				double result = manager.GetAverage();
-				manager.ResetAverages();
-
-				return result;
-			}
-
-			// Not enough values have been read for an average:
-			return NOT_ENOUGH_AVERAGES;
+			return manager.GetAverage();
 		}
 	}
 }

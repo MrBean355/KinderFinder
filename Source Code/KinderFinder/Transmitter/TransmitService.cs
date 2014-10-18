@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 
 using Android.App;
 using Android.Content;
 using Android.OS;
+using Android.Widget;
 
 using Transmitter.Utility;
 using no.nordicsemi.android.beacon;
-using Android.Widget;
 
 namespace Transmitter {
 
@@ -21,17 +20,7 @@ namespace Transmitter {
 		ISharedPreferences Pref;
 		ISharedPreferencesEditor Editor;
 
-		Timer TaskTimer;
 		string TransmitterId;
-		Dictionary<string, float> Strengths = new Dictionary<string, float>();
-
-		public override IBinder OnBind(Intent intent) {
-			return null;
-		}
-
-		public static bool IsRunning() {
-			return Running;
-		}
 
 		public override void OnCreate() {
 			base.OnCreate();
@@ -45,13 +34,7 @@ namespace Transmitter {
 			mBeaconsListener = new MyBeaconsListener(this);
 			ServiceProxy.bindService(this, mConnection);
 
-			// Start timer ticking:
-			TaskTimer = new Timer(OnTimerTick);
-			TaskTimer.Change(TRANSMIT_FREQUENCY, TRANSMIT_FREQUENCY);
-
 			Console.WriteLine("--- Service created!");
-
-			Strengths.Add("1-199", 1.23f);
 		}
 
 		public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId) {
@@ -64,7 +47,7 @@ namespace Transmitter {
 				StopSelf();
 			}
 
-			Console.WriteLine("--- Service started! " + TransmitterId);
+			Console.WriteLine("--- Service started!");
 
 			return StartCommandResult.Sticky;
 		}
@@ -77,10 +60,6 @@ namespace Transmitter {
 			mConnection.StopRangingBeaconsInRegion(mBeaconsListener);
 			ServiceProxy.unbindService(this, mConnection);
 
-			// Stop sending data:
-			if (TaskTimer != null)
-				TaskTimer.Dispose();
-
 			// Tell the server we're done:
 			var jb = new JsonBuilder();
 			jb.AddEntry("ID", TransmitterId);
@@ -89,19 +68,12 @@ namespace Transmitter {
 			Console.WriteLine("--- Service destroyed!");
 		}
 
-		void OnTimerTick(object state) {
-			var request = new Request();
-			request.TransmitterId = TransmitterId;
+		public override IBinder OnBind(Intent intent) {
+			return null;
+		}
 
-			foreach (var strength in Strengths) {
-				var str = new Request.Strength();
-				str.TagMinorMajor = strength.Key;
-				str.Distance = strength.Value;
-
-				request.TagData.Add(str);
-			}
-
-			AppTools.SendRequest("api/transmit", Serialiser<Request>.Run(request), TRANSMIT_FREQUENCY);
+		public static bool IsRunning() {
+			return Running;
 		}
 
 		class Request {
@@ -138,63 +110,67 @@ namespace Transmitter {
 
 		class MyBeaconsListener : BeaconsListener {
 			readonly TransmitService Parent;
+			long LastSent = 0;
+			List<string> PrevBeacons = new List<string>();
 
 			public MyBeaconsListener(TransmitService parent) {
 				Parent = parent;
 			}
 
 			void BeaconsListener.OnBeaconsInRegion(Beacon[] beacons, BeaconRegion region) {
-				foreach (var beacon in beacons) {
-					var id = beacon.getMajor() + "-" + beacon.getMinor();
+				long now = AppTools.GetCurrentTime();
+				long elapsed = now - LastSent;
 
-					if (Parent.Strengths.ContainsKey(id))
-						Parent.Strengths[id] = beacon.getAccuracy();
-					else
-						Parent.Strengths.Add(id, beacon.getAccuracy());
-				}
-
-				Console.WriteLine("--- Found " + beacons.Length + " beacons!");
-
-				/*Parent.beaconCountBox.Text = beacons.Length + "";
-				Parent.updateCountBox.Text = Parent.updates + "";
-				long now = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-
-				if (now - Parent.lastSent < TRANSMIT_FREQUENCY)
+				if (elapsed < 1000)
 					return;
 
-				var newBeacons = new List<string>();
-				Parent.lastSent = now;
+				LastSent = now;
+
 				var request = new Request();
+				request.TransmitterId = Parent.TransmitterId;
 
-				request.TransmitterId = Parent.id;
-
+				// Construct the request to send to the server (update of strengths):
 				foreach (var beacon in beacons) {
-					var strength = new Strength();
+					var strength = new Request.Strength();
 					strength.TagMinorMajor = beacon.getMajor() + "-" + beacon.getMinor();
 					strength.Distance = beacon.getAccuracy();
 
-					newBeacons.Add(strength.TagMinorMajor);
 					request.TagData.Add(strength);
 				}
 
-				foreach (var prev in Parent.prevBeacons) {
-					if (!newBeacons.Contains(prev)) {
+				AppTools.SendRequest("api/transmit", Serialiser<Request>.Run(request), TRANSMIT_FREQUENCY);
+
+				// Check whether any beacons are out of range. This is done by checking each previously detected beacon
+				// (in PrevBeacons) to see if it was detected now (whether it's in beacons).
+				foreach (var prev in PrevBeacons) {
+					bool found = false;
+
+					foreach (var beacon in beacons) {
+						string id = beacon.getMajor() + "-" + beacon.getMinor();
+
+						if (id.Equals(prev)) {
+							found = true;
+							break;
+						}
+					}
+
+					// Beacon was not detected again; tell the server:
+					if (!found) {
 						var jb = new JsonBuilder();
 						jb.AddEntry("BeaconId", prev);
-						ThreadPool.QueueUserWorkItem(state => AppTools.SendRequest("api/outofrange", jb.ToString()));
+						AppTools.SendRequest("api/outofrange", jb.ToString());
 					}
 				}
 
-				Parent.prevBeacons = newBeacons;
+				// Finally, we need to update the list of previously detected beacons to be the same as the currently
+				// detected beacons. This ensures we only tell the server about out of range beacons once.
+				PrevBeacons.Clear();
 
-				ThreadPool.QueueUserWorkItem(state => {
-					var response = AppTools.SendRequest("api/transmit", Serialiser<Request>.Run(request), TRANSMIT_FREQUENCY - 100);
-
-					if (response.StatusCode == System.Net.HttpStatusCode.OK)
-						Parent.updates++;
-				});*/
+				foreach (var beacon in beacons) {
+					string id = beacon.getMajor() + "-" + beacon.getMinor();
+					PrevBeacons.Add(id);
+				}
 			}
 		}
 	}
 }
-
