@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<AdminPortal.Models.Zone>
 
 @{
-    ViewBag.Title = "ZonesReport";
+    ViewBag.Title = "Zones Report";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ZonesReport</h2>
+<h2>@ViewBag.Title</h2>
 
 @using (Html.BeginForm())
 {
@@ -20,24 +20,24 @@
         <th></th>
     </tr>
     <tr>
-        <td>Total number of Tags: </td>
+        <td>Total number of Zones: </td>
         <td>@Model.Count()</td>
     </tr>
 </table>
 
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ZoneName)
+        <th>Zone Name
+            @*@Html.DisplayNameFor(model => model.ZoneName)*@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Status)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RestaurantZ.Name)
+        <th>Restaurant
+            @*@Html.DisplayNameFor(model => model.RestaurantZ.Name)*@
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ZonePa.ZoneName)
+        <th>Preceding Zone
+            @*@Html.DisplayNameFor(model => model.ZonePa.ZoneName)*@
         </th>
     </tr>
 

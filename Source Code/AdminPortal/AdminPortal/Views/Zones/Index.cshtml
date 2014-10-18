@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<AdminPortal.Models.Zone>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Zones";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Title</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Zone", "Create")
 </p>
 <table class="table">
     <tr>
@@ -23,9 +23,6 @@
             Preceding Zone
             @*@Html.DisplayNameFor(model => model.ZonePa.ZoneName)*@
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
         <th></th>
     </tr>
 
@@ -39,9 +36,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ZonePa.ZoneName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
