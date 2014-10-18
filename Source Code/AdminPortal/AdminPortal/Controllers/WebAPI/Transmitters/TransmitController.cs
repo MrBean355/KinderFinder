@@ -36,7 +36,7 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 				// Update its strength:
 				StrengthManager.Update(item.TagMinorMajor, id, (int)transmitter.Type, FeetToMeters(item.Distance));
                 StrengthManager.FlagTag(item.TagMinorMajor, false);
-				output += item.TagMinorMajor + " ";
+				output += item.TagMinorMajor + "(" + FeetToMeters(item.Distance) + ") ";
 			}
 			
 			System.Diagnostics.Debug.WriteLine(output);

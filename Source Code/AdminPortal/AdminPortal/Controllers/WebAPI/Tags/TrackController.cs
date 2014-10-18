@@ -1,4 +1,4 @@
-﻿//#define MOCK_DATA
+﻿#define MOCK_DATA
 
 using AdminPortal.Code;
 using AdminPortal.Code.Triangulation;
@@ -80,7 +80,7 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 			return t;
 		}
 
-		//[HttpPost]
+		[HttpPost]
 		public IHttpActionResult GetLocations(RequestDetails details) {
 			System.Diagnostics.Debug.WriteLine("Starting!");
 			details = new RequestDetails();

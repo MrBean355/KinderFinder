@@ -15,6 +15,12 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/ServerIp"
+        android:hint="Server IP"
+        android:text="105.208.73.162" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/Main_Email"
         android:hint="Email address"
         android:inputType="textEmailAddress" />

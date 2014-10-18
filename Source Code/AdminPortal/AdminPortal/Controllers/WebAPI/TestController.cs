@@ -6,7 +6,7 @@ using System.Web.Http;
 namespace AdminPortal.Controllers.WebAPI {
 
 	public class TestController : ApiController {
-		const int TRANSMITTER_ID = 158;
+		const int TRANSMITTER_ID = 129;
 		const int TRANSMITTER_TYPE = 3;
 
 		static string[] BeaconIds = { "1-177", "1-209" };
@@ -20,12 +20,12 @@ namespace AdminPortal.Controllers.WebAPI {
 		}
 
 		private static void OnTimerTick(object sender, ElapsedEventArgs e) {
-			string output = "Updated strengths from dummy type " + TRANSMITTER_TYPE + ": ";
+			string output = "Updated strengths from dummy " + TRANSMITTER_TYPE + ": ";
 
 			for (int i = 0; i < BeaconIds.Length; i++ ) {
 				StrengthManager.Update(BeaconIds[i], TRANSMITTER_ID, TRANSMITTER_TYPE, Strengths[i]);
 				StrengthManager.FlagTag(BeaconIds[i], false);
-				output += BeaconIds[i] + " ";
+				output += BeaconIds[i] + "(" + Strengths[i] + ") ";
 			}
 
 			System.Diagnostics.Debug.WriteLine(output);

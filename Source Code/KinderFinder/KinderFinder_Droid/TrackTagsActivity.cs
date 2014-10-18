@@ -216,7 +216,7 @@ namespace KinderFinder {
 					locations = Deserialiser<List<TagData>>.Run(response.Body);
 					break;
 				default:
-					RunOnUiThread(() => Toast.MakeText(this, "Unable to retrieve data from server", ToastLength.Short).Show());
+					RunOnUiThread(() => Toast.MakeText(this, "Unable to retrieve data from server: " + response.StatusCode, ToastLength.Short).Show());
 					break;
 			}
 

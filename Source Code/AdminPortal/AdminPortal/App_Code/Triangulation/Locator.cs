@@ -66,7 +66,7 @@ namespace AdminPortal.Code.Triangulation {
 			var py = ((str1 * str1) - (str3 * str3) + (Transmitters[2][X] * Transmitters[2][X])
 				+ (Transmitters[2][Y] * Transmitters[2][Y])) / (2.0 * Transmitters[2][Y]) - px;
 
-			System.Diagnostics.Debug.WriteLine("Triangulating with strengths:");
+			System.Diagnostics.Debug.WriteLine("Triangulating for " + beaconId + " with strengths:");
 			System.Diagnostics.Debug.WriteLine("\t" + str1);
 			System.Diagnostics.Debug.WriteLine("\t" + str2);
 			System.Diagnostics.Debug.WriteLine("\t" + str3);

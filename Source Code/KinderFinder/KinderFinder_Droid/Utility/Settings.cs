@@ -2,7 +2,8 @@
 namespace KinderFinder.Utility {
 
 	public static class Settings {
-		public const string SERVER_ADDRESS = "http://192.168.1.7:55555/";
+		// TODO: Replace static with const.
+		public static string SERVER_ADDRESS = "http://192.168.1.7:55555/";
 		public const int REQUEST_TIMEOUT = 10000;
 
 		public const string PREFERENCES_FILE = "Preferences";
