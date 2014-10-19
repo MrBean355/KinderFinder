@@ -159,3 +159,10 @@ $RECYCLE.BIN/
 # Mac desktop service store files
 .DS_Store
 *.rar
+
+#latex files (unnecessary)
+*.aux
+*.log
+*.gz
+*.toc
+
