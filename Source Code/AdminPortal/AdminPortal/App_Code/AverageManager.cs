@@ -4,6 +4,9 @@ using System.Collections.Generic;
 namespace AdminPortal.Code {
 	
 	public class AverageManager {
+		private const double NOT_SET_VALUE = -10.0;
+		private const double STARTING_BEST = -100.0;
+
 		private List<double> Data;
 		private int Size;
 		private int Index;
@@ -14,7 +17,7 @@ namespace AdminPortal.Code {
 			Index = 0;
 
 			for (int i = 0; i < Size; i++)
-				Data.Add(0.0);
+				Data.Add(NOT_SET_VALUE);
 		}
 
 		public void AddStrength(double strength) {
@@ -31,13 +34,16 @@ namespace AdminPortal.Code {
 
 			average /= Size;
 			double bestDiff = 0.0;
-			double bestStrength = -100.0;
+			double bestStrength = STARTING_BEST;
 
 			// Next we need to find which strength is closest to the average:
 			foreach (var strength in Data) {
 				double diff = Math.Abs(average - strength);
 
-				if (bestStrength == -100.0 || diff < bestDiff) {
+				if (bestStrength == STARTING_BEST || diff < bestDiff) {
+					if (strength == NOT_SET_VALUE)
+						continue;
+
 					bestStrength = strength;
 					bestDiff = diff;
 				}

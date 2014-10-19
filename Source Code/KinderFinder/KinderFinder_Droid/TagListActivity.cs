@@ -6,8 +6,8 @@ using System.Threading;
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Widget;
 using Android.Views;
+using Android.Widget;
 
 using KinderFinder.Utility;
 
@@ -60,7 +60,7 @@ namespace KinderFinder {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.TagList);
 
-			Pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
+			Pref = GetSharedPreferences(Settings.Storage.PREFERENCES_FILE, 0);
 			Editor = Pref.Edit();
 
 			RefreshButton = FindViewById<Button>(Resource.Id.TagList_Refresh);

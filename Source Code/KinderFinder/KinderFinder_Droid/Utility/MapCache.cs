@@ -29,7 +29,7 @@ namespace KinderFinder.Utility {
 			// Create the cache file if it doesn't exist:
 			if (!File.Exists(APP_FOLDER + CacheFilePath)) {
 				File.Create(APP_FOLDER + "temp").Close();
-				SharpAESCrypt.SharpAESCrypt.Encrypt(Settings.ENCRYPTION_PASSWORD, APP_FOLDER + "temp", APP_FOLDER + CacheFilePath);
+				SharpAESCrypt.SharpAESCrypt.Encrypt(Settings.Encryption.PASSWORD, APP_FOLDER + "temp", APP_FOLDER + CacheFilePath);
 				File.Delete(APP_FOLDER + "temp");
 				Console.WriteLine("Info: Created cache file.");
 			}
@@ -40,7 +40,7 @@ namespace KinderFinder.Utility {
 		/// </summary>
 		/// <returns>The decrypted version of the cache file.</returns>
 		string[] ReadEncryptedFile() {
-			SharpAESCrypt.SharpAESCrypt.Decrypt(Settings.ENCRYPTION_PASSWORD, APP_FOLDER + CacheFilePath, APP_FOLDER + "temp");
+			SharpAESCrypt.SharpAESCrypt.Decrypt(Settings.Encryption.PASSWORD, APP_FOLDER + CacheFilePath, APP_FOLDER + "temp");
 			string[] result = File.ReadAllLines(APP_FOLDER + "temp");
 			File.Delete(APP_FOLDER + "temp");
 
@@ -57,7 +57,7 @@ namespace KinderFinder.Utility {
 					writer.WriteLine(line);
 			}
 
-			SharpAESCrypt.SharpAESCrypt.Encrypt(Settings.ENCRYPTION_PASSWORD, APP_FOLDER + "temp", APP_FOLDER + CacheFilePath);
+			SharpAESCrypt.SharpAESCrypt.Encrypt(Settings.Encryption.PASSWORD, APP_FOLDER + "temp", APP_FOLDER + CacheFilePath);
 			File.Delete(APP_FOLDER + "temp");
 		}
 

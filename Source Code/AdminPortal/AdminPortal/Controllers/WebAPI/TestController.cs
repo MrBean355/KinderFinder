@@ -16,11 +16,11 @@ namespace AdminPortal.Controllers.WebAPI {
 		static TestController() {
 			TransmitTimer = new Timer(1000.0);
 			TransmitTimer.Elapsed += OnTimerTick;
-			TransmitTimer.Start();
+			//TransmitTimer.Start();
 		}
 
 		private static void OnTimerTick(object sender, ElapsedEventArgs e) {
-			string output = "Updated strengths from dummy " + TRANSMITTER_TYPE + ": ";
+			string output = "Updated strengths from type " + TRANSMITTER_TYPE + ": ";
 
 			for (int i = 0; i < BeaconIds.Length; i++ ) {
 				StrengthManager.Update(BeaconIds[i], TRANSMITTER_ID, TRANSMITTER_TYPE, Strengths[i]);
@@ -32,7 +32,17 @@ namespace AdminPortal.Controllers.WebAPI {
 		}
 
 		public IHttpActionResult Get() {
-			return Ok("Transmitting");
+			var manager = new AverageManager(5);
+			manager.AddStrength(0.25);
+			manager.AddStrength(0.3);
+			manager.AddStrength(0.5);
+			manager.AddStrength(1.5);
+			manager.AddStrength(0.45);
+
+			System.Diagnostics.Debug.WriteLine("Average = " + manager.GetAverage());
+			return Ok("Average = " + manager.GetAverage());
+
+			//return Ok("Transmitting");
 		}
 	}
 }
