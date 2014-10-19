@@ -1,0 +1,14 @@
+=== Project Status Through Time ===
+To keep track of the project as time progressed, we maintained a list of features that have been implemented and that still need to be implemented. We had weekly team meetings where we discussed the progress that each member had made, and updated the list accordingly.
+
+=== List of Functionality You Could Not Implement ===
+We have implemented everything in the scope. However, there are areas that can be expanded upon. For example, customisations can be added to the main Android application, which allow the user to set custom sounds for the alarm or alter the colour scheme.
+
+A possible expansion of the system (which was not in scope) is to place a device on each table, which lights up different LEDs depending on where in the restaurant the children are. This means that the parents don't need to constantly check their phones to see where their children are; they can glance at the device and quickly see who is where.
+
+=== Discussion of the Main Risks and Challenges Faced ===
+One of the biggest challenges that was faced, was integrating all the components. There are three separate applications that need to communicate with each other, which was challenging to get right. At times, some HTTP requests weren't being sent properly, so the problem application had to be restructured in such a way that it efficiently communicated with the server.
+
+It was also a challenge to learn the new technologies, as we have never used them before. These technologies include ASP.NET MVC 5 and Xamarin. Once we learnt these technologies, they became very easy to use and made development much easier. We enjoyed using them and will most likely use them again in the future.
+
+Finally, it was difficult to integrate the hardware into the system. Luckily the hardware provider maintains a Java library that allows our system to interface with their hardware by adding a custom listener.
