@@ -257,193 +257,199 @@ namespace KinderFinder {
 		/// </summary>
 		/// <param name="state">Not used.</param>
 		void UpdateMap(object state) {
-			string email = Pref.GetString(Settings.Keys.USERNAME, null);
+			try {
+				string email = Pref.GetString(Settings.Keys.USERNAME, null);
 
-			if (email == null) {
-				Toast.MakeText(this, Settings.Errors.LOCAL_DATA_ERROR, ToastLength.Long).Show();
-				Timer.Dispose(); // stop updating map.
-				Timer = null;
-				TimerTicking = false;
-				return;
-			}
-
-			var builder = new JsonBuilder();
-			builder.AddEntry("EmailAddress", email);
-
-			var	response = AppTools.SendRequest("api/track", builder.ToString());
-			List<TagData> locations = null;
-			string errorMsg = null;
-
-			switch (response.StatusCode) {
-				case HttpStatusCode.OK:
-					locations = Deserialiser<List<TagData>>.Run(response.Body);
-					break;
-				case HttpStatusCode.NotFound:
-					errorMsg = "Unable to determine the restaurant you are at. Please try restarting the app.";
-					break;
-				case HttpStatusCode.BadRequest:
-					errorMsg = "It appears as though the restaurant hasn't set up their transmitters. I can't display the tag locations.";
-					break;
-				default:
-					errorMsg = "There was an internal server error. Please try again later.";
-					break;
-			}
-
-			if (CurrentMap != null && CurrentMap != OriginalMap && !CurrentMap.IsRecycled)
-				CurrentMap.Recycle();
-
-			// Sometimes an exception is thrown, claiming that a recycled bitmap is being drawn, which should never
-			// happen in this code, but it does on occasion. I've added this check to hopefully prevent this from
-			// happening.
-			if (OriginalMap.IsRecycled) {
-				OriginalMap = AppTools.ResizeBitmap(UnscaledMap, Resources.DisplayMetrics.WidthPixels, Resources.DisplayMetrics.HeightPixels);
-				Console.WriteLine("[Warning] Somehow managed to recycle original map. Recreating it.");
-			}
-
-			if (errorMsg != null) {
-				RunOnUiThread(() => {
-					StatusBody.Text = errorMsg;
-					Toast.MakeText(this, "Something went wrong; check status at top of screen", ToastLength.Short).Show();
-				});
-
-				Timer.Dispose();
-				Timer = null;
-				TimerTicking = false;
-
-				return;
-			}
-
-			CurrentMap = Bitmap.CreateBitmap(OriginalMap.Width, OriginalMap.Height, Bitmap.Config.Rgb565);
-			var canvas = new Canvas(CurrentMap);
-			var paint = new Paint();
-
-			paint.SetStyle(Paint.Style.Fill);
-			paint.TextSize = Settings.Map.OVERLAY_TEXT_SIZE;
-			canvas.DrawBitmap(OriginalMap, 0, 0, null); // draw map normally.
-			var problemTags = new List<string>();
-
-			// If we could retrieve the locations, draw them:
-			if (locations != null) {
-				foreach (var data in locations) {
-					int scaledX = 0;
-					int scaledY = 0;
-					bool outOfRange = false;
-
-					// Tag out of range; play alarm and load last position:
-					if (!IsPointInRange(data.PosX, data.PosY)) {
-						// If we haven't displayed a warning for the tag yet:
-						if (!OutOfRange.Contains(data.Name)) {
-							OutOfRange.Add(data.Name);
-							PlayAlarm();
-						}
-
-						// If we don't have a last known position for the tag, skip it:
-						if (!PrevLocations.ContainsKey(data.Name))
-							continue;
-
-						// Otherwise, display its last known position:
-						scaledX = (int)(PrevLocations[data.Name].X * OriginalMap.Width);
-						scaledY = (int)(PrevLocations[data.Name].Y * OriginalMap.Height);
-						outOfRange = true;
-					}
-					// The point will also be invalid if a transmitter isn't sending the tag's strength. Try to display
-					// the tag's last known position.
-					else if (!IsPointValid(data.PosX, data.PosY)) {
-						problemTags.Add(data.Name);
-
-						// If we don't have a last known position for the tag, skip it:
-						if (!PrevLocations.ContainsKey(data.Name))
-							continue;
-
-						// Otherwise, display its last known position:
-						scaledX = (int)(PrevLocations[data.Name].X * OriginalMap.Width);
-						scaledY = (int)(PrevLocations[data.Name].Y * OriginalMap.Height);
-					}
-					// Tag in range; position normally:
-					else {
-						scaledX = (int)(data.PosX * OriginalMap.Width);	
-						scaledY = (int)(data.PosY * OriginalMap.Height);
-						var point = new Point(data.PosX, data.PosY);	
-
-						// Update tag's last position to its current one:
-						if (!PrevLocations.ContainsKey(data.Name))
-							PrevLocations.Add(data.Name, point);
-						else
-							PrevLocations[data.Name] = point;
-
-						// Tag was previously out of range but isn't a	nymore:
-						if (OutOfRange.Contains(data.Name)) {
-							OutOfRange.Remove(data.Name);
-							var dialog = new AlertDialog.Builder(this);
-							dialog.SetTitle("Tag In Range");
-
-							string info = "A tag is back in range. ";
-
-							if (OutOfRange.Count > 0) {
-								info += "These tags are still out of range:\n";
-
-								foreach (var tag in OutOfRange) {
-									info += "\nTag: " + tag + "\n";
-									info += "Child: " + Pref.GetString(tag + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT);
-								}
-							}
-							else
-								info += "All tags are in range!";
-
-							dialog.SetMessage(info);
-							dialog.SetNeutralButton("Ok", (sender, e) => CleanUpAlarm());
-							RunOnUiThread(() => dialog.Show());
-						}
-					}
-
-					string colour = Pref.GetString(data.Name + Settings.Keys.TAG_COLOUR, "");
-					string name = Pref.GetString(data.Name + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT);
-
-					if (name.Equals(""))
-						name = Settings.Map.UNKNOWN_NAME_TEXT;
-
-					if (colour.Equals(""))
-						colour = Settings.Map.DEFAULT_DOT_COLOUR;
-
-					if (outOfRange) {
-						name = "(!)" + name;
-						colour = Settings.Map.PROBLEM_DOT_COLOUR;
-					}
-
-					int r = Convert.ToInt32(colour.Substring(0, 2), 16);
-					int g = Convert.ToInt32(colour.Substring(2, 2), 16);
-					int b = Convert.ToInt32(colour.Substring(4, 2), 16);
-
-					paint.SetARGB(Settings.Map.DOT_COLOUR_ALPHA, r, g, b);
-					canvas.DrawCircle(scaledX, scaledY, Settings.Map.DOT_SIZE_RADIUS, paint);
-					canvas.DrawText(name, scaledX - 30, scaledY - 25, paint);
+				if (email == null) {
+					Toast.MakeText(this, Settings.Errors.LOCAL_DATA_ERROR, ToastLength.Long).Show();
+					Timer.Dispose(); // stop updating map.
+					Timer = null;
+					TimerTicking = false;
+					return;
 				}
+
+				var builder = new JsonBuilder();
+				builder.AddEntry("EmailAddress", email);
+
+				var	response = AppTools.SendRequest("api/track", builder.ToString());
+				List<TagData> locations = null;
+				string errorMsg = null;
+
+				switch (response.StatusCode) {
+					case HttpStatusCode.OK:
+						locations = Deserialiser<List<TagData>>.Run(response.Body);
+						break;
+					case HttpStatusCode.NotFound:
+						errorMsg = "Unable to determine the restaurant you are at. Please try restarting the app.";
+						break;
+					case HttpStatusCode.BadRequest:
+						errorMsg = "It appears as though the restaurant hasn't set up their transmitters. I can't display the tag locations.";
+						break;
+					default:
+						errorMsg = "There was an internal server error. Please try again later.";
+						break;
+				}
+
+				if (CurrentMap != null && CurrentMap != OriginalMap && !CurrentMap.IsRecycled)
+					CurrentMap.Recycle();
+
+				// Sometimes an exception is thrown, claiming that a recycled bitmap is being drawn, which should never
+				// happen in this code, but it does on occasion. I've added this check to hopefully prevent this from
+				// happening.
+				/*if (OriginalMap.IsRecycled) {
+					OriginalMap = AppTools.ResizeBitmap(UnscaledMap, Resources.DisplayMetrics.WidthPixels, Resources.DisplayMetrics.HeightPixels);
+					Console.WriteLine("[Warning] Somehow managed to recycle original map. Recreating it.");
+				}*/
+
+				if (errorMsg != null) {
+					RunOnUiThread(() => {
+						StatusBody.Text = errorMsg;
+						Toast.MakeText(this, "Something went wrong; check status at top of screen", ToastLength.Short).Show();
+					});
+
+					Timer.Dispose();
+					Timer = null;
+					TimerTicking = false;
+
+					return;
+				}
+
+				CurrentMap = Bitmap.CreateBitmap(OriginalMap.Width, OriginalMap.Height, Bitmap.Config.Rgb565);
+				var canvas = new Canvas(CurrentMap);
+				var paint = new Paint();
+
+				paint.SetStyle(Paint.Style.Fill);
+				paint.TextSize = Settings.Map.OVERLAY_TEXT_SIZE;
+
+				canvas.DrawBitmap(OriginalMap, 0, 0, null); // draw map normally.
+				var problemTags = new List<string>();
+
+				// If we could retrieve the locations, draw them:
+				if (locations != null) {
+					foreach (var data in locations) {
+						int scaledX = 0;
+						int scaledY = 0;
+						bool outOfRange = false;
+
+						// Tag out of range; play alarm and load last position:
+						if (!IsPointInRange(data.PosX, data.PosY)) {
+							// If we haven't displayed a warning for the tag yet:
+							if (!OutOfRange.Contains(data.Name)) {
+								OutOfRange.Add(data.Name);
+								PlayAlarm();
+							}
+
+							// If we don't have a last known position for the tag, skip it:
+							if (!PrevLocations.ContainsKey(data.Name))
+								continue;
+
+							// Otherwise, display its last known position:
+							scaledX = (int)(PrevLocations[data.Name].X * OriginalMap.Width);
+							scaledY = (int)(PrevLocations[data.Name].Y * OriginalMap.Height);
+							outOfRange = true;
+						}
+						// The point will also be invalid if a transmitter isn't sending the tag's strength. Try to display
+						// the tag's last known position.
+						else if (!IsPointValid(data.PosX, data.PosY)) {
+							problemTags.Add(data.Name);
+
+							// If we don't have a last known position for the tag, skip it:
+							if (!PrevLocations.ContainsKey(data.Name))
+								continue;
+
+							// Otherwise, display its last known position:
+							scaledX = (int)(PrevLocations[data.Name].X * OriginalMap.Width);
+							scaledY = (int)(PrevLocations[data.Name].Y * OriginalMap.Height);
+						}
+						// Tag in range; position normally:
+						else {
+							scaledX = (int)(data.PosX * OriginalMap.Width);	
+							scaledY = (int)(data.PosY * OriginalMap.Height);
+							var point = new Point(data.PosX, data.PosY);	
+
+							// Update tag's last position to its current one:
+							if (!PrevLocations.ContainsKey(data.Name))
+								PrevLocations.Add(data.Name, point);
+							else
+								PrevLocations[data.Name] = point;
+
+							// Tag was previously out of range but isn't a	nymore:
+							if (OutOfRange.Contains(data.Name)) {
+								OutOfRange.Remove(data.Name);
+								var dialog = new AlertDialog.Builder(this);
+								dialog.SetTitle("Tag In Range");
+
+								string info = "A tag is back in range. ";
+
+								if (OutOfRange.Count > 0) {
+									info += "These tags are still out of range:\n";
+
+									foreach (var tag in OutOfRange) {
+										info += "\nTag: " + tag + "\n";
+										info += "Child: " + Pref.GetString(tag + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT);
+									}
+								}
+								else
+									info += "All tags are in range!";
+
+								dialog.SetMessage(info);
+								dialog.SetNeutralButton("Ok", (sender, e) => CleanUpAlarm());
+								RunOnUiThread(() => dialog.Show());
+							}
+						}
+
+						string colour = Pref.GetString(data.Name + Settings.Keys.TAG_COLOUR, "");
+						string name = Pref.GetString(data.Name + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT);
+
+						if (name.Equals(""))
+							name = Settings.Map.UNKNOWN_NAME_TEXT;
+
+						if (colour.Equals(""))
+							colour = Settings.Map.DEFAULT_DOT_COLOUR;
+
+						if (outOfRange) {
+							name = "(!)" + name;
+							colour = Settings.Map.PROBLEM_DOT_COLOUR;
+						}
+
+						int r = Convert.ToInt32(colour.Substring(0, 2), 16);
+						int g = Convert.ToInt32(colour.Substring(2, 2), 16);
+						int b = Convert.ToInt32(colour.Substring(4, 2), 16);
+
+						paint.SetARGB(Settings.Map.DOT_COLOUR_ALPHA, r, g, b);
+						canvas.DrawCircle(scaledX, scaledY, Settings.Map.DOT_SIZE_RADIUS, paint);
+						canvas.DrawText(name, scaledX - 30, scaledY - 25, paint);
+					}
+				}
+
+				// Display new map:
+				RunOnUiThread(() => MapImageView.SetImageDrawable(new BitmapDrawable(Resources, CurrentMap)));
+
+				string notification = "Tags out of range:";
+
+				if (OutOfRange.Count > 0) {
+					foreach (var tag in OutOfRange)
+						notification += "\n" + tag + ": " + Pref.GetString(tag, Settings.Map.UNKNOWN_NAME_TEXT);
+				}
+				else
+					notification += "\n(none)";
+
+				notification += "\n\nTags with problems:";
+
+				if (problemTags.Count > 0) {
+					notification += "\n(Something wrong in the system)";
+					foreach (var tag in problemTags)
+						notification += "\n" + tag + ": " + Pref.GetString(tag, Settings.Map.UNKNOWN_NAME_TEXT);
+				}
+				else
+					notification += "\n(none)";
+
+
+				RunOnUiThread(() => StatusBody.Text = notification);
 			}
-
-			// Display new map:
-			RunOnUiThread(() => MapImageView.SetImageDrawable(new BitmapDrawable(Resources, CurrentMap)));
-
-			string notification = "Tags out of range:";
-
-			if (OutOfRange.Count > 0) {
-				foreach (var tag in OutOfRange)
-					notification += "\n" + tag + ": " + Pref.GetString(tag, Settings.Map.UNKNOWN_NAME_TEXT);
+			catch (Java.Lang.RuntimeException ex) {
+				Console.WriteLine("[Error] " + ex);
 			}
-			else
-				notification += "\n(none)";
-
-			notification += "\n\nTags with problems:";
-
-			if (problemTags.Count > 0) {
-				notification += "\n(Something wrong in the system)";
-				foreach (var tag in problemTags)
-					notification += "\n" + tag + ": " + Pref.GetString(tag, Settings.Map.UNKNOWN_NAME_TEXT);
-			}
-			else
-				notification += "\n(none)";
-
-
-			RunOnUiThread(() => StatusBody.Text = notification);
 		}
 
 		void CleanUpAlarm() {
