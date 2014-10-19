@@ -23,43 +23,21 @@
 %\caption{Use case of Android app user (first level granularity).}
 %\end{figure}
 
-\newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
 
-\title{
-		\normalfont \normalsize \textsc{Client Name: DVT} \\
-		\normalfont \normalsize \textsc{Project Name: KinderFinder} \\ [25pt]
-		\horrule{0.5pt} \\[0.4cm]
-		\huge KinderFinder User Manual \\
-		\horrule{2pt} \\[0.5cm]
-}
-\author{\begin{tabular}{rl}
-	\texttt{Team Name:} & \texttt{MAU Technologies} \\[0.5cm]
-	Uteshlen Nadesan & 28163304 \\
-	Michael Johnston & 12053300 \\
-	Po-Han Chiu & 11063612
-\end{tabular}
-	\\ \\ \texttt{}
-	\\ \\ \texttt{Version: 1}}
-\date{20 October 2014} 
 
 
 \begin{document}
-\maketitle
-\newpage
-
 \tableofcontents
 \newpage
 
 
 \section{Welcome to KinderFinder}
 \subsection{What is KinderFinder}
-\paragraph{}
 KinderFinder is a  solution that uses indoor tracking of people ,  to assist with a common 
 problem  in  public  places.  Many  restaurants  aim  to  give  parents  a  worry  free  dining 
-experience,  by providing facilities to entertain,  and safely look after their children.
-\paragraph{} However, 
+experience,  by providing facilities to entertain,  and safely look after their children. However, 
 a parent still has the worry, and consistent need  to  ensure their children are still in the safe 
-and designated areas.  KinderFinder attempts to assist the parents in being able to make 
+and designated areas.  The solution will attempt to assist the parents in being able to make 
 sure their children are still in these areas without the need to get up from their tables.
 
 
@@ -215,7 +193,7 @@ A list of tags registered to the user is shown here, from here one can assign na
 \end{figure}
 
 \subsection{Map view and tracking}
-Here, all the tags in the restaurant will be visible on a map of the restaurant areas and zones. If a child goes out of a zone for what ever reason, the phone will vibrate and beep to inform the parent of this.
+
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.4]{MainAppTrack Tags.png}
