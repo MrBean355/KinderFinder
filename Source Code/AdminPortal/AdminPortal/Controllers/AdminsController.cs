@@ -95,11 +95,10 @@ namespace AdminPortal.Controllers {
 
 		// POST: Admins/Delete/5
 		[HttpPost]
-		public ActionResult Delete(string id, FormCollection collection) {
+		public ActionResult Delete(int id, FormCollection collection) {
 			try {
-				var admin = db.AspNetUsers.Find(id);
-				db.AspNetUsers.Remove(admin);
-				db.SaveChanges();
+				// TODO: Add delete logic here
+
 				return RedirectToAction("Index");
 			}
 			catch {

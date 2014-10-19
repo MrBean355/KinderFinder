@@ -24,10 +24,12 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 							   select item).FirstOrDefault();
 
 			// Transmitter not found:
-			if (transmitter == null)
+			if (transmitter == null) {
+                System.Diagnostics.Debug.WriteLine("[Warning] Transmitter " + id + " not found.");
 				return BadRequest();
+			}
 
-			string output = "[Info] Updated strengths from type " + (int)transmitter.Type + ": ";
+			string output = "Updated strengths from type " + (int)transmitter.Type + ": ";
 
 			// For each tag that the transmitter is telling us about:
 			foreach (var item in details.TagData) {
@@ -38,7 +40,7 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 			}
 			
 			System.Diagnostics.Debug.WriteLine(output);
-			
+
 			return Ok();
 		}
 

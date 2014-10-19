@@ -34,10 +34,10 @@ namespace KinderFinder.Utility {
 			var result = new ServerResponse();
 			result.StatusCode = HttpStatusCode.OK;
 
-			var req = WebRequest.Create(Settings.Network.SERVER_ADDRESS + url) as HttpWebRequest;
+			var req = WebRequest.Create(Settings.SERVER_ADDRESS + url) as HttpWebRequest;
 			req.ContentType = "application/json";
 			req.Method = "POST";
-			req.Timeout = Settings.Network.REQUEST_TIMEOUT;
+			req.Timeout = Settings.REQUEST_TIMEOUT;
 
 			if (json == null) {
 				json = "";
@@ -100,7 +100,7 @@ namespace KinderFinder.Utility {
 		/// <returns>Hash of the provided password.</returns>
 		public static string HashPassword(string password) {
 			// merge password and salt together
-			string sHashWithSalt = password + Settings.Encryption.SALT;
+			string sHashWithSalt = password + Settings.HASHING_SALT;
 			// convert this merged value to a byte array
 			byte[] saltedHashBytes = Encoding.UTF8.GetBytes(sHashWithSalt);
 			// use hash algorithm to compute the hash

@@ -67,7 +67,7 @@ namespace KinderFinder {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.RestaurantList);
 
-			Pref = GetSharedPreferences(Settings.Storage.PREFERENCES_FILE, 0);
+			Pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
 			Editor = Pref.Edit();
 
 			RestaurantList = FindViewById<ListView>(Resource.Id.RestList_List);

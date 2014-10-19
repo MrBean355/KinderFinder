@@ -45,8 +45,7 @@ namespace AdminPortal.Code.Triangulation {
 		/// <param name="str1">Transmitter 1's strength.</param>
 		/// <param name="str2">Transmitter 2's strength.</param>
 		/// <param name="str3">Transmitter 3's strength.</param>
-		/// <returns>Tag's position if found</returns>
-		/// <exception cref="Exception">Thrown if transmitter isn't in database.</exception>
+		/// <returns>Tag's position if found; (-99, -99) otherwise.</returns>
 		public Location Locate(string beaconId, double str1, double str2, double str3) {
 			// Locate the tag:
 			var transmitter = (from item in Db.Tags
@@ -54,20 +53,24 @@ namespace AdminPortal.Code.Triangulation {
 							   select item).FirstOrDefault();
 
 			// Transmitter not found:
-			if (transmitter == null)
-				throw new Exception("Unable to locate transmitter with beacon ID '" + beaconId + "'.");
-
-			double s1Squared = Math.Pow(str1, 2.0);
-			double s2Squared = Math.Pow(str2, 2.0);
-			double s3Squared = Math.Pow(str3, 2.0);
-
-			double t2XSquared = Math.Pow(Transmitters[1][X], 2.0);
-			double t3XSquared = Math.Pow(Transmitters[2][X], 2.0);
-			double t3YSquared = Math.Pow(Transmitters[2][Y], 2.0);
+			if (transmitter == null) {
+				System.Diagnostics.Debug.WriteLine("Locator: transmitter with UUID '" + beaconId + "' not found.");
+				return new Location(-99.0, -99.0);
+			}
+			
+			//var px = ((str1 * str1) - (str2 * str2) + (Nodes[1].X * Nodes[1].X)) / (2.0 * Nodes[1].X);
+			//var py = ((str1 * str1) - (str3 * str3) + (Nodes[2].X * Nodes[2].X) + (Nodes[2].Y * Nodes[2].Y)) / (2.0 * Nodes[2].Y) - (Nodes[2].X / Nodes[2].X) * px;
 
 			// Do some trilateration magic:
-			var px = (s1Squared - s2Squared + t2XSquared) / (2.0 * Transmitters[1][X]);
-			var py = (s1Squared - s3Squared + t3XSquared + t3YSquared) / (2.0 * Transmitters[2][Y]) - (Transmitters[2][X] / Transmitters[2][Y]) * px;
+			var px = (Math.Pow(str1, 2.0) - Math.Pow(str2, 2.0) + (Math.Pow(Transmitters[1][X], 2.0))) / (2.0 * Transmitters[1][X]);
+			var py = ((str1 * str1) - (str3 * str3) + (Transmitters[2][X] * Transmitters[2][X])
+				+ (Transmitters[2][Y] * Transmitters[2][Y])) / (2.0 * Transmitters[2][Y]) - px;
+
+			System.Diagnostics.Debug.WriteLine("Triangulating for " + beaconId + " with strengths:");
+			System.Diagnostics.Debug.WriteLine("\t" + str1);
+			System.Diagnostics.Debug.WriteLine("\t" + str2);
+			System.Diagnostics.Debug.WriteLine("\t" + str3);
+			System.Diagnostics.Debug.WriteLine("Result: (" + px + ", " + py + ")\n");
 
 			return new Location(px, py);
 		}

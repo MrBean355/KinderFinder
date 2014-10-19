@@ -68,7 +68,7 @@ namespace KinderFinder {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.Main);
 
-			Pref = GetSharedPreferences(Settings.Storage.PREFERENCES_FILE, 0);
+			Pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
 			Editor = Pref.Edit();
 
 			EmailBox = FindViewById<EditText>(Resource.Id.Main_Email);
@@ -171,7 +171,8 @@ namespace KinderFinder {
 			string email = EmailBox.Text;
 			string password = PasswordBox.Text;
 			string errorMsg = null;
-
+			// TODO: Delete next line.
+			Settings.SERVER_ADDRESS = "http://" + FindViewById<EditText>(Resource.Id.ServerIp).Text + ":55555/";
 			/* Hide keyboard. */
 			var manager = (InputMethodManager)GetSystemService(InputMethodService);
 			manager.HideSoftInputFromWindow(EmailBox.WindowToken, 0);

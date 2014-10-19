@@ -16,6 +16,9 @@
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,7 +31,8 @@
     <ConsolePause>false</ConsolePause>
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
     <AndroidLinkMode>None</AndroidLinkMode>
-    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <AndroidUseSharedRuntime>true</AndroidUseSharedRuntime>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
     <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -63,15 +67,15 @@
     <Compile Include="TagListActivity.cs" />
     <Compile Include="TrackTagsActivity.cs" />
     <Compile Include="RestaurantListActivity.cs" />
-    <Compile Include="TagConfigActivity.cs" />
-    <Compile Include="EditDetailsActivity.cs" />
-    <Compile Include="Utility\AppTools.cs" />
-    <Compile Include="Utility\Deserialiser.cs" />
+    <Compile Include="Utility\Validator.cs" />
     <Compile Include="Utility\JsonBuilder.cs" />
     <Compile Include="Utility\MapCache.cs" />
-    <Compile Include="Utility\Settings.cs" />
     <Compile Include="Utility\SharpAESCrypt.cs" />
-    <Compile Include="Utility\Validator.cs" />
+    <Compile Include="Utility\AppTools.cs" />
+    <Compile Include="Utility\Settings.cs" />
+    <Compile Include="TagConfigActivity.cs" />
+    <Compile Include="Utility\Deserialiser.cs" />
+    <Compile Include="EditDetailsActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
@@ -88,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\" />
+    <Folder Include="Utility\" />
     <Folder Include="Resources\values\" />
     <Folder Include="Resources\menu\" />
     <Folder Include="Resources\raw\" />
