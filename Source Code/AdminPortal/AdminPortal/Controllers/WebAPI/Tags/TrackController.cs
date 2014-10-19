@@ -1,9 +1,10 @@
-﻿#define MOCK_DATA
+﻿//#define MOCK_DATA
 
 using AdminPortal.Code;
 using AdminPortal.Code.Triangulation;
 using AdminPortal.Models;
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -15,6 +16,20 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 	 * current restaurant.
 	 */
 	public class TrackController : ApiController {
+		/// <summary>
+		/// Special value which indicates that the tag is out of range. This
+		/// value is looked for by the Android app, and should NOT be changed
+		/// without changing the corresponding value in the app's code.
+		/// </summary>
+		private const double OUT_OF_RANGE_VALUE = -100.0;
+		/// <summary>
+		/// Special value which indicates that a strength couldn't be loaded,
+		/// meaning we couldn't locate the tag. This value is looked for by
+		/// the Android app, and should NOT be changed without changing the
+		/// corresponding value in the app's code.
+		/// </summary>
+		private const double MISSING_STRENGTH_VALUE = -50.0;
+
 		private KinderFinderEntities Db = new KinderFinderEntities();
 		private double MaxX = -1.0, MaxY = -1.0;
 
@@ -33,40 +48,41 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 					return null;
 			}
 #else
-			const string RESTAURANT_NAME = "Demo Room";
-			const string TAG_BEACON_ID = "1-177";
-			double[] STRENGTHS = { -0.3, -0.3, -0.3 };
-
-			var restaurant = (from item in Db.Restaurants
-							  where item.Name.Equals(RESTAURANT_NAME)
-							  select item.ID).FirstOrDefault();
+			// Beacon IDs to test with:
+			string[] beaconIds = { "1-177" , "1-209"};
+			// Strengths to test with:
+			double[] strengths = { 0.3, 0.3, 0.3, 0.1, 0.7, 0.7};
 
 			// Generate temporary Transmitters (not saved in db):
 			for (int i = 0; i < 3; i++) {
                 t[i] = new Transmitter();
 				t[i].ID = i + 1;
                 t[i].Type = i + 1;
-				t[i].Restaurant = restaurant;
 			}
 
 			// Position Transmitters:
-			t[0].PosX =  0.0; t[0].PosY =  0.0;
-			t[1].PosX = 10.0; t[1].PosY =  0.0;
-			t[2].PosX = 10.0; t[2].PosY = 10.0;
+			t[0].PosX = 0.0; t[0].PosY = 0.0;
+			t[1].PosX = 1.0; t[1].PosY = 0.0;
+			t[2].PosX = 1.0; t[2].PosY = 1.0;
 
-			// Update Tag strength to each Transmitter:
-			for (int i = 0; i < 3; i++)
-				StrengthManager.Update(TAG_BEACON_ID, i + 1, i + 1, STRENGTHS[i]);
+			// For each tag:
+			for (int i = 0; i < beaconIds.Length; i++) {
+				// Update tag strength to each transmitter:
+				for (int j = 0; j < 3; j++)
+					StrengthManager.Update(beaconIds[i], j + 1, j + 1, strengths[3*i+j]);
+			}
 
-            //debug_updates++;
-            //System.Diagnostics.Debug.WriteLine("--> Updates " + debug_updates);
+            debug_updates++;
+            System.Diagnostics.Debug.WriteLine("[Debug] Updates = " + debug_updates);
 
-			// Simulate the tag going out of range:
-            /*if (debug_updates == 10)
-				StrengthManager.FlagTag(TAG_BEACON_ID, true);
-			// Simulate the tag coming back into range:
+			if (debug_updates == 5)
+				StrengthManager.FlagTag(beaconIds[0], true);
+			else if (debug_updates == 10)
+				StrengthManager.FlagTag(beaconIds[1], true);
+			else if (debug_updates == 15)
+				StrengthManager.FlagTag(beaconIds[1], false);
 			else if (debug_updates == 20)
-				StrengthManager.FlagTag(TAG_BEACON_ID, false);*/
+				StrengthManager.FlagTag(beaconIds[0], false);
 #endif
 			// Find the max and min co-ords, so we can scale the points:
 			foreach (var item in t) {
@@ -82,10 +98,6 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 
 		[HttpPost]
 		public IHttpActionResult GetLocations(RequestDetails details) {
-			System.Diagnostics.Debug.WriteLine("Starting!");
-			details = new RequestDetails();
-			details.EmailAddress = "mrbean@gmail.com";
-			// TODO: Remove the above.
 			// Determine user's current restaurant:
 			var user = (from item in Db.AppUsers
 						where item.EmailAddress.Equals(details.EmailAddress)
@@ -96,72 +108,94 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 			if (restaurant == null)
 				return BadRequest();
 
-			Transmitter[] t = LoadTransmitters(restaurant.ID);
+			// Load the restaurant's transmitters:
+			Transmitter[] transmitters = LoadTransmitters(restaurant.ID);
 
-			if (t == null)
+			if (transmitters == null)
 				return BadRequest();
 
-			Locator locator = new Locator();
+			var locator = new Locator();
 
-			// Initialise transmitter locations.
-			for (int i = 0; i < t.Length; i++)
-				locator.MoveTransmitter(i + 1, (double)t[i].PosX, (double)t[i].PosY);
+			// Tell the locator the transmitter positions:
+			foreach (var transmitter in transmitters)
+				locator.MoveTransmitter((int)transmitter.Type, (double)transmitter.PosX, (double)transmitter.PosY);
 
-			// Load tags belonging to the user.
+			// Load tags belonging to the user:
 			var tags = from item in Db.Tags
 					   where item.Restaurant == restaurant.ID && item.CurrentUser == user.ID
-					   select item;
+					   select new { item.Label, item.BeaconID };
 
 			// List of tag positions to be returned:
 			var result = new List<TagData>();
 
 			// For each of the user's tags:
 			foreach (var tag in tags) {
-                TagData td = new TagData();
-                td.Name = tag.Label;
-
 				// Tag has not been given a major-minor ID which corresponds to
-				// the Bluetooth beacon's ID; we cannot locate it.
-				if (tag.BeaconID == null) {
+				// the Bluetooth beacon's ID; we cannot locate it. This ID must
+				// be set in the AdminPortal.
+				if (tag.BeaconID == null || tag.BeaconID.Equals("")) {
 					System.Diagnostics.Debug.WriteLine("[Warning] No beacon ID set for tag '" + tag.Label + "'.");
 					continue;
 				}
-                // Tag is not flagged; locate as normal:
-                else if (!StrengthManager.IsTagFlagged(tag.BeaconID)) {
+
+				var tagData = new TagData();
+				tagData.Name = tag.Label;
+
+                // Tag is not out of range; locate as normal:
+                if (!StrengthManager.IsTagFlagged(tag.BeaconID)) {
                     double[] strengths = new double[3];
+					bool safe = true; // set to false if a strength couldn't be determined.
 
                     // Load all three of its strengths:
-                    for (int i = 0; i < 3; i++) {
-                        strengths[i] = StrengthManager.GetStrength(tag.BeaconID, t[i].ID, (int)t[i].Type);
-						// The strength may be equal to StrengthManager.NOT_ENOUGH_AVERAGES.
-                    }
+					for (int i = 0; safe && i < 3; i++) {
+						try {
+							strengths[i] = StrengthManager.GetStrength(tag.BeaconID, transmitters[i].ID, (int)transmitters[i].Type);
+						}
+						catch (Exception ex) {
+							System.Diagnostics.Debug.WriteLine("[Error] " + ex);
+							safe = false;
+						}
+					}
 
-                    // Triangulate its position:
-                    var pos = locator.Locate(tag.BeaconID, strengths[0], strengths[1], strengths[2]);
-                    //var pos = Triangulate(strengths[0], strengths[1], strengths[2]);
+					// ALl strengths loaded; calculate position:
+					if (safe) {
+						try {
+							// Triangulate its position:
+							var pos = locator.Locate(tag.BeaconID, strengths[0], strengths[1], strengths[2]);
 
-					// Scale point to be between 0 and 1:
-                    //td.PosX = pos.getXCoord() / MaxX;
-					//td.PosY = pos.getYCoord() / MaxY;
-					td.PosX = pos.X / MaxX;
-					td.PosY = pos.Y / MaxY;
+							// Scale point to be between 0 and 1:
+							tagData.PosX = pos.X / MaxX;
+							tagData.PosY = pos.Y / MaxY;
 
-                    //System.Diagnostics.Debug.WriteLine("Pos: (" + td.PosX + ", " + td.PosY + ")");
+							//var pos = Triangulate(strengths[0], strengths[1], strengths[2]);
+							//td.PosX = pos.getXCoord() / MaxX;
+							//td.PosY = pos.getYCoord() / MaxY;
+						}
+						catch (Exception ex) { // thrown if transmitter isn't in db.
+							System.Diagnostics.Debug.WriteLine("[Error] " + ex);
+							tagData.PosX = MISSING_STRENGTH_VALUE;
+							tagData.PosY = MISSING_STRENGTH_VALUE;
+						}
+					}
+					// A strength couldn't be loaded; can't locate:
+					else {
+						tagData.PosX = MISSING_STRENGTH_VALUE;
+						tagData.PosY = MISSING_STRENGTH_VALUE;
+					}
                 }
-				// Tag is flagged as out of range:
+				// Tag is out of range:
 				else {
-					td.PosX = -100.0;
-					td.PosY = -100.0;
+					tagData.PosX = OUT_OF_RANGE_VALUE;
+					tagData.PosY = OUT_OF_RANGE_VALUE;
 				}
 
-				result.Add(td);
+				result.Add(tagData);
 			}
 
-			System.Diagnostics.Debug.WriteLine("Returning something!");
 			return Ok(result);
 		}
 
-        private Coordinates Triangulate(double str1, double str2, double str3) {
+        /*private Coordinates Triangulate(double str1, double str2, double str3) {
             //creating beacons
             Reciever r1 = new Reciever();
             Reciever r2 = new Reciever();
@@ -205,7 +239,7 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
             //creating coordinates point for the rest of the program
             //Coordinates coordinates = new Coordinates();
             return triangulate.getCoordinatesForAdapter();
-        }
+        }*/
 
 		public struct TagData {
 			public string Name;

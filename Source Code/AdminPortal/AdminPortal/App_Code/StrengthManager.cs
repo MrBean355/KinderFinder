@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AdminPortal.Code {
 
 	public static class StrengthManager {
-		public const int AVERAGE_VALUES = 1;
+		public const int AVERAGE_VALUES = 5;
 
 		//                       BeaconID          TransID   Avg for each trans type
 		private static Dictionary<string, Dictionary<int, List<AverageManager>>> Strengths;
@@ -63,26 +64,19 @@ namespace AdminPortal.Code {
 				Strengths[tagMinorMajor].Add(tId, item);
 			}
 
-			//System.Diagnostics.Debug.WriteLine("[Info] Strength updated for beacon " + tagMinorMajor + " from type " + tType);
 			Strengths[tagMinorMajor][tId][tType - 1].AddStrength(strength);
 		}
 
 		public static double GetStrength(string tagMinorMajor, int tId, int tType) {
 			// This tag has not been added; error:
-			if (!Strengths.ContainsKey(tagMinorMajor)) {
-				System.Diagnostics.Debug.WriteLine("[Warning] Unable to locate strength for tag with minor-major value '" + tagMinorMajor + "'.");
-				return -98.0;
-			}
+			if (!Strengths.ContainsKey(tagMinorMajor))
+				throw new Exception("Unable to locate strength for tag with minor-major value '" + tagMinorMajor + "'.");
 
 			// This transmitter has not been added for this tag; error:
-			if (!Strengths[tagMinorMajor].ContainsKey(tId)) {
-                System.Diagnostics.Debug.WriteLine("[Warning] Unable to locate strength for tag with minor-major value '" + tagMinorMajor + "' and transmitter with ID '" + tId + "'.");
-				return -97.0;
-			}
+			if (!Strengths[tagMinorMajor].ContainsKey(tId))
+				throw new Exception("Unable to locate strength for tag with minor-major value '" + tagMinorMajor + "' and transmitter with ID '" + tId + "'.");
 
-			// Find the average from the average manager:
-			var manager = Strengths[tagMinorMajor][tId][tType - 1];
-			return manager.GetAverage();
+			return Strengths[tagMinorMajor][tId][tType - 1].GetAverage();
 		}
 	}
 }

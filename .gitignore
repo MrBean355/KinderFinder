@@ -159,6 +159,3 @@ $RECYCLE.BIN/
 # Mac desktop service store files
 .DS_Store
 *.rar
-Source Code/KinderFinder/KinderFinder_Droid/Resources/Resource.designer.cs
-Source Code/KinderFinder/KinderFinder_Droid/KinderFinder.csproj
-Source Code/KinderFinder/KinderFinder_Droid/Properties/AndroidManifest.xml

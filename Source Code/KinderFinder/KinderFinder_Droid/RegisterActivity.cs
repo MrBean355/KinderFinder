@@ -69,7 +69,7 @@ namespace KinderFinder {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.Register);
 
-			Pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
+			Pref = GetSharedPreferences(Settings.Storage.PREFERENCES_FILE, 0);
 			Editor = Pref.Edit();
 
 			FirstNameBox = FindViewById<EditText>(Resource.Id.Register_FirstName);

@@ -18,8 +18,6 @@ namespace KinderFinder {
 
 	[Activity(Label = "Track Tags", Icon = "@drawable/icon")]
 	public class TrackTagsActivity : Activity {
-		static MediaPlayer AlarmPlayer;
-
 		ISharedPreferences Pref;
 		ISharedPreferencesEditor Editor;
 		ImageView MapImageView;
@@ -37,6 +35,7 @@ namespace KinderFinder {
 		Bitmap CurrentMap = null;
 
 		Timer Timer;
+		MediaPlayer AlarmPlayer = null;
 
 		/// <summary>
 		/// Keeps track of each tag that is out of range, so that we only display a notification once for each tag.
@@ -86,12 +85,13 @@ namespace KinderFinder {
 			base.OnCreate(bundle);
 			SetContentView(Resource.Layout.TrackTags);
 
-			Pref = GetSharedPreferences(Settings.PREFERENCES_FILE, 0);
+			Pref = GetSharedPreferences(Settings.Storage.PREFERENCES_FILE, 0);
 			Editor = Pref.Edit();
 
 			MapImageView = FindViewById<ImageView>(Resource.Id.Track_Map);
 			ProgressBar = FindViewById<ProgressBar>(Resource.Id.Track_ProgressBar);
 			DownloadingText = FindViewById<TextView>(Resource.Id.Track_DownloadingText);
+			//AlarmPlayer = MediaPlayer.Create(this, Resource.Raw.OutOfRangeAlarm);
 
 			LoadMapImage();
 		}
@@ -167,7 +167,7 @@ namespace KinderFinder {
 						MapImageView.SetImageBitmap(OriginalMap);
 
 						Timer = new Timer(UpdateMap);
-						Timer.Change(0, Settings.Map.UPDATE_FREQUENCY);
+						Timer.Change(0, Settings.Network.UPDATE_FREQUENCY);
 					}
 					/* Something went wrong. */
 					else
@@ -190,6 +190,14 @@ namespace KinderFinder {
 				X = x;
 				Y = y;
 			}
+		}
+
+		static bool IsPointInRange(double x, double y) {
+			return !x.Equals(Settings.SpecialPoints.OUT_OF_RANGE) || !y.Equals(Settings.SpecialPoints.OUT_OF_RANGE);
+		}
+
+		static bool IsPointValid(double x, double y) {
+			return !x.Equals(Settings.SpecialPoints.TRANSMITTER_PROBLEM) || !y.Equals(Settings.SpecialPoints.TRANSMITTER_PROBLEM);
 		}
 
 		/// <summary>
@@ -235,46 +243,71 @@ namespace KinderFinder {
 			// If we could retrieve the locations, draw them:
 			if (locations != null) {
 				foreach (var data in locations) {
-					int x = 0;
-					int y = 0;
+					int scaledX = 0;
+					int scaledY = 0;
 					bool outOfRange = false;
 
 					// Tag out of range; play alarm and load last position:
-					if (data.PosX.Equals(Settings.SpecialPoints.OUT_OF_RANGE) && data.PosY.Equals(Settings.SpecialPoints.OUT_OF_RANGE)) {
+					if (!IsPointInRange(data.PosX, data.PosY)) {
 						// If we haven't displayed a warning for the tag yet:
 						if (!OutOfRange.Contains(data.Name)) {
 							OutOfRange.Add(data.Name);
-							PlayAlarm(data.Name);
+							PlayAlarm();
 						}
 
-						if (PrevLocations.ContainsKey(data.Name)) {
-							x = (int)(PrevLocations[data.Name].X * OriginalMap.Width);
-							y = (int)(PrevLocations[data.Name].Y * OriginalMap.Height);
-						}
-						else
+						// If we don't have a last known position for the tag, skip it:
+						if (!PrevLocations.ContainsKey(data.Name))
 							continue;
 
+						// Otherwise, display its last known position:
+						scaledX = (int)(PrevLocations[data.Name].X * OriginalMap.Width);
+						scaledY = (int)(PrevLocations[data.Name].Y * OriginalMap.Height);
 						outOfRange = true;
+					}
+					// The point will also be invalid if a transmitter isn't sending the tag's strength. Try to display
+					// the tag's last known position.
+					else if (!IsPointValid(data.PosX, data.PosY)) {
+						// If we don't have a last known position for the tag, skip it:
+						if (!PrevLocations.ContainsKey(data.Name))
+							continue;
+
+						// Otherwise, display its last known position:
+						scaledX = (int)(PrevLocations[data.Name].X * OriginalMap.Width);
+						scaledY = (int)(PrevLocations[data.Name].Y * OriginalMap.Height);
 					}
 					// Tag in range; position normally:
 					else {
-						x = (int)(data.PosX * OriginalMap.Width);
-						y = (int)(data.PosY * OriginalMap.Height);
-						var pt = new Point(data.PosX, data.PosY);
+						scaledX = (int)(data.PosX * OriginalMap.Width);	
+						scaledY = (int)(data.PosY * OriginalMap.Height);
+						var point = new Point(data.PosX, data.PosY);	
 
+						// Update tag's last position to its current one:
 						if (!PrevLocations.ContainsKey(data.Name))
-							PrevLocations.Add(data.Name, pt);
+							PrevLocations.Add(data.Name, point);
 						else
-							PrevLocations[data.Name] = pt;
+							PrevLocations[data.Name] = point;
 
-						// Tag was previously out of range but isn't anymore:
+						// Tag was previously out of range but isn't a	nymore:
 						if (OutOfRange.Contains(data.Name)) {
 							OutOfRange.Remove(data.Name);
 							var dialog = new AlertDialog.Builder(this);
 							dialog.SetTitle("Tag In Range");
 
-							dialog.SetMessage("A tag is back in range!\nTag Name: " + data.Name + "\nChild: " + Pref.GetString(data.Name + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT));
-							dialog.SetNeutralButton("Ok", (sender, e) => AlarmPlayer.Stop());
+							string info = "A tag is back in range. ";
+
+							if (OutOfRange.Count > 0) {
+								info += "These tags are still out of range:\n";
+
+								foreach (var tag in OutOfRange) {
+									info += "\nTag: " + tag + "\n";
+									info += "Child: " + Pref.GetString(tag + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT);
+								}
+							}
+							else
+								info += "All tags are in range!";
+
+							dialog.SetMessage(info);
+							dialog.SetNeutralButton("Ok", (sender, e) => CleanUpAlarm());
 							RunOnUiThread(() => dialog.Show());
 						}
 					}
@@ -298,8 +331,8 @@ namespace KinderFinder {
 					int b = Convert.ToInt32(colour.Substring(4, 2), 16);
 
 					paint.SetARGB(Settings.Map.DOT_COLOUR_ALPHA, r, g, b);
-					canvas.DrawCircle(x, y, Settings.Map.DOT_SIZE_RADIUS, paint);
-					canvas.DrawText(name, x - 30, y - 25, paint);
+					canvas.DrawCircle(scaledX, scaledY, Settings.Map.DOT_SIZE_RADIUS, paint);
+					canvas.DrawText(name, scaledX - 30, scaledY - 25, paint);
 				}
 			}
 
@@ -307,19 +340,44 @@ namespace KinderFinder {
 			RunOnUiThread(() => MapImageView.SetImageDrawable(new BitmapDrawable(Resources, CurrentMap)));
 		}
 
-		void PlayAlarm(string tagName) {
-			if (AlarmPlayer != null && AlarmPlayer.IsPlaying)
-				return;
+		void CleanUpAlarm() {
+			if (AlarmPlayer != null) {
+				if (AlarmPlayer.IsPlaying)
+					AlarmPlayer.Stop();
 
+				AlarmPlayer.Release();
+				AlarmPlayer = null;
+			}
+		}
+
+		protected override void OnDestroy() {
+			base.OnDestroy();
+
+			CleanUpAlarm();
+		}
+
+		void PlayAlarm() {
 			var dialog = new AlertDialog.Builder(this);
 			dialog.SetTitle("Alert!");
 
-			dialog.SetMessage("A tag is out of range!\nTag Name: " + tagName + "\nChild: " + Pref.GetString(tagName + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT));
-			dialog.SetNeutralButton("Ok", (sender, e) => AlarmPlayer.Stop());
+			string info = "These tags are out of range:\n";
+
+			foreach (var tag in OutOfRange) {
+				info += "\nTag: " + tag + "\n";
+				info += "Child: " + Pref.GetString(tag + Settings.Keys.TAG_NAME, Settings.Map.UNKNOWN_NAME_TEXT);
+			}
+
+			dialog.SetMessage(info);
+			dialog.SetNeutralButton("Ok", (sender, e) => CleanUpAlarm());
 			RunOnUiThread(() => dialog.Show());
 
-			AlarmPlayer = MediaPlayer.Create(this, Resource.Raw.OutOfRangeAlarm);
-			AlarmPlayer.Start();
+			// Create media player if it doesn't exist:
+			if (AlarmPlayer == null)
+				AlarmPlayer = MediaPlayer.Create(this, Resource.Raw.OutOfRangeAlarm);
+
+			// Start media player if it isn't playing yet:
+			if (!AlarmPlayer.IsPlaying)
+				AlarmPlayer.Start();
 		}
 	}
 }
