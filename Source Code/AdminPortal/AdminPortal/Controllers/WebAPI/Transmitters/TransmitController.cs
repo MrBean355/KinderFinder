@@ -37,7 +37,7 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 				output += item.TagMinorMajor + "(" + FeetToMeters(item.Distance) + ") ";
 			}
 			
-			System.Diagnostics.Debug.WriteLine(output);
+			//System.Diagnostics.Debug.WriteLine(output);
 			
 			return Ok();
 		}

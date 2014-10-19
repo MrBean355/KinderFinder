@@ -10,17 +10,17 @@ namespace AdminPortal.Controllers.WebAPI {
 		const int TRANSMITTER_TYPE = 3;
 
 		static string[] BeaconIds = { "1-177", "1-209" };
-		static double[] Strengths = { 0.3, 0.3 };
+		static double[] Strengths = { 0.3, 0.6 };
 		static Timer TransmitTimer;
 
 		static TestController() {
 			TransmitTimer = new Timer(1000.0);
 			TransmitTimer.Elapsed += OnTimerTick;
-			//TransmitTimer.Start();
+			TransmitTimer.Start();
 		}
 
 		private static void OnTimerTick(object sender, ElapsedEventArgs e) {
-			string output = "Updated strengths from type " + TRANSMITTER_TYPE + ": ";
+			string output = "[Info] Updated strengths from type " + TRANSMITTER_TYPE + ": ";
 
 			for (int i = 0; i < BeaconIds.Length; i++ ) {
 				StrengthManager.Update(BeaconIds[i], TRANSMITTER_ID, TRANSMITTER_TYPE, Strengths[i]);
@@ -28,21 +28,11 @@ namespace AdminPortal.Controllers.WebAPI {
 				output += BeaconIds[i] + "(" + Strengths[i] + ") ";
 			}
 
-			System.Diagnostics.Debug.WriteLine(output);
+			//System.Diagnostics.Debug.WriteLine(output);
 		}
 
 		public IHttpActionResult Get() {
-			var manager = new AverageManager(5);
-			manager.AddStrength(0.25);
-			manager.AddStrength(0.3);
-			manager.AddStrength(0.5);
-			manager.AddStrength(1.5);
-			manager.AddStrength(0.45);
-
-			System.Diagnostics.Debug.WriteLine("Average = " + manager.GetAverage());
-			return Ok("Average = " + manager.GetAverage());
-
-			//return Ok("Transmitting");
+			return Ok("Transmitting");
 		}
 	}
 }

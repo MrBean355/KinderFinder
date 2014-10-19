@@ -192,6 +192,7 @@
     <Compile Include="Controllers\AppUsersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
+    <Compile Include="Controllers\TransmitterController.cs" />
     <Compile Include="Controllers\WebAPI\Accounts\EditDetailsController.cs" />
     <Compile Include="Controllers\WebAPI\Accounts\GetDetailsController.cs" />
     <Compile Include="Controllers\WebAPI\Accounts\LoginController.cs" />
@@ -376,6 +377,7 @@
     <Content Include="Views\Zones\Edit.cshtml" />
     <Content Include="Views\Zones\Index.cshtml" />
     <Content Include="Views\Reports\ZonesReport.cshtml" />
+    <Content Include="Views\Transmitter\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

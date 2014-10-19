@@ -96,8 +96,12 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 			return t;
 		}
 
-		[HttpPost]
+		//[HttpPost] TODO: Uncomment.
 		public IHttpActionResult GetLocations(RequestDetails details) {
+			details = new RequestDetails();
+			details.EmailAddress = "mrbean@gmail.com";
+			// TODO: Remove above lines.
+
 			// Determine user's current restaurant:
 			var user = (from item in Db.AppUsers
 						where item.EmailAddress.Equals(details.EmailAddress)

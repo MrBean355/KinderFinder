@@ -1,0 +1,37 @@
+﻿@model IEnumerable<AdminPortal.Models.Transmitter>
+
+@{
+    ViewBag.Title = "Transmitter Monitor";
+}
+@using AdminPortal.Models;
+<h2>@ViewBag.Title</h2>
+<br />
+<p>Here you can see how many seconds ago the transmitters were last heard from.</p>
+
+@foreach (KeyValuePair<string, Dictionary<int, long>> restaurant in ViewBag.TagInfo) {
+    <h3>@restaurant.Key</h3>
+    if (restaurant.Value.Count > 0) {
+        <table class="table">
+            <tr>
+                <th>Transmitter ID</th>
+                <th>Transmitter Type</th>
+                <th>Seconds Since Update</th>
+            </tr>
+            @foreach (KeyValuePair<int, long> entry in restaurant.Value) {
+                <tr>
+                    <td>@entry.Key</td>
+                    @foreach (var item in Model) {
+                        if (item.ID == entry.Key) {
+                            <td>@item.Type</td>
+                            break;
+                        }
+                    }
+                    <td>@entry.Value</td>
+                </tr>
+            }
+        </table>
+    }
+    else {
+        <p><i>No transmitters added to this restaurant.</i></p>
+    }
+}

@@ -8,11 +8,27 @@ namespace AdminPortal.Code {
 
 		//                       BeaconID          TransID   Avg for each trans type
 		private static Dictionary<string, Dictionary<int, List<AverageManager>>> Strengths;
+		private static Dictionary<int, long> LastUpdated;
 		private static List<string> FlaggedTags;
 
 		static StrengthManager() {
 			Strengths = new Dictionary<string, Dictionary<int, List<AverageManager>>>();
+			LastUpdated = new Dictionary<int, long>();
 			FlaggedTags = new List<string>();
+		}
+
+		public static long GetLastUpdated(int tId) {
+			if (!LastUpdated.ContainsKey(tId))
+				return -1;
+
+			return LastUpdated[tId];
+		}
+
+		private static void Update(int tId) {
+			if (!LastUpdated.ContainsKey(tId))
+				LastUpdated.Add(tId, 0);
+			else
+				LastUpdated[tId] = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
 		}
 
         /// <summary>
@@ -65,6 +81,7 @@ namespace AdminPortal.Code {
 			}
 
 			Strengths[tagMinorMajor][tId][tType - 1].AddStrength(strength);
+			Update(tId);
 		}
 
 		public static double GetStrength(string tagMinorMajor, int tId, int tType) {

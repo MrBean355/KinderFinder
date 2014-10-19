@@ -22,7 +22,6 @@
             <a href="Tags" class="btn btn-primary btn-lg">Tags</a>
             <a href="Zones" class="btn btn-primary btn-lg">Zones</a>
             <a href="Reports" class="btn btn-primary btn-lg">Reports</a>*@
-
             @* Only display these links to global admins. *@
             @if (User.IsInRole("GlobalAdmins")) {
                 @Html.ActionLink("Admins", "Index", "Admins", null, new { @class = "btn btn-primary btn-lg" })
