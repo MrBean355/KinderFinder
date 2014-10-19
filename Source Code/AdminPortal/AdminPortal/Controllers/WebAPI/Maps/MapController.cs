@@ -15,6 +15,7 @@ namespace AdminPortal.Controllers.WebAPI.Maps {
 
 		[HttpPost]
 		public HttpResponseMessage GetCurrentMap(RequestDetails details) {
+			// Load the map of the restaurant the user is currently at:
 			var mapData = (from user in db.AppUsers
 						   join rest in db.Restaurants on user.CurrentRestaurant equals rest.ID
 						   where user.EmailAddress.Equals(details.EmailAddress)
@@ -25,8 +26,8 @@ namespace AdminPortal.Controllers.WebAPI.Maps {
 
 			var response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
 
-			response.Content = new StreamContent(new MemoryStream(mapData));
 			response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpg");
+			response.Content = new StreamContent(new MemoryStream(mapData));
 
 			return response;
 		}

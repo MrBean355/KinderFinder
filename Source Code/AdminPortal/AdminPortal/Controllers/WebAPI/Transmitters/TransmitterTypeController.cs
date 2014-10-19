@@ -21,26 +21,26 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 			if (restaurant == null)
 				return BadRequest();
 
-			var types = new List<string>();
-			types.Add("1");
-			types.Add("2");
-			types.Add("3");
+			var availableTypes = new List<string>();
+			availableTypes.Add("1");
+			availableTypes.Add("2");
+			availableTypes.Add("3");
 
-			var trans = from item in Db.Transmitters
+			var transmitters = from item in Db.Transmitters
 						where item.Restaurant == restaurant.ID
 						select item;
 
-			foreach (var item in trans) {
+			foreach (var item in transmitters) {
 				string type = (int)item.Type + "";
 
-				if (types.Contains(type))
-					types.Remove(type);
+				if (availableTypes.Contains(type))
+					availableTypes.Remove(type);
 			}
 
-			if (types.Count == 0)
+			if (availableTypes.Count == 0)
 				return Conflict();
 
-			return Ok(types);
+			return Ok(availableTypes);
 		}
 
 		public struct RequestDetails {

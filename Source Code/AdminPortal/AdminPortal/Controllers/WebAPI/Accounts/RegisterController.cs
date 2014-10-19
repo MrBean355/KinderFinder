@@ -13,12 +13,12 @@ namespace AdminPortal.Controllers.Accounts {
 
 		[HttpPost]
 		public IHttpActionResult Register(AppUser newUser) {
-			var user = (from item in db.AppUsers
-						where item.EmailAddress.Equals(newUser.EmailAddress, System.StringComparison.CurrentCultureIgnoreCase)
-						select item).FirstOrDefault();
+			var count = (from item in db.AppUsers
+						 where item.EmailAddress.Equals(newUser.EmailAddress, System.StringComparison.CurrentCultureIgnoreCase)
+						 select item).Count();
 
 			/* Make sure email address is not already in use. */
-			if (user != null)
+			if (count > 0)
 				return Conflict();
 
 			/* Insert patron into database. */

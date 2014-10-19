@@ -9,7 +9,6 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
         [HttpPost]
         public IHttpActionResult OutOfRange(RequestDetails details) {
             StrengthManager.FlagTag(details.BeaconId, true);
-			System.Diagnostics.Debug.WriteLine("[Info] Tag " + details.BeaconId + " marked as out of range!");
             return Ok();
         }
 

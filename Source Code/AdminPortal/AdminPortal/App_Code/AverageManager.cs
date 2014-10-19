@@ -38,12 +38,10 @@ namespace AdminPortal.Code {
 			average /= Size;
 			double bestDiff = 0.0;
 			double bestStrength = STARTING_BEST;
-			string output = "Choosing from [ ";
 
 			// Next we need to find which strength is closest to the average:
 			foreach (var strength in Data) {
 				double diff = Math.Abs(average - strength);
-				output += strength + " ";
 
 				if (bestStrength == STARTING_BEST || diff < bestDiff) {
 					if (strength == NOT_SET_VALUE)
@@ -54,8 +52,6 @@ namespace AdminPortal.Code {
 				}
 			}
 
-			output += "] = " + bestStrength;
-			System.Diagnostics.Debug.WriteLine(output);
 			return bestStrength;
 		}
 	}

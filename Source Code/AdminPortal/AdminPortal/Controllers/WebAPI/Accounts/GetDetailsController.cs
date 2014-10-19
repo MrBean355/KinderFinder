@@ -5,6 +5,9 @@ using System.Web.Http;
 
 namespace AdminPortal.Controllers.WebAPI.Accounts {
 
+	/**
+	 * Gets the details of a user's account, excluding password hash.
+	 */
 	public class GetDetailsController : ApiController {
 		private KinderFinderEntities Db = new KinderFinderEntities();
 

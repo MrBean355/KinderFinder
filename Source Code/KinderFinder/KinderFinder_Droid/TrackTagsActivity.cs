@@ -20,9 +20,12 @@ namespace KinderFinder {
 	public class TrackTagsActivity : Activity {
 		ISharedPreferences Pref;
 		ISharedPreferencesEditor Editor;
+		TextView StatusHeading, StatusBody;
 		ImageView MapImageView;
 		ProgressBar ProgressBar;
 		TextView DownloadingText;
+
+		Bitmap UnscaledMap;
 
 		/// <summary>
 		/// The plain map, which has no dots overlayed onto it.
@@ -35,6 +38,7 @@ namespace KinderFinder {
 		Bitmap CurrentMap = null;
 
 		Timer Timer;
+		bool TimerTicking = false;
 		MediaPlayer AlarmPlayer = null;
 
 		/// <summary>
@@ -88,12 +92,30 @@ namespace KinderFinder {
 			Pref = GetSharedPreferences(Settings.Storage.PREFERENCES_FILE, 0);
 			Editor = Pref.Edit();
 
+			StatusHeading = FindViewById<TextView>(Resource.Id.Track_StatusHeading);
+			StatusBody = FindViewById<TextView>(Resource.Id.Track_StatusBody);
 			MapImageView = FindViewById<ImageView>(Resource.Id.Track_Map);
 			ProgressBar = FindViewById<ProgressBar>(Resource.Id.Track_ProgressBar);
 			DownloadingText = FindViewById<TextView>(Resource.Id.Track_DownloadingText);
-			//AlarmPlayer = MediaPlayer.Create(this, Resource.Raw.OutOfRangeAlarm);
+
+			StatusHeading.Click += (sender, e) => ToggleStatusVisibility();
+			StatusBody.Click += (sender, e) => ToggleStatusVisibility();
+
+			StatusHeading.Text = "Status (Show)";
+			StatusBody.Visibility = ViewStates.Gone;
+			StatusBody.Text = "Everything looks good.";
 
 			LoadMapImage();
+		}
+
+		protected override void OnResume() {
+			base.OnResume();
+
+			// Restart timer if it isn't running and it should be:
+			if (Timer == null && TimerTicking) {
+				Timer = new Timer(UpdateMap);
+				Timer.Change(0, Settings.Network.UPDATE_FREQUENCY);
+			}
 		}
 
 		/// <summary>
@@ -102,8 +124,36 @@ namespace KinderFinder {
 		protected override void OnStop() {
 			base.OnStop();
 
-			if (Timer != null)
+			if (Timer != null) {
 				Timer.Dispose();
+				Timer = null;
+			}
+
+			if (UnscaledMap != null && !UnscaledMap.IsRecycled)
+				UnscaledMap.Recycle();
+
+			if (OriginalMap != null && !OriginalMap.IsRecycled)
+				OriginalMap.Recycle();
+
+			if (CurrentMap != null && !CurrentMap.IsRecycled)
+				CurrentMap.Recycle();
+		}
+
+		protected override void OnDestroy() {
+			base.OnDestroy();
+
+			CleanUpAlarm();
+		}
+
+		void ToggleStatusVisibility() {
+			if (StatusBody.Visibility == ViewStates.Visible) {
+				StatusHeading.Text = "Status (Show)";
+				StatusBody.Visibility = ViewStates.Gone;
+			}
+			else {
+				StatusHeading.Text = "Status (Hide)";
+				StatusBody.Visibility = ViewStates.Visible;
+			}
 		}
 
 		/// <summary>
@@ -130,25 +180,24 @@ namespace KinderFinder {
 				var response = AppTools.SendRequest("api/mapsize", builder.ToString());
 				int serverSize;
 				string errorMsg = null;
-				Bitmap bitmap = null;
 				var cache = new MapCache();
 
 				int.TryParse(response.Body, out serverSize);
 
 				/* Next, check if the local version of the map is the same size. If it is, simply load the cached map. */
 				if (cache.IsMapSame(restaurant, serverSize))
-					bitmap = cache.GetStoredMap(restaurant); // TODO: Check if map actually loaded.
+					UnscaledMap = cache.GetStoredMap(restaurant); // TODO: Check if map actually loaded.
 				/* Maps are different; request map from server. */
 				else {
 					response = AppTools.SendRequest("api/map", builder.ToString());
 
 					switch (response.StatusCode) {
 						case HttpStatusCode.OK:
-							bitmap = BitmapFactory.DecodeByteArray(response.Bytes, 0, response.Bytes.Length);
-							cache.AddMap(restaurant, serverSize, bitmap);
+							UnscaledMap = BitmapFactory.DecodeByteArray(response.Bytes, 0, response.Bytes.Length);
+							cache.AddMap(restaurant, serverSize, UnscaledMap);
 							break;
 						case HttpStatusCode.BadRequest:
-							errorMsg = "Unable to load the restaurant's map";
+							errorMsg = "It appears as though the restaurant hasn't set up its map yet.";
 							break;
 						default:
 							errorMsg = Settings.Errors.SERVER_ERROR;
@@ -163,15 +212,18 @@ namespace KinderFinder {
 
 					/* No error; success! */
 					if (errorMsg == null) {
-						OriginalMap = AppTools.ResizeBitmap(bitmap, Resources.DisplayMetrics.WidthPixels, Resources.DisplayMetrics.HeightPixels);
+						OriginalMap = AppTools.ResizeBitmap(UnscaledMap, Resources.DisplayMetrics.WidthPixels, Resources.DisplayMetrics.HeightPixels);
 						MapImageView.SetImageBitmap(OriginalMap);
 
 						Timer = new Timer(UpdateMap);
 						Timer.Change(0, Settings.Network.UPDATE_FREQUENCY);
+						TimerTicking = true;
 					}
 					/* Something went wrong. */
-					else
-						Toast.MakeText(this, errorMsg, ToastLength.Short).Show();
+					else {
+						StatusBody.Text = errorMsg;
+						Toast.MakeText(this, "Something went wrong; check status at top of screen", ToastLength.Short).Show();
+					}
 				});
 			});
 		}
@@ -210,6 +262,8 @@ namespace KinderFinder {
 			if (email == null) {
 				Toast.MakeText(this, Settings.Errors.LOCAL_DATA_ERROR, ToastLength.Long).Show();
 				Timer.Dispose(); // stop updating map.
+				Timer = null;
+				TimerTicking = false;
 				return;
 			}
 
@@ -218,20 +272,47 @@ namespace KinderFinder {
 
 			var	response = AppTools.SendRequest("api/track", builder.ToString());
 			List<TagData> locations = null;
+			string errorMsg = null;
 
 			switch (response.StatusCode) {
 				case HttpStatusCode.OK:
 					locations = Deserialiser<List<TagData>>.Run(response.Body);
 					break;
+				case HttpStatusCode.NotFound:
+					errorMsg = "Unable to determine the restaurant you are at. Please try restarting the app.";
+					break;
+				case HttpStatusCode.BadRequest:
+					errorMsg = "It appears as though the restaurant hasn't set up their transmitters. I can't display the tag locations.";
+					break;
 				default:
-					RunOnUiThread(() => Toast.MakeText(this, "Unable to retrieve data from server: " + response.StatusCode, ToastLength.Short).Show());
+					errorMsg = "There was an internal server error. Please try again later.";
 					break;
 			}
 
 			if (CurrentMap != null && CurrentMap != OriginalMap && !CurrentMap.IsRecycled)
 				CurrentMap.Recycle();
 
-			//var newBitmap = Bitmap.CreateBitmap(OriginalMap.Width, OriginalMap.Height, Bitmap.Config.Rgb565);
+			// Sometimes an exception is thrown, claiming that a recycled bitmap is being drawn, which should never
+			// happen in this code, but it does on occasion. I've added this check to hopefully prevent this from
+			// happening.
+			if (OriginalMap.IsRecycled) {
+				OriginalMap = AppTools.ResizeBitmap(UnscaledMap, Resources.DisplayMetrics.WidthPixels, Resources.DisplayMetrics.HeightPixels);
+				Console.WriteLine("[Warning] Somehow managed to recycle original map. Recreating it.");
+			}
+
+			if (errorMsg != null) {
+				RunOnUiThread(() => {
+					StatusBody.Text = errorMsg;
+					Toast.MakeText(this, "Something went wrong; check status at top of screen", ToastLength.Short).Show();
+				});
+
+				Timer.Dispose();
+				Timer = null;
+				TimerTicking = false;
+
+				return;
+			}
+
 			CurrentMap = Bitmap.CreateBitmap(OriginalMap.Width, OriginalMap.Height, Bitmap.Config.Rgb565);
 			var canvas = new Canvas(CurrentMap);
 			var paint = new Paint();
@@ -239,6 +320,7 @@ namespace KinderFinder {
 			paint.SetStyle(Paint.Style.Fill);
 			paint.TextSize = Settings.Map.OVERLAY_TEXT_SIZE;
 			canvas.DrawBitmap(OriginalMap, 0, 0, null); // draw map normally.
+			var problemTags = new List<string>();
 
 			// If we could retrieve the locations, draw them:
 			if (locations != null) {
@@ -267,6 +349,8 @@ namespace KinderFinder {
 					// The point will also be invalid if a transmitter isn't sending the tag's strength. Try to display
 					// the tag's last known position.
 					else if (!IsPointValid(data.PosX, data.PosY)) {
+						problemTags.Add(data.Name);
+
 						// If we don't have a last known position for the tag, skip it:
 						if (!PrevLocations.ContainsKey(data.Name))
 							continue;
@@ -338,6 +422,28 @@ namespace KinderFinder {
 
 			// Display new map:
 			RunOnUiThread(() => MapImageView.SetImageDrawable(new BitmapDrawable(Resources, CurrentMap)));
+
+			string notification = "Tags out of range:";
+
+			if (OutOfRange.Count > 0) {
+				foreach (var tag in OutOfRange)
+					notification += "\n" + tag + ": " + Pref.GetString(tag, Settings.Map.UNKNOWN_NAME_TEXT);
+			}
+			else
+				notification += "\n(none)";
+
+			notification += "\n\nTags with problems:";
+
+			if (problemTags.Count > 0) {
+				notification += "\n(Something wrong in the system)";
+				foreach (var tag in problemTags)
+					notification += "\n" + tag + ": " + Pref.GetString(tag, Settings.Map.UNKNOWN_NAME_TEXT);
+			}
+			else
+				notification += "\n(none)";
+
+
+			RunOnUiThread(() => StatusBody.Text = notification);
 		}
 
 		void CleanUpAlarm() {
@@ -348,12 +454,6 @@ namespace KinderFinder {
 				AlarmPlayer.Release();
 				AlarmPlayer = null;
 			}
-		}
-
-		protected override void OnDestroy() {
-			base.OnDestroy();
-
-			CleanUpAlarm();
 		}
 
 		void PlayAlarm() {

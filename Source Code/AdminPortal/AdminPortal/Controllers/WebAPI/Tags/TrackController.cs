@@ -33,7 +33,9 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 		private KinderFinderEntities Db = new KinderFinderEntities();
 		private double MaxX = -1.0, MaxY = -1.0;
 
-		//private static int debug_updates = 0;
+#if MOCK_DATA
+		private static int Debug_Updates = 0;
+#endif
 
 		private Transmitter[] LoadTransmitters(int restaurantId) {
 			Transmitter[] t = new Transmitter[3];
@@ -72,17 +74,17 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 					StrengthManager.Update(beaconIds[i], j + 1, j + 1, strengths[3*i+j]);
 			}
 
-            debug_updates++;
-            System.Diagnostics.Debug.WriteLine("[Debug] Updates = " + debug_updates);
+            Debug_Updates++;
+            System.Diagnostics.Debug.WriteLine("[Debug] Updates = " + Debug_Updates);
 
-			if (debug_updates == 5)
+			/*if (Debug_Updates == 5)
 				StrengthManager.FlagTag(beaconIds[0], true);
-			else if (debug_updates == 10)
+			else if (Debug_Updates == 10)
 				StrengthManager.FlagTag(beaconIds[1], true);
-			else if (debug_updates == 15)
+			else if (Debug_Updates == 15)
 				StrengthManager.FlagTag(beaconIds[1], false);
-			else if (debug_updates == 20)
-				StrengthManager.FlagTag(beaconIds[0], false);
+			else if (Debug_Updates == 20)
+				StrengthManager.FlagTag(beaconIds[0], false);*/
 #endif
 			// Find the max and min co-ords, so we can scale the points:
 			foreach (var item in t) {
@@ -96,12 +98,8 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 			return t;
 		}
 
-		//[HttpPost] TODO: Uncomment.
+		[HttpPost]
 		public IHttpActionResult GetLocations(RequestDetails details) {
-			details = new RequestDetails();
-			details.EmailAddress = "mrbean@gmail.com";
-			// TODO: Remove above lines.
-
 			// Determine user's current restaurant:
 			var user = (from item in Db.AppUsers
 						where item.EmailAddress.Equals(details.EmailAddress)
@@ -110,7 +108,7 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 			var restaurant = Db.Restaurants.Find(user.CurrentRestaurant);
 
 			if (restaurant == null)
-				return BadRequest();
+				return NotFound();
 
 			// Load the restaurant's transmitters:
 			Transmitter[] transmitters = LoadTransmitters(restaurant.ID);
@@ -138,7 +136,7 @@ namespace AdminPortal.Controllers.WebAPI.Tags {
 				// the Bluetooth beacon's ID; we cannot locate it. This ID must
 				// be set in the AdminPortal.
 				if (tag.BeaconID == null || tag.BeaconID.Equals("")) {
-					System.Diagnostics.Debug.WriteLine("[Warning] No beacon ID set for tag '" + tag.Label + "'.");
+					System.Diagnostics.Debug.WriteLine("[Warning] No major-minor value set for tag '" + tag.Label + "'. Not going to locate it.");
 					continue;
 				}
 

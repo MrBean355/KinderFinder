@@ -90,8 +90,8 @@ namespace KinderFinder
 			// aapt resource value: 0x7f060002
 			public const int Edit_Surname = 2131099650;
 			
-			// aapt resource value: 0x7f060032
-			public const int MainMenu = 2131099698;
+			// aapt resource value: 0x7f060034
+			public const int MainMenu = 2131099700;
 			
 			// aapt resource value: 0x7f06000e
 			public const int Main_Email = 2131099662;
@@ -111,17 +111,17 @@ namespace KinderFinder
 			// aapt resource value: 0x7f060010
 			public const int Main_Remember = 2131099664;
 			
-			// aapt resource value: 0x7f060033
-			public const int Menu_ChangeRestaurant = 2131099699;
-			
-			// aapt resource value: 0x7f060034
-			public const int Menu_EditDetails = 2131099700;
+			// aapt resource value: 0x7f060035
+			public const int Menu_ChangeRestaurant = 2131099701;
 			
 			// aapt resource value: 0x7f060036
-			public const int Menu_Exit = 2131099702;
+			public const int Menu_EditDetails = 2131099702;
 			
-			// aapt resource value: 0x7f060035
-			public const int Menu_LogOut = 2131099701;
+			// aapt resource value: 0x7f060038
+			public const int Menu_Exit = 2131099704;
+			
+			// aapt resource value: 0x7f060037
+			public const int Menu_LogOut = 2131099703;
 			
 			// aapt resource value: 0x7f06001d
 			public const int Register_Email = 2131099677;
@@ -180,14 +180,20 @@ namespace KinderFinder
 			// aapt resource value: 0x7f06002d
 			public const int TagList_Warning = 2131099693;
 			
-			// aapt resource value: 0x7f060031
-			public const int Track_DownloadingText = 2131099697;
+			// aapt resource value: 0x7f060033
+			public const int Track_DownloadingText = 2131099699;
 			
-			// aapt resource value: 0x7f06002f
-			public const int Track_Map = 2131099695;
+			// aapt resource value: 0x7f060031
+			public const int Track_Map = 2131099697;
+			
+			// aapt resource value: 0x7f060032
+			public const int Track_ProgressBar = 2131099698;
 			
 			// aapt resource value: 0x7f060030
-			public const int Track_ProgressBar = 2131099696;
+			public const int Track_StatusBody = 2131099696;
+			
+			// aapt resource value: 0x7f06002f
+			public const int Track_StatusHeading = 2131099695;
 			
 			// aapt resource value: 0x7f06001a
 			public const int imageView1 = 2131099674;

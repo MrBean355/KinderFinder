@@ -32,12 +32,13 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 			// For each tag that the transmitter is telling us about:
 			foreach (var item in details.TagData) {
 				// Update its strength:
-				StrengthManager.Update(item.TagMinorMajor, id, (int)transmitter.Type, FeetToMeters(item.Distance));
+				double strength = FeetToMeters(item.Distance);
+				StrengthManager.Update(item.TagMinorMajor, id, (int)transmitter.Type, strength);
                 StrengthManager.FlagTag(item.TagMinorMajor, false);
-				output += item.TagMinorMajor + "(" + FeetToMeters(item.Distance) + ") ";
+				output += item.TagMinorMajor + " (" + strength + ") ";
 			}
 			
-			//System.Diagnostics.Debug.WriteLine(output);
+			System.Diagnostics.Debug.WriteLine(output);
 			
 			return Ok();
 		}

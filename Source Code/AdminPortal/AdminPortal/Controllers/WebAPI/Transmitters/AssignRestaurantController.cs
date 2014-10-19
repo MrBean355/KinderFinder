@@ -42,6 +42,8 @@ namespace AdminPortal.Controllers.WebAPI.Transmitters {
 			Db.Transmitters.Add(t);
 			Db.SaveChanges();
 
+			System.Diagnostics.Debug.WriteLine("[Info] Transmitter " + t.ID + " added to system. Restaurant: " + restaurant.Name + "; type: " + t.Type + ".");
+
 			return Ok(t.ID);
 		}
 

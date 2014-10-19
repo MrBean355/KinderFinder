@@ -5,6 +5,9 @@ using System.Web.Http;
 
 namespace AdminPortal.Controllers.WebAPI.Accounts {
 
+	/**
+	 * Allows the user to update their account details from their app.
+	 */
 	public class EditDetailsController : ApiController {
 		private KinderFinderEntities Db = new KinderFinderEntities();
 
@@ -22,6 +25,7 @@ namespace AdminPortal.Controllers.WebAPI.Accounts {
 			user.EmailAddress = details.EmailAddress;
 			user.PhoneNumber = details.PhoneNumber;
 
+			// If they specified a new password, update it:
 			if (!details.PasswordHash.Equals(""))
 				user.PasswordHash = details.PasswordHash;
 

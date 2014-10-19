@@ -5,7 +5,10 @@ using System.Web.Http;
 
 namespace AdminPortal.Controllers.WebAPI {
 
-	public class TestController : ApiController {
+	/// <summary>
+	/// This is a test controller that mocks a transmitter. It sends mock strengths for some tags.
+	/// </summary>
+	/*public class TestController : ApiController {
 		const int TRANSMITTER_ID = 129;
 		const int TRANSMITTER_TYPE = 3;
 
@@ -34,5 +37,5 @@ namespace AdminPortal.Controllers.WebAPI {
 		public IHttpActionResult Get() {
 			return Ok("Transmitting");
 		}
-	}
+	}*/
 }

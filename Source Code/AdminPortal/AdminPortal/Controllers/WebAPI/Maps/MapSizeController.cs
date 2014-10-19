@@ -14,6 +14,7 @@ namespace AdminPortal.Controllers.WebAPI.Maps {
 
 		[HttpPost]
 		public IHttpActionResult GetCurrentMapSize(RequestDetails details) {
+			// Load the map of the restaurant the user is currently at:
 			var mapData = (from user in db.AppUsers
 						   join rest in db.Restaurants on user.CurrentRestaurant equals rest.ID
 						   where user.EmailAddress.Equals(details.EmailAddress)

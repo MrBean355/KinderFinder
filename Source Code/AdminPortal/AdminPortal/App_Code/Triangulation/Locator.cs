@@ -64,11 +64,11 @@ namespace AdminPortal.Code.Triangulation {
 			double t2XSquared = Math.Pow(Transmitters[1][X], 2.0);
 			double t3XSquared = Math.Pow(Transmitters[2][X], 2.0);
 			double t3YSquared = Math.Pow(Transmitters[2][Y], 2.0);
+
 			// Do some trilateration magic:
 			var px = (s1Squared - s2Squared + t2XSquared) / (2.0 * Transmitters[1][X]);
 			var py = (s1Squared - s3Squared + t3XSquared + t3YSquared) / (2.0 * Transmitters[2][Y]) - (Transmitters[2][X] / Transmitters[2][Y]) * px;
-			System.Diagnostics.Debug.WriteLine("Calculating for " + beaconId + " with strengths " + str1 + ", " + str2 + ", " + str3);
-			System.Diagnostics.Debug.WriteLine("\tGot: " + px + ", " + py);
+
 			return new Location(px, py);
 		}
 
