@@ -7,6 +7,15 @@
 \geometry{margin=2cm}
 \geometry{portrait}
 
+\usepackage{fancyhdr}
+\usepackage{lastpage} % for the number of the last page in the document
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{KinderFinder - Software Architecture}
+\rhead{Section \thesection}
+\lfoot{}
+\rfoot{Page \thepage\ of \pageref{LastPage}}
+
 \newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
 
 \title{
@@ -23,11 +32,11 @@
 	Po-Han Chiu & 11063612
 \end{tabular}
 	\\ \\ \texttt{https://github.com/MrBean355/KinderFinder.git}
-	\\ \\ \texttt{Version: 1}
+	\\ \\ \texttt{Version: Final version}
 %	\\ \\ \texttt{Change History:}
 %	\\ The Summary here.
 	}
-\date{03 October 2014} 
+\date{20 October 2014} 
 
 \begin{document}
 \maketitle
@@ -51,12 +60,12 @@ There are numerous quality requirements that are quantifiable:
 \item \textbf{Maintainability.} The hardware and software components need to be easily accessible so that maintenance can be performed efficiently. The web administration portal must allow the users to easily maintain the system.
 \item \textbf{Auditability.} The system will have a reporting module that must report statistics such as which zones are most popular and whether any devices are damaged.
 \item \textbf{Integrability.} The system must be easily integrable with different hardware, not locked to one model.
-\item \textbf{Cost.} The major cost of the system will be attributed to the hardware, such as RFID wristbands and receivers. The hardware must be affordable but decent quality, so that it can be relied upon without costing fortunes.
+\item \textbf{Cost.} The major cost of the system will be attributed to the hardware, such as Bluetooth wristbands and receivers. The hardware must be affordable but decent quality, so that it can be relied upon without costing fortunes.
 \item \textbf{Usability.} This could be measured by means of a survey, to find out how user-friendly the users find the system.
 \end{itemize}
 
 \section{Integration Requirements}
-The system does not need to integrate with any external systems. However, since we are focusing on the software side, the hardware can be integrated with the software in the future (possibly by us if we have the time). For this, the hardware (RFID transmitters and receivers) must be integrated into the system, replacing any dummy "hardware" in place.
+The system does not need to integrate with any external systems. However, since we are focusing on the software side, the hardware can be integrated with the software in the future (possibly by us if we have the time). For this, the hardware (Bluetooth transmitters and receivers) must be integrated into the system, replacing any dummy "hardware" in place.
 
 \section{Architecture Constraints}
 The technologies that must be used are as follows:

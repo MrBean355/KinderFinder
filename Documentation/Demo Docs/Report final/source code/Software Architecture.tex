@@ -8,6 +8,15 @@
 \geometry{margin=2cm}
 \geometry{portrait}
 
+\usepackage{fancyhdr}
+\usepackage{lastpage} % for the number of the last page in the document
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{KinderFinder - Software Architecture}
+\rhead{Section \thesection}
+\lfoot{}
+\rfoot{Page \thepage\ of \pageref{LastPage}}
+
 \newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
 
 \title{
@@ -24,8 +33,8 @@
 	Po-Han Chiu & 11063612
 \end{tabular}
 	\\ \\ \texttt{https://github.com/MrBean355/KinderFinder.git}
-	\\ \\ \texttt{Version: 1}}
-\date{03 October 2014} 
+	\\ \\ \texttt{Version: Final version}}
+\date{20 October 2014} 
 
 \begin{document}
 \maketitle

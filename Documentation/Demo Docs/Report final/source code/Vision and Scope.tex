@@ -3,9 +3,17 @@
 \usepackage{geometry}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{lastpage} % for the number of the last page in the document
 \geometry{a4paper}
 \geometry{margin=2cm}
 \geometry{portrait}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{KinderFinder - Vision and Scope Document}
+\rhead{Section \thesection}
+\lfoot{}
+\rfoot{Page \thepage\ of \pageref{LastPage}}
 
 \newcommand{\horrule}[1]{\rule{\linewidth}{#1}}
 
@@ -23,8 +31,8 @@
 	Po-Han Chiu & 11063612
 \end{tabular}
 	\\ \\ \texttt{https://github.com/MrBean355/KinderFinder.git}
-	\\ \\ \texttt{Version: 1}}
-\date{03 October 2014} 
+	\\ \\ \texttt{Version: Final version}}
+\date{20 October 2014} 
 
 \begin{document}
 \maketitle
@@ -32,7 +40,6 @@
 \newpage
 
 \section{Introduction}
-This document was developed at the beginning of the project, but is to be constantly adapted as the vision and scope evolve.\\
 The system will consist of five main components, namely:
 \begin{description}
 \item [Web Administration Portal] \hfill \\

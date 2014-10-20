@@ -33,11 +33,17 @@
 %\usepackage{glossaries} %for the glossary
 
 %%% HEADERS & FOOTERS
-%\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
-%\pagestyle{fancy} % options: empty , plain , fancy
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\usepackage{lastpage} % for the number of the last page in the document
+\pagestyle{fancy} % options: empty , plain , fancy
+\fancyhf{}
 %\renewcommand{\headrulewidth}{0pt} % customise the layout...
-%\lhead{}\chead{}\rhead{}
-%\lfoot{}\cfoot{\thepage}\rfoot{}
+\lhead{KinderFinder - Functional Requirements and Application Design}
+%\chead{}
+\rhead{Section \thesection}
+\lfoot{}
+%\cfoot{\thepage}
+\rfoot{Page \thepage\ of \pageref{LastPage}}
 
 %%% SECTION TITLE APPEARANCE
 %\usepackage{sectsty}
@@ -71,8 +77,8 @@
 	Po-Han Chiu & 11063612
 \end{tabular}
 	\\ \\ \texttt{https://github.com/MrBean355/KinderFinder.git}
-	\\ \\ \texttt{Version: 1}}
-\date{03 October 2014}   
+	\\ \\ \texttt{Version: Final version}}
+\date{20 October 2014}   
 % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed -------
 
@@ -82,12 +88,12 @@
 \tableofcontents
 \newpage
 
-\section{Functional requirements and application design}
+\section{Functional Requirements and Application Design}
 
 \subsection{Introduction}
 This section discusses the functional requirements for the KinderFinder System, this introduces the core domain concepts and relationships between these concepts.
 
-The requirement is to create a system, that will through the use of RFID technology in wristbands and matching readers / receivers, be able to track children throughout a restaurant or designated area. This information needs to be fed to an API on a server that will push information to the relevant devices (mobile) to inform parents of the children's whereabouts within the designated area.
+The requirement is to create a system, that will through the use of Bluetooth technology in wristbands and matching readers / receivers, be able to track children throughout a restaurant or designated area. This information needs to be fed to an API on a server that will push information to the relevant devices (mobile smartphones) to inform parents of their children's whereabouts within the designated area.
 \subsection{Required functionality}
 
 	\subsubsection{Web Administration}
@@ -95,7 +101,7 @@ The Web administration must:
 \begin{itemize}
 \item Be used to allow installers of the system to set-up restaurants and their layouts (using 
 maps). 
-\item Enable  restaurants to link  wristbands  to  a Patron’s mobile application, or assigned 
+\item Enable restaurants to link wristbands to a Patron’s mobile application, or assigned 
 electronic tracking device (device not in scope).
 \item Enable restaurants to clear and unlink wristbands from devices and patrons’ mobile 
 apps.
@@ -106,13 +112,13 @@ apps.
 The mobile implementation must:
 \begin{itemize}
 \item Allow for users to view a map (divided into zones) of the restaurant.
-\item Overlay all the wristbands registered on the app user’s name on the map to show 
+\item Overlay all the wristbands registered under the app user’s name on the map to show 
 where they are (some patrons might have multiple children to track).
 \item Allow  for  setting  up  of  alarms  and  notifications  based  on  movement  of  tracked 
 wristbands. 
 \item Allow for a user to select a restaurant, and a restaurant branch in order to get the 
 map for the set-up. 
-\item Enable the user to link the wristband to their  mobile application
+\item Enable the user to link the wristband to their mobile application
 \end{itemize}
 
 %	\subsubsection{Web API}
@@ -145,7 +151,7 @@ Physical hardware devices used in this project includes:
 	\end{itemize}	
 \item Wristband prototype
 	\begin{itemize}
-		\item These  can  be  active  or  passive  RFID  tags,  or 					wireless transponders/transceivers. They will be used to 			communicate its existence in range of a receiver/reader 				and its signal strength (RS SI)
+		\item These  are Bluetooth signal transmitting tags. They will be used to communicate its existence in range of a receiver/reader 				and its signal strength (RS SI)
 	\end{itemize}
 	
 \item Electronic tracking device	
@@ -159,7 +165,7 @@ Physical hardware devices used in this project includes:
 	
 	\subsubsection{Critical}
 \begin{itemize}
-\item Database - A database containing all relevant information about users, restaurants/stores and the RFID bands and readers.
+\item Database - A database containing all relevant information about users, restaurants/stores and the Bluetooth wristbands and readers.
 \item Web Administration - This requirement is essential. It allows the proper operation of the program, as web administration allows installation of this system.
 \item Mobile Administration - This is the part of the system the end-user will be able to use. This is one of two main interfaces with the end-user.
 \item WEB API - The Web API is the core of the system, it provides functionality to the client browsers and the mobile applications.
@@ -172,7 +178,7 @@ Physical hardware devices used in this project includes:
 
 	\subsubsection{Nice-To-Have}
 \begin{itemize}
-\item Embedded Hardware and Prototyping - This is the Blue tooth wrist bands and Blue tooth readers. Mock data will be used for testing and implementation, after which, our team will focus on the hardware prototyping and testing.
+\item Embedded Hardware and Prototyping - This is the Bluetooth wrist bands and Bluetooth readers. Mock data will be used for testing and implementation, after which, our team will focus on the hardware prototyping and testing.
 
 \item After a map is uploaded, and a scale is given, the administrator for that specific site should be able to add the places of the blue tooth receivers on the application its self and the whole program should then be able to work with that to determine a tag's location.
 
